@@ -1,0 +1,2239 @@
+Archive member included to satisfy reference by file (symbol)
+
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o (exit)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o) (_global_impure_ptr)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-init.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o (__libc_init_array)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memset.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o (memset)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(_exit.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o) (_exit)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_fabs.o)
+                              _build/inv_mpu.o (fabs)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o)
+                              _build/mpu_wrapper.o (asin)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_atan2.o)
+                              _build/mpu_wrapper.o (atan2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o) (__ieee754_asin)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_atan2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_atan2.o) (__ieee754_atan2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_sqrt.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o) (__ieee754_sqrt)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_atan2.o) (atan)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_lib_ver.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o) (__fdlib_version)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_matherr.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o) (matherr)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_nan.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o) (nan)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_udivsi3.o)
+                              _build/inv_mpu.o (__aeabi_uidiv)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divsi3.o)
+                              _build/inv_mpu.o (__aeabi_idiv)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_dvmd_tls.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpdf2.o)
+                              _build/inv_mpu.o (__aeabi_dcmpgt)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpsf2.o)
+                              _build/inv_mpu.o (__aeabi_fcmpeq)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_aeabi_ldivmod.o)
+                              _build/inv_mpu.o (__aeabi_ldivmod)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_muldi3.o)
+                              _build/baro.o (__aeabi_lmul)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_fixunssfsi.o)
+                              _build/inv_mpu_dmp_motion_driver.o (__aeabi_f2uiz)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(bpabi.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_aeabi_ldivmod.o) (__gnu_ldivmod_helper)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(addsf3.o)
+                              _build/inv_mpu.o (__aeabi_fadd)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divsf3.o)
+                              _build/inv_mpu.o (__aeabi_fdiv)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqsf2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpsf2.o) (__eqsf2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gesf2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpsf2.o) (__gesf2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(lesf2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpsf2.o) (__lesf2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(mulsf3.o)
+                              _build/inv_mpu.o (__aeabi_fmul)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subsf3.o)
+                              _build/inv_mpu.o (__aeabi_fsub)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixsfsi.o)
+                              _build/inv_mpu.o (__aeabi_f2iz)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatsisf.o)
+                              _build/inv_mpu.o (__aeabi_i2f)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatunsisf.o)
+                              _build/inv_mpu_dmp_motion_driver.o (__aeabi_ui2f)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(adddf3.o)
+                              _build/mpu_wrapper.o (__aeabi_dadd)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divdf3.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o) (__aeabi_ddiv)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqdf2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpdf2.o) (__eqdf2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gedf2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpdf2.o) (__gedf2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(ledf2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpdf2.o) (__ledf2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(muldf3.o)
+                              _build/mpu_wrapper.o (__aeabi_dmul)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subdf3.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o) (__aeabi_dsub)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(unorddf2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o) (__aeabi_dcmpun)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixdfsi.o)
+                              _build/mpu_wrapper.o (__aeabi_d2iz)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(extendsfdf2.o)
+                              _build/inv_mpu.o (__aeabi_f2d)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzsi2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(addsf3.o) (__clzsi2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(bpabi.o) (__divdi3)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzdi2.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o) (__clzdi2)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-errno.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o) (__errno)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-labs.o)
+                              _build/inv_mpu.o (labs)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcmp.o)
+                              _build/inv_mpu.o (memcmp)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcpy-stub.o)
+                              _build/spi_flash.o (memcpy)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o)
+                              _build/in4073.o (printf)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o)
+                              _build/ble.o (sprintf)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-strlen.o)
+                              _build/ble.o (strlen)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o) (__sinit)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fwalk.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o) (_fwalk)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o) (_malloc_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o) (_svfprintf_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o) (_vfprintf_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o) (_printf_i)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o) (_sbrk_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o) (__sread)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wbuf.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o) (__swbuf_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-writer.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o) (_write_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wsetup.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o) (__swsetup_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-closer.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o) (_close_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o) (_fflush_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fvwrite.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o) (__sfvwrite_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-lseekr.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o) (_lseek_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wsetup.o) (__smakebuf_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memchr-stub.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o) (memchr)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memmove.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o) (memmove)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-mlock.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o) (__malloc_lock)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-freer.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o) (_free_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-reallocr.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o) (_realloc_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-readr.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o) (_read_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o) (errno)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fstatr.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o) (_fstat_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-isattyr.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o) (_isatty_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-msizer.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-reallocr.o) (_malloc_usable_size_r)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-closer.o) (_close)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(fstat.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fstatr.o) (_fstat)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(isatty.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-isattyr.o) (_isatty)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(lseek.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-lseekr.o) (_lseek)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(read.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-readr.o) (_read)
+/home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(sbrk.o)
+                              /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o) (_sbrk)
+
+Allocating common symbols
+Common symbol       size              file
+
+say                 0x2               _build/in4073.o
+psi                 0x2               _build/in4073.o
+sensor_fifo_count   0x1               _build/in4073.o
+errno               0x4               /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+saz                 0x2               _build/in4073.o
+rx_queue            0x106             _build/in4073.o
+phi                 0x2               _build/in4073.o
+temperature         0x4               _build/in4073.o
+theta               0x2               _build/in4073.o
+pressure            0x4               _build/in4073.o
+tx_queue            0x106             _build/in4073.o
+sax                 0x2               _build/in4073.o
+sq                  0x2               _build/in4073.o
+D2                  0x4               _build/baro.o
+global_time         0x4               _build/timers.o
+bat_volt            0x2               _build/in4073.o
+ble_rx_queue        0x106             _build/in4073.o
+timer_flag          0x1               _build/timers.o
+sp                  0x2               _build/in4073.o
+radio_active        0x1               _build/in4073.o
+motor               0x8               _build/in4073.o
+last_correct_checksum_time
+                    0x4               _build/in4073.o
+ble_tx_queue        0x106             _build/in4073.o
+ae                  0x8               _build/in4073.o
+D1                  0x4               _build/baro.o
+sr                  0x2               _build/in4073.o
+demo_done           0x1               _build/in4073.o
+
+Discarded input sections
+
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+ .data          0x00000000        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.extab     0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-init.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-init.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-init.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memset.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memset.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memset.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(_exit.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(_exit.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(_exit.o)
+ .text          0x00000000        0x0 _build/system_nrf51.o
+ .data          0x00000000        0x0 _build/system_nrf51.o
+ .bss           0x00000000        0x0 _build/system_nrf51.o
+ .text.SystemCoreClockUpdate
+                0x00000000       0x10 _build/system_nrf51.o
+ .data.SystemCoreClock
+                0x00000000        0x4 _build/system_nrf51.o
+ .text          0x00000000        0x0 _build/nrf_delay.o
+ .data          0x00000000        0x0 _build/nrf_delay.o
+ .bss           0x00000000        0x0 _build/nrf_delay.o
+ .text          0x00000000        0x0 _build/in4073.o
+ .data          0x00000000        0x0 _build/in4073.o
+ .bss           0x00000000        0x0 _build/in4073.o
+ .text          0x00000000        0x0 _build/control.o
+ .data          0x00000000        0x0 _build/control.o
+ .bss           0x00000000        0x0 _build/control.o
+ .text.update_motors
+                0x00000000       0x20 _build/control.o
+ .text          0x00000000        0x0 _build/gpio.o
+ .data          0x00000000        0x0 _build/gpio.o
+ .bss           0x00000000        0x0 _build/gpio.o
+ .text          0x00000000        0x0 _build/timers.o
+ .data          0x00000000        0x0 _build/timers.o
+ .bss           0x00000000        0x0 _build/timers.o
+ .text          0x00000000        0x0 _build/uart.o
+ .data          0x00000000        0x0 _build/uart.o
+ .bss           0x00000000        0x0 _build/uart.o
+ .text.uart_put
+                0x00000000       0x44 _build/uart.o
+ .text          0x00000000        0x0 _build/queue.o
+ .data          0x00000000        0x0 _build/queue.o
+ .bss           0x00000000        0x0 _build/queue.o
+ .text          0x00000000        0x0 _build/twi.o
+ .data          0x00000000        0x0 _build/twi.o
+ .bss           0x00000000        0x0 _build/twi.o
+ .text          0x00000000        0x0 _build/adc.o
+ .data          0x00000000        0x0 _build/adc.o
+ .bss           0x00000000        0x0 _build/adc.o
+ .text          0x00000000        0x0 _build/baro.o
+ .data          0x00000000        0x0 _build/baro.o
+ .bss           0x00000000        0x0 _build/baro.o
+ .text          0x00000000        0x0 _build/ble.o
+ .data          0x00000000        0x0 _build/ble.o
+ .bss           0x00000000        0x0 _build/ble.o
+ .text.ble_send
+                0x00000000       0x94 _build/ble.o
+ .text.notifications_init
+                0x00000000       0x2c _build/ble.o
+ .text          0x00000000        0x0 _build/spi_flash.o
+ .data          0x00000000        0x0 _build/spi_flash.o
+ .bss           0x00000000        0x0 _build/spi_flash.o
+ .text.spi_master_init
+                0x00000000       0xa4 _build/spi_flash.o
+ .text.spi_master_tx_rx
+                0x00000000       0xf4 _build/spi_flash.o
+ .text.spi_master_tx
+                0x00000000       0xb8 _build/spi_flash.o
+ .text.spi_master_rx
+                0x00000000       0xc0 _build/spi_flash.o
+ .text.spi_master_tx_rx_fast_read
+                0x00000000       0xf8 _build/spi_flash.o
+ .text.spi_master_tx_rx_fast_write
+                0x00000000      0x220 _build/spi_flash.o
+ .text.flash_write_enable
+                0x00000000       0x64 _build/spi_flash.o
+ .text.flash_write_disable
+                0x00000000       0x64 _build/spi_flash.o
+ .text.flash_chip_erase
+                0x00000000       0x9c _build/spi_flash.o
+ .text.flash_read_status
+                0x00000000       0x70 _build/spi_flash.o
+ .text.flash_enable_WSR
+                0x00000000       0x64 _build/spi_flash.o
+ .text.flash_set_WRSR
+                0x00000000       0x7c _build/spi_flash.o
+ .text.flash_write_byte
+                0x00000000      0x108 _build/spi_flash.o
+ .text.flash_write_bytes
+                0x00000000      0x248 _build/spi_flash.o
+ .text.flash_read_byte
+                0x00000000       0xd8 _build/spi_flash.o
+ .text.flash_read_bytes
+                0x00000000       0xf0 _build/spi_flash.o
+ .rodata.spi_base
+                0x00000000        0x8 _build/spi_flash.o
+ .text          0x00000000        0x0 _build/inv_mpu.o
+ .data          0x00000000        0x0 _build/inv_mpu.o
+ .bss           0x00000000        0x0 _build/inv_mpu.o
+ .text.get_st_biases
+                0x00000000      0x3d0 _build/inv_mpu.o
+ .text.mpu_reg_dump
+                0x00000000       0x60 _build/inv_mpu.o
+ .text.mpu_read_reg
+                0x00000000       0x34 _build/inv_mpu.o
+ .text.mpu_get_gyro_reg
+                0x00000000       0x5c _build/inv_mpu.o
+ .text.mpu_get_accel_reg
+                0x00000000       0x5c _build/inv_mpu.o
+ .text.mpu_get_temperature
+                0x00000000       0x80 _build/inv_mpu.o
+ .text.mpu_set_accel_bias
+                0x00000000       0xf4 _build/inv_mpu.o
+ .text.mpu_get_gyro_fsr
+                0x00000000       0x40 _build/inv_mpu.o
+ .text.mpu_set_gyro_fsr
+                0x00000000       0x88 _build/inv_mpu.o
+ .text.mpu_set_accel_fsr
+                0x00000000       0x7c _build/inv_mpu.o
+ .text.mpu_get_lpf
+                0x00000000       0x44 _build/inv_mpu.o
+ .rodata.mpu_get_lpf
+                0x00000000       0x1c _build/inv_mpu.o
+ .text.mpu_get_sample_rate
+                0x00000000       0x1c _build/inv_mpu.o
+ .text.mpu_get_compass_sample_rate
+                0x00000000        0xc _build/inv_mpu.o
+ .text.mpu_set_compass_sample_rate
+                0x00000000        0x8 _build/inv_mpu.o
+ .text.mpu_get_gyro_sens
+                0x00000000       0x50 _build/inv_mpu.o
+ .text.mpu_get_accel_sens
+                0x00000000       0x60 _build/inv_mpu.o
+ .text.mpu_get_fifo_config
+                0x00000000       0x10 _build/inv_mpu.o
+ .text.mpu_get_power_state
+                0x00000000       0x14 _build/inv_mpu.o
+ .text.mpu_get_int_status
+                0x00000000       0x40 _build/inv_mpu.o
+ .text.mpu_read_fifo
+                0x00000000      0x26c _build/inv_mpu.o
+ .text.mpu_set_bypass
+                0x00000000       0xe0 _build/inv_mpu.o
+ .text.mpu_run_self_test
+                0x00000000      0x640 _build/inv_mpu.o
+ .rodata.mpu_run_self_test
+                0x00000000       0x1c _build/inv_mpu.o
+ .text.mpu_read_mem
+                0x00000000       0x58 _build/inv_mpu.o
+ .text.mpu_get_dmp_state
+                0x00000000       0x10 _build/inv_mpu.o
+ .text.mpu_get_compass_reg
+                0x00000000        0x8 _build/inv_mpu.o
+ .text.mpu_get_compass_fsr
+                0x00000000        0x8 _build/inv_mpu.o
+ .text.mpu_lp_motion_interrupt
+                0x00000000      0x1e8 _build/inv_mpu.o
+ .rodata.CSWTCH.92
+                0x00000000        0x8 _build/inv_mpu.o
+ .text          0x00000000        0x0 _build/inv_mpu_dmp_motion_driver.o
+ .data          0x00000000        0x0 _build/inv_mpu_dmp_motion_driver.o
+ .bss           0x00000000        0x0 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_gyro_bias
+                0x00000000       0xd4 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_accel_bias
+                0x00000000       0xc4 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_get_fifo_rate
+                0x00000000       0x10 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_tap_axes
+                0x00000000       0x44 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_tap_count
+                0x00000000       0x2c _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_tap_time
+                0x00000000       0x24 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_tap_time_multi
+                0x00000000       0x24 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_shake_reject_thresh
+                0x00000000       0x30 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_shake_reject_time
+                0x00000000       0x24 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_shake_reject_timeout
+                0x00000000       0x24 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_get_pedometer_step_count
+                0x00000000       0x2c _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_pedometer_step_count
+                0x00000000       0x24 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_get_pedometer_walk_time
+                0x00000000       0x30 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_pedometer_walk_time
+                0x00000000       0x28 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_get_enabled_features
+                0x00000000       0x10 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_enable_gyro_cal
+                0x00000000       0x2c _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_enable_lp_quat
+                0x00000000       0x38 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_enable_6x_lp_quat
+                0x00000000       0x38 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_set_interrupt_mode
+                0x00000000       0x50 _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_register_tap_cb
+                0x00000000        0xc _build/inv_mpu_dmp_motion_driver.o
+ .text.dmp_register_android_orient_cb
+                0x00000000        0xc _build/inv_mpu_dmp_motion_driver.o
+ .text          0x00000000        0x0 _build/ml.o
+ .data          0x00000000        0x0 _build/ml.o
+ .bss           0x00000000        0x0 _build/ml.o
+ .text          0x00000000        0x0 _build/mpu_wrapper.o
+ .data          0x00000000        0x0 _build/mpu_wrapper.o
+ .bss           0x00000000        0x0 _build/mpu_wrapper.o
+ .text.update_euler_from_quaternions
+                0x00000000      0x198 _build/mpu_wrapper.o
+ .text.get_raw_sensor_data
+                0x00000000       0x88 _build/mpu_wrapper.o
+ .text          0x00000000        0x0 _build/app_error.o
+ .data          0x00000000        0x0 _build/app_error.o
+ .bss           0x00000000        0x0 _build/app_error.o
+ .text          0x00000000        0x0 _build/app_timer.o
+ .data          0x00000000        0x0 _build/app_timer.o
+ .bss           0x00000000        0x0 _build/app_timer.o
+ .text.app_timer_stop_all
+                0x00000000       0xb8 _build/app_timer.o
+ .text.app_timer_cnt_get
+                0x00000000       0x14 _build/app_timer.o
+ .text.app_timer_cnt_diff_compute
+                0x00000000        0xc _build/app_timer.o
+ .text          0x00000000        0x0 _build/nrf_assert.o
+ .data          0x00000000        0x0 _build/nrf_assert.o
+ .bss           0x00000000        0x0 _build/nrf_assert.o
+ .comment       0x00000000       0x6f _build/nrf_assert.o
+ .ARM.attributes
+                0x00000000       0x31 _build/nrf_assert.o
+ .text          0x00000000        0x0 _build/nrf_drv_common.o
+ .data          0x00000000        0x0 _build/nrf_drv_common.o
+ .bss           0x00000000        0x0 _build/nrf_drv_common.o
+ .text.nrf_drv_common_irq_enable
+                0x00000000       0x7c _build/nrf_drv_common.o
+ .comment       0x00000000       0x6f _build/nrf_drv_common.o
+ .ARM.attributes
+                0x00000000       0x31 _build/nrf_drv_common.o
+ .text          0x00000000        0x0 _build/pstorage.o
+ .data          0x00000000        0x0 _build/pstorage.o
+ .bss           0x00000000        0x0 _build/pstorage.o
+ .text.sd_flash_write
+                0x00000000        0x4 _build/pstorage.o
+ .text.sd_flash_page_erase
+                0x00000000        0x4 _build/pstorage.o
+ .text.state_entry_action_run
+                0x00000000      0x184 _build/pstorage.o
+ .text.clear_operation_execute
+                0x00000000      0x194 _build/pstorage.o
+ .text.tail_restore_state_run
+                0x00000000       0xb4 _build/pstorage.o
+ .text.state_restore_head_entry_run
+                0x00000000       0xb4 _build/pstorage.o
+ .text.state_write_data_swap_entry_run
+                0x00000000       0xb0 _build/pstorage.o
+ .text.state_restore_tail_entry_run
+                0x00000000       0xc4 _build/pstorage.o
+ .text.data_to_swap_write_state_run
+                0x00000000       0xa4 _build/pstorage.o
+ .text.state_swap_erase_entry_run
+                0x00000000       0xa4 _build/pstorage.o
+ .text.swap_erase_state_run
+                0x00000000       0xd8 _build/pstorage.o
+ .text.head_restore_state_run
+                0x00000000      0x1c8 _build/pstorage.o
+ .text.store_cmd_flash_write_execute
+                0x00000000      0x134 _build/pstorage.o
+ .text.data_page_erase_state_run
+                0x00000000      0x1f8 _build/pstorage.o
+ .text.state_erase_data_page_entry_run
+                0x00000000       0x70 _build/pstorage.o
+ .text.unlikely.cmd_queue_enqueue
+                0x00000000       0x94 _build/pstorage.o
+ .text.pstorage_sys_event_handler
+                0x00000000      0x208 _build/pstorage.o
+ .text.pstorage_init
+                0x00000000      0x14c _build/pstorage.o
+ .text.pstorage_register
+                0x00000000       0xe4 _build/pstorage.o
+ .text.pstorage_block_identifier_get
+                0x00000000       0x50 _build/pstorage.o
+ .text.pstorage_store
+                0x00000000       0x84 _build/pstorage.o
+ .text.pstorage_update
+                0x00000000       0x84 _build/pstorage.o
+ .text.pstorage_load
+                0x00000000       0xac _build/pstorage.o
+ .text.pstorage_clear
+                0x00000000       0x9c _build/pstorage.o
+ .bss.m_current_page_id
+                0x00000000        0x4 _build/pstorage.o
+ .bss.m_tail_word_size
+                0x00000000        0x4 _build/pstorage.o
+ .bss.m_num_of_bytes_written
+                0x00000000        0x4 _build/pstorage.o
+ .bss.m_next_app_instance
+                0x00000000        0x2 _build/pstorage.o
+ .rodata.swap_sub_state_sm_lut.5967
+                0x00000000       0x14 _build/pstorage.o
+ .rodata.swap_sub_state_sm_lut.6042
+                0x00000000       0x14 _build/pstorage.o
+ .bss.m_state   0x00000000        0x1 _build/pstorage.o
+ .bss.m_swap_sub_state
+                0x00000000        0x1 _build/pstorage.o
+ .bss.m_head_word_size
+                0x00000000        0x4 _build/pstorage.o
+ .bss.m_next_page_addr
+                0x00000000        0x4 _build/pstorage.o
+ .bss.m_app_data_size
+                0x00000000        0x4 _build/pstorage.o
+ .bss.m_num_of_command_retries
+                0x00000000        0x4 _build/pstorage.o
+ .bss.m_app_table
+                0x00000000        0xc _build/pstorage.o
+ .text          0x00000000        0x0 _build/ble_advdata.o
+ .data          0x00000000        0x0 _build/ble_advdata.o
+ .bss           0x00000000        0x0 _build/ble_advdata.o
+ .text          0x00000000        0x0 _build/ble_advertising.o
+ .data          0x00000000        0x0 _build/ble_advertising.o
+ .bss           0x00000000        0x0 _build/ble_advertising.o
+ .text.sd_ble_gap_adv_stop
+                0x00000000        0x4 _build/ble_advertising.o
+ .text.ble_advertising_on_sys_evt
+                0x00000000       0x54 _build/ble_advertising.o
+ .text.ble_advertising_peer_addr_reply
+                0x00000000       0x3c _build/ble_advertising.o
+ .text.ble_advertising_whitelist_reply
+                0x00000000       0xd4 _build/ble_advertising.o
+ .text.ble_advertising_restart_without_whitelist
+                0x00000000       0x78 _build/ble_advertising.o
+ .text          0x00000000        0x0 _build/ble_conn_params.o
+ .data          0x00000000        0x0 _build/ble_conn_params.o
+ .bss           0x00000000        0x0 _build/ble_conn_params.o
+ .text.ble_conn_params_stop
+                0x00000000       0x10 _build/ble_conn_params.o
+ .text.ble_conn_params_change_conn_params
+                0x00000000       0x70 _build/ble_conn_params.o
+ .text          0x00000000        0x0 _build/ble_nus.o
+ .data          0x00000000        0x0 _build/ble_nus.o
+ .bss           0x00000000        0x0 _build/ble_nus.o
+ .text.sd_ble_gatts_hvx
+                0x00000000        0x4 _build/ble_nus.o
+ .text.ble_nus_string_send
+                0x00000000       0x5c _build/ble_nus.o
+ .text          0x00000000        0x0 _build/ble_srv_common.o
+ .data          0x00000000        0x0 _build/ble_srv_common.o
+ .bss           0x00000000        0x0 _build/ble_srv_common.o
+ .text.sd_ble_gatts_characteristic_add
+                0x00000000        0x4 _build/ble_srv_common.o
+ .text.sd_ble_gatts_descriptor_add
+                0x00000000        0x4 _build/ble_srv_common.o
+ .text.ble_srv_report_ref_encode
+                0x00000000        0xc _build/ble_srv_common.o
+ .text.ble_srv_ascii_to_utf8
+                0x00000000       0x14 _build/ble_srv_common.o
+ .text.characteristic_add
+                0x00000000      0x368 _build/ble_srv_common.o
+ .rodata.characteristic_add
+                0x00000000       0x78 _build/ble_srv_common.o
+ .text.descriptor_add
+                0x00000000      0x15c _build/ble_srv_common.o
+ .rodata.descriptor_add
+                0x00000000       0x30 _build/ble_srv_common.o
+ .comment       0x00000000       0x6f _build/ble_srv_common.o
+ .ARM.attributes
+                0x00000000       0x31 _build/ble_srv_common.o
+ .text          0x00000000        0x0 _build/softdevice_handler.o
+ .data          0x00000000        0x0 _build/softdevice_handler.o
+ .bss           0x00000000        0x0 _build/softdevice_handler.o
+ .text.sd_softdevice_disable
+                0x00000000        0x4 _build/softdevice_handler.o
+ .text.intern_softdevice_events_execute
+                0x00000000       0x14 _build/softdevice_handler.o
+ .text.softdevice_handler_isEnabled
+                0x00000000        0xc _build/softdevice_handler.o
+ .text.softdevice_handler_sd_disable
+                0x00000000       0x18 _build/softdevice_handler.o
+ .text.softdevice_sys_evt_handler_set
+                0x00000000       0x14 _build/softdevice_handler.o
+ .data          0x00000000        0x0 _build/gcc_startup_nrf51.o
+ .bss           0x00000000        0x0 _build/gcc_startup_nrf51.o
+ .ARM.extab     0x00000000        0x0 _build/gcc_startup_nrf51.o
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_fabs.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_fabs.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_fabs.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_atan2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_atan2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_atan2.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_atan2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_atan2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_atan2.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_sqrt.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_sqrt.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_sqrt.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_lib_ver.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_lib_ver.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_lib_ver.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_matherr.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_matherr.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_matherr.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_nan.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_nan.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_nan.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_udivsi3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_udivsi3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divsi3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divsi3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_dvmd_tls.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_dvmd_tls.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpdf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpdf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpsf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpsf2.o)
+ .text          0x00000000       0x48 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_aeabi_ldivmod.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_aeabi_ldivmod.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_aeabi_ldivmod.o)
+ .ARM.attributes
+                0x00000000       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_aeabi_ldivmod.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_muldi3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_muldi3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_fixunssfsi.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_fixunssfsi.o)
+ .text          0x00000000       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(bpabi.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(bpabi.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(bpabi.o)
+ .debug_frame   0x00000000       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(bpabi.o)
+ .ARM.attributes
+                0x00000000       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(bpabi.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(addsf3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(addsf3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divsf3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divsf3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqsf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqsf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gesf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gesf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(lesf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(lesf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(mulsf3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(mulsf3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subsf3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subsf3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixsfsi.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixsfsi.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatsisf.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatsisf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatunsisf.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatunsisf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(adddf3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(adddf3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divdf3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divdf3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqdf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqdf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gedf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gedf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(ledf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(ledf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(muldf3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(muldf3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subdf3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subdf3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(unorddf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(unorddf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixdfsi.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixdfsi.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(extendsfdf2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(extendsfdf2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzsi2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzsi2.o)
+ .text          0x00000000      0x1bc /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o)
+ .ARM.extab     0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o)
+ .ARM.exidx     0x00000000        0x8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o)
+ .debug_frame   0x00000000       0x3c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o)
+ .ARM.attributes
+                0x00000000       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divdi3.o)
+ .text          0x00000000       0x18 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzdi2.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzdi2.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzdi2.o)
+ .ARM.attributes
+                0x00000000       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzdi2.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-errno.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-errno.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-errno.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-labs.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-labs.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-labs.o)
+ .text.labs     0x00000000        0x8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-labs.o)
+ .debug_frame   0x00000000       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-labs.o)
+ .ARM.attributes
+                0x00000000       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-labs.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcmp.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcmp.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcmp.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcpy-stub.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcpy-stub.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcpy-stub.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o)
+ .text._printf_r
+                0x00000000       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o)
+ .text._sprintf_r
+                0x00000000       0x40 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-strlen.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-strlen.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__fp_unlock
+                0x00000000        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__fp_lock
+                0x00000000        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text._cleanup
+                0x00000000       0x10 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__sfp_lock_acquire
+                0x00000000        0x2 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__sfp_lock_release
+                0x00000000        0x2 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__sinit_lock_acquire
+                0x00000000        0x2 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__sinit_lock_release
+                0x00000000        0x2 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__fp_lock_all
+                0x00000000       0x18 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__fp_unlock_all
+                0x00000000       0x18 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fwalk.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fwalk.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fwalk.o)
+ .text._fwalk   0x00000000       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fwalk.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+ .text.__ssprint_r
+                0x00000000      0x100 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .text.__sprint_r
+                0x00000000       0x1c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .text.vfprintf
+                0x00000000       0x18 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+ .text.__seofread
+                0x00000000        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wbuf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wbuf.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wbuf.o)
+ .text.__swbuf  0x00000000       0x14 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wbuf.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-writer.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-writer.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-writer.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wsetup.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wsetup.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wsetup.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-closer.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-closer.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-closer.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+ .text.fflush   0x00000000       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fvwrite.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fvwrite.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fvwrite.o)
+ .text.__sfvwrite_r
+                0x00000000      0x2d0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fvwrite.o)
+ .debug_frame   0x00000000       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fvwrite.o)
+ .ARM.attributes
+                0x00000000       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fvwrite.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-lseekr.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-lseekr.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-lseekr.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memchr-stub.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memchr-stub.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memchr-stub.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memmove.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memmove.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memmove.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-mlock.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-mlock.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-mlock.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-freer.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-freer.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-freer.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-reallocr.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-reallocr.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-reallocr.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-readr.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-readr.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-readr.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+ .text.cleanup_glue
+                0x00000000       0x1a /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+ .text._reclaim_reent
+                0x00000000       0xcc /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fstatr.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fstatr.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fstatr.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-isattyr.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-isattyr.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-isattyr.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-msizer.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-msizer.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-msizer.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
+ .eh_frame      0x00000000        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
+ .jcr           0x00000000        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
+ .ARM.attributes
+                0x00000000       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(fstat.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(fstat.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(fstat.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(isatty.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(isatty.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(isatty.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(lseek.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(lseek.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(lseek.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(read.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(read.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(read.o)
+ .text          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(sbrk.o)
+ .data          0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(sbrk.o)
+ .bss           0x00000000        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(sbrk.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x00018000         0x00028000         xr
+RAM              0x20002000         0x00002000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a
+LOAD _build/system_nrf51.o
+LOAD _build/nrf_delay.o
+LOAD _build/in4073.o
+LOAD _build/control.o
+LOAD _build/gpio.o
+LOAD _build/timers.o
+LOAD _build/uart.o
+LOAD _build/queue.o
+LOAD _build/twi.o
+LOAD _build/adc.o
+LOAD _build/baro.o
+LOAD _build/ble.o
+LOAD _build/spi_flash.o
+LOAD _build/inv_mpu.o
+LOAD _build/inv_mpu_dmp_motion_driver.o
+LOAD _build/ml.o
+LOAD _build/mpu_wrapper.o
+LOAD _build/app_error.o
+LOAD _build/app_timer.o
+LOAD _build/nrf_assert.o
+LOAD _build/nrf_drv_common.o
+LOAD _build/pstorage.o
+LOAD _build/ble_advdata.o
+LOAD _build/ble_advertising.o
+LOAD _build/ble_conn_params.o
+LOAD _build/ble_nus.o
+LOAD _build/ble_srv_common.o
+LOAD _build/softdevice_handler.o
+LOAD _build/gcc_startup_nrf51.o
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a
+START GROUP
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a
+END GROUP
+START GROUP
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a
+END GROUP
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+START GROUP
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc.a
+LOAD /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a
+END GROUP
+
+.fs_data_out    0x00000000        0x0
+                [!provide]                PROVIDE (__start_fs_data, .)
+ *(fs_data)
+                [!provide]                PROVIDE (__stop_fs_data, .)
+
+.text           0x00018000     0xa834
+ *(.Vectors)
+ .Vectors       0x00018000       0xc0 _build/gcc_startup_nrf51.o
+                0x00018000                __Vectors
+ *(.text*)
+ .text          0x000180c0       0x60 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+ .text          0x00018120       0x78 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+                0x00018120                _mainCRTStartup
+                0x00018120                _start
+ .text.exit     0x00018198       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o)
+                0x00018198                exit
+ .text.__libc_init_array
+                0x000181c4       0x4c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-init.o)
+                0x000181c4                __libc_init_array
+ .text.memset   0x00018210       0x10 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memset.o)
+                0x00018210                memset
+ .text._exit    0x00018220        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(_exit.o)
+                0x00018220                _exit
+ .text.SystemInit
+                0x00018224       0x94 _build/system_nrf51.o
+                0x00018224                SystemInit
+ .text.nrf_delay_ms
+                0x000182b8       0x3c _build/nrf_delay.o
+                0x000182b8                nrf_delay_ms
+ .text.process_key
+                0x000182f4       0xe0 _build/in4073.o
+                0x000182f4                process_key
+ .text.startup.main
+                0x000183d4      0x1a4 _build/in4073.o
+                0x000183d4                main
+ .text.run_filters_and_control
+                0x00018578       0x20 _build/control.o
+                0x00018578                run_filters_and_control
+ .text.gpio_init
+                0x00018598       0x8c _build/gpio.o
+                0x00018598                gpio_init
+ .text.quadrupel_timer_handler
+                0x00018624        0xc _build/timers.o
+                0x00018624                quadrupel_timer_handler
+ .text.TIMER2_IRQHandler
+                0x00018630       0xb8 _build/timers.o
+                0x00018630                TIMER2_IRQHandler
+ .text.TIMER1_IRQHandler
+                0x000186e8       0xac _build/timers.o
+                0x000186e8                TIMER1_IRQHandler
+ .text.get_time_us
+                0x00018794       0x20 _build/timers.o
+                0x00018794                get_time_us
+ .text.check_timer_flag
+                0x000187b4        0xc _build/timers.o
+                0x000187b4                check_timer_flag
+ .text.clear_timer_flag
+                0x000187c0        0xc _build/timers.o
+                0x000187c0                clear_timer_flag
+ .text.timers_init
+                0x000187cc      0x1d4 _build/timers.o
+                0x000187cc                timers_init
+ .text._write   0x000189a0       0x84 _build/uart.o
+                0x000189a0                _write
+ .text.UART0_IRQHandler
+                0x00018a24       0x84 _build/uart.o
+                0x00018a24                UART0_IRQHandler
+ .text.uart_init
+                0x00018aa8       0xa0 _build/uart.o
+                0x00018aa8                uart_init
+ .text.init_queue
+                0x00018b48       0x14 _build/queue.o
+                0x00018b48                init_queue
+ .text.enqueue  0x00018b5c       0x1c _build/queue.o
+                0x00018b5c                enqueue
+ .text.dequeue  0x00018b78       0x20 _build/queue.o
+                0x00018b78                dequeue
+ .text.i2c_read
+                0x00018b98       0xc0 _build/twi.o
+                0x00018b98                i2c_read
+ .text.i2c_write
+                0x00018c58       0x70 _build/twi.o
+                0x00018c58                i2c_write
+ .text.SPI0_TWI0_IRQHandler
+                0x00018cc8       0x70 _build/twi.o
+                0x00018cc8                SPI0_TWI0_IRQHandler
+ .text.twi_init
+                0x00018d38       0x84 _build/twi.o
+                0x00018d38                twi_init
+ .text.adc_request_sample
+                0x00018dbc       0x18 _build/adc.o
+                0x00018dbc                adc_request_sample
+ .text.ADC_IRQHandler
+                0x00018dd4       0x24 _build/adc.o
+                0x00018dd4                ADC_IRQHandler
+ .text.adc_init
+                0x00018df8       0x3c _build/adc.o
+                0x00018df8                adc_init
+ .text.read_baro
+                0x00018e34      0x1b4 _build/baro.o
+                0x00018e34                read_baro
+ .text.baro_init
+                0x00018fe8       0x34 _build/baro.o
+                0x00018fe8                baro_init
+ .text.sd_ble_gap_disconnect
+                0x0001901c        0x4 _build/ble.o
+ .text.sd_ble_gap_ppcp_set
+                0x00019020        0x4 _build/ble.o
+ .text.sd_ble_gap_device_name_set
+                0x00019024        0x4 _build/ble.o
+ .text.sd_ble_gap_sec_params_reply
+                0x00019028        0x4 _build/ble.o
+ .text.sd_ble_gatts_sys_attr_set
+                0x0001902c        0x4 _build/ble.o
+ .text.sd_ble_enable
+                0x00019030        0x4 _build/ble.o
+ .text.sd_nvic_EnableIRQ
+                0x00019034        0x4 _build/ble.o
+ .text.sd_nvic_ClearPendingIRQ
+                0x00019038        0x4 _build/ble.o
+ .text.sd_nvic_SetPriority
+                0x0001903c        0x4 _build/ble.o
+ .text.sd_radio_notification_cfg_set
+                0x00019040        0x4 _build/ble.o
+ .text.conn_params_error_handler
+                0x00019044       0x1c _build/ble.o
+ .text.nus_data_handler
+                0x00019060       0x20 _build/ble.o
+ .text.ble_evt_dispatch
+                0x00019080       0x94 _build/ble.o
+ .text.on_conn_params_evt
+                0x00019114       0x38 _build/ble.o
+ .text.SWI1_IRQHandler
+                0x0001914c       0x10 _build/ble.o
+                0x0001914c                SWI1_IRQHandler
+ .text.ble_init
+                0x0001915c      0x204 _build/ble.o
+                0x0001915c                ble_init
+ .text.spi_flash_init
+                0x00019360      0x230 _build/spi_flash.o
+                0x00019360                spi_flash_init
+ .text.mpu_reset_fifo
+                0x00019590      0x15c _build/inv_mpu.o
+                0x00019590                mpu_reset_fifo
+ .text.mpu_lp_accel_mode
+                0x000196ec      0x1b8 _build/inv_mpu.o
+                0x000196ec                mpu_lp_accel_mode
+ .text.mpu_get_accel_fsr
+                0x000198a4       0x4c _build/inv_mpu.o
+                0x000198a4                mpu_get_accel_fsr
+ .text.mpu_set_lpf
+                0x000198f0       0x78 _build/inv_mpu.o
+                0x000198f0                mpu_set_lpf
+ .text.mpu_set_sample_rate
+                0x00019968      0x168 _build/inv_mpu.o
+                0x00019968                mpu_set_sample_rate
+ .text.mpu_configure_fifo
+                0x00019ad0       0xd0 _build/inv_mpu.o
+                0x00019ad0                mpu_configure_fifo
+ .text.mpu_set_sensors
+                0x00019ba0      0x140 _build/inv_mpu.o
+                0x00019ba0                mpu_set_sensors
+ .text.mpu_init
+                0x00019ce0      0x1f4 _build/inv_mpu.o
+                0x00019ce0                mpu_init
+ .text.mpu_read_fifo_stream
+                0x00019ed4       0xb0 _build/inv_mpu.o
+                0x00019ed4                mpu_read_fifo_stream
+ .text.mpu_set_int_level
+                0x00019f84       0x10 _build/inv_mpu.o
+                0x00019f84                mpu_set_int_level
+ .text.mpu_set_int_latched
+                0x00019f94       0x68 _build/inv_mpu.o
+                0x00019f94                mpu_set_int_latched
+ .text.mpu_write_mem
+                0x00019ffc       0x58 _build/inv_mpu.o
+                0x00019ffc                mpu_write_mem
+ .text.mpu_load_firmware
+                0x0001a054      0x15c _build/inv_mpu.o
+                0x0001a054                mpu_load_firmware
+ .text.mpu_set_dmp_state
+                0x0001a1b0      0x174 _build/inv_mpu.o
+                0x0001a1b0                mpu_set_dmp_state
+ .text.dmp_load_motion_driver_firmware
+                0x0001a324       0x1c _build/inv_mpu_dmp_motion_driver.o
+                0x0001a324                dmp_load_motion_driver_firmware
+ .text.dmp_set_orientation
+                0x0001a340      0x118 _build/inv_mpu_dmp_motion_driver.o
+                0x0001a340                dmp_set_orientation
+ .text.dmp_set_fifo_rate
+                0x0001a458       0x64 _build/inv_mpu_dmp_motion_driver.o
+                0x0001a458                dmp_set_fifo_rate
+ .text.dmp_set_tap_thresh
+                0x0001a4bc      0x164 _build/inv_mpu_dmp_motion_driver.o
+                0x0001a4bc                dmp_set_tap_thresh
+ .text.dmp_enable_feature
+                0x0001a620      0x28c _build/inv_mpu_dmp_motion_driver.o
+                0x0001a620                dmp_enable_feature
+ .text.dmp_read_fifo
+                0x0001a8ac      0x20c _build/inv_mpu_dmp_motion_driver.o
+                0x0001a8ac                dmp_read_fifo
+ .text.inv_orientation_matrix_to_scalar
+                0x0001aab8      0x11c _build/ml.o
+                0x0001aab8                inv_orientation_matrix_to_scalar
+ .text.get_dmp_data
+                0x0001abd4      0x218 _build/mpu_wrapper.o
+                0x0001abd4                get_dmp_data
+ .text.check_sensor_int_flag
+                0x0001adec       0x20 _build/mpu_wrapper.o
+                0x0001adec                check_sensor_int_flag
+ .text.imu_init
+                0x0001ae0c      0x10c _build/mpu_wrapper.o
+                0x0001ae0c                imu_init
+ .text.app_error_handler
+                0x0001af18       0x40 _build/app_error.o
+                0x0001af18                app_error_handler
+ .text.rtc1_stop
+                0x0001af58       0x78 _build/app_timer.o
+ .text.RTC1_IRQHandler
+                0x0001afd0       0xe0 _build/app_timer.o
+                0x0001afd0                RTC1_IRQHandler
+ .text.SWI0_IRQHandler
+                0x0001b0b0      0x4cc _build/app_timer.o
+                0x0001b0b0                SWI0_IRQHandler
+ .text.app_timer_init
+                0x0001b57c       0xe4 _build/app_timer.o
+                0x0001b57c                app_timer_init
+ .text.app_timer_create
+                0x0001b660       0x34 _build/app_timer.o
+                0x0001b660                app_timer_create
+ .text.app_timer_start
+                0x0001b694       0xec _build/app_timer.o
+                0x0001b694                app_timer_start
+ .text.app_timer_stop
+                0x0001b780       0xc4 _build/app_timer.o
+                0x0001b780                app_timer_stop
+ .text.pstorage_access_status_get
+                0x0001b844       0x28 _build/pstorage.o
+                0x0001b844                pstorage_access_status_get
+ .text.sd_ble_gap_address_get
+                0x0001b86c        0x4 _build/ble_advdata.o
+ .text.sd_ble_gap_adv_data_set
+                0x0001b870        0x4 _build/ble_advdata.o
+ .text.sd_ble_gap_appearance_get
+                0x0001b874        0x4 _build/ble_advdata.o
+ .text.sd_ble_gap_device_name_get
+                0x0001b878        0x4 _build/ble_advdata.o
+ .text.sd_ble_uuid_encode
+                0x0001b87c        0x4 _build/ble_advdata.o
+ .text.uuid_list_sized_encode
+                0x0001b880       0xf8 _build/ble_advdata.o
+ .text.adv_data_encode
+                0x0001b978      0x5b8 _build/ble_advdata.o
+                0x0001b978                adv_data_encode
+ .text.ble_advdata_set
+                0x0001bf30       0x68 _build/ble_advdata.o
+                0x0001bf30                ble_advdata_set
+ .text.sd_ble_gap_adv_start
+                0x0001bf98        0x4 _build/ble_advertising.o
+ .text.ble_advertising_start.part.1
+                0x0001bf9c      0x2a8 _build/ble_advertising.o
+ .text.ble_advertising_init
+                0x0001c244      0x144 _build/ble_advertising.o
+                0x0001c244                ble_advertising_init
+ .text.ble_advertising_start
+                0x0001c388       0x3c _build/ble_advertising.o
+                0x0001c388                ble_advertising_start
+ .text.ble_advertising_on_ble_evt
+                0x0001c3c4       0xec _build/ble_advertising.o
+                0x0001c3c4                ble_advertising_on_ble_evt
+ .text.sd_ble_gap_conn_param_update
+                0x0001c4b0        0x4 _build/ble_conn_params.o
+ .text.sd_ble_gap_disconnect
+                0x0001c4b4        0x4 _build/ble_conn_params.o
+ .text.sd_ble_gap_ppcp_set
+                0x0001c4b8        0x4 _build/ble_conn_params.o
+ .text.sd_ble_gap_ppcp_get
+                0x0001c4bc        0x4 _build/ble_conn_params.o
+ .text.update_timeout_handler
+                0x0001c4c0       0x78 _build/ble_conn_params.o
+ .text.conn_params_negotiation
+                0x0001c538       0x88 _build/ble_conn_params.o
+ .text.ble_conn_params_init
+                0x0001c5c0       0x78 _build/ble_conn_params.o
+                0x0001c5c0                ble_conn_params_init
+ .text.ble_conn_params_on_ble_evt
+                0x0001c638       0xac _build/ble_conn_params.o
+                0x0001c638                ble_conn_params_on_ble_evt
+ .text.sd_ble_gatts_service_add
+                0x0001c6e4        0x4 _build/ble_nus.o
+ .text.sd_ble_gatts_characteristic_add
+                0x0001c6e8        0x4 _build/ble_nus.o
+ .text.sd_ble_uuid_vs_add
+                0x0001c6ec        0x4 _build/ble_nus.o
+ .text.ble_nus_on_ble_evt
+                0x0001c6f0       0x60 _build/ble_nus.o
+                0x0001c6f0                ble_nus_on_ble_evt
+ .text.ble_nus_init
+                0x0001c750      0x208 _build/ble_nus.o
+                0x0001c750                ble_nus_init
+ .text.sd_nvic_EnableIRQ
+                0x0001c958        0x4 _build/softdevice_handler.o
+ .text.sd_evt_get
+                0x0001c95c        0x4 _build/softdevice_handler.o
+ .text.sd_softdevice_enable
+                0x0001c960        0x4 _build/softdevice_handler.o
+ .text.sd_ble_evt_get
+                0x0001c964        0x4 _build/softdevice_handler.o
+ .text.softdevice_assertion_handler
+                0x0001c968        0xc _build/softdevice_handler.o
+                0x0001c968                softdevice_assertion_handler
+ .text.intern_softdevice_events_execute.part.0
+                0x0001c974       0xec _build/softdevice_handler.o
+ .text.softdevice_handler_init
+                0x0001ca60       0x4c _build/softdevice_handler.o
+                0x0001ca60                softdevice_handler_init
+ .text.softdevice_ble_evt_handler_set
+                0x0001caac       0x14 _build/softdevice_handler.o
+                0x0001caac                softdevice_ble_evt_handler_set
+ .text.SWI2_IRQHandler
+                0x0001cac0       0x34 _build/softdevice_handler.o
+                0x0001cac0                SWI2_IRQHandler
+ .text          0x0001caf4       0x54 _build/gcc_startup_nrf51.o
+                0x0001caf4                Reset_Handler
+                0x0001cb3c                NMI_Handler
+                0x0001cb3e                HardFault_Handler
+                0x0001cb40                SVC_Handler
+                0x0001cb42                PendSV_Handler
+                0x0001cb44                SysTick_Handler
+                0x0001cb46                RTC0_IRQHandler
+                0x0001cb46                GPIOTE_IRQHandler
+                0x0001cb46                POWER_CLOCK_IRQHandler
+                0x0001cb46                RADIO_IRQHandler
+                0x0001cb46                LPCOMP_IRQHandler
+                0x0001cb46                SWI4_IRQHandler
+                0x0001cb46                TEMP_IRQHandler
+                0x0001cb46                QDEC_IRQHandler
+                0x0001cb46                SWI5_IRQHandler
+                0x0001cb46                TIMER0_IRQHandler
+                0x0001cb46                ECB_IRQHandler
+                0x0001cb46                Default_Handler
+                0x0001cb46                SWI3_IRQHandler
+                0x0001cb46                CCM_AAR_IRQHandler
+                0x0001cb46                WDT_IRQHandler
+                0x0001cb46                RNG_IRQHandler
+                0x0001cb46                SPI1_TWI1_IRQHandler
+ .text.fabs     0x0001cb48        0x8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_fabs.o)
+                0x0001cb48                fabs
+ .text.asin     0x0001cb50       0xc4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o)
+                0x0001cb50                asin
+ .text.atan2    0x0001cc14        0x8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_atan2.o)
+                0x0001cc14                atan2
+ .text.__ieee754_asin
+                0x0001cc1c      0x3cc /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o)
+                0x0001cc1c                __ieee754_asin
+ .text.__ieee754_atan2
+                0x0001cfe8      0x178 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_atan2.o)
+                0x0001cfe8                __ieee754_atan2
+ .text.__ieee754_sqrt
+                0x0001d160      0x1ec /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_sqrt.o)
+                0x0001d160                __ieee754_sqrt
+ .text.atan     0x0001d34c      0x33c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+                0x0001d34c                atan
+ .text.matherr  0x0001d688        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_matherr.o)
+                0x0001d688                matherr
+ .text.nan      0x0001d68c        0xc /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_nan.o)
+                0x0001d68c                nan
+ .text          0x0001d698      0x114 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_udivsi3.o)
+                0x0001d698                __udivsi3
+                0x0001d698                __aeabi_uidiv
+                0x0001d7a4                __aeabi_uidivmod
+ .text          0x0001d7ac      0x1d4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divsi3.o)
+                0x0001d7ac                __aeabi_idiv
+                0x0001d7ac                __divsi3
+                0x0001d978                __aeabi_idivmod
+ .text          0x0001d980        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_dvmd_tls.o)
+                0x0001d980                __aeabi_ldiv0
+                0x0001d980                __aeabi_idiv0
+ .text          0x0001d984       0x7c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpdf2.o)
+                0x0001d984                __aeabi_cdrcmple
+                0x0001d994                __aeabi_cdcmple
+                0x0001d994                __aeabi_cdcmpeq
+                0x0001d9a4                __aeabi_dcmpeq
+                0x0001d9b0                __aeabi_dcmplt
+                0x0001d9c4                __aeabi_dcmple
+                0x0001d9d8                __aeabi_dcmpgt
+                0x0001d9ec                __aeabi_dcmpge
+ .text          0x0001da00       0x74 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpsf2.o)
+                0x0001da00                __aeabi_cfrcmple
+                0x0001da08                __aeabi_cfcmple
+                0x0001da08                __aeabi_cfcmpeq
+                0x0001da18                __aeabi_fcmpeq
+                0x0001da24                __aeabi_fcmplt
+                0x0001da38                __aeabi_fcmple
+                0x0001da4c                __aeabi_fcmpgt
+                0x0001da60                __aeabi_fcmpge
+ .text          0x0001da74       0x58 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_muldi3.o)
+                0x0001da74                __aeabi_lmul
+                0x0001da74                __muldi3
+ .text          0x0001dacc       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_fixunssfsi.o)
+                0x0001dacc                __aeabi_f2uiz
+                0x0001dacc                __fixunssfsi
+ .text          0x0001dafc      0x2ec /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(addsf3.o)
+                0x0001dafc                __aeabi_fadd
+ .text          0x0001dde8      0x234 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divsf3.o)
+                0x0001dde8                __aeabi_fdiv
+ .text          0x0001e01c       0x50 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqsf2.o)
+                0x0001e01c                __nesf2
+                0x0001e01c                __eqsf2
+ .text          0x0001e06c       0x88 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gesf2.o)
+                0x0001e06c                __gtsf2
+                0x0001e06c                __gesf2
+ .text          0x0001e0f4       0x88 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(lesf2.o)
+                0x0001e0f4                __lesf2
+                0x0001e0f4                __ltsf2
+ .text          0x0001e17c      0x228 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(mulsf3.o)
+                0x0001e17c                __aeabi_fmul
+ .text          0x0001e3a4      0x30c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subsf3.o)
+                0x0001e3a4                __aeabi_fsub
+ .text          0x0001e6b0       0x44 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixsfsi.o)
+                0x0001e6b0                __aeabi_f2iz
+ .text          0x0001e6f4       0x90 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatsisf.o)
+                0x0001e6f4                __aeabi_i2f
+ .text          0x0001e784       0x7c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatunsisf.o)
+                0x0001e784                __aeabi_ui2f
+ .text          0x0001e800      0x658 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(adddf3.o)
+                0x0001e800                __aeabi_dadd
+ .text          0x0001ee58      0x62c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divdf3.o)
+                0x0001ee58                __aeabi_ddiv
+ .text          0x0001f484       0x80 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqdf2.o)
+                0x0001f484                __eqdf2
+                0x0001f484                __nedf2
+ .text          0x0001f504       0xc8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gedf2.o)
+                0x0001f504                __gtdf2
+                0x0001f504                __gedf2
+ .text          0x0001f5cc       0xd4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(ledf2.o)
+                0x0001f5cc                __ltdf2
+                0x0001f5cc                __ledf2
+ .text          0x0001f6a0      0x4f4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(muldf3.o)
+                0x0001f6a0                __aeabi_dmul
+ .text          0x0001fb94      0x6a8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subdf3.o)
+                0x0001fb94                __aeabi_dsub
+ .text          0x0002023c       0x40 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(unorddf2.o)
+                0x0002023c                __aeabi_dcmpun
+ .text          0x0002027c       0x6c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixdfsi.o)
+                0x0002027c                __aeabi_d2iz
+ .text          0x000202e8       0xa8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(extendsfdf2.o)
+                0x000202e8                __aeabi_f2d
+ .text          0x00020390       0x3c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzsi2.o)
+                0x00020390                __clzsi2
+ .text.__errno  0x000203cc        0xc /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-errno.o)
+                0x000203cc                __errno
+ .text.memcmp   0x000203d8       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcmp.o)
+                0x000203d8                memcmp
+ .text.memcpy   0x000203f6       0x12 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcpy-stub.o)
+                0x000203f6                memcpy
+ .text.printf   0x00020408       0x34 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o)
+                0x00020408                printf
+                0x00020408                iprintf
+ .text.sprintf  0x0002043c       0x44 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o)
+                0x0002043c                sprintf
+                0x0002043c                siprintf
+ .text          0x00020480        0xe /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-strlen.o)
+                0x00020480                strlen
+ *fill*         0x0002048e        0x2 
+ .text._cleanup_r
+                0x00020490       0x10 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+                0x00020490                _cleanup_r
+ .text.std.isra.0
+                0x000204a0       0x48 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .text.__sfmoreglue
+                0x000204e8       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+                0x000204e8                __sfmoreglue
+ .text.__sinit  0x00020514       0x68 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+                0x00020514                __sinit
+ .text.__sfp    0x0002057c       0x7c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+                0x0002057c                __sfp
+ .text._fwalk_reent
+                0x000205f8       0x42 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fwalk.o)
+                0x000205f8                _fwalk_reent
+ *fill*         0x0002063a        0x2 
+ .text._malloc_r
+                0x0002063c       0xc0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+                0x0002063c                _malloc_r
+ .text.__ssputs_r
+                0x000206fc       0xc4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000206fc                __ssputs_r
+ .text._svfprintf_r
+                0x000207c0      0x1fc /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000207c0                _svfprintf_r
+                0x000207c0                _svfiprintf_r
+ .text.__sfputc_r
+                0x000209bc       0x2a /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .text.__sfputs_r
+                0x000209e6       0x24 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x000209e6                __sfputs_r
+ *fill*         0x00020a0a        0x2 
+ .text._vfprintf_r
+                0x00020a0c      0x238 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x00020a0c                _vfiprintf_r
+                0x00020a0c                _vfprintf_r
+ .text._printf_common
+                0x00020c44       0xdc /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x00020c44                _printf_common
+ .text._printf_i
+                0x00020d20      0x244 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x00020d20                _printf_i
+ .text._sbrk_r  0x00020f64       0x24 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o)
+                0x00020f64                _sbrk_r
+ .text.__sread  0x00020f88       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+                0x00020f88                __sread
+ .text.__swrite
+                0x00020fb0       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+                0x00020fb0                __swrite
+ .text.__sseek  0x00020fe8       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+                0x00020fe8                __sseek
+ .text.__sclose
+                0x00021014        0xc /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+                0x00021014                __sclose
+ .text.__swbuf_r
+                0x00021020       0xb0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wbuf.o)
+                0x00021020                __swbuf_r
+ .text._write_r
+                0x000210d0       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-writer.o)
+                0x000210d0                _write_r
+ .text.__swsetup_r
+                0x000210f8       0xec /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wsetup.o)
+                0x000210f8                __swsetup_r
+ .text._close_r
+                0x000211e4       0x24 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-closer.o)
+                0x000211e4                _close_r
+ .text.__sflush_r
+                0x00021208      0x10c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+                0x00021208                __sflush_r
+ .text._fflush_r
+                0x00021314       0x58 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+                0x00021314                _fflush_r
+ .text._lseek_r
+                0x0002136c       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-lseekr.o)
+                0x0002136c                _lseek_r
+ .text.__swhatbuf_r
+                0x00021394       0x4c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o)
+                0x00021394                __swhatbuf_r
+ .text.__smakebuf_r
+                0x000213e0       0x7c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o)
+                0x000213e0                __smakebuf_r
+ .text.memchr   0x0002145c       0x16 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memchr-stub.o)
+                0x0002145c                memchr
+ .text.memmove  0x00021472       0x2a /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memmove.o)
+                0x00021472                memmove
+ .text.__malloc_lock
+                0x0002149c        0x2 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-mlock.o)
+                0x0002149c                __malloc_lock
+ .text.__malloc_unlock
+                0x0002149e        0x2 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-mlock.o)
+                0x0002149e                __malloc_unlock
+ .text._free_r  0x000214a0       0x98 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-freer.o)
+                0x000214a0                _free_r
+ .text._realloc_r
+                0x00021538       0x4c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-reallocr.o)
+                0x00021538                _realloc_r
+ .text._read_r  0x00021584       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-readr.o)
+                0x00021584                _read_r
+ .text._fstat_r
+                0x000215ac       0x24 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fstatr.o)
+                0x000215ac                _fstat_r
+ .text._isatty_r
+                0x000215d0       0x24 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-isattyr.o)
+                0x000215d0                _isatty_r
+ .text._malloc_usable_size_r
+                0x000215f4       0x16 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-msizer.o)
+                0x000215f4                _malloc_usable_size_r
+ *fill*         0x0002160a        0x2 
+ .text._close   0x0002160c       0x10 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)
+                0x0002160c                _close
+ .text._fstat   0x0002161c       0x10 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(fstat.o)
+                0x0002161c                _fstat
+ .text._isatty  0x0002162c       0x10 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(isatty.o)
+                0x0002162c                _isatty
+ .text._lseek   0x0002163c       0x10 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(lseek.o)
+                0x0002163c                _lseek
+ .text._read    0x0002164c       0x10 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(read.o)
+                0x0002164c                _read
+ .text._sbrk    0x0002165c       0x1c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(sbrk.o)
+                0x0002165c                _sbrk
+ *(.init)
+ .init          0x00021678        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+                0x00021678                _init
+ .init          0x0002167c        0x8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+ *(.fini)
+ .fini          0x00021684        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+                0x00021684                _fini
+ .fini          0x00021688        0x8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+ *(.rodata*)
+ .rodata.str1.1
+                0x00021690        0x2 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+ *fill*         0x00021692        0x2 
+ .rodata._global_impure_ptr
+                0x00021694        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+                0x00021694                _global_impure_ptr
+ .rodata.str1.4
+                0x00021698       0x52 _build/in4073.o
+ *fill*         0x000216ea        0x2 
+ .rodata.quadrupel_timer.7098
+                0x000216ec        0x4 _build/timers.o
+ .rodata.str1.4
+                0x000216f0       0x11 _build/uart.o
+ *fill*         0x00021701        0x3 
+ .rodata.str1.4
+                0x00021704       0x38 _build/twi.o
+ .rodata.str1.4
+                0x0002173c       0x12 _build/ble.o
+ *fill*         0x0002174e        0x2 
+ .rodata.test   0x00021750       0x28 _build/inv_mpu.o
+                0x00021750                test
+ .rodata.str1.4
+                0x00021778       0xa6 _build/inv_mpu.o
+ *fill*         0x0002181e        0x2 
+ .rodata.hw     0x00021820        0xc _build/inv_mpu.o
+                0x00021820                hw
+ .rodata.reg    0x0002182c       0x1e _build/inv_mpu.o
+                0x0002182c                reg
+ *fill*         0x0002184a        0x2 
+ .rodata        0x0002184c       0x4b _build/inv_mpu_dmp_motion_driver.o
+ *fill*         0x00021897        0x1 
+ .rodata.dmp_memory
+                0x00021898      0xbf6 _build/inv_mpu_dmp_motion_driver.o
+ *fill*         0x0002248e        0x2 
+ .rodata.str1.4
+                0x00022490      0x14a _build/mpu_wrapper.o
+ *fill*         0x000225da        0x2 
+ .rodata.str1.4
+                0x000225dc       0x27 _build/app_error.o
+ *fill*         0x00022603        0x1 
+ .rodata.m_conn_params_timer_id
+                0x00022604        0x4 _build/ble_conn_params.o
+ .rodata        0x00022608       0x10 _build/ble_nus.o
+ .rodata.str1.4
+                0x00022618        0x8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o)
+                                  0x9 (size before relaxing)
+ .rodata.atanlo
+                0x00022620       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+ .rodata.atanhi
+                0x00022640       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+ .rodata        0x00022660       0x80 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divsf3.o)
+ .rodata        0x000226e0       0x40 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(mulsf3.o)
+ .rodata        0x00022720       0x40 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divdf3.o)
+ .rodata        0x00022760       0x40 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(muldf3.o)
+ .rodata.__sf_fake_stdin
+                0x000227a0       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+                0x000227a0                __sf_fake_stdin
+ .rodata.__sf_fake_stdout
+                0x000227c0       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+                0x000227c0                __sf_fake_stdout
+ .rodata.__sf_fake_stderr
+                0x000227e0       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+                0x000227e0                __sf_fake_stderr
+ .rodata.str1.1
+                0x00022800       0x11 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+ .rodata.str1.1
+                0x00022811       0x11 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .rodata.str1.1
+                0x00022811       0x22 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ *(.eh_frame*)
+ *fill*         0x00022833        0x1 
+ .eh_frame      0x00022834        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+                0x00022834                . = ALIGN (0x4)
+
+.glue_7         0x00022834        0x0
+ .glue_7        0x00022834        0x0 linker stubs
+
+.glue_7t        0x00022834        0x0
+ .glue_7t       0x00022834        0x0 linker stubs
+
+.vfp11_veneer   0x00022834        0x0
+ .vfp11_veneer  0x00022834        0x0 linker stubs
+
+.v4_bx          0x00022834        0x0
+ .v4_bx         0x00022834        0x0 linker stubs
+
+.iplt           0x00022834        0x0
+ .iplt          0x00022834        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+
+.ARM.extab      0x00022834        0x0
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x00022834                . = ALIGN (0x4)
+                0x00022834                __exidx_start = .
+
+.ARM.exidx      0x00022834        0x8
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+ .ARM.exidx     0x00022834        0x8 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.exidx     0x0002283c        0x0 _build/gcc_startup_nrf51.o
+                                  0x8 (size before relaxing)
+                0x0002283c                . = ALIGN (0x4)
+                0x0002283c                __exidx_end = .
+                0x0002283c                __etext = .
+
+.rel.dyn        0x0002283c        0x0
+ .rel.iplt      0x0002283c        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+
+.data           0x20002000       0xb4 load address 0x0002283c
+                0x20002000                __data_start__ = .
+ *(vtable)
+ *(.data*)
+ .data.impure_data
+                0x20002000       0x60 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+ .data._impure_ptr
+                0x20002060        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+                0x20002060                _impure_ptr
+ .data.txd_available
+                0x20002064        0x1 _build/uart.o
+                0x20002064                txd_available
+ *fill*         0x20002065        0x3 
+ .data.m_adv_uuids
+                0x20002068        0x4 _build/ble.o
+ .data.m_conn_handle
+                0x2000206c        0x2 _build/ble.o
+ *fill*         0x2000206e        0x2 
+ .data.st       0x20002070       0x2c _build/inv_mpu.o
+ .data.gyro_orientation.7018
+                0x2000209c        0x9 _build/mpu_wrapper.o
+ *fill*         0x200020a5        0x1 
+ .data.current_slave_link_conn_handle.7275
+                0x200020a6        0x2 _build/ble_advertising.o
+ .data.__fdlib_version
+                0x200020a8        0x1 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_lib_ver.o)
+                0x200020a8                __fdlib_version
+                0x200020ac                . = ALIGN (0x4)
+ *fill*         0x200020a9        0x3 
+                0x200020ac                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array)
+                0x200020ac                PROVIDE (__preinit_array_end, .)
+                0x200020ac                . = ALIGN (0x4)
+                0x200020ac                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array)
+ .init_array    0x200020ac        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+                0x200020b0                PROVIDE (__init_array_end, .)
+                0x200020b0                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__fini_array_start, .)
+ *(SORT(.fini_array.*))
+ *(.fini_array)
+ .fini_array    0x200020b0        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+                [!provide]                PROVIDE (__fini_array_end, .)
+ *(.jcr)
+ .jcr           0x200020b4        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+                0x200020b4                . = ALIGN (0x4)
+                0x200020b4                __data_end__ = .
+
+.igot.plt       0x200020b4        0x0 load address 0x000228f0
+ .igot.plt      0x200020b4        0x0 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+
+.bss            0x200020b4      0x9a0 load address 0x000228f0
+                0x200020b4                . = ALIGN (0x4)
+                0x200020b4                __bss_start__ = .
+ *(.bss*)
+ .bss           0x200020b4       0x1c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+ .bss.APP_TIMER_BUF.7094
+                0x200020d0      0x1c8 _build/timers.o
+ .bss.quadrupel_timer_data.7097
+                0x20002298       0x20 _build/timers.o
+ .bss.sent      0x200022b8        0x1 _build/twi.o
+ .bss.read      0x200022b9        0x1 _build/twi.o
+ .bss.loop_count
+                0x200022ba        0x1 _build/baro.o
+ *fill*         0x200022bb        0x1 
+ .bss.prom      0x200022bc       0x10 _build/baro.o
+ .bss.data      0x200022cc        0x3 _build/baro.o
+ *fill*         0x200022cf        0x1 
+ .bss.initTime  0x200022d0        0x4 _build/baro.o
+                0x200022d0                initTime
+ .bss.data.7011
+                0x200022d4        0x2 _build/baro.o
+ *fill*         0x200022d6        0x2 
+ .bss.BLE_EVT_BUFFER.8942
+                0x200022d8       0x48 _build/ble.o
+ .bss.m_nus     0x20002320       0x1c _build/ble.o
+ .bss.spi_config_table
+                0x2000233c        0xc _build/spi_flash.o
+ .bss.SPI       0x20002348        0x4 _build/spi_flash.o
+ .bss.dmp       0x2000234c       0x10 _build/inv_mpu_dmp_motion_driver.o
+ .bss.m_ticks_latest
+                0x2000235c        0x4 _build/app_timer.o
+ .bss.mp_timer_id_head
+                0x20002360        0x4 _build/app_timer.o
+ .bss.m_evt_schedule_func
+                0x20002364        0x4 _build/app_timer.o
+ .bss.m_user_array_size
+                0x20002368        0x1 _build/app_timer.o
+ *fill*         0x20002369        0x3 
+ .bss.mp_users  0x2000236c        0x4 _build/app_timer.o
+ .bss.m_ticks_elapsed_q_read_ind
+                0x20002370        0x1 _build/app_timer.o
+ .bss.m_ticks_elapsed_q_write_ind
+                0x20002371        0x1 _build/app_timer.o
+ .bss.m_rtc1_reset
+                0x20002372        0x1 _build/app_timer.o
+ *fill*         0x20002373        0x1 
+ .bss.m_ticks_elapsed
+                0x20002374        0x8 _build/app_timer.o
+ .bss.m_rtc1_running
+                0x2000237c        0x1 _build/app_timer.o
+ *fill*         0x2000237d        0x3 
+ .bss.m_cmd_queue
+                0x20002380       0xcc _build/pstorage.o
+ .bss.m_flags   0x2000244c        0x4 _build/pstorage.o
+ .bss.m_advdata
+                0x20002450       0x38 _build/ble_advertising.o
+ .bss.m_manuf_specific_data
+                0x20002488        0xc _build/ble_advertising.o
+ .bss.m_evt_handler
+                0x20002494        0x4 _build/ble_advertising.o
+ .bss.m_advertising_start_pending
+                0x20002498        0x1 _build/ble_advertising.o
+ *fill*         0x20002499        0x3 
+ .bss.m_manuf_data_array
+                0x2000249c       0x1f _build/ble_advertising.o
+ .bss.m_whitelist_temporarily_disabled
+                0x200024bb        0x1 _build/ble_advertising.o
+ .bss.m_error_handler
+                0x200024bc        0x4 _build/ble_advertising.o
+ .bss.m_peer_address
+                0x200024c0        0x7 _build/ble_advertising.o
+ *fill*         0x200024c7        0x1 
+ .bss.m_adv_modes_config
+                0x200024c8       0x24 _build/ble_advertising.o
+ .bss.mp_whitelist_addr
+                0x200024ec       0x20 _build/ble_advertising.o
+ .bss.m_tx_power_level
+                0x2000250c        0x1 _build/ble_advertising.o
+ *fill*         0x2000250d        0x3 
+ .bss.m_whitelist
+                0x20002510       0x10 _build/ble_advertising.o
+ .bss.m_service_data_array
+                0x20002520       0x1f _build/ble_advertising.o
+ .bss.m_whitelist_reply_expected
+                0x2000253f        0x1 _build/ble_advertising.o
+ .bss.mp_whitelist_irk
+                0x20002540       0x20 _build/ble_advertising.o
+ .bss.m_adv_mode_current
+                0x20002560        0x1 _build/ble_advertising.o
+ .bss.m_peer_addr_reply_expected
+                0x20002561        0x1 _build/ble_advertising.o
+ *fill*         0x20002562        0x2 
+ .bss.m_slave_conn_int
+                0x20002564        0x4 _build/ble_advertising.o
+ .bss.m_service_data
+                0x20002568        0xc _build/ble_advertising.o
+ .bss.m_adv_evt
+                0x20002574        0x1 _build/ble_advertising.o
+ .bss.m_change_param
+                0x20002575        0x1 _build/ble_conn_params.o
+ *fill*         0x20002576        0x2 
+ .bss.m_current_conn_params
+                0x20002578        0x8 _build/ble_conn_params.o
+ .bss.m_update_count
+                0x20002580        0x1 _build/ble_conn_params.o
+ *fill*         0x20002581        0x3 
+ .bss.m_conn_params_config
+                0x20002584       0x1c _build/ble_conn_params.o
+ .bss.m_conn_params_timer_id_data
+                0x200025a0       0x20 _build/ble_conn_params.o
+ .bss.m_conn_handle
+                0x200025c0        0x2 _build/ble_conn_params.o
+ *fill*         0x200025c2        0x2 
+ .bss.m_preferred_conn_params
+                0x200025c4        0x8 _build/ble_conn_params.o
+ .bss.m_softdevice_enabled
+                0x200025cc        0x1 _build/softdevice_handler.o
+ *fill*         0x200025cd        0x1 
+ .bss.m_ble_evt_buffer_size
+                0x200025ce        0x2 _build/softdevice_handler.o
+ .bss.mp_ble_evt_buffer
+                0x200025d0        0x4 _build/softdevice_handler.o
+ .bss.m_sys_evt_handler
+                0x200025d4        0x4 _build/softdevice_handler.o
+ .bss.m_ble_evt_handler
+                0x200025d8        0x4 _build/softdevice_handler.o
+ .bss.m_evt_schedule_func
+                0x200025dc        0x4 _build/softdevice_handler.o
+ .bss.__malloc_sbrk_start
+                0x200025e0        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+                0x200025e0                __malloc_sbrk_start
+ .bss.__malloc_free_list
+                0x200025e4        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+                0x200025e4                __malloc_free_list
+ .bss.heap_end.4167
+                0x200025e8        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(sbrk.o)
+ *(COMMON)
+ COMMON         0x200025ec      0x453 _build/in4073.o
+                0x200025ec                say
+                0x200025ee                psi
+                0x200025f0                sensor_fifo_count
+                0x200025f2                saz
+                0x200025f4                rx_queue
+                0x200026fa                phi
+                0x200026fc                temperature
+                0x20002700                theta
+                0x20002704                pressure
+                0x20002708                tx_queue
+                0x2000280e                sax
+                0x20002810                sq
+                0x20002812                bat_volt
+                0x20002814                ble_rx_queue
+                0x2000291a                sp
+                0x2000291c                radio_active
+                0x20002920                motor
+                0x20002928                last_correct_checksum_time
+                0x2000292c                ble_tx_queue
+                0x20002a34                ae
+                0x20002a3c                sr
+                0x20002a3e                demo_done
+ *fill*         0x20002a3f        0x1 
+ COMMON         0x20002a40        0x5 _build/timers.o
+                0x20002a40                global_time
+                0x20002a44                timer_flag
+ *fill*         0x20002a45        0x3 
+ COMMON         0x20002a48        0x8 _build/baro.o
+                0x20002a48                D2
+                0x20002a4c                D1
+ COMMON         0x20002a50        0x4 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+                0x20002a50                errno
+                0x20002a54                . = ALIGN (0x4)
+                0x20002a54                __bss_end__ = .
+
+.heap           0x20002a58      0x800
+                0x20002a58                __end__ = .
+                0x20002a58                end = __end__
+ *(.heap*)
+ .heap          0x20002a58      0x800 _build/gcc_startup_nrf51.o
+                0x20002a58                __HeapBase
+                0x20003258                __HeapLimit = .
+
+.stack_dummy    0x20002a58      0x800
+ *(.stack*)
+ .stack         0x20002a58      0x800 _build/gcc_startup_nrf51.o
+                0x20004000                __StackTop = (ORIGIN (RAM) + LENGTH (RAM))
+                0x20003800                __StackLimit = (__StackTop - SIZEOF (.stack_dummy))
+                0x20004000                PROVIDE (__stack, __StackTop)
+                0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region RAM overflowed with stack)
+OUTPUT(_build/in4073.out elf32-littlearm)
+
+.ARM.attributes
+                0x00000000       0x28
+ .ARM.attributes
+                0x00000000       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+ .ARM.attributes
+                0x0000001e       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+ .ARM.attributes
+                0x0000004a       0x1b /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.attributes
+                0x00000065       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o)
+ .ARM.attributes
+                0x00000091       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-impure.o)
+ .ARM.attributes
+                0x000000bd       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-init.o)
+ .ARM.attributes
+                0x000000e9       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memset.o)
+ .ARM.attributes
+                0x00000115       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(_exit.o)
+ .ARM.attributes
+                0x00000141       0x31 _build/system_nrf51.o
+ .ARM.attributes
+                0x00000172       0x31 _build/nrf_delay.o
+ .ARM.attributes
+                0x000001a3       0x31 _build/in4073.o
+ .ARM.attributes
+                0x000001d4       0x31 _build/control.o
+ .ARM.attributes
+                0x00000205       0x31 _build/gpio.o
+ .ARM.attributes
+                0x00000236       0x31 _build/timers.o
+ .ARM.attributes
+                0x00000267       0x31 _build/uart.o
+ .ARM.attributes
+                0x00000298       0x31 _build/queue.o
+ .ARM.attributes
+                0x000002c9       0x31 _build/twi.o
+ .ARM.attributes
+                0x000002fa       0x31 _build/adc.o
+ .ARM.attributes
+                0x0000032b       0x31 _build/baro.o
+ .ARM.attributes
+                0x0000035c       0x31 _build/ble.o
+ .ARM.attributes
+                0x0000038d       0x31 _build/spi_flash.o
+ .ARM.attributes
+                0x000003be       0x31 _build/inv_mpu.o
+ .ARM.attributes
+                0x000003ef       0x31 _build/inv_mpu_dmp_motion_driver.o
+ .ARM.attributes
+                0x00000420       0x31 _build/ml.o
+ .ARM.attributes
+                0x00000451       0x31 _build/mpu_wrapper.o
+ .ARM.attributes
+                0x00000482       0x31 _build/app_error.o
+ .ARM.attributes
+                0x000004b3       0x31 _build/app_timer.o
+ .ARM.attributes
+                0x000004e4       0x31 _build/pstorage.o
+ .ARM.attributes
+                0x00000515       0x31 _build/ble_advdata.o
+ .ARM.attributes
+                0x00000546       0x31 _build/ble_advertising.o
+ .ARM.attributes
+                0x00000577       0x31 _build/ble_conn_params.o
+ .ARM.attributes
+                0x000005a8       0x31 _build/ble_nus.o
+ .ARM.attributes
+                0x000005d9       0x31 _build/softdevice_handler.o
+ .ARM.attributes
+                0x0000060a       0x1b _build/gcc_startup_nrf51.o
+ .ARM.attributes
+                0x00000625       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_fabs.o)
+ .ARM.attributes
+                0x00000651       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o)
+ .ARM.attributes
+                0x0000067d       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_atan2.o)
+ .ARM.attributes
+                0x000006a9       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o)
+ .ARM.attributes
+                0x000006d5       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_atan2.o)
+ .ARM.attributes
+                0x00000701       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_sqrt.o)
+ .ARM.attributes
+                0x0000072d       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+ .ARM.attributes
+                0x00000759       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_lib_ver.o)
+ .ARM.attributes
+                0x00000785       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_matherr.o)
+ .ARM.attributes
+                0x000007b1       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_nan.o)
+ .ARM.attributes
+                0x000007dd       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x000007fb       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divsi3.o)
+ .ARM.attributes
+                0x00000819       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_dvmd_tls.o)
+ .ARM.attributes
+                0x00000837       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpdf2.o)
+ .ARM.attributes
+                0x00000855       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_arm_cmpsf2.o)
+ .ARM.attributes
+                0x00000873       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_muldi3.o)
+ .ARM.attributes
+                0x0000089f       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_fixunssfsi.o)
+ .ARM.attributes
+                0x000008cb       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(addsf3.o)
+ .ARM.attributes
+                0x000008f7       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divsf3.o)
+ .ARM.attributes
+                0x00000923       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqsf2.o)
+ .ARM.attributes
+                0x0000094f       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gesf2.o)
+ .ARM.attributes
+                0x0000097b       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(lesf2.o)
+ .ARM.attributes
+                0x000009a7       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(mulsf3.o)
+ .ARM.attributes
+                0x000009d3       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subsf3.o)
+ .ARM.attributes
+                0x000009ff       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixsfsi.o)
+ .ARM.attributes
+                0x00000a2b       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatsisf.o)
+ .ARM.attributes
+                0x00000a57       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatunsisf.o)
+ .ARM.attributes
+                0x00000a83       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(adddf3.o)
+ .ARM.attributes
+                0x00000aaf       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divdf3.o)
+ .ARM.attributes
+                0x00000adb       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqdf2.o)
+ .ARM.attributes
+                0x00000b07       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gedf2.o)
+ .ARM.attributes
+                0x00000b33       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(ledf2.o)
+ .ARM.attributes
+                0x00000b5f       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(muldf3.o)
+ .ARM.attributes
+                0x00000b8b       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subdf3.o)
+ .ARM.attributes
+                0x00000bb7       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(unorddf2.o)
+ .ARM.attributes
+                0x00000be3       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixdfsi.o)
+ .ARM.attributes
+                0x00000c0f       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(extendsfdf2.o)
+ .ARM.attributes
+                0x00000c3b       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_clzsi2.o)
+ .ARM.attributes
+                0x00000c59       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-errno.o)
+ .ARM.attributes
+                0x00000c85       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcmp.o)
+ .ARM.attributes
+                0x00000cb1       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcpy-stub.o)
+ .ARM.attributes
+                0x00000cdd       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o)
+ .ARM.attributes
+                0x00000d09       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o)
+ .ARM.attributes
+                0x00000d35       0x1c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-strlen.o)
+ .ARM.attributes
+                0x00000d51       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .ARM.attributes
+                0x00000d7d       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fwalk.o)
+ .ARM.attributes
+                0x00000da9       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+ .ARM.attributes
+                0x00000dd5       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+ .ARM.attributes
+                0x00000e01       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .ARM.attributes
+                0x00000e2d       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .ARM.attributes
+                0x00000e59       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o)
+ .ARM.attributes
+                0x00000e85       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+ .ARM.attributes
+                0x00000eb1       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wbuf.o)
+ .ARM.attributes
+                0x00000edd       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-writer.o)
+ .ARM.attributes
+                0x00000f09       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wsetup.o)
+ .ARM.attributes
+                0x00000f35       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-closer.o)
+ .ARM.attributes
+                0x00000f61       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+ .ARM.attributes
+                0x00000f8d       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-lseekr.o)
+ .ARM.attributes
+                0x00000fb9       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o)
+ .ARM.attributes
+                0x00000fe5       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memchr-stub.o)
+ .ARM.attributes
+                0x00001011       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memmove.o)
+ .ARM.attributes
+                0x0000103d       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-mlock.o)
+ .ARM.attributes
+                0x00001069       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-freer.o)
+ .ARM.attributes
+                0x00001095       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-reallocr.o)
+ .ARM.attributes
+                0x000010c1       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-readr.o)
+ .ARM.attributes
+                0x000010ed       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+ .ARM.attributes
+                0x00001119       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fstatr.o)
+ .ARM.attributes
+                0x00001145       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-isattyr.o)
+ .ARM.attributes
+                0x00001171       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-msizer.o)
+ .ARM.attributes
+                0x0000119d       0x1e /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+ .ARM.attributes
+                0x000011bb       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)
+ .ARM.attributes
+                0x000011e7       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(fstat.o)
+ .ARM.attributes
+                0x00001213       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(isatty.o)
+ .ARM.attributes
+                0x0000123f       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(lseek.o)
+ .ARM.attributes
+                0x0000126b       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(read.o)
+ .ARM.attributes
+                0x00001297       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(sbrk.o)
+
+.comment        0x00000000       0x6e
+ .comment       0x00000000       0x6e _build/system_nrf51.o
+                                 0x6f (size before relaxing)
+ .comment       0x0000006e       0x6f _build/nrf_delay.o
+ .comment       0x0000006e       0x6f _build/in4073.o
+ .comment       0x0000006e       0x6f _build/control.o
+ .comment       0x0000006e       0x6f _build/gpio.o
+ .comment       0x0000006e       0x6f _build/timers.o
+ .comment       0x0000006e       0x6f _build/uart.o
+ .comment       0x0000006e       0x6f _build/queue.o
+ .comment       0x0000006e       0x6f _build/twi.o
+ .comment       0x0000006e       0x6f _build/adc.o
+ .comment       0x0000006e       0x6f _build/baro.o
+ .comment       0x0000006e       0x6f _build/ble.o
+ .comment       0x0000006e       0x6f _build/spi_flash.o
+ .comment       0x0000006e       0x6f _build/inv_mpu.o
+ .comment       0x0000006e       0x6f _build/inv_mpu_dmp_motion_driver.o
+ .comment       0x0000006e       0x6f _build/ml.o
+ .comment       0x0000006e       0x6f _build/mpu_wrapper.o
+ .comment       0x0000006e       0x6f _build/app_error.o
+ .comment       0x0000006e       0x6f _build/app_timer.o
+ .comment       0x0000006e       0x6f _build/pstorage.o
+ .comment       0x0000006e       0x6f _build/ble_advdata.o
+ .comment       0x0000006e       0x6f _build/ble_advertising.o
+ .comment       0x0000006e       0x6f _build/ble_conn_params.o
+ .comment       0x0000006e       0x6f _build/ble_nus.o
+ .comment       0x0000006e       0x6f _build/softdevice_handler.o
+
+.debug_frame    0x00000000      0xff4
+ .debug_frame   0x00000000       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-exit.o)
+ .debug_frame   0x00000028       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-init.o)
+ .debug_frame   0x00000054       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x00000074       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(_exit.o)
+ .debug_frame   0x00000094       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_fabs.o)
+ .debug_frame   0x000000b4       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_asin.o)
+ .debug_frame   0x000000ec       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-w_atan2.o)
+ .debug_frame   0x00000114       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_asin.o)
+ .debug_frame   0x0000014c       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_atan2.o)
+ .debug_frame   0x00000184       0x3c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-e_sqrt.o)
+ .debug_frame   0x000001c0       0x3c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_atan.o)
+ .debug_frame   0x000001fc       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_matherr.o)
+ .debug_frame   0x0000021c       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libm.a(lib_a-s_nan.o)
+ .debug_frame   0x0000023c       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_udivsi3.o)
+ .debug_frame   0x0000025c       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_divsi3.o)
+ .debug_frame   0x0000027c       0x34 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_muldi3.o)
+ .debug_frame   0x000002b0       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(_fixunssfsi.o)
+ .debug_frame   0x000002d8       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(addsf3.o)
+ .debug_frame   0x00000308       0x3c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divsf3.o)
+ .debug_frame   0x00000344       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqsf2.o)
+ .debug_frame   0x00000370       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gesf2.o)
+ .debug_frame   0x000003a0       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(lesf2.o)
+ .debug_frame   0x000003d0       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(mulsf3.o)
+ .debug_frame   0x00000408       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subsf3.o)
+ .debug_frame   0x00000438       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixsfsi.o)
+ .debug_frame   0x00000458       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatsisf.o)
+ .debug_frame   0x00000484       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(floatunsisf.o)
+ .debug_frame   0x000004b0       0x3c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(adddf3.o)
+ .debug_frame   0x000004ec       0x3c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(divdf3.o)
+ .debug_frame   0x00000528       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(eqdf2.o)
+ .debug_frame   0x00000560       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(gedf2.o)
+ .debug_frame   0x00000598       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(ledf2.o)
+ .debug_frame   0x000005d0       0x3c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(muldf3.o)
+ .debug_frame   0x0000060c       0x38 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(subdf3.o)
+ .debug_frame   0x00000644       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(unorddf2.o)
+ .debug_frame   0x00000670       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(fixdfsi.o)
+ .debug_frame   0x0000069c       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a(extendsfdf2.o)
+ .debug_frame   0x000006c8       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-errno.o)
+ .debug_frame   0x000006e8       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcmp.o)
+ .debug_frame   0x00000714       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x0000073c       0x50 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-printf.o)
+ .debug_frame   0x0000078c       0x50 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sprintf.o)
+ .debug_frame   0x000007dc      0x140 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-findfp.o)
+ .debug_frame   0x0000091c       0x58 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fwalk.o)
+ .debug_frame   0x00000974       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_frame   0x000009a0       0x74 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-svfprintf.o)
+ .debug_frame   0x00000a14       0x9c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .debug_frame   0x00000ab0       0x54 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .debug_frame   0x00000b04       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-sbrkr.o)
+ .debug_frame   0x00000b30       0x90 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-stdio.o)
+ .debug_frame   0x00000bc0       0x48 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wbuf.o)
+ .debug_frame   0x00000c08       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-writer.o)
+ .debug_frame   0x00000c34       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-wsetup.o)
+ .debug_frame   0x00000c60       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-closer.o)
+ .debug_frame   0x00000c8c       0x68 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fflush.o)
+ .debug_frame   0x00000cf4       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-lseekr.o)
+ .debug_frame   0x00000d20       0x54 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-makebuf.o)
+ .debug_frame   0x00000d74       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memchr-stub.o)
+ .debug_frame   0x00000d94       0x28 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-memmove.o)
+ .debug_frame   0x00000dbc       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-mlock.o)
+ .debug_frame   0x00000dec       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-freer.o)
+ .debug_frame   0x00000e18       0x30 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-reallocr.o)
+ .debug_frame   0x00000e48       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-readr.o)
+ .debug_frame   0x00000e74       0x48 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-reent.o)
+ .debug_frame   0x00000ebc       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-fstatr.o)
+ .debug_frame   0x00000ee8       0x2c /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-isattyr.o)
+ .debug_frame   0x00000f14       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a(lib_a-nano-msizer.o)
+ .debug_frame   0x00000f34       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)
+ .debug_frame   0x00000f54       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(fstat.o)
+ .debug_frame   0x00000f74       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(isatty.o)
+ .debug_frame   0x00000f94       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(lseek.o)
+ .debug_frame   0x00000fb4       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(read.o)
+ .debug_frame   0x00000fd4       0x20 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(sbrk.o)
+
+.stab           0x00000000       0x84
+ .stab          0x00000000       0x24 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)
+ .stab          0x00000024       0x18 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(fstat.o)
+                                 0x24 (size before relaxing)
+ .stab          0x0000003c       0x18 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(isatty.o)
+                                 0x24 (size before relaxing)
+ .stab          0x00000054       0x18 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(lseek.o)
+                                 0x24 (size before relaxing)
+ .stab          0x0000006c       0x18 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(read.o)
+                                 0x24 (size before relaxing)
+
+.stabstr        0x00000000      0x117
+ .stabstr       0x00000000      0x117 /home/ubuntu/Documents/ESL/software_package/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/libnosys.a(close.o)

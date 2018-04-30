@@ -1,0 +1,19 @@
+Welcome to the in4073 software pack!
+
+If you are on a 32bit system, everything !should! work out of the box.
+If not, you need to be able to run 32bit-compiled executables, like the arm-gcc version we provide.
+For Ubuntu 16.04 x86_64 for example, you need to install the lib32ncurses5 package. (sudo apt-get install lib32ncurses5)
+
+For starters cd to the in4073 folder, and read the in4073.c file. This is the quad side. 
+In the pc_terminal folder exists a sample pc terminal. Study this as well.
+
+After that read the Makefile to find out what rules are available (modify them as you see fit!).
+"make upload-run" is the most interesting one as it will compile both sides, upload the code to the quad and execute the pc side.
+
+p.s. If dfu_serial complains about pyserial, you can install it with "pip install pyserial". 
+      ("sudo apt-get install python-pip" on debian based if you are also missing pip)
+
+
+Have fun and remember: Google it before asking the TAs!
+
+
