@@ -54,3 +54,4 @@ dkms.conf
 
 # Others
 /in4073/pc-terminal
+*.pyc
