@@ -42,9 +42,7 @@ $(abspath ../components/drivers_nrf/delay/nrf_delay.c) \
 $(abspath ./in4073.c) \
 $(abspath ./control.c) \
 $(abspath ./drivers/gpio.c) \
-$(abspath ./drivers/timers.c) \
 $(abspath ./drivers/uart.c) \
-$(abspath ./drivers/queue.c) \
 $(abspath ./drivers/twi.c) \
 $(abspath ./drivers/adc.c) \
 $(abspath ./drivers/baro.c) \
@@ -55,9 +53,9 @@ $(abspath ./invensense/inv_mpu_dmp_motion_driver.c) \
 $(abspath ./invensense/ml.c) \
 $(abspath ./invensense/mpu_wrapper.c) \
 $(abspath ../components/libraries/util/app_error.c) \
-$(abspath ../components/libraries/timer/app_timer.c) \
 $(abspath ../components/libraries/util/nrf_assert.c) \
 $(abspath ../components/drivers_nrf/common/nrf_drv_common.c) \
+$(abspath ../components/drivers_nrf/clock/nrf_drv_clock.c ) \
 $(abspath ../components/drivers_nrf/pstorage/pstorage.c) \
 $(abspath ../components/ble/common/ble_advdata.c) \
 $(abspath ../components/ble/ble_advertising/ble_advertising.c) \
@@ -65,6 +63,22 @@ $(abspath ../components/ble/common/ble_conn_params.c) \
 $(abspath ../components/ble/ble_services/ble_nus/ble_nus.c) \
 $(abspath ../components/ble/common/ble_srv_common.c) \
 $(abspath ../components/softdevice/common/softdevice_handler/softdevice_handler.c) \
+$(abspath ./freertos/source/croutine.c) \
+$(abspath ./freertos/source/event_groups.c) \
+$(abspath ./freertos/source/portable/MemMang/heap_1.c) \
+$(abspath ./freertos/source/list.c) \
+$(abspath ./freertos/portable/GCC/nrf51/port.c) \
+$(abspath ./freertos/portable/CMSIS/nrf51/port_cmsis.c) \
+$(abspath ./freertos/portable/CMSIS/nrf51/port_cmsis_systick.c) \
+$(abspath ./freertos/source/queue.c) \
+$(abspath ./freertos/source/tasks.c) \
+$(abspath ./freertos/source/timers.c) \
+#freertos addes stuff
+
+#$(abspath ../components/libraries/timer/app_timer.c) \
+#$(abspath ./drivers/queue.c) \
+#$(abspath ./drivers/timers.c) \
+
 
 #assembly files common to all targets
 ASM_SOURCE_FILES  = $(abspath ../components/toolchain/gcc/gcc_startup_nrf51.s)
@@ -81,6 +95,8 @@ INC_PATHS += -I$(abspath ../components/drivers_nrf/hal)
 INC_PATHS += -I$(abspath ../components/drivers_nrf/delay)
 INC_PATHS += -I$(abspath ../components/softdevice/s110/headers)
 INC_PATHS += -I$(abspath ../components/drivers_nrf/config)
+INC_PATHS += -I$(abspath ../components/drivers_nrf/clock)
+INC_PATHS += -I$(abspath ../components/drivers_nrf/rtc)
 INC_PATHS += -I$(abspath ../components/libraries/util)
 INC_PATHS += -I$(abspath ../components/ble/common)
 INC_PATHS += -I$(abspath ../components/drivers_nrf/pstorage)
@@ -90,6 +106,13 @@ INC_PATHS += -I$(abspath ../components/drivers_nrf/common)
 INC_PATHS += -I$(abspath ../components/ble/ble_advertising)
 INC_PATHS += -I$(abspath ../components/libraries/trace)
 INC_PATHS += -I$(abspath ../components/softdevice/common/softdevice_handler)
+
+#free rtos addes stuff
+INC_PATHS += -I$(abspath ./freertos)
+INC_PATHS += -I$(abspath ./freertos/source/include)
+INC_PATHS += -I$(abspath ./freertos/portable/GCC/nrf51)
+INC_PATHS += -I$(abspath ./freertos/portable/CMSIS/nrf51)
+
 
 
 OBJECT_DIRECTORY = _build
@@ -111,6 +134,8 @@ CFLAGS += -mfloat-abi=soft # we don't want floats - no hardware fpu
 # keep every function in separate section. This will allow linker to dump unused functions
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
 CFLAGS += -fno-builtin --short-enums
+CFLAGS += -DFREERTOS
+
 
 # keep every function in separate section. This will allow linker to dump unused functions
 LDFLAGS += -Xlinker -Map=$(LISTING_DIRECTORY)/$(OUTPUT_FILENAME).map
@@ -129,6 +154,7 @@ ASMFLAGS += -x assembler-with-cpp
 ASMFLAGS += -DNRF51
 ASMFLAGS += -DSOFTDEVICE_PRESENT
 ASMFLAGS += -DS110
+ASMFLAGS += -DFREERTOS
 ASMFLAGS += -DBLE_STACK_SUPPORT_REQD
 #default target - first one defined
 

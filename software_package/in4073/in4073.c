@@ -15,10 +15,20 @@
 
 #include "in4073.h"
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "timers.h"
+
+#include "nordic_common.h"
+#include "nrf_drv_clock.h"
+#include "sdk_errors.h"
+#include "app_error.h"
+
 /*------------------------------------------------------------------
  * process_key -- process command keys
  *------------------------------------------------------------------
  */
+/*
 void process_key(uint8_t c)
 {
 	switch (c)
@@ -58,23 +68,23 @@ void process_key(uint8_t c)
 			nrf_gpio_pin_toggle(RED);
 	}
 }
-
+*/
 /*------------------------------------------------------------------
  * main -- everything you need is here :)
  *------------------------------------------------------------------
  */
 int main(void)
 {
-	uart_init();
-	gpio_init();
-	timers_init();
-	adc_init();
-	twi_init();
-	imu_init(true, 100);	
-	baro_init();
-	spi_flash_init();
-	ble_init();
-
+	// uart_init();
+	// gpio_init();
+	// timers_init();
+	// adc_init();
+	// twi_init();
+	// imu_init(true, 100);	
+	// baro_init();
+	// spi_flash_init();
+	// ble_init();
+/*
 	uint32_t counter = 0;
 	demo_done = false;
 
@@ -104,9 +114,9 @@ int main(void)
 			run_filters_and_control();
 		}
 	}	
-
-	printf("\n\t Goodbye \n\n");
-	nrf_delay_ms(100);
+*/
+	//printf("\n\t Goodbye \n\n");
+	//nrf_delay_ms(100);
 
 	NVIC_SystemReset();
 }
