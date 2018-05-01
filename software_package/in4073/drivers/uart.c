@@ -39,6 +39,9 @@ void UART0_IRQHandler(void)
 	if (NRF_UART0->EVENTS_RXDRDY != 0)
 	{
 		NRF_UART0->EVENTS_RXDRDY  = 0;
+
+		//TODO serial state machine here
+		
 		enqueue( &rx_queue, NRF_UART0->RXD);
 	}
 
