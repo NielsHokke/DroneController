@@ -12,7 +12,7 @@
  *  June 2016
  *------------------------------------------------------------------
  */
-
+#define __STACK_SIZE 512
 #include "in4073.h"
 
 #include "FreeRTOS.h"
@@ -73,10 +73,30 @@ void process_key(uint8_t c)
  * main -- everything you need is here :)
  *------------------------------------------------------------------
  */
+
+#define TASK_DELAY      200 
+
+static void led_toggle_task_function (void * pvParameter)
+{
+    UNUSED_PARAMETER(pvParameter);
+    while (true)
+    {
+        nrf_gpio_pin_toggle(BLUE);
+
+        /* Delay a task for a given number of ticks */
+        vTaskDelay(TASK_DELAY);
+
+        /* Tasks must be implemented to never return... */
+    }
+}
+
+
+
+
 int main(void)
 {
 	// uart_init();
-	// gpio_init();
+	gpio_init();
 	// timers_init();
 	// adc_init();
 	// twi_init();
@@ -84,6 +104,34 @@ int main(void)
 	// baro_init();
 	// spi_flash_init();
 	// ble_init();
+
+    
+
+    /* Optional Initialize clock driver for better time accuracy in FREERTOS */
+    /*
+    ret_code_t err_code;
+    err_code = nrf_drv_clock_init(NULL);
+    APP_ERROR_CHECK(err_code);
+	*/
+
+	/* Create task for LED0 blinking with priority set to 2 */
+    UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED0", 128, NULL, 2, NULL));
+
+    /* Activate deep sleep mode */
+    SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+
+    /* Start FreeRTOS scheduler. */
+    vTaskStartScheduler();
+
+    while (true)
+    {
+        /* FreeRTOS should not be here... FreeRTOS goes back to the start of stack
+         * in vTaskStartScheduler function. */
+    }
+
+
+
+
 /*
 	uint32_t counter = 0;
 	demo_done = false;
