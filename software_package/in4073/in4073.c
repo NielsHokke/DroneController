@@ -25,7 +25,7 @@
 #include "app_error.h"
 
 #define CONTROL_PERIOD 10
-#define SENSOR_LOOP 1
+#define SENSOR_LOOP 10
 
 /*------------------------------------------------------------------
  * process_key -- process command keys
@@ -94,7 +94,16 @@ static void led_toggle_task_function (void * pvParameter)
     }
 }
 
-static void vControlLoop(void *pvParameter){
+/*--------------------------------------------------------------------------------------
+ * control_loop: task containing the control loop of the quad-copter
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
+static void control_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task 
@@ -131,25 +140,52 @@ static void vControlLoop(void *pvParameter){
 	}	
 }
 
-static void vSensorLoop(void *pvParameter){
+/*--------------------------------------------------------------------------------------
+ * sensor_loop: task to read out and perform filtering on the acllerco +gyro data
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
+static void sensor_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
+
 	const TickType_t xFrequency = SENSOR_LOOP; //period of task 
 
 	for(;;){
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );		
 	}
 
-static void vBatteryCheck(void *pvParameter){
+}
+
+/*--------------------------------------------------------------------------------------
+ * vCheck_battery_voltage:    Checks the battery voltage and triggers panic mode if low
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
+static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	for(;;){
+		nrf_gpio_pin_toggle(BLUE);
+
 		adc_request_sample();
-		vTaskDelay()		
+		vTaskDelay(1);
+		if (bat_volt > 123){
+			//TODO: goto panic mode	
+		}
+		vTaskDelay(999);
+
 	}
 }
 
-	
-}
+
 
 
 int main(void)
@@ -168,9 +204,9 @@ int main(void)
 
 	/* Create task for LED0 blinking with priority set to 2 */
     // UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED", 128, NULL, 2, NULL));
-    UNUSED_VARIABLE(xTaskCreate(vControlLoop, "control loop", 128, NULL, 1, NULL));
-	UNUSED_VARIABLE(xTaskCreate(vSensorLoop, "Sensor loop", 128, NULL, 2, NULL));
-	UNUSED_VARIABLE(xTaskCreate(vControlLoop, "Data", 128, NULL, 1, NULL));
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 3, NULL));
 
     /* Activate deep sleep mode */
     SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
