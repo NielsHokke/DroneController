@@ -33,6 +33,55 @@ int _write(int file, const char * p_char, int len)
 	return len;
 }
 
+/*------------------------------------------------------------------
+ * handle_serial_rx -- 	Handles incoming Serial bytes via a state
+ *						Machine. scheduls 'CTRL Validation' and 
+ *						'PARA Validation' tasks
+ * Parameters:			char c newest recieved input char
+ * Author:	Niels Hokke
+ * Date:	2-5-2018
+ *------------------------------------------------------------------
+ */
+void handle_serial_rx(char c){
+		
+	switch(serialstate){
+		case IDLE:
+			if(c == 0xAA){ // control message start byte
+				enqueue(&rx_queue, c);
+				byte_counter = CTRL_DATA_LENGTH + 1; // data lenght + 1 CRC byte
+				serialstate = CTRL;
+			}else if (c == 0x55){// parameter message start byte
+				enqueue(&rx_queue, c);
+				byte_counter = PARA_DATA_LENGTH + 1; // data lenght + 1 CRC byte
+				serialstate = PARA;
+			}
+
+			DEBUG_PRINT("recieved: dec %d\n", c);
+			//TODO reset timetout
+			break;
+		case CTRL:
+			enqueue(&rx_queue, c);
+			if(--byte_counter == 0){
+				//TODO schedule CTRL Validation task
+				init_queue(&rx_queue); // flush queue
+				serialstate = IDLE;
+				DEBUG_PRINT("CTRL message recieved");
+			}
+			break;
+		case PARA:
+			enqueue(&rx_queue, c);
+			if(--byte_counter == 0){
+				//TODO schedule PARA Validation task
+				init_queue(&rx_queue); // flush queue
+				serialstate = IDLE;
+				DEBUG_PRINT("PARA message recieved");
+			}
+			break;
+		default:
+			nrf_gpio_pin_toggle(RED);
+	}
+}
+
 
 void UART0_IRQHandler(void)
 {
@@ -40,9 +89,8 @@ void UART0_IRQHandler(void)
 	{
 		NRF_UART0->EVENTS_RXDRDY  = 0;
 
-		//TODO serial state machine here
-		
-		enqueue( &rx_queue, NRF_UART0->RXD);
+		handle_serial_rx(NRF_UART0->RXD);
+
 	}
 
 	if (NRF_UART0->EVENTS_TXDRDY != 0)
@@ -63,6 +111,8 @@ void uart_init(void)
 {
 	init_queue(&rx_queue); // Initialize receive queue
 	init_queue(&tx_queue); // Initialize transmit queue
+
+	serialstate = IDLE;
 
 	nrf_gpio_cfg_output(TX_PIN_NUMBER);
 	nrf_gpio_cfg_input(RX_PIN_NUMBER, NRF_GPIO_PIN_NOPULL); 

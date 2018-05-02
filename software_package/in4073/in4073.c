@@ -75,28 +75,31 @@ int main(void)
 	spi_flash_init();
 	ble_init();
 
-	uint32_t counter = 0;
 	demo_done = false;
+
+	DEBUG_PRINT("Started!\n");
+	uint8_t counter = 1;
+	DEBUG_PRINT("counter: %d\n", counter);
 
 	while (!demo_done)
 	{
-		if (rx_queue.count) process_key( dequeue(&rx_queue) );
+		// if (rx_queue.count) process_key( dequeue(&rx_queue) );
 
-		if (check_timer_flag()) 
-		{
-			if (counter++%20 == 0) nrf_gpio_pin_toggle(BLUE);
+		// if (check_timer_flag()) 
+		// {
+		// 	if (counter++%20 == 0) nrf_gpio_pin_toggle(BLUE);
 
-			adc_request_sample();
-			read_baro();
+		// 	adc_request_sample();
+		// 	read_baro();
 
-			printf("%10ld | ", get_time_us());
-			printf("%3d %3d %3d %3d | ",ae[0],ae[1],ae[2],ae[3]);
-			printf("%6d %6d %6d | ", phi, theta, psi);
-			printf("%6d %6d %6d | ", sp, sq, sr);
-			printf("%4d | %4ld | %6ld \n", bat_volt, temperature, pressure);
+		// 	printf("%10ld | ", get_time_us());
+		// 	printf("%3d %3d %3d %3d | ",ae[0],ae[1],ae[2],ae[3]);
+		// 	printf("%6d %6d %6d | ", phi, theta, psi);
+		// 	printf("%6d %6d %6d | ", sp, sq, sr);
+		// 	printf("%4d | %4ld | %6ld \n", bat_volt, temperature, pressure);
 
-			clear_timer_flag();
-		}
+		// 	clear_timer_flag();
+		// }
 
 		if (check_sensor_int_flag()) 
 		{
