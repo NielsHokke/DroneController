@@ -12,13 +12,26 @@
  *  June 2016
  *------------------------------------------------------------------
  */
-
 #include "in4073.h"
+
+#include "FreeRTOS.h"
+#include "rtos_task.h"
+#include "rtos_queue.h"
+#include "rtos_timers.h"
+
+#include "nordic_common.h"
+#include "nrf_drv_clock.h"
+#include "sdk_errors.h"
+#include "app_error.h"
+
+#define CONTROL_PERIOD 10
+#define SENSOR_LOOP 10
 
 /*------------------------------------------------------------------
  * process_key -- process command keys
  *------------------------------------------------------------------
  */
+/*
 void process_key(uint8_t c)
 {
 	switch (c)
@@ -58,58 +71,154 @@ void process_key(uint8_t c)
 			nrf_gpio_pin_toggle(RED);
 	}
 }
-
+*/
 /*------------------------------------------------------------------
  * main -- everything you need is here :)
  *------------------------------------------------------------------
  */
+
+#define TASK_DELAY      200 
+
+static void led_toggle_task_function (void * pvParameter)
+{
+    UNUSED_PARAMETER(pvParameter);
+    while (true)
+    {
+        nrf_gpio_pin_toggle(BLUE);
+
+        /* Delay a task for a given number of ticks */
+        // printf("\n\t blink \n\n");
+        vTaskDelay(TASK_DELAY);
+
+        /* Tasks must be implemented to never return... */
+    }
+}
+
+/*--------------------------------------------------------------------------------------
+ * control_loop: task containing the control loop of the quad-copter
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
+static void control_loop(void *pvParameter){
+	UNUSED_PARAMETER(pvParameter);
+	TickType_t xLastWakeTime;
+	const TickType_t xFrequency = CONTROL_PERIOD; //period of task 
+
+	uint32_t time;
+	for(;;){
+		time = xTaskGetTickCount();
+
+		printf("adc %10ld \n",xTaskGetTickCount() - time);
+
+		time = xTaskGetTickCount();
+		read_baro();
+		printf("baro %10ld \n",xTaskGetTickCount() - time);
+
+
+		
+		if (check_sensor_int_flag()) 
+		{
+			time = xTaskGetTickCount();
+			get_dmp_data();
+			run_filters_and_control();
+			printf("measure shit %10ld \n",xTaskGetTickCount() - time);
+
+			printf("%10ld | ", get_time_us());
+			printf("%3d %3d %3d %3d | ",ae[0],ae[1],ae[2],ae[3]);
+			printf("%6d %6d %6d | ", phi, theta, psi);
+			printf("%6d %6d %6d | ", sp, sq, sr);
+			printf("%4d | %4ld | %6ld \n", bat_volt, temperature, pressure);
+		}
+		
+
+
+		vTaskDelayUntil( &xLastWakeTime, xFrequency );
+	}	
+}
+
+/*--------------------------------------------------------------------------------------
+ * sensor_loop: task to read out and perform filtering on the acllerco +gyro data
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
+static void sensor_loop(void *pvParameter){
+	UNUSED_PARAMETER(pvParameter);
+	TickType_t xLastWakeTime;
+
+	const TickType_t xFrequency = SENSOR_LOOP; //period of task 
+
+	for(;;){
+		vTaskDelayUntil( &xLastWakeTime, xFrequency );		
+	}
+
+}
+
+/*--------------------------------------------------------------------------------------
+ * vCheck_battery_voltage:    Checks the battery voltage and triggers panic mode if low
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
+static void check_battery_voltage(void *pvParameter){
+	UNUSED_PARAMETER(pvParameter);
+	for(;;){
+		nrf_gpio_pin_toggle(BLUE);
+
+		adc_request_sample();
+		vTaskDelay(1);
+		if (bat_volt > 123){
+			//TODO: goto panic mode	
+		}
+		vTaskDelay(999);
+
+	}
+}
+
+
+
+
 int main(void)
 {
 	uart_init();
 	gpio_init();
-	timers_init();
+	// timers_init();
 	adc_init();
 	twi_init();
 	imu_init(true, 100);	
 	baro_init();
 	spi_flash_init();
-	ble_init();
+	// ble_init();
 
-	demo_done = false;
+	
 
-	DEBUG_PRINT("Started!\n");
-	uint8_t counter = 1;
-	DEBUG_PRINT("counter: %d\n", counter);
+	/* Create task for LED0 blinking with priority set to 2 */
+    // UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED", 128, NULL, 2, NULL));
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 3, NULL));
 
-	while (!demo_done)
-	{
-		// if (rx_queue.count) process_key( dequeue(&rx_queue) );
+    /* Activate deep sleep mode */
+    SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
 
-		// if (check_timer_flag()) 
-		// {
-		// 	if (counter++%20 == 0) nrf_gpio_pin_toggle(BLUE);
+    /* Start FreeRTOS scheduler. */
+    //UNUSED_VARIABLE(xTimerCreateTimerTask);
+    vTaskStartScheduler();
 
-		// 	adc_request_sample();
-		// 	read_baro();
-
-		// 	printf("%10ld | ", get_time_us());
-		// 	printf("%3d %3d %3d %3d | ",ae[0],ae[1],ae[2],ae[3]);
-		// 	printf("%6d %6d %6d | ", phi, theta, psi);
-		// 	printf("%6d %6d %6d | ", sp, sq, sr);
-		// 	printf("%4d | %4ld | %6ld \n", bat_volt, temperature, pressure);
-
-		// 	clear_timer_flag();
-		// }
-
-		if (check_sensor_int_flag()) 
-		{
-			get_dmp_data();
-			run_filters_and_control();
-		}
-	}	
-
-	printf("\n\t Goodbye \n\n");
-	nrf_delay_ms(100);
-
+    while (true)
+    {
+        /* FreeRTOS should not be here... FreeRTOS goes back to the start of stack
+         * in vTaskStartScheduler function. */
+    }
 	NVIC_SystemReset();
 }
