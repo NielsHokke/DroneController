@@ -14,11 +14,6 @@
  */
 #include "in4073.h"
 
-#include "FreeRTOS.h"
-#include "rtos_task.h"
-#include "rtos_queue.h"
-#include "rtos_timers.h"
-
 #include "nordic_common.h"
 #include "nrf_drv_clock.h"
 #include "sdk_errors.h"
@@ -163,10 +158,10 @@ static void sensor_loop(void *pvParameter){
 
 /*--------------------------------------------------------------------------------------
  * vCheck_battery_voltage:    Checks the battery voltage and triggers panic mode if low
- * Parameters: pointer to function parameters
- * Return:   void
- * Author:    Jetse Brouwer
- * Date:    2-5-2018
+ * Parameters: 	pointer to function parameters
+ * Return:		void
+ * Author:		Jetse Brouwer
+ * Date:    	2-5-2018
  *--------------------------------------------------------------------------------------
  */
 
@@ -204,9 +199,9 @@ int main(void)
 
 	/* Create task for LED0 blinking with priority set to 2 */
     // UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED", 128, NULL, 2, NULL));
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 1, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
-	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 3, NULL));
+    //UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 5, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 4, NULL));
+	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
 
     /* Activate deep sleep mode */
     SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
