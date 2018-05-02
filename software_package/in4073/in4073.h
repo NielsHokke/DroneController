@@ -11,6 +11,12 @@
 #ifndef IN4073_H__
 #define IN4073_H__
 
+#define DEBUG 1
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define DEBUG_PRINT(fmt, args...) do { if (DEBUG) fprintf(stderr, "DEBUG: %s:%d:%s(): " \
+fmt, __FILENAME__, __LINE__, __func__, ##args);} while (0)
+
+
 #include <inttypes.h>
 #include <stdio.h>
 #include "nrf_gpio.h"
@@ -20,6 +26,7 @@
 #include "ml.h"
 #include "app_util_platform.h"
 #include <math.h>
+#include <string.h>
 
 #define RED		22
 #define YELLOW		24
@@ -62,6 +69,16 @@ queue tx_queue;
 uint32_t last_correct_checksum_time;
 void uart_init(void);
 void uart_put(uint8_t);
+uint8_t byte_counter;
+
+enum SerialStates{
+	IDLE,
+	CTRL,
+	PARA
+};
+enum SerialStates serialstate;
+#define CTRL_DATA_LENGTH 4
+#define PARA_DATA_LENGTH 5
 
 // TWI
 #define TWI_SCL	4
