@@ -43,38 +43,57 @@ int _write(int file, const char * p_char, int len)
  *------------------------------------------------------------------
  */
 void handle_serial_rx(char c){
+
+	static char ctrl_buffer[CTRL_DATA_LENGTH+2];
+	static char para_buffer[PARA_DATA_LENGTH+2];
+	static uint8_t byte_counter;
 		
 	switch(serialstate){
 		case IDLE:
 			if(c == 0xAA){ // control message start byte
-				enqueue(&rx_queue, c);
-				byte_counter = CTRL_DATA_LENGTH + 1; // data lenght + 1 CRC byte
+				byte_counter = 0;
+				ctrl_buffer[byte_counter++] = c;
 				serialstate = CTRL;
 			}else if (c == 0x55){// parameter message start byte
-				enqueue(&rx_queue, c);
-				byte_counter = PARA_DATA_LENGTH + 1; // data lenght + 1 CRC byte
+				byte_counter = 0; 
+				para_buffer[byte_counter++] = c;
 				serialstate = PARA;
 			}
 
 			DEBUG_PRINT("recieved: dec %d\n", c);
 			//TODO reset timetout
 			break;
+
 		case CTRL:
-			enqueue(&rx_queue, c);
-			if(--byte_counter == 0){
+			ctrl_buffer[byte_counter++] = c;
+			if(byte_counter == CTRL_DATA_LENGTH + 2){ // data lenght + 1 CRC byte
 				//TODO schedule CTRL Validation task
-				init_queue(&rx_queue); // flush queue
+				
 				serialstate = IDLE;
-				DEBUG_PRINT("CTRL message recieved");
+				DEBUG_PRINT("CTRL message recieved:\n");
+				DEBUG_PRINT("strt_byte: %d\n", ctrl_buffer[0]);
+				DEBUG_PRINT("yaw: %d\n", ctrl_buffer[1]);
+				DEBUG_PRINT("pitch:%d\n", ctrl_buffer[2]);
+				DEBUG_PRINT("roll: %d\n", ctrl_buffer[3]);
+				DEBUG_PRINT("lift: %d\n", ctrl_buffer[4]);
+				DEBUG_PRINT("CRC: %d\n", ctrl_buffer[5]);
 			}
 			break;
+
 		case PARA:
-			enqueue(&rx_queue, c);
-			if(--byte_counter == 0){
+			para_buffer[byte_counter++] = c;
+			if(byte_counter == PARA_DATA_LENGTH + 2){ // data lenght + 1 CRC byte
 				//TODO schedule PARA Validation task
-				init_queue(&rx_queue); // flush queue
+
 				serialstate = IDLE;
-				DEBUG_PRINT("PARA message recieved");
+				DEBUG_PRINT("PARA message recieved\n");
+				DEBUG_PRINT("strt_byte: %d\n", para_buffer[0]);
+				DEBUG_PRINT("Reg.addres: %d\n", para_buffer[1]);
+				DEBUG_PRINT("data%d\n", para_buffer[2]);
+				DEBUG_PRINT("data: %d\n", para_buffer[3]);
+				DEBUG_PRINT("data: %d\n", para_buffer[4]);
+				DEBUG_PRINT("data: %d\n", para_buffer[5]);
+				DEBUG_PRINT("CRC: %d\n", para_buffer[6]);
 			}
 			break;
 		default:
