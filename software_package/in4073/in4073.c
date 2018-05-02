@@ -24,6 +24,9 @@
 #include "sdk_errors.h"
 #include "app_error.h"
 
+#define CONTROL_PERIOD 10
+#define SENSOR_LOOP 1
+
 /*------------------------------------------------------------------
  * process_key -- process command keys
  *------------------------------------------------------------------
@@ -84,13 +87,69 @@ static void led_toggle_task_function (void * pvParameter)
         nrf_gpio_pin_toggle(BLUE);
 
         /* Delay a task for a given number of ticks */
+        // printf("\n\t blink \n\n");
         vTaskDelay(TASK_DELAY);
 
         /* Tasks must be implemented to never return... */
     }
 }
 
+static void vControlLoop(void *pvParameter){
+	UNUSED_PARAMETER(pvParameter);
+	TickType_t xLastWakeTime;
+	const TickType_t xFrequency = CONTROL_PERIOD; //period of task 
 
+	uint32_t time;
+	for(;;){
+		time = xTaskGetTickCount();
+
+		printf("adc %10ld \n",xTaskGetTickCount() - time);
+
+		time = xTaskGetTickCount();
+		read_baro();
+		printf("baro %10ld \n",xTaskGetTickCount() - time);
+
+
+		
+		if (check_sensor_int_flag()) 
+		{
+			time = xTaskGetTickCount();
+			get_dmp_data();
+			run_filters_and_control();
+			printf("measure shit %10ld \n",xTaskGetTickCount() - time);
+
+			printf("%10ld | ", get_time_us());
+			printf("%3d %3d %3d %3d | ",ae[0],ae[1],ae[2],ae[3]);
+			printf("%6d %6d %6d | ", phi, theta, psi);
+			printf("%6d %6d %6d | ", sp, sq, sr);
+			printf("%4d | %4ld | %6ld \n", bat_volt, temperature, pressure);
+		}
+		
+
+
+		vTaskDelayUntil( &xLastWakeTime, xFrequency );
+	}	
+}
+
+static void vSensorLoop(void *pvParameter){
+	UNUSED_PARAMETER(pvParameter);
+	TickType_t xLastWakeTime;
+	const TickType_t xFrequency = SENSOR_LOOP; //period of task 
+
+	for(;;){
+		vTaskDelayUntil( &xLastWakeTime, xFrequency );		
+	}
+
+static void vBatteryCheck(void *pvParameter){
+	UNUSED_PARAMETER(pvParameter);
+	for(;;){
+		adc_request_sample();
+		vTaskDelay()		
+	}
+}
+
+	
+}
 
 
 int main(void)
@@ -105,17 +164,13 @@ int main(void)
 	spi_flash_init();
 	// ble_init();
 
-    
-
-    /* Optional Initialize clock driver for better time accuracy in FREERTOS */
-    /*
-    ret_code_t err_code;
-    err_code = nrf_drv_clock_init(NULL);
-    APP_ERROR_CHECK(err_code);
-	*/
+	
 
 	/* Create task for LED0 blinking with priority set to 2 */
-    UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED0", 128, NULL, 2, NULL));
+    // UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED", 128, NULL, 2, NULL));
+    UNUSED_VARIABLE(xTaskCreate(vControlLoop, "control loop", 128, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(vSensorLoop, "Sensor loop", 128, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(vControlLoop, "Data", 128, NULL, 1, NULL));
 
     /* Activate deep sleep mode */
     SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
@@ -129,43 +184,5 @@ int main(void)
         /* FreeRTOS should not be here... FreeRTOS goes back to the start of stack
          * in vTaskStartScheduler function. */
     }
-
-
-
-
-/*
-	uint32_t counter = 0;
-	demo_done = false;
-
-	while (!demo_done)
-	{
-		if (rx_queue.count) process_key( dequeue(&rx_queue) );
-
-		if (check_timer_flag()) 
-		{
-			if (counter++%20 == 0) nrf_gpio_pin_toggle(BLUE);
-
-			adc_request_sample();
-			read_baro();
-
-			printf("%10ld | ", get_time_us());
-			printf("%3d %3d %3d %3d | ",ae[0],ae[1],ae[2],ae[3]);
-			printf("%6d %6d %6d | ", phi, theta, psi);
-			printf("%6d %6d %6d | ", sp, sq, sr);
-			printf("%4d | %4ld | %6ld \n", bat_volt, temperature, pressure);
-
-			clear_timer_flag();
-		}
-
-		if (check_sensor_int_flag()) 
-		{
-			get_dmp_data();
-			run_filters_and_control();
-		}
-	}	
-*/
-	//printf("\n\t Goodbye \n\n");
-	//nrf_delay_ms(100);
-
 	NVIC_SystemReset();
 }
