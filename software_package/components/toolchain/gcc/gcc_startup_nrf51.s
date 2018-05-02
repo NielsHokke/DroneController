@@ -41,7 +41,7 @@ expected to be copied into the application project folder prior to its use!
 #ifdef __STACK_SIZE
     .equ    Stack_Size, __STACK_SIZE
 #else
-    .equ    Stack_Size, 512
+    .equ    Stack_Size, 2048 
 #endif
     .globl    __StackTop
     .globl    __StackLimit
@@ -56,7 +56,12 @@ __StackTop:
 #ifdef __HEAP_SIZE
     .equ    Heap_Size, __HEAP_SIZE
 #else
-    .equ    Heap_Size, 2048
+/*
+https://devzone.nordicsemi.com/f/nordic-q-a/1222/ld-region-ram-overflowed-with-stack:
+set to 0 ". In particular, you can safely set the heap size to 0 if you don't use malloc and friends in your application;
+neither the SDK nor the softdevices use it."
+*/
+    .equ    Heap_Size, 0
 #endif
     .globl    __HeapBase
     .globl    __HeapLimit

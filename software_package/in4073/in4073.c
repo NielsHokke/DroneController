@@ -12,12 +12,12 @@
  *  June 2016
  *------------------------------------------------------------------
  */
-#define __STACK_SIZE 512
 #include "in4073.h"
 
 #include "FreeRTOS.h"
-#include "task.h"
-#include "timers.h"
+#include "rtos_task.h"
+#include "rtos_queue.h"
+#include "rtos_timers.h"
 
 #include "nordic_common.h"
 #include "nrf_drv_clock.h"
@@ -95,14 +95,14 @@ static void led_toggle_task_function (void * pvParameter)
 
 int main(void)
 {
-	// uart_init();
+	uart_init();
 	gpio_init();
 	// timers_init();
-	// adc_init();
-	// twi_init();
-	// imu_init(true, 100);	
-	// baro_init();
-	// spi_flash_init();
+	adc_init();
+	twi_init();
+	imu_init(true, 100);	
+	baro_init();
+	spi_flash_init();
 	// ble_init();
 
     
@@ -121,6 +121,7 @@ int main(void)
     SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
 
     /* Start FreeRTOS scheduler. */
+    //UNUSED_VARIABLE(xTimerCreateTimerTask);
     vTaskStartScheduler();
 
     while (true)

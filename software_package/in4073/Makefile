@@ -42,43 +42,52 @@ $(abspath ../components/drivers_nrf/delay/nrf_delay.c) \
 $(abspath ./in4073.c) \
 $(abspath ./control.c) \
 $(abspath ./drivers/gpio.c) \
-$(abspath ./drivers/uart.c) \
-$(abspath ./drivers/twi.c) \
-$(abspath ./drivers/adc.c) \
-$(abspath ./drivers/baro.c) \
-$(abspath ./drivers/ble.c) \
-$(abspath ./drivers/spi_flash.c) \
-$(abspath ./invensense/inv_mpu.c) \
-$(abspath ./invensense/inv_mpu_dmp_motion_driver.c) \
-$(abspath ./invensense/ml.c) \
-$(abspath ./invensense/mpu_wrapper.c) \
-$(abspath ../components/libraries/util/app_error.c) \
-$(abspath ../components/libraries/util/nrf_assert.c) \
-$(abspath ../components/drivers_nrf/common/nrf_drv_common.c) \
-$(abspath ../components/drivers_nrf/clock/nrf_drv_clock.c ) \
-$(abspath ../components/drivers_nrf/pstorage/pstorage.c) \
+$(abspath ./freertos/source/rtos_tasks.c) \
+$(abspath ./freertos/source/rtos_queue.c) \
+$(abspath ./freertos/source/rtos_list.c) \
+$(abspath ./freertos/source/rtos_timers.c) \
+$(abspath ./freertos/portable/GCC/nrf51/port.c) \
+$(abspath ./freertos/source/portable/MemMang/heap_1.c) \
+$(abspath ./freertos/portable/CMSIS/nrf51/port_cmsis.c) \
+$(abspath ./freertos/portable/CMSIS/nrf51/port_cmsis_systick.c) \
 $(abspath ../components/ble/common/ble_advdata.c) \
 $(abspath ../components/ble/ble_advertising/ble_advertising.c) \
 $(abspath ../components/ble/common/ble_conn_params.c) \
 $(abspath ../components/ble/ble_services/ble_nus/ble_nus.c) \
 $(abspath ../components/ble/common/ble_srv_common.c) \
 $(abspath ../components/softdevice/common/softdevice_handler/softdevice_handler.c) \
-$(abspath ./freertos/source/croutine.c) \
-$(abspath ./freertos/source/event_groups.c) \
-$(abspath ./freertos/source/portable/MemMang/heap_1.c) \
-$(abspath ./freertos/source/list.c) \
-$(abspath ./freertos/portable/GCC/nrf51/port.c) \
-$(abspath ./freertos/portable/CMSIS/nrf51/port_cmsis.c) \
-$(abspath ./freertos/portable/CMSIS/nrf51/port_cmsis_systick.c) \
-$(abspath ./freertos/source/queue.c) \
-$(abspath ./freertos/source/tasks.c) \
-$(abspath ./freertos/source/timers.c) \
+$(abspath ../components/libraries/util/app_error.c) \
+$(abspath ../components/libraries/util/nrf_assert.c) \
+$(abspath ../components/drivers_nrf/common/nrf_drv_common.c) \
+$(abspath ../components/drivers_nrf/clock/nrf_drv_clock.c ) \
+$(abspath ../components/drivers_nrf/pstorage/pstorage.c) \
+$(abspath ./drivers/uart.c) \
+$(abspath ./drivers/queue.c) \
+$(abspath ./drivers/adc.c) \
+$(abspath ./drivers/twi.c) \
+$(abspath ./drivers/timers.c) \
+$(abspath ./drivers/ble.c) \
+$(abspath ./drivers/baro.c) \
+$(abspath ./drivers/spi_flash.c) \
+$(abspath ./invensense/inv_mpu.c) \
+$(abspath ./invensense/inv_mpu_dmp_motion_driver.c) \
+$(abspath ./invensense/ml.c) \
+$(abspath ./invensense/mpu_wrapper.c) \
+
+#$(abspath ../components/libraries/timer/app_timer.c) \
+
+#$(abspath ../components/libraries/timer/app_timer.c) \
+# 
+# 
+# 
+
+
+
 
 #freertos addes stuff
 
-#$(abspath ../components/libraries/timer/app_timer.c) \
-#$(abspath ./drivers/queue.c) \
-#$(abspath ./drivers/timers.c) \
+
+
 
 
 #assembly files common to all targets

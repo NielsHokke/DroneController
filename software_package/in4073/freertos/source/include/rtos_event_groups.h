@@ -74,7 +74,7 @@
 	#error "include FreeRTOS.h" must appear in source files before "include event_groups.h"
 #endif
 
-#include "timers.h"
+#include "rtos_timers.h"
 
 #ifdef __cplusplus
 extern "C" {

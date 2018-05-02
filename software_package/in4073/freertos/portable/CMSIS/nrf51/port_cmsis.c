@@ -73,7 +73,7 @@
 
 /* Scheduler includes. */
 #include "FreeRTOS.h"
-#include "task.h"
+#include "rtos_task.h"
 #ifdef SOFTDEVICE_PRESENT
 #include "nrf_soc.h"
 #endif

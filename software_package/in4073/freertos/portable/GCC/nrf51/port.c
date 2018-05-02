@@ -73,7 +73,7 @@
 
 /* Scheduler includes. */
 #include "FreeRTOS.h"
-#include "task.h"
+#include "rtos_task.h"
 
 /*
  * Start first task is a separate function so it can be tested in isolation.

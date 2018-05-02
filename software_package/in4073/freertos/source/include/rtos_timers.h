@@ -68,8 +68,8 @@
 */
 
 
-#ifndef TIMERS_H
-#define TIMERS_H
+#ifndef RTOS_TIMERS_H
+#define RTOS_TIMERS_H
 
 #ifndef INC_FREERTOS_H
 	#error "include FreeRTOS.h must appear in source files before include timers.h"
@@ -77,7 +77,7 @@
 
 /*lint save -e537 This headers are only multiply included if the application code
 happens to also be including task.h. */
-#include "task.h"
+#include "rtos_task.h"
 /*lint -restore */
 
 #ifdef __cplusplus
