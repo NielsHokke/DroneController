@@ -12,6 +12,10 @@
  *  June 2016
  *------------------------------------------------------------------
  */
+
+
+
+
 #include "in4073.h"
 
 #include "FreeRTOS.h"
@@ -25,9 +29,13 @@
 #include "app_error.h"
 
 #define CONTROL_PERIOD 10
-#define SENSOR_LOOP 10
+#define SENSOR_LOOP 1
 
 enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MODE_1, RAW_MODE_2, RAW_MODE_3} GlobalState;
+
+
+
+
 
 
 /*------------------------------------------------------------------
@@ -51,10 +59,13 @@ static void control_loop(void *pvParameter){
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task 
 
 	int i = 0;
+	int seconds = 0;
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
 		if ((i++ % 100) == 0){
-			DEBUG_PRINT("Running control_loop\n");	
+			seconds++;
+			DEBUG_PRINT("we zitten nu op de tijd sdfjlasdfjkasldfj asdklfj lasdkfjhlkasdf%d\n", seconds);	
+			
 		}
 		switch(GlobalState){
 			case SAFE:
@@ -84,7 +95,7 @@ static void sensor_loop(void *pvParameter){
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
-
+		//nrf_gpio_pin_toggle(RED);
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
 	}
@@ -111,7 +122,7 @@ static void check_battery_voltage(void *pvParameter){
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
-		DEBUG_PRINT("Battery check \n");
+		DEBUG_PRINT("Battery check met extra veel tijd to improve the likelhood of collision\n");
 		vTaskDelay(999);
 
 	}
@@ -134,12 +145,13 @@ int main(void)
 	baro_init();
 	spi_flash_init();
 	// ble_init();
-	DEBUG_PRINT("Peripherals initialized\n");
+
+	//DEBUG_PRINT("Peripherals initialized\n");
 	
 
 
     UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 3, NULL));
-	//UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
 	DEBUG_PRINT("Tasks registered\n");
 

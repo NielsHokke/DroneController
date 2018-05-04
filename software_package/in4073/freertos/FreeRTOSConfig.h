@@ -229,4 +229,23 @@ standard names - or at least those used in the unmodified vector table. */
     #endif
 #endif /* !assembler */
 
+
+
+#include "in4073.h"
+#ifndef traceTASK_SWITCHED_OUT
+/* Called before a task has been selected to run.  pxCurrentTCB holds a pointer
+to the task control block of the task being switched out. */
+#define traceTASK_SWITCHED_OUT() if(xTaskGetIdleTaskHandle() == pxCurrentTCB)  \
+    { nrf_gpio_pin_set(RED); }
+#endif
+
+#ifndef traceTASK_SWITCHED_IN
+/* Called after a task has been selected to run.  pxCurrentTCB holds a pointer
+to the task control block of the selected task. */
+#define traceTASK_SWITCHED_IN() if(xTaskGetIdleTaskHandle() == pxCurrentTCB)  \
+    { nrf_gpio_pin_clear(RED); }
+#endif
+
+
 #endif /* FREERTOS_CONFIG_H */
+

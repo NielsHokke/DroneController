@@ -82,6 +82,29 @@ task.h is included from an application file. */
 #include "rtos_timers.h"
 #include "StackMacros.h"
 
+
+
+#ifndef traceTASK_SWITCHED_OUT
+/* Called before a task has been selected to run.  pxCurrentTCB holds a pointer
+to the task control block of the task being switched out. */
+#define traceTASK_SWITCHED_OUT() if(xTaskGetIdleTaskHandle() == pxCurrentTCB)  \
+	{ nrf_gpio_pin_clear(RED); } \
+	else { nrf_gpio_pin_clear((int)pxCurrentTCB->pxTaskTag ); }
+#endif
+
+#ifndef traceTASK_SWITCHED_IN
+/* Called after a task has been selected to run.  pxCurrentTCB holds a pointer
+to the task control block of the selected task. */
+#define traceTASK_SWITCHED_IN() if(xTaskGetIdleTaskHandle() == pxCurrentTCB)  \
+	{ nrf_gpio_pin_set(RED); } \
+	else { nrf_gpio_pin_set((int)pxCurrentTCB->pxTaskTag ); }
+#endif
+
+
+
+
+
+
 /* Lint e961 and e750 are suppressed as a MISRA exception justified because the
 MPU ports require MPU_WRAPPERS_INCLUDED_FROM_API_FILE to be defined for the
 header files above, but not in this file, in order to generate the correct
