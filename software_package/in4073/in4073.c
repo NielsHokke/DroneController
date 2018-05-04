@@ -137,16 +137,14 @@ int main(void)
 	DEBUG_PRINT("Peripherals initialized\n");
 	
 
-	/* Create task for LED0 blinking with priority set to 2 */
-    // UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED", 128, NULL, 2, NULL));
-
 
     UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 3, NULL));
 	//UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
 	DEBUG_PRINT("Tasks registered\n");
+
     /* Activate deep sleep mode */
-    SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+    // SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
 
     /* Start FreeRTOS scheduler. */
     //UNUSED_VARIABLE(xTimerCreateTimerTask);
