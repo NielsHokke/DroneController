@@ -39,6 +39,7 @@ bool demo_done;
 // Control
 int16_t motor[4],ae[4];
 void run_filters_and_control();
+void motors_off();
 
 // Timers
 #define TIMER_PERIOD	50 //50ms=20Hz (MAX 23bit, 4.6h)

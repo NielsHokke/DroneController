@@ -135,14 +135,14 @@ void timers_init(void)
 
 	NRF_PPI->CHENSET = PPI_CHENSET_CH0_Msk | PPI_CHENSET_CH1_Msk | PPI_CHENSET_CH2_Msk | PPI_CHENSET_CH3_Msk | PPI_CHENSET_CH4_Msk | PPI_CHENSET_CH5_Msk | PPI_CHENSET_CH6_Msk | PPI_CHENSET_CH7_Msk;
 
-	// app timer
-	#define APP_TIMER_PRESCALER             0                                           /**< Value of the RTC1 PRESCALER register. */
-	#define APP_TIMER_OP_QUEUE_SIZE         4                                           /**< Size of timer operation queues. */
-	#define QUADRUPEL_TIMER_PERIOD  APP_TIMER_TICKS(TIMER_PERIOD, APP_TIMER_PRESCALER)  // timer period is in ms
+	// // app timer
+	// #define APP_TIMER_PRESCALER             0                                           /**< Value of the RTC1 PRESCALER register. */
+	// #define APP_TIMER_OP_QUEUE_SIZE         4                                           /**< Size of timer operation queues. */
+	// #define QUADRUPEL_TIMER_PERIOD  APP_TIMER_TICKS(TIMER_PERIOD, APP_TIMER_PRESCALER)  // timer period is in ms
 	
-	APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_OP_QUEUE_SIZE, false);
+	// APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_OP_QUEUE_SIZE, false);
 
-	APP_TIMER_DEF(quadrupel_timer);
-	app_timer_create(&quadrupel_timer, APP_TIMER_MODE_REPEATED, quadrupel_timer_handler);
-	app_timer_start(quadrupel_timer, QUADRUPEL_TIMER_PERIOD, NULL);
+	// APP_TIMER_DEF(quadrupel_timer);
+	// app_timer_create(&quadrupel_timer, APP_TIMER_MODE_REPEATED, quadrupel_timer_handler);
+	// app_timer_start(quadrupel_timer, QUADRUPEL_TIMER_PERIOD, NULL);
 }

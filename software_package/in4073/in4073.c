@@ -27,72 +27,14 @@
 #define CONTROL_PERIOD 10
 #define SENSOR_LOOP 10
 
-/*------------------------------------------------------------------
- * process_key -- process command keys
- *------------------------------------------------------------------
- */
-/*
-void process_key(uint8_t c)
-{
-	switch (c)
-	{
-		case 'q':
-			ae[0] += 10;
-			break;
-		case 'a':
-			ae[0] -= 10;
-			if (ae[0] < 0) ae[0] = 0;
-			break;
-		case 'w':
-			ae[1] += 10;
-			break;
-		case 's':
-			ae[1] -= 10;
-			if (ae[1] < 0) ae[1] = 0;
-			break;
-		case 'e':
-			ae[2] += 10;
-			break;
-		case 'd':
-			ae[2] -= 10;
-			if (ae[2] < 0) ae[2] = 0;
-			break;
-		case 'r':
-			ae[3] += 10;
-			break;
-		case 'f':
-			ae[3] -= 10;
-			if (ae[3] < 0) ae[3] = 0;
-			break;
-		case 27:
-			demo_done = true;
-			break;
-		default:
-			nrf_gpio_pin_toggle(RED);
-	}
-}
-*/
+enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MODE_1, RAW_MODE_2, RAW_MODE_3} GlobalState;
+
+
 /*------------------------------------------------------------------
  * main -- everything you need is here :)
  *------------------------------------------------------------------
  */
 
-#define TASK_DELAY      200 
-
-static void led_toggle_task_function (void * pvParameter)
-{
-    UNUSED_PARAMETER(pvParameter);
-    while (true)
-    {
-        nrf_gpio_pin_toggle(BLUE);
-
-        /* Delay a task for a given number of ticks */
-        // printf("\n\t blink \n\n");
-        vTaskDelay(TASK_DELAY);
-
-        /* Tasks must be implemented to never return... */
-    }
-}
 
 /*--------------------------------------------------------------------------------------
  * control_loop: task containing the control loop of the quad-copter
@@ -108,34 +50,19 @@ static void control_loop(void *pvParameter){
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task 
 
-	uint32_t time;
+	int i = 0;
 	for(;;){
-		time = xTaskGetTickCount();
-
-		printf("adc %10ld \n",xTaskGetTickCount() - time);
-
-		time = xTaskGetTickCount();
-		read_baro();
-		printf("baro %10ld \n",xTaskGetTickCount() - time);
-
-
-		
-		if (check_sensor_int_flag()) 
-		{
-			time = xTaskGetTickCount();
-			get_dmp_data();
-			run_filters_and_control();
-			printf("measure shit %10ld \n",xTaskGetTickCount() - time);
-
-			printf("%10ld | ", get_time_us());
-			printf("%3d %3d %3d %3d | ",ae[0],ae[1],ae[2],ae[3]);
-			printf("%6d %6d %6d | ", phi, theta, psi);
-			printf("%6d %6d %6d | ", sp, sq, sr);
-			printf("%4d | %4ld | %6ld \n", bat_volt, temperature, pressure);
+		xLastWakeTime = xTaskGetTickCount();
+		if ((i++ % 100) == 0){
+			DEBUG_PRINT("Running control_loop\n");	
 		}
-		
-
-
+		switch(GlobalState){
+			case SAFE:
+				motors_off();
+				break;
+			default:
+				break;
+		};
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}	
 }
@@ -156,7 +83,10 @@ static void sensor_loop(void *pvParameter){
 	const TickType_t xFrequency = SENSOR_LOOP; //period of task 
 
 	for(;;){
-		vTaskDelayUntil( &xLastWakeTime, xFrequency );		
+		xLastWakeTime = xTaskGetTickCount();
+
+		vTaskDelayUntil( &xLastWakeTime, xFrequency );
+		
 	}
 
 }
@@ -173,6 +103,7 @@ static void sensor_loop(void *pvParameter){
 static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	for(;;){
+
 		nrf_gpio_pin_toggle(BLUE);
 
 		adc_request_sample();
@@ -180,6 +111,7 @@ static void check_battery_voltage(void *pvParameter){
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
+		DEBUG_PRINT("Battery check \n");
 		vTaskDelay(999);
 
 	}
@@ -190,24 +122,29 @@ static void check_battery_voltage(void *pvParameter){
 
 int main(void)
 {
+
+	GlobalState = SAFE;
+
 	uart_init();
 	gpio_init();
-	// timers_init();
+	timers_init();
 	adc_init();
 	twi_init();
 	imu_init(true, 100);	
 	baro_init();
 	spi_flash_init();
 	// ble_init();
-
+	DEBUG_PRINT("Peripherals initialized\n");
 	
 
 	/* Create task for LED0 blinking with priority set to 2 */
     // UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED", 128, NULL, 2, NULL));
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 1, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
-	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 3, NULL));
 
+
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 3, NULL));
+	//UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
+	DEBUG_PRINT("Tasks registered\n");
     /* Activate deep sleep mode */
     SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
 
