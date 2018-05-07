@@ -96,11 +96,13 @@ int main(void)
      			read from drone //put read packet size
     ------------------------------------------*/
 	
-	char rx_c;
+	char rx_c[1000];
 	int result = 0;
-	if((result = read(fd_serial, &rx_c, 1)) != 0) {
-		printf("%s", rx_c);
-		//tcflush(fd_serial, TCIFLUSH); /* Discards old data in the rx buffer */
+	if((result = read(fd_serial, rx_c, sizeof(rx_c))) != 0) {
+		printf("rx: %s, len: %d\n", rx_c, result);
+		if(result == 0) { 
+			tcflush(fd_serial, TCIFLUSH); /* Discards old data in the rx buffer */
+		}
 	}
 
     /*----------------------------------------
@@ -116,7 +118,7 @@ int main(void)
     			  packet.yaw, packet.pitch, packet.roll, 
     			  packet.p1, packet.p2);
     if(payload_len <= PAYLOAD_LEN) {
-    	// printf("payload: %s len: %d\n", payload, payload_len);
+    	//printf("payload: %s len: %d\n", payload, payload_len);
     	serial_putstring(payload, payload_len);
     }
     else {
@@ -124,7 +126,7 @@ int main(void)
     }
 
 
-    usleep(100000); // Cut update rate to 10Hz
+    //usleep(100000); // Cut update rate to 10Hz
   } while(!terminate); //while (ch != 27);
 
   /*----------------------------------------
