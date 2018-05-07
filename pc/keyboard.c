@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h> 
 #include "packet.h"
-
+#include "terminals.c"
 
 #define OFFSET 10      // trim offest on single keypress
 #define PAYLOAD_LEN 30 // length of packet over serial
@@ -19,22 +19,9 @@ int main(void)
   packet.p1 = P1;
   packet.p2 = P2;
 
-  struct termios orig_term, raw_term;
-
-  // Get terminal settings and save a copy for later
-  tcgetattr(STDIN_FILENO, &orig_term);
-  raw_term = orig_term;
-
-  // Turn off echoing and canonical mode
-  raw_term.c_lflag &= ~(ECHO | ICANON);
-
-  // Set min character limit and timeout to 0 so read() returns immediately
-  // whether there is a character available or not
-  raw_term.c_cc[VMIN] = 0;
-  raw_term.c_cc[VTIME] = 0;
-
-  // Apply new terminal settings
-  tcsetattr(STDIN_FILENO, TCSANOW, &raw_term);
+  // open both the terminal sessions (keyboard and serial port)
+  init_keyboard();
+  serial_open();
 
   /* keymaps
   • ESC: abort / exit 
@@ -105,39 +92,54 @@ int main(void)
       }
     }
 
-    /*-----------------------------------------b
-      compose packet 
+    /*-----------------------------------------
+     			read from drone //put read packet size
     ------------------------------------------*/
-    /*
+	
+	char rx_c;
+	int result = 0;
+	if((result = read(fd_serial, &rx_c, 1)) != 0) {
+		printf("%s", rx_c);
+		//tcflush(fd_serial, TCIFLUSH); /* Discards old data in the rx buffer */
+	}
+
+    /*----------------------------------------
+    			compose packet 
+    ------------------------------------------
     int snprintf(char *str, size_t size, const char *format, ...);
-    */
     // remember to fix field length
+    */
+
     payload_len = snprintf(payload, PAYLOAD_LEN, 
     			  "%03d %03d %03d %03d %03d %03d %03d", 
     			  packet.mode, packet.lift, 
     			  packet.yaw, packet.pitch, packet.roll, 
     			  packet.p1, packet.p2);
     if(payload_len <= PAYLOAD_LEN) {
-    	printf("payload: %s len: %d\n", payload, payload_len);
+    	// printf("payload: %s len: %d\n", payload, payload_len);
+    	serial_putstring(payload, payload_len);
     }
     else {
      	printf("increase payload len\n"); terminate = true;
     }
+
+
     usleep(100000); // Cut update rate to 10Hz
   } while(!terminate); //while (ch != 27);
 
-
-
-  // todo: send over serial
+  /*----------------------------------------
+  				safely exit
+  -----------------------------------------*/
   // Make sure no characters are left in the input stream as
   // plenty of keys emit ESC sequences, otherwise they'll appear
   // on the command-line after we exit.
   while(read(STDIN_FILENO, &ch, 1)==1);
-  
-  free(payload);
-  printf("exit\n");
+  printf("\033[1;31mexit\033[0m\n\n");
 
-  // Restore original terminal settings
-  tcsetattr(STDIN_FILENO, TCSANOW, &orig_term);
+  free(payload);
+
+  deinit_keyboard();
+  serial_close();
+
   return 0;
 }

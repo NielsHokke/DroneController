@@ -4,18 +4,6 @@
 // for unsigned 8 bit integer
 #include <stdint.h>
 
-/* keymaps
-• ESC: abort / exit
-• 0 mode 0, 1 mode 1, etc. (random access)
-• a/z: lift up/down
-• left/right arrow: roll up/down
-• up/down arrow: pitch down/up (cf. stick)
-• q/w: yaw down/up
-• u/j: yaw control P up/down
-• i/k: roll/pitch control P1 up/down
-• o/l: roll/pitch control P2 up/down
-*/
-
 #ifdef __cplusplus
 extern "C"
 {
