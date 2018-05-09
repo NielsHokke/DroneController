@@ -31,8 +31,16 @@
 #define CONTROL_PERIOD 10
 #define SENSOR_LOOP 1
 
+/* --- This should be moved to drone.h --- */
 enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MODE_1, RAW_MODE_2, RAW_MODE_3} GlobalState;
 
+typedef struct {
+	uint8_t yaw,
+	uint8_t pitch,
+	uint8_t roll,
+	uint8_t lift
+} setpoint SetPoint
+/* until here*/ 
 
 
 
@@ -56,7 +64,9 @@ enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MO
 static void control_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = CONTROL_PERIOD; //period of task 
+	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
+
+	uint32_t tempMotor[4] 
 
 	int i = 0;
 	int seconds = 0;
@@ -69,11 +79,28 @@ static void control_loop(void *pvParameter){
 		}
 		switch(GlobalState){
 			case SAFE:
-				motors_off();
+				ae[0] = 0;
+				ae[1] = 0;
+				ae[2] = 0;
+				ae[3] = 0;
+				break;
+			case MANUAL:
+
+				tempMotor[0] = SetPoint->lift*4015  
+				tempMotor[1] = SetPoint->lift*4015 
+				tempMotor[2] = SetPoint->lift*4015 
+				tempMotor[3] = SetPoint->lift*4015 
+
+				ae[0] = tempMotor[0] /1024
+				ae[1] = tempMotor[1] /1024
+				ae[2] = tempMotor[2] /1024
+				ae[3] = tempMotor[3] /1024
+
 				break;
 			default:
 				break;
 		};
+		update_motors();
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}	
 }
@@ -122,7 +149,7 @@ static void check_battery_voltage(void *pvParameter){
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
-		DEBUG_PRINT("Battery check met extra veel tijd to improve the likelhood of collision\n");
+		DEBUG_PRINT("Battery check: %d \n", bat_volt);
 		vTaskDelay(999);
 
 	}
@@ -135,6 +162,11 @@ int main(void)
 {
 
 	GlobalState = SAFE;
+
+	SetPoint->pitch = 0;
+	SetPoint->yaw = 0;
+	SetPoint->roll = 0;
+	SetPoint->lift = 0;
 
 	uart_init();
 	gpio_init();
