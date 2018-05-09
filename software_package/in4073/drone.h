@@ -16,6 +16,10 @@ enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MO
 
 
 // Motor Control
+#define MAN_PITCH_SCALER 10 //
+#define MAN_ROLL_SCALER 10 //
+
+
 typedef struct {
 	int8_t yaw;
 	int8_t pitch;
