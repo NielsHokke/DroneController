@@ -20,6 +20,14 @@ void update_motors(void)
 	motor[3] = ae[3];
 }
 
+void motors_off(void)
+{					
+	motor[0] = 0;
+	motor[1] = 0;
+	motor[2] = 0;
+	motor[3] = 0;
+}
+
 void run_filters_and_control()
 {
 	// fancy stuff here

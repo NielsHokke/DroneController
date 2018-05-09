@@ -13,7 +13,7 @@
 
 #define DEBUG 1
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#define DEBUG_PRINT(fmt, args...) do { if (DEBUG) fprintf(stderr, "DEBUG: %s:%d:%s(): " \
+#define DEBUG_PRINT(fmt, args...) do { if (DEBUG) fprintf(stdout, "DEBUG: %s:%d:%s(): " \
 fmt, __FILENAME__, __LINE__, __func__, ##args);} while (0)
 
 
@@ -39,6 +39,7 @@ bool demo_done;
 // Control
 int16_t motor[4],ae[4];
 void run_filters_and_control();
+void motors_off();
 
 // Timers
 #define TIMER_PERIOD	50 //50ms=20Hz (MAX 23bit, 4.6h)
