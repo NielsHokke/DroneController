@@ -67,9 +67,10 @@ int main (int argc, char **argv)
 {
 	packet_config_t packet;
 	packet_config_t joystick;
+	packet_config_t keyboard;
 	packet.p1 = P1;
 	packet.p2 = P2;
-	
+	packet.mode = 1;
 	/*-----------------------------------------	
 	Keyboard initialized in a different mode:
 	https://www.raspberrypi.org/forums/viewtopic.php?t=177157&start=25
@@ -129,11 +130,11 @@ int main (int argc, char **argv)
 	        // numbers zero to nine
 	        case 48 ... 57: packet.mode = keypress-48; break;
 	        
-	        case 'a'      : packet.lift = joystick.lift + OFFSET; break;
-	        case 'z'      : packet.lift = joystick.lift - OFFSET; break;
+	        case 'a'      : keyboard.lift = keyboard.lift + OFFSET; break;
+	        case 'z'      : keyboard.lift = keyboard.lift - OFFSET; break;
 	        
-	        case 'q'      : packet.yaw = joystick.yaw + OFFSET; break;
-	        case 'w'      : packet.yaw = joystick.yaw - OFFSET; break;
+	        case 'q'      : keyboard.yaw = keyboard.yaw + OFFSET; break;
+	        case 'w'      : keyboard.yaw = keyboard.yaw - OFFSET; break;
 
 	        /*
 	        case 'u'      : packet.p1 = packet.p1 + OFFSET; break;
@@ -149,16 +150,16 @@ int main (int argc, char **argv)
 	        case 27		  : read(STDIN_FILENO, &keypress, 1);  // ignore keypressaracter '['
 	        				read(STDIN_FILENO, &keypress, 1);  // up=A, dn=B, rght=C, left=D 
 	        				if (keypress == 'A') {//go fwd
-	        					packet.pitch = joystick.pitch - OFFSET;
+	        					keyboard.pitch = keyboard.pitch - OFFSET;
 	        				} 
 	        				else if (keypress == 'B') {//bckwd
-	        					packet.pitch = joystick.pitch + OFFSET; 
+	        					keyboard.pitch = keyboard.pitch + OFFSET; 
 	        				}
 	        				else if (keypress == 'C') {//roll negative CW
-	        					packet.roll = joystick.roll - OFFSET;
+	        					keyboard.roll = keyboard.roll - OFFSET;
 	        				}
 	        				else if (keypress == 'D') {//roll positive CCW
-	        					packet.roll = joystick.roll + OFFSET;
+	        					keyboard.roll = keyboard.roll + OFFSET;
 	        				}
 	        				else {
 	        					// ESC button pressed
@@ -209,33 +210,33 @@ int main (int argc, char **argv)
 			printf("%d ",button[i]);
 		}
 		*/
-		joystick.yaw   = axis[1] >> 8;
-		joystick.pitch = axis[2] >> 8;
-		joystick.roll  = axis[3] >> 8;
-		joystick.lift  = axis[4] >> 8; 
-		printf("\033[0;34m joystick: %3d %3d %3d %3d\n\033[0m", 
-				joystick.yaw,
-				joystick.pitch,
-				joystick.roll,
-				joystick.lift);
+		joystick.yaw   = (axis[2] >> 8) + 128;
+		joystick.pitch = (axis[1] >> 8) + 128;
+		joystick.roll  = (axis[0] >> 8) + 128;
+		joystick.lift  = 255 - ((axis[3] >> 8) + 128); 
+
 		if (button[0]) //shoot or trigger button
+			//change mode
 			break;
 
 		/*-----------------------------------------
 	      compose packet 
 	      int snprintf(char *str, size_t size, const char *format, ...);
 	    ------------------------------------------*/
-		joystick.yaw   = joystick.yaw + keyboard.yaw;
-		joystick.pitch = joystick.pitch + keyboard.pitch;
-		joystick.roll  = joystick.roll + keyboard.roll;
-		joystick.lift  = joystick.lift + keyboard.lift;
+		packet.yaw   = joystick.yaw   + keyboard.yaw   ;
+		packet.pitch = joystick.pitch + keyboard.pitch ;
+		packet.roll  = joystick.roll  + keyboard.roll  ;
+		packet.lift  = joystick.lift  + keyboard.lift  ;
         payload_len = snprintf(payload, PAYLOAD_LEN, 
-    			  "%03d %03d %03d %03d %03d %03d %03d", 
-    			  packet.mode, packet.lift, 
-    			  packet.yaw, packet.pitch, packet.roll, 
-    			  packet.p1, packet.p2);
+	    			  "%03d %03d %03d %03d",    			   
+	    			  packet.yaw, 
+	    			  packet.pitch, 
+	    			  packet.roll, 
+	    			  packet.lift);
+    			//  packet.mode,
+    			//  packet.p1, packet.p2);
 	    if(payload_len <= PAYLOAD_LEN) {
-	    	printf("\033[0;31m payload:  %s len: %d\n\033[0m", payload, payload_len);
+	    	printf("\033[0;31m payload : %s len: %d\n\033[0m", payload, payload_len);
 	    	serial_putstring(payload, payload_len);
 	    }
 	    else {
