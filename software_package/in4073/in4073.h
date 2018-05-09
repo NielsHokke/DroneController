@@ -74,17 +74,6 @@ uint32_t last_correct_checksum_time;
 void uart_init(void);
 void uart_put(uint8_t);
 
-enum SerialStates{
-	IDLE,
-	CTRL,
-	PARA
-};
-enum SerialStates serialstate;
-#define CTRL_DATA_LENGTH 4
-#define PARA_DATA_LENGTH 5
-
-#define PARA_MSG_QUEUE_SIZE 10
-
 // TWI
 #define TWI_SCL	4
 #define TWI_SDA	2

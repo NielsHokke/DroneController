@@ -9,6 +9,7 @@
  */
 
 #include "in4073.h"
+#include "drone.h"
 
 bool txd_available = true;
 QueueHandle_t ctrl_msg_queue = NULL;
@@ -88,23 +89,31 @@ void validate_ctrl_msg(void *pvParameter){
 	taskEXIT_CRITICAL();
 
 	for(;;){
-		xQueueReceive(ctrl_msg_queue, ctrl_buffer, portMAX_DELAY);
+		if(xQueueReceive(ctrl_msg_queue, ctrl_buffer, 0)){
+			// Something in queue
+			uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
+			
+			taskENTER_CRITICAL();
+			DEBUG_PRINT("CTRL message recieved:\n");
+			DEBUG_PRINT("strt_byte: %d\n", ctrl_buffer[0]);
+			DEBUG_PRINT("yaw: %d\n", ctrl_buffer[1]);
+			DEBUG_PRINT("pitch:%d\n", ctrl_buffer[2]);
+			DEBUG_PRINT("roll: %d\n", ctrl_buffer[3]);
+			DEBUG_PRINT("lift: %d\n", ctrl_buffer[4]);
+			DEBUG_PRINT("CRC: %d\n", ctrl_buffer[5]);
+			taskEXIT_CRITICAL();
 
-		uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
-		taskENTER_CRITICAL();
-
-		DEBUG_PRINT("CTRL message recieved:\n");
-		DEBUG_PRINT("strt_byte: %d\n", ctrl_buffer[0]);
-		DEBUG_PRINT("yaw: %d\n", ctrl_buffer[1]);
-		DEBUG_PRINT("pitch:%d\n", ctrl_buffer[2]);
-		DEBUG_PRINT("roll: %d\n", ctrl_buffer[3]);
-		DEBUG_PRINT("lift: %d\n", ctrl_buffer[4]);
-		DEBUG_PRINT("CRC: %d\n", ctrl_buffer[5]);
-
-		if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
-			DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
+			if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
+				DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
+			}else{
+				// Correct CRC
+				// TODO execute comand
+			}
+			
+		}else{
+			// suspend this task when queue is empty, woken up later by other task when something in queue
+			vTaskSuspend( NULL );
 		}
-		taskEXIT_CRITICAL();
 	}
 }
 
@@ -125,17 +134,22 @@ void validate_para_msg(void *pvParameter){
 	taskEXIT_CRITICAL();
 
 	for(;;){
-		xQueueReceive(para_msg_queue, para_buffer, portMAX_DELAY);
-		taskENTER_CRITICAL();
-		DEBUG_PRINT("PARA message recieved:\n");
-		DEBUG_PRINT("strt_byte: %d\n", para_buffer[0]);
-		DEBUG_PRINT("Reg.address: %d\n", para_buffer[1]);
-		DEBUG_PRINT("data:%d\n", para_buffer[2]);
-		DEBUG_PRINT("data: %d\n", para_buffer[3]);
-		DEBUG_PRINT("data: %d\n", para_buffer[4]);
-		DEBUG_PRINT("data: %d\n", para_buffer[5]);
-		DEBUG_PRINT("CRC: %d\n", para_buffer[6]);
-		taskEXIT_CRITICAL();
+		if(xQueueReceive(para_msg_queue, para_buffer, portMAX_DELAY)){
+			// Something in queue
+			taskENTER_CRITICAL();
+			DEBUG_PRINT("PARA message recieved:\n");
+			DEBUG_PRINT("strt_byte: %d\n", para_buffer[0]);
+			DEBUG_PRINT("Reg.address: %d\n", para_buffer[1]);
+			DEBUG_PRINT("data:%d\n", para_buffer[2]);
+			DEBUG_PRINT("data: %d\n", para_buffer[3]);
+			DEBUG_PRINT("data: %d\n", para_buffer[4]);
+			DEBUG_PRINT("data: %d\n", para_buffer[5]);
+			DEBUG_PRINT("CRC: %d\n", para_buffer[6]);
+			taskEXIT_CRITICAL();
+		}else{
+			// suspend this task when queue is empty, woken up later by other task when something in queue
+			vTaskSuspend( NULL );
+		}
 	}
 }
 
@@ -179,6 +193,8 @@ void handle_serial_rx(char c){
 				// Putting message on to para queue
 				if(xQueueOverwrite( ctrl_msg_queue, ctrl_buffer) != pdPASS){
 					DEBUG_PRINT("Failed to put ctrl msg into ctrl queue\n");
+				}else{
+					vTaskResume( validate_ctrl_msg_Handle );
 				}
 
 				serialstate = IDLE;
@@ -192,6 +208,8 @@ void handle_serial_rx(char c){
 				// Putting message on to para queue
 				if(xQueueSend( para_msg_queue, para_buffer, 0) != pdPASS){
 					DEBUG_PRINT("Failed to put para msg into para queue\n");
+				}else{
+					vTaskResume( validate_para_msg_Handle );
 				}
 
 				serialstate = IDLE;
@@ -236,8 +254,11 @@ void uart_init(void)
 	ctrl_msg_queue = xQueueCreate(1, sizeof(uint8_t)*(CTRL_DATA_LENGTH+2));
 	para_msg_queue = xQueueCreate(PARA_MSG_QUEUE_SIZE, sizeof(uint8_t)*(PARA_DATA_LENGTH+2));
 
-	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", 128, NULL, 2, NULL));
-	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", 128, NULL, 3, NULL));
+	BaseType_t xReturned_ctrl = xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", 128, NULL, 2, &validate_ctrl_msg_Handle);
+	BaseType_t xReturned_para = xTaskCreate(validate_para_msg, "Validate and execute para message", 128, NULL, 3, &validate_para_msg_Handle);
+
+	if( xReturned_ctrl != pdPASS ) DEBUG_PRINT("Failed to create 'validate_ctrl_msg' task");
+	if( xReturned_para != pdPASS ) DEBUG_PRINT("Failed to create 'validate_para_msg' task");
 
 	nrf_gpio_cfg_output(TX_PIN_NUMBER);
 	nrf_gpio_cfg_input(RX_PIN_NUMBER, NRF_GPIO_PIN_NOPULL);
