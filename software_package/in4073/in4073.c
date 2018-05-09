@@ -14,9 +14,8 @@
  */
 
 
-
-
 #include "in4073.h"
+#include "drone.h"
 
 #include "FreeRTOS.h"
 #include "rtos_task.h"
@@ -30,19 +29,6 @@
 
 #define CONTROL_PERIOD 10
 #define SENSOR_LOOP 1
-
-/* --- This should be moved to drone.h --- */
-enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MODE_1, RAW_MODE_2, RAW_MODE_3} GlobalState;
-
-typedef struct {
-	uint8_t yaw,
-	uint8_t pitch,
-	uint8_t roll,
-	uint8_t lift
-} setpoint SetPoint
-/* until here*/ 
-
-
 
 
 
@@ -66,7 +52,7 @@ static void control_loop(void *pvParameter){
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
 
-	uint32_t tempMotor[4] 
+	uint32_t tempMotor[4]; 
 
 	int i = 0;
 	int seconds = 0;
@@ -74,8 +60,8 @@ static void control_loop(void *pvParameter){
 		xLastWakeTime = xTaskGetTickCount();
 		if ((i++ % 100) == 0){
 			seconds++;
-			DEBUG_PRINT("we zitten nu op de tijd sdfjlasdfjkasldfj asdklfj lasdkfjhlkasdf%d\n", seconds);	
-			
+			// DEBUG_PRINT("%" PRIi8 "\nyaw: %" PRIi8 "\npitch:%" PRIi8 "\nroll: %" PRIi8 "\nlift: %" PRIu8 "\n",
+			// SetPoint.yaw, SetPoint.pitch, SetPoint.roll, SetPoint.lift);	
 		}
 		switch(GlobalState){
 			case SAFE:
@@ -86,15 +72,15 @@ static void control_loop(void *pvParameter){
 				break;
 			case MANUAL:
 
-				tempMotor[0] = SetPoint->lift*4015  
-				tempMotor[1] = SetPoint->lift*4015 
-				tempMotor[2] = SetPoint->lift*4015 
-				tempMotor[3] = SetPoint->lift*4015 
+				tempMotor[0] = SetPoint.lift*4015;
+				tempMotor[1] = SetPoint.lift*4015;
+				tempMotor[2] = SetPoint.lift*4015;
+				tempMotor[3] = SetPoint.lift*4015;
 
-				ae[0] = tempMotor[0] /1024
-				ae[1] = tempMotor[1] /1024
-				ae[2] = tempMotor[2] /1024
-				ae[3] = tempMotor[3] /1024
+				ae[0] = tempMotor[0] /1024;
+				ae[1] = tempMotor[1] /1024;
+				ae[2] = tempMotor[2] /1024;
+				ae[3] = tempMotor[3] /1024;
 
 				break;
 			default:
@@ -163,10 +149,10 @@ int main(void)
 
 	GlobalState = SAFE;
 
-	SetPoint->pitch = 0;
-	SetPoint->yaw = 0;
-	SetPoint->roll = 0;
-	SetPoint->lift = 0;
+	SetPoint.pitch = 0;
+	SetPoint.yaw = 0;
+	SetPoint.roll = 0;
+	SetPoint.lift = 0;
 
 	uart_init();
 	gpio_init();

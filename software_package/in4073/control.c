@@ -14,6 +14,7 @@
 
 void update_motors(void)
 {					
+	//TODO check for max
 	motor[0] = ae[0];
 	motor[1] = ae[1];
 	motor[2] = ae[2];

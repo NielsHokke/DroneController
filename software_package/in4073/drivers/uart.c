@@ -93,22 +93,22 @@ void validate_ctrl_msg(void *pvParameter){
 			// Something in queue
 			uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
 			
-			taskENTER_CRITICAL();
-			DEBUG_PRINT("CTRL message recieved:\nstrt_byte: %d\nyaw: %d\npitch:%d\nroll: %d\nlift: %d\nCRC: %d\n",
-				ctrl_buffer[0], ctrl_buffer[1], ctrl_buffer[2], ctrl_buffer[3], ctrl_buffer[4], ctrl_buffer[5]);
-
-			taskEXIT_CRITICAL();
+			// taskENTER_CRITICAL();
+			// DEBUG_PRINT("CTRL message recieved:\nstrt_byte: %d\nyaw: %d\npitch:%d\nroll: %d\nlift: %d\nCRC: %d\n",
+			// 	ctrl_buffer[0], ctrl_buffer[1], ctrl_buffer[2], ctrl_buffer[3], ctrl_buffer[4], ctrl_buffer[5]);
+			// taskEXIT_CRITICAL();
 
 			if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
 				DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
 			}else{
-				// Correct CRC
-				// TODO execute comand
+				// Set SetPoint
+				SetPoint.yaw = ctrl_buffer[1];
+				SetPoint.pitch = ctrl_buffer[2];
+				SetPoint.roll = ctrl_buffer[3];
+				SetPoint.lift = ctrl_buffer[4];
 			}
-			
 		}else{
-			// suspend this task when queue is empty, woken up later by other task when something in queue
-			DEBUG_PRINT("Queue is empty?");
+			// Nothing in queue so suspend this task, woken up later by other task when something in queue
 			vTaskSuspend( NULL );
 		}
 	}
