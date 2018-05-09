@@ -112,6 +112,7 @@ void validate_ctrl_msg(void *pvParameter){
 			
 		}else{
 			// suspend this task when queue is empty, woken up later by other task when something in queue
+			DEBUG_PRINT("Queue is empty?");
 			vTaskSuspend( NULL );
 		}
 	}
@@ -148,6 +149,7 @@ void validate_para_msg(void *pvParameter){
 			taskEXIT_CRITICAL();
 		}else{
 			// suspend this task when queue is empty, woken up later by other task when something in queue
+			DEBUG_PRINT("Queue is empty?");
 			vTaskSuspend( NULL );
 		}
 	}
@@ -281,4 +283,6 @@ void uart_init(void)
 	NVIC_ClearPendingIRQ(UART0_IRQn);
 	NVIC_SetPriority(UART0_IRQn, 3); // either 1 or 3, 3 being low. (sd present)
 	NVIC_EnableIRQ(UART0_IRQn);
+
+	DEBUG_PRINT("UART intitialised\n");
 }

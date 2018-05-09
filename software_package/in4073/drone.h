@@ -2,6 +2,12 @@
 #ifndef DRONE_H__
 #define DRONE_H__
 
+#include "FreeRTOS.h"
+#include "rtos_task.h"
+#include "rtos_queue.h"
+#include "rtos_timers.h"
+
+
 // UART
 #define CTRL_DATA_LENGTH 4
 #define PARA_DATA_LENGTH 5

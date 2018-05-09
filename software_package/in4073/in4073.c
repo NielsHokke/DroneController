@@ -142,7 +142,7 @@ int main(void)
 	spi_flash_init();
 	// ble_init();
 
-	//DEBUG_PRINT("Peripherals initialized\n");
+	DEBUG_PRINT("Peripherals initialized\n");
 	
 
 
