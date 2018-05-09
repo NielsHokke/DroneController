@@ -40,6 +40,42 @@ bool terminate = false; //checks for ESC pattern
 int	axis[6];
 int	button[12];
 
+/*crc init*/
+
+uint8_t  crcTable[256];
+
+#define WIDTH  (8 * sizeof(uint8_t))
+#define TOPBIT (1 << (WIDTH - 1))
+
+#define POLYNOMIAL 0xD8  /* 11011 followed by 0's */
+
+void crcInit(void){
+    uint8_t  remainder;
+    for (int dividend = 0; dividend < 256; ++dividend)
+    {
+        remainder = dividend << (WIDTH - 8);
+        for (uint8_t bit = 8; bit > 0; --bit){
+            if (remainder & TOPBIT){
+                remainder = (remainder << 1) ^ POLYNOMIAL;
+            }else{
+                remainder = (remainder << 1);
+            }
+        }
+        crcTable[dividend] = remainder;
+    }
+}
+
+uint8_t crcFast(char message[], int nBytes){
+    uint8_t data;
+    uint8_t remainder = 0;
+
+    for (int byte = 0; byte < nBytes; ++byte){
+        data = message[byte] ^ (remainder >> (WIDTH - 8));
+        remainder = crcTable[data] ^ (remainder << 8);
+    }
+
+    return (remainder);
+}
 
 unsigned int mon_time_ms(void)
 {
@@ -71,6 +107,7 @@ int main (int argc, char **argv)
 	packet.p1 = P1;
 	packet.p2 = P2;
 	packet.mode = 1;
+	crcInit();
 	/*-----------------------------------------	
 	Keyboard initialized in a different mode:
 	https://www.raspberrypi.org/forums/viewtopic.php?t=177157&start=25
@@ -80,9 +117,15 @@ int main (int argc, char **argv)
 	serial_open();
 
 	char keypress = 0;  // ascii decimal of the key pressed
-	int payload_len;
+	
 	char *payload;
+	int payload_len;
 	payload = (char *) malloc(PAYLOAD_LEN);
+	
+	char *new_payload;
+	int new_payload_len;
+	new_payload = (char *) malloc(PAYLOAD_LEN);
+
 	/*------------------------------------------*/
 
 
@@ -227,16 +270,30 @@ int main (int argc, char **argv)
 		packet.pitch = joystick.pitch + keyboard.pitch ;
 		packet.roll  = joystick.roll  + keyboard.roll  ;
 		packet.lift  = joystick.lift  + keyboard.lift  ;
+		printf("%03d %03d %03d %03d\n",
+				      packet.yaw, 
+	    			  packet.pitch, 
+	    			  packet.roll, 
+	    			  packet.lift);
         payload_len = snprintf(payload, PAYLOAD_LEN, 
-	    			  "%03d %03d %03d %03d",    			   
+	    			  "%02x%02x%02x%02x%02x", 
+	    			  0xAA,   			   
 	    			  packet.yaw, 
 	    			  packet.pitch, 
 	    			  packet.roll, 
 	    			  packet.lift);
     			//  packet.mode,
     			//  packet.p1, packet.p2);
-	    if(payload_len <= PAYLOAD_LEN) {
-	    	printf("\033[0;31m payload : %s len: %d\n\033[0m", payload, payload_len);
+        
+        uint8_t crcByte;
+        crcByte = crcFast(payload, payload_len);
+        new_payload_len = snprintf(new_payload, PAYLOAD_LEN, "%s%02x", payload, crcByte);// crcByte);
+	    //printf("%s%x\n", payload, crcByte);
+	    
+	    if(payload_len <= PAYLOAD_LEN) {	
+	    	printf("\033[0;31m payload : %s len: %d\n\033[0m", 
+	    			new_payload, new_payload_len);
+
 	    	serial_putstring(payload, payload_len);
 	    }
 	    else {
