@@ -12,10 +12,6 @@
  *  June 2016
  *------------------------------------------------------------------
  */
-
-
-
-
 #include "in4073.h"
 
 #include "FreeRTOS.h"
@@ -104,10 +100,10 @@ static void sensor_loop(void *pvParameter){
 
 /*--------------------------------------------------------------------------------------
  * vCheck_battery_voltage:    Checks the battery voltage and triggers panic mode if low
- * Parameters: pointer to function parameters
- * Return:   void
- * Author:    Jetse Brouwer
- * Date:    2-5-2018
+ * Parameters: 	pointer to function parameters
+ * Return:		void
+ * Author:		Jetse Brouwer
+ * Date:    	2-5-2018
  *--------------------------------------------------------------------------------------
  */
 

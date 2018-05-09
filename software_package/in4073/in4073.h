@@ -28,7 +28,11 @@ fmt, __FILENAME__, __LINE__, __func__, ##args);} while (0)
 #include <math.h>
 #include <string.h>
 
-#define RED		22
+#include "FreeRTOS.h"
+#include "rtos_task.h"
+#include "rtos_queue.h"
+
+#define RED			22
 #define YELLOW		24
 #define GREEN		28
 #define BLUE		30
@@ -70,24 +74,6 @@ queue tx_queue;
 uint32_t last_correct_checksum_time;
 void uart_init(void);
 void uart_put(uint8_t);
-
-enum SerialStates{
-	IDLE,
-	CTRL,
-	PARA
-};
-enum SerialStates serialstate;
-#define CTRL_DATA_LENGTH 4
-#define PARA_DATA_LENGTH 5
-
-typedef struct {
-	uint8_t data[6];
-} ctrl_msg;
-
-
-typedef struct {
-	uint8_t data[7];
-} para_msg;
 
 // TWI
 #define TWI_SCL	4
