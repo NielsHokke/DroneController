@@ -94,13 +94,9 @@ void validate_ctrl_msg(void *pvParameter){
 			uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
 			
 			taskENTER_CRITICAL();
-			DEBUG_PRINT("CTRL message recieved:\n");
-			DEBUG_PRINT("strt_byte: %d\n", ctrl_buffer[0]);
-			DEBUG_PRINT("yaw: %d\n", ctrl_buffer[1]);
-			DEBUG_PRINT("pitch:%d\n", ctrl_buffer[2]);
-			DEBUG_PRINT("roll: %d\n", ctrl_buffer[3]);
-			DEBUG_PRINT("lift: %d\n", ctrl_buffer[4]);
-			DEBUG_PRINT("CRC: %d\n", ctrl_buffer[5]);
+			DEBUG_PRINT("CTRL message recieved:\nstrt_byte: %d\nyaw: %d\npitch:%d\nroll: %d\nlift: %d\nCRC: %d\n",
+				ctrl_buffer[0], ctrl_buffer[1], ctrl_buffer[2], ctrl_buffer[3], ctrl_buffer[4], ctrl_buffer[5]);
+
 			taskEXIT_CRITICAL();
 
 			if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){

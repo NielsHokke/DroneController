@@ -91,7 +91,7 @@ static void sensor_loop(void *pvParameter){
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
-		//nrf_gpio_pin_toggle(RED);
+		nrf_gpio_pin_toggle(RED);
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
 	}
@@ -146,7 +146,7 @@ int main(void)
 	
 
 
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 3, NULL));
+    // UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 3, NULL));
 	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
 	DEBUG_PRINT("Tasks registered\n");
