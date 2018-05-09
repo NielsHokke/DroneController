@@ -6,7 +6,7 @@
 #include "packet.h"
 #include "terminals.c"
 
-#define OFFSET 10      // trim offest on single keypress
+#define OFFSET 1       // trim offest on single keypress
 #define PAYLOAD_LEN 30 // length of packet over serial
 #define P1 200         // velocity controller gain
 #define P2 200         // position controller gain
@@ -66,25 +66,25 @@ int main(void)
         case 'o'      : packet.p2 = packet.p2 + OFFSET; break;
         case 'l'      : packet.p2 = packet.p2 - OFFSET; break;
 
-        case 27		  : read(STDIN_FILENO, &ch, 1);  // ignore character '['
-        				read(STDIN_FILENO, &ch, 1);  // up=A, dn=B, rght=C, left=D 
-        				if (ch == 'A') {//go fwd
-        					packet.pitch = packet.pitch - OFFSET;
-        				} 
-        				else if (ch == 'B') {//bckwd
-        					packet.pitch = packet.pitch + OFFSET; 
-        				}
-        				else if (ch == 'C') {//roll negative CW
-        					packet.roll = packet.roll - OFFSET;
-        				}
-        				else if (ch == 'D') {//roll positive CCW
-        					packet.roll = packet.roll + OFFSET;
-        				}
-        				else {
-        					// ESC button pressed
-        					terminate = true;
-        				}
-        				break;
+        case 27		    : read(STDIN_FILENO, &ch, 1);  // ignore character '['
+                				read(STDIN_FILENO, &ch, 1);  // up=A, dn=B, rght=C, left=D 
+                				if (ch == 'A') {//go fwd
+                					packet.pitch = packet.pitch - OFFSET;
+                				} 
+                				else if (ch == 'B') {//bckwd
+                					packet.pitch = packet.pitch + OFFSET; 
+                				}
+                				else if (ch == 'C') {//roll negative CW
+                					packet.roll = packet.roll - OFFSET;
+                				}
+                				else if (ch == 'D') {//roll positive CCW
+                					packet.roll = packet.roll + OFFSET;
+                				}
+                				else {
+                					// ESC button pressed
+                					terminate = true;
+                				}
+                				break;
 
         default       : printf("unmapped key 0x%02x : %c\n", ch, 
                         (ch >= 32 && ch < 127) ? ch : ' '); //terminate = true;
@@ -96,14 +96,14 @@ int main(void)
      			read from drone //put read packet size
     ------------------------------------------*/
 	
-	char rx_c[1000];
-	int result = 0;
-	if((result = read(fd_serial, rx_c, sizeof(rx_c))) != 0) {
-		printf("rx: %s, len: %d\n", rx_c, result);
-		if(result == 0) { 
-			tcflush(fd_serial, TCIFLUSH); /* Discards old data in the rx buffer */
-		}
-	}
+  	char rx_c[1000];
+  	int result = 0;
+  	if((result = read(fd_serial, rx_c, sizeof(rx_c))) != 0) {
+  		//printf("rx: %s, len: %d\n", rx_c, result);
+  		//if(result == 0) { 
+  		//	tcflush(fd_serial, TCIFLUSH); /* Discards old data in the rx buffer */
+  		//}
+	  }
 
     /*----------------------------------------
     			compose packet 
@@ -118,7 +118,7 @@ int main(void)
     			  packet.yaw, packet.pitch, packet.roll, 
     			  packet.p1, packet.p2);
     if(payload_len <= PAYLOAD_LEN) {
-    	//printf("payload: %s len: %d\n", payload, payload_len);
+    	printf("payload: %s len: %d\n", payload, payload_len);
     	serial_putstring(payload, payload_len);
     }
     else {
