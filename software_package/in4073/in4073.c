@@ -117,8 +117,6 @@ static void control_loop(void *pvParameter){
 		time = xTaskGetTickCount();
 		read_baro();
 		printf("baro %10ld \n",xTaskGetTickCount() - time);
-
-
 		
 		if (check_sensor_int_flag()) 
 		{
