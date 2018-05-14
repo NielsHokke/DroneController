@@ -265,5 +265,5 @@ pc-run:
 	cd pc_terminal/; make run
 	
 upload-run: default pc
-	dfu_serial/./serial_dfu.py -p $(PORT)  _build/in4073.bin
-	cd pc_terminal/ -p $(PORT); make run
+	dfu_serial/./serial_dfu.py -p /dev/ttyUSB0  _build/in4073.bin
+	cd pc_terminal/ -p /dev/ttyUSB0; make run
