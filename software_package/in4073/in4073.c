@@ -52,7 +52,7 @@ static void control_loop(void *pvParameter){
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
 
-	uint32_t tempMotor[4]; 
+
 
 	int i = 0;
 	int seconds = 0;
@@ -71,19 +71,7 @@ static void control_loop(void *pvParameter){
 				ae[3] = 0;
 				break;
 			case MANUAL:
-				//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
-				//
-
-				tempMotor[0] = SetPoint.lift*4015 + SetPoint.pitch*1024/MAN_PITCH_SCALAR ;
-				tempMotor[1] = SetPoint.lift*4015 + SetPoint.roll*1024/MAN_ROLL_SCALER;
-				tempMotor[2] = SetPoint.lift*4015 - SetPoint.pitch*1024/MAN_PITCH_SCALAR;
-				tempMotor[3] = SetPoint.lift*4015 - SetPoint.roll*1024/MAN_ROLL_SCALERs;
-
-				ae[0] = tempMotor[0] /1024;
-				ae[1] = tempMotor[1] /1024;
-				ae[2] = tempMotor[2] /1024;
-				ae[3] = tempMotor[3] /1024;
-
+				manual_control();
 				break;
 			default:
 				break;

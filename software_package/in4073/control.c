@@ -11,6 +11,7 @@
  */
 
 #include "in4073.h"
+#include "drone.h"
 
 void update_motors(void)
 {					
@@ -36,4 +37,34 @@ void run_filters_and_control()
 
 	// ae[0] = xxx, ae[1] = yyy etc etc
 	update_motors();
+}
+
+
+
+/*--------------------------------------------------------------------------------------
+ * sensor_loop: Takes the values from the setpoint and directly maps this to motor output
+ /				DO NOT USE THIS TO FLY, YOU WILL CRASH THE DRONE. TESTING ONLY
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    14-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
+void manual_control(void){
+	uint32_t tempMotor[4]; 
+	//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
+	//Pitch and roll are first scaled by 2^10 to increase percision and next divided by a fixed scaler which can be set in drone.h
+	//TODO: the scalars should be a on the go settable parameter.
+
+	tempMotor[0] = SetPoint.lift * 4015 + 	SetPoint.pitch * 1024 / MAN_PITCH_SCALER 	+ SetPoint.yaw * 1024 / MAN_YAW_SCALER;
+	tempMotor[1] = SetPoint.lift * 4015 + 	SetPoint.roll * 1024 / MAN_ROLL_SCALER		- SetPoint.yaw * 1024 / MAN_YAW_SCALER;;
+	tempMotor[2] = SetPoint.lift * 4015 - 	SetPoint.pitch * 1024 / MAN_PITCH_SCALER 	+ SetPoint.yaw * 1024 / MAN_YAW_SCALER;
+	tempMotor[3] = SetPoint.lift * 4015 - 	SetPoint.roll * 1024 / MAN_ROLL_SCALER 		- SetPoint.yaw * 1024 / MAN_YAW_SCALER;;
+
+	ae[0] = tempMotor[0] /1024;
+	ae[1] = tempMotor[1] /1024;
+	ae[2] = tempMotor[2] /1024;
+	ae[3] = tempMotor[3] /1024;
+
 }
