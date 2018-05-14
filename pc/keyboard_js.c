@@ -60,7 +60,15 @@ int main (int argc, char **argv)
 	int payload_crc_len;
 	payload_crc = (char *) malloc(PAYLOAD_LEN);
 
-	// initalize the lookup table
+	/* counter for received buffer */
+	int n = 0; int spot = 0;
+	char buf = '\0';
+
+	/* Whole response*/
+	char response[200];
+	memset(response, '\0', 200 * sizeof(char));
+
+	// initalize the crc lookup table
 	crcInit();
 	uint8_t crcByte;
 
@@ -198,10 +206,34 @@ int main (int argc, char **argv)
 	    }
 
     	serial_putstring(payload_crc, payload_crc_len);
-    	
-    	//usleep(100000); // Cut update rate to 10Hz
 
-		// maybe for timeout
+		/*-----------------------------------------
+			read from drone //put read packet size
+		------------------------------------------*/
+		spot = 0;
+		do {
+			n = read(fd_serial, &buf, 1 );
+			sprintf( &response[spot], "%c", buf );
+			spot += n;
+		} while( buf != '\n' && n > 0);
+
+		if (n < 0) {
+			printf("\033[1;31mError in reading, errno: d\033[0m\n");
+			// switch mode 
+		break;
+
+		}
+		else if (n == 0) {
+			printf("\033[1;31mTimeout: read from Serial - maybe flash chip again\033[0m\n");
+			// switch mode 
+		break;
+		}
+		else {
+			printf("\033[0;33mrx: %s, len %d\033[0m\n", response, spot);
+		}
+    
+
+		// maybe for timeout: 
 		if (errno != EAGAIN) {
 			perror("\njs: error reading (EAGAIN)");
 			deinit_keyboard();

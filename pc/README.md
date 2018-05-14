@@ -4,6 +4,9 @@
 - commands like ctrl+D to exit the terminal don't work anymore (keyboard inputs flow in a non-blocking mode now)
 - text marked with (grep "todo" *.c) is yet to be implemented (serial comm) 
 - sanity check for formatting yet to be checked
+- Timeout partially/indirectly works
+- Timeout implementation pending: https://lnguin.wordpress.com/2013/06/06/linux-serial-programming-with-read-timeout/
+- Yet to parse the received packets to struct. 
 
 1. `keyboard_js.c`: Both keyboard and joystick to control the drone (supposed to be the final code)
 2. `keyboard.c`   : We don't have the joystick always, use only keyboard to send packets.

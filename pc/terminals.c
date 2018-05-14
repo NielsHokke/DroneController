@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <assert.h>
 #include <time.h>
-
+#include "joystick.h"
 #define JS_DEV	"/dev/input/js0"
 
 // if plans to make header, use extern
@@ -82,7 +82,7 @@ void init_serial(void)
 	cfsetispeed(&tty, B115200);
 
 	tty.c_cc[VMIN]  = 0;
-	tty.c_cc[VTIME] = 1; // added timeout
+	tty.c_cc[VTIME] = 1; // added timeout 0.1 sec
 
 	tty.c_iflag &= ~(IXON|IXOFF|IXANY);
 
