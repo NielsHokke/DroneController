@@ -60,8 +60,8 @@ static void control_loop(void *pvParameter){
 		xLastWakeTime = xTaskGetTickCount();
 		if ((i++ % 100) == 0){
 			seconds++;
-			// DEBUG_PRINT("%" PRIi8 "\nyaw: %" PRIi8 "\npitch:%" PRIi8 "\nroll: %" PRIi8 "\nlift: %" PRIu8 "\n",
-			// SetPoint.yaw, SetPoint.pitch, SetPoint.roll, SetPoint.lift);	
+			DEBUG_PRINT("yaw: %d \t pitch:%d \t roll: %d \t lift: %u PRIu8 \n",
+			SetPoint.yaw, SetPoint.pitch, SetPoint.roll, SetPoint.lift);	
 		}
 		switch(GlobalState){
 			case SAFE:
@@ -154,7 +154,7 @@ int main(void)
 	spi_flash_init();
 	// ble_init();
 
-	//DEBUG_PRINT("Peripherals initialized\n");
+	DEBUG_PRINT("Peripherals initialized\n");
 	
 
 
