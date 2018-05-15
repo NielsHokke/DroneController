@@ -89,27 +89,25 @@ void validate_ctrl_msg(void *pvParameter){
 	taskEXIT_CRITICAL();
 
 	for(;;){
-		if(xQueueReceive(ctrl_msg_queue, ctrl_buffer, 0)){
-			// Something in queue
-			uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
-			
-			// taskENTER_CRITICAL();
-			// DEBUG_PRINT("CTRL message recieved:\nstrt_byte: %d\nyaw: %d\npitch:%d\nroll: %d\nlift: %d\nCRC: %d\n",
-			// 	ctrl_buffer[0], ctrl_buffer[1], ctrl_buffer[2], ctrl_buffer[3], ctrl_buffer[4], ctrl_buffer[5]);
-			// taskEXIT_CRITICAL();
+		// Yielding till something in queue
+		xQueueReceive(ctrl_msg_queue, ctrl_buffer, portMAX_DELAY);
 
-			if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
-				DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
-			}else{
-				// Set SetPoint
-				SetPoint.yaw = ctrl_buffer[1];
-				SetPoint.pitch = ctrl_buffer[2];
-				SetPoint.roll = ctrl_buffer[3];
-				SetPoint.lift = ctrl_buffer[4];
-			}
+		// Calculate crc
+		uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
+		
+		// Print message content
+		taskENTER_CRITICAL();
+		DEBUG_PRINT("CTRL message recieved:\nstrt_byte: %d\nyaw: %d\npitch:%d\nroll: %d\nlift: %d\nCRC: %d\n",
+			ctrl_buffer[0], ctrl_buffer[1], ctrl_buffer[2], ctrl_buffer[3], ctrl_buffer[4], ctrl_buffer[5]);
+		taskEXIT_CRITICAL();
+
+		// Verify crc
+		if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
+			// Incorrect CRC
+			DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
 		}else{
-			// Nothing in queue so suspend this task, woken up later by other task when something in queue
-			vTaskSuspend( NULL );
+			// Correct CRC
+			// TODO execute comand
 		}
 	}
 }
@@ -131,22 +129,25 @@ void validate_para_msg(void *pvParameter){
 	taskEXIT_CRITICAL();
 
 	for(;;){
-		if(xQueueReceive(para_msg_queue, para_buffer, portMAX_DELAY)){
-			// Something in queue
-			taskENTER_CRITICAL();
-			DEBUG_PRINT("PARA message recieved:\n");
-			DEBUG_PRINT("strt_byte: %d\n", para_buffer[0]);
-			DEBUG_PRINT("Reg.address: %d\n", para_buffer[1]);
-			DEBUG_PRINT("data:%d\n", para_buffer[2]);
-			DEBUG_PRINT("data: %d\n", para_buffer[3]);
-			DEBUG_PRINT("data: %d\n", para_buffer[4]);
-			DEBUG_PRINT("data: %d\n", para_buffer[5]);
-			DEBUG_PRINT("CRC: %d\n", para_buffer[6]);
-			taskEXIT_CRITICAL();
+		// Yielding till something in queue
+		xQueueReceive(para_msg_queue, para_buffer, portMAX_DELAY);
+
+		// Calculate crc
+		uint8_t crc = crcFast(para_buffer, PARA_DATA_LENGTH+1);
+
+		// Print message content
+		taskENTER_CRITICAL();
+		DEBUG_PRINT("PARA message recieved:\nstrt_byte: %d\nReg.address: %d\ndata:%d\ndata: %d\nldata: %d\nldata: %d\nCRC: %d\n",
+			para_buffer[0], para_buffer[1], para_buffer[2], para_buffer[3], para_buffer[4], para_buffer[5], para_buffer[6]);
+		taskEXIT_CRITICAL();
+
+		// Verify crc
+		if(crc != para_buffer[PARA_DATA_LENGTH+1]){
+			// Incorrect CRC
+			DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
 		}else{
-			// suspend this task when queue is empty, woken up later by other task when something in queue
-			DEBUG_PRINT("Queue is empty?");
-			vTaskSuspend( NULL );
+			// Correct CRC
+			// TODO execute comand
 		}
 	}
 }
@@ -189,11 +190,19 @@ void handle_serial_rx(char c){
 			if(byte_counter == CTRL_DATA_LENGTH + 2){ // data lenght + 1 CRC byte
 				
 				// Putting message on to para queue
-				if(xQueueOverwrite( ctrl_msg_queue, ctrl_buffer) != pdPASS){
+				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+				if(xQueueOverwriteFromISR( ctrl_msg_queue, ctrl_buffer, &xHigherPriorityTaskWoken) != pdPASS){
 					DEBUG_PRINT("Failed to put ctrl msg into ctrl queue\n");
 				}else{
 					vTaskResume( validate_ctrl_msg_Handle );
 				}
+
+		        /* Writing to the queue caused a task to unblock and the unblocked task
+		        has a priority higher than or equal to the priority of the currently
+		        executing task (the task this interrupt interrupted).  Perform a
+		        context switch so this interrupt returns directly to the unblocked
+		        task. */
+		        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 
 				serialstate = IDLE;
 			}
@@ -204,11 +213,19 @@ void handle_serial_rx(char c){
 			if(byte_counter == PARA_DATA_LENGTH + 2){ // data lenght + 1 CRC byte
 
 				// Putting message on to para queue
-				if(xQueueSend( para_msg_queue, para_buffer, 0) != pdPASS){
+				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+				if(xQueueSendFromISR( para_msg_queue, para_buffer, &xHigherPriorityTaskWoken) != pdPASS){
 					DEBUG_PRINT("Failed to put para msg into para queue\n");
 				}else{
 					vTaskResume( validate_para_msg_Handle );
 				}
+
+		        /* Writing to the queue caused a task to unblock and the unblocked task
+		        has a priority higher than or equal to the priority of the currently
+		        executing task (the task this interrupt interrupted).  Perform a
+		        context switch so this interrupt returns directly to the unblocked
+		        task. */
+		        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 
 				serialstate = IDLE;
 			}
