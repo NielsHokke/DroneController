@@ -43,10 +43,8 @@ enum SerialStates{
 };
 enum SerialStates serialstate;
 
-
-TaskHandle_t validate_ctrl_msg_Handle;
-TaskHandle_t validate_para_msg_Handle;
-
+void validate_ctrl_msg(void *);
+void validate_para_msg(void *);
 
 
 
