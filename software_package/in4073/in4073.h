@@ -11,7 +11,7 @@
 #ifndef IN4073_H__
 #define IN4073_H__
 
-#define DEBUG 1
+#define DEBUG 0
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #define DEBUG_PRINT(fmt, args...) do { if (DEBUG) fprintf(stdout, "DEBUG: %s:%d:%s(): " \
 fmt, __FILENAME__, __LINE__, __func__, ##args);} while (0)

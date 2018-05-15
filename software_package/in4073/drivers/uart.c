@@ -193,8 +193,6 @@ void handle_serial_rx(char c){
 				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 				if(xQueueOverwriteFromISR( ctrl_msg_queue, ctrl_buffer, &xHigherPriorityTaskWoken) != pdPASS){
 					DEBUG_PRINT("Failed to put ctrl msg into ctrl queue\n");
-				}else{
-					vTaskResume( validate_ctrl_msg_Handle );
 				}
 
 		        /* Writing to the queue caused a task to unblock and the unblocked task
@@ -216,8 +214,6 @@ void handle_serial_rx(char c){
 				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 				if(xQueueSendFromISR( para_msg_queue, para_buffer, &xHigherPriorityTaskWoken) != pdPASS){
 					DEBUG_PRINT("Failed to put para msg into para queue\n");
-				}else{
-					vTaskResume( validate_para_msg_Handle );
 				}
 
 		        /* Writing to the queue caused a task to unblock and the unblocked task
@@ -231,7 +227,8 @@ void handle_serial_rx(char c){
 			}
 			break;
 		default:
-			nrf_gpio_pin_toggle(RED);
+			//nrf_gpio_pin_toggle(RED);
+		DEBUG_PRINT("Unexpected State");
 	}
 }
 
@@ -269,11 +266,11 @@ void uart_init(void)
 	ctrl_msg_queue = xQueueCreate(1, sizeof(uint8_t)*(CTRL_DATA_LENGTH+2));
 	para_msg_queue = xQueueCreate(PARA_MSG_QUEUE_SIZE, sizeof(uint8_t)*(PARA_DATA_LENGTH+2));
 
-	BaseType_t xReturned_ctrl = xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", 128, NULL, 2, &validate_ctrl_msg_Handle);
-	BaseType_t xReturned_para = xTaskCreate(validate_para_msg, "Validate and execute para message", 128, NULL, 3, &validate_para_msg_Handle);
+	// BaseType_t xReturned_ctrl = xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", 128, NULL, 2, NULL);
+	// BaseType_t xReturned_para = xTaskCreate(validate_para_msg, "Validate and execute para message", 128, NULL, 3, NULL);
 
-	if( xReturned_ctrl != pdPASS ) DEBUG_PRINT("Failed to create 'validate_ctrl_msg' task");
-	if( xReturned_para != pdPASS ) DEBUG_PRINT("Failed to create 'validate_para_msg' task");
+	// if( xReturned_ctrl != pdPASS ) DEBUG_PRINT("Failed to create 'validate_ctrl_msg' task");
+	// if( xReturned_para != pdPASS ) DEBUG_PRINT("Failed to create 'validate_para_msg' task");
 
 	nrf_gpio_cfg_output(TX_PIN_NUMBER);
 	nrf_gpio_cfg_input(RX_PIN_NUMBER, NRF_GPIO_PIN_NOPULL);

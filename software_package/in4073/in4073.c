@@ -28,7 +28,7 @@
 #include "app_error.h"
 
 #define CONTROL_PERIOD 10
-#define SENSOR_LOOP 1
+#define SENSOR_PERIOD 500
 
 
 
@@ -60,8 +60,9 @@ static void control_loop(void *pvParameter){
 		xLastWakeTime = xTaskGetTickCount();
 		if ((i++ % 100) == 0){
 			seconds++;
-			DEBUG_PRINT("yaw: %d \t pitch:%d \t roll: %d \t lift: %u PRIu8 \n",
-			SetPoint.yaw, SetPoint.pitch, SetPoint.roll, SetPoint.lift);	
+			nrf_gpio_pin_toggle(GREEN);
+			//DEBUG_PRINT("yaw: %d \t pitch:%d \t roll: %d \t lift: %u PRIu8 \n",
+			//SetPoint.yaw, SetPoint.pitch, SetPoint.roll, SetPoint.lift);	
 		}
 		switch(GlobalState){
 			case SAFE:
@@ -94,11 +95,11 @@ static void sensor_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
 
-	const TickType_t xFrequency = SENSOR_LOOP; //period of task 
+	const TickType_t xFrequency = SENSOR_PERIOD; //period of task 
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
-		//nrf_gpio_pin_toggle(RED);
+		nrf_gpio_pin_toggle(BLUE);
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
 	}
@@ -118,21 +119,26 @@ static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	for(;;){
 
-		nrf_gpio_pin_toggle(BLUE);
+		nrf_gpio_pin_toggle(YELLOW);
 
 		adc_request_sample();
 		vTaskDelay(1);
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
-		DEBUG_PRINT("Battery check: %d \n", bat_volt);
+		//DEBUG_PRINT("Battery check: %d \n", bat_volt);
 		vTaskDelay(999);
 
 	}
 }
 
-
-
+void print_heil_hendrik(void *pvParameter){
+	UNUSED_PARAMETER(pvParameter);
+	for(;;){
+		DEBUG_PRINT("Heil Hendrik!");
+		vTaskDelay(900);
+	}
+}
 
 int main(void)
 {
@@ -156,10 +162,11 @@ int main(void)
 
 	DEBUG_PRINT("Peripherals initialized\n");
 	
+	UNUSED_VARIABLE(xTaskCreate(print_heil_hendrik, "Validate and execute ctrl message", 128, NULL, 3, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", 128, NULL, 2, NULL));
 
-
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 1, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
 	DEBUG_PRINT("Tasks registered\n");
 
