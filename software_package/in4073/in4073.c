@@ -27,7 +27,7 @@
 #include "sdk_errors.h"
 #include "app_error.h"
 
-#include "micro_print.h"
+
 
 #define CONTROL_PERIOD 10
 #define SENSOR_PERIOD 500
@@ -65,8 +65,7 @@ static void control_loop(void *pvParameter){
 			seconds++;
 			nrf_gpio_pin_toggle(GREEN);
 
-			printeger((uint) uxTaskGetStackHighWaterMark(NULL));
-			print(": from control loop \n\f");
+
 			
 			// printf("%d \n I'm in a loop\n", stack);
 
@@ -108,14 +107,51 @@ static void sensor_loop(void *pvParameter){
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
-		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
-		print(": from sensor_loop \n\f");		
+		printeger(xPortGetFreeHeapSize());
+		print("heap\n\f");		
 		nrf_gpio_pin_toggle(BLUE);
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
 	}
 
 }
+
+void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName )
+{
+    ( void ) pcTaskName;
+    //( void ) xTask;
+    int i = 0;
+    /* Run time stack overflow checking is performed if
+    configconfigCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
+    function is called if a stack overflow is detected.  pxCurrentTCB can be
+    inspected in the debugger if the task name passed into this function is
+    corrupt. */
+    print("someone caused a stack overflow\f\n");
+    for( ;; ){
+	    while(i++ < 2000000){};
+	    i = 0;
+	    nrf_gpio_pin_toggle(RED);
+    }
+}
+
+void vApplicationIdleHook( void )
+{
+	uint16_t i = 0;
+    /* The idle task hook is enabled by setting configUSE_IDLE_HOOK to 1 in
+    FreeRTOSConfig.h.
+
+    This function is called on each cycle of the idle task.  In this case it
+    does nothing useful, other than report the amount of FreeRTOS heap that
+    remains unallocated. */
+    for(;;){
+	    while(i++ < 65535){};
+	    printeger(xPortGetFreeHeapSize());
+		print(": free heapsize \n\f");
+		i=0;
+	}
+}
+
+
 
 /*--------------------------------------------------------------------------------------
  * vCheck_battery_voltage:    Checks the battery voltage and triggers panic mode if low
@@ -146,12 +182,14 @@ static void check_battery_voltage(void *pvParameter){
 
 void print_heil_hendrik(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
+	//char henk[] = 
 	for(;;){
 		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
-		print(": hendrik \n\f");
+		print(": hendrik\n\f");
 		vTaskDelay(900);
 	}
 }
+
 
 int main(void)
 {
@@ -175,12 +213,12 @@ int main(void)
 
 	print("Peripherals initialized\n\f");
 	
-	UNUSED_VARIABLE(xTaskCreate(print_heil_hendrik, "Validate and execute ctrl message", 60, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", 128, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(print_heil_hendrik, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE, NULL, 3, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE  + 10, NULL, 2, NULL));
 
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 60, NULL, 1, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 60, NULL, 1, NULL));
-	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 60, NULL, 1, NULL));
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");
 
     /* Activate deep sleep mode */
@@ -197,3 +235,5 @@ int main(void)
     }
 	NVIC_SystemReset();
 }
+
+

@@ -96,10 +96,7 @@ void validate_ctrl_msg(void *pvParameter){
 		uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
 		
 		// Print message content
-		taskENTER_CRITICAL();
-		DEBUG_PRINT("CTRL message recieved:\nstrt_byte: %d\nyaw: %d\npitch:%d\nroll: %d\nlift: %d\nCRC: %d\n",
-			ctrl_buffer[0], ctrl_buffer[1], ctrl_buffer[2], ctrl_buffer[3], ctrl_buffer[4], ctrl_buffer[5]);
-		taskEXIT_CRITICAL();
+
 
 		// Verify crc
 		if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
@@ -130,25 +127,28 @@ void validate_para_msg(void *pvParameter){
 
 	for(;;){
 		// Yielding till something in queue
+		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
+		print(": parastack \n\f");
 		xQueueReceive(para_msg_queue, para_buffer, portMAX_DELAY);
 
 		// Calculate crc
 		uint8_t crc = crcFast(para_buffer, PARA_DATA_LENGTH+1);
 
 		// Print message content
-		taskENTER_CRITICAL();
-		DEBUG_PRINT("PARA message recieved:\nstrt_byte: %d\nReg.address: %d\ndata:%d\ndata: %d\nldata: %d\nldata: %d\nCRC: %d\n",
-			para_buffer[0], para_buffer[1], para_buffer[2], para_buffer[3], para_buffer[4], para_buffer[5], para_buffer[6]);
-		taskEXIT_CRITICAL();
+
 
 		// Verify crc
 		if(crc != para_buffer[PARA_DATA_LENGTH+1]){
 			// Incorrect CRC
+			print("PARAAA\n\f");	
 			DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
 		}else{
 			// Correct CRC
 			// TODO execute comand
+
 		}
+		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
+		print(": parastack 1\n\f");
 	}
 }
 
@@ -167,7 +167,7 @@ void handle_serial_rx(char c){
 	static char ctrl_buffer[CTRL_DATA_LENGTH+2];
 	static char para_buffer[PARA_DATA_LENGTH+2];
 	static uint8_t byte_counter;
-		
+	print("char\n\f");	
 	switch(serialstate){
 		case IDLE:
 			if(c == 0xAA){ // control message start byte
@@ -294,5 +294,5 @@ void uart_init(void)
 	NVIC_SetPriority(UART0_IRQn, 3); // either 1 or 3, 3 being low. (sd present)
 	NVIC_EnableIRQ(UART0_IRQn);
 
-	DEBUG_PRINT("UART intitialised\n");
+	print("UART intitialised\n\f");
 }
