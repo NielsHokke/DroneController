@@ -1,7 +1,7 @@
 
 #include "in4073.h"
 
-#define MAX_STR_LEN 20
+#define MAX_STR_LEN 50
 #define MAX_INT_LEN 5
 
 void print(char *string){
@@ -31,7 +31,7 @@ void printeger(int x){
 void uprinteger(uint x){
 	char string[MAX_INT_LEN + 1] = {0};
 	for (int i =0; i < MAX_INT_LEN; i++){
-		string[MAX_INT_LEN-i] =  '0' + x % 10;
+		string[MAX_INT_LEN-i-1] =  '0' + x % 10;
 		x = x/10;
 	}
 	string[MAX_INT_LEN] = '\f';
