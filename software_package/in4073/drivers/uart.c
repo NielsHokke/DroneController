@@ -133,7 +133,11 @@ void validate_para_msg(void *pvParameter){
 		}else{
 			DEBUG_PRINT("param. crc correct\n\f");
 			// Correct CRC
-			// TODO execute comand
+			uint8_t index = (uint8_t) para_buffer[1];
+			parameters[index] = para_buffer[2];
+			parameters[index+ 1] = para_buffer[3];
+			parameters[index+2] = para_buffer[4];
+			parameters[index+3] = para_buffer[5];
 		}
 	}
 }
@@ -152,7 +156,7 @@ void handle_serial_rx(char c){
 	static char ctrl_buffer[CTRL_DATA_LENGTH+2];
 	static char para_buffer[PARA_DATA_LENGTH+2];
 	static uint8_t byte_counter;
-	print("char\n\f");	
+		
 	switch(serialstate){
 		case IDLE:
 			if(c == 0xAA){ // control message start byte

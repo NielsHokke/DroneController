@@ -48,5 +48,12 @@ void validate_para_msg(void *);
 
 
 
+// Global parameters
+
+#define P_MODE 3
+#define PARAMETER_ARRAY_SIZE 4
+uint8_t parameters[PARAMETER_ARRAY_SIZE];
+
+
 
 #endif // DRONE_H__
