@@ -12,7 +12,10 @@
  *  June 2016
  *------------------------------------------------------------------
  */
+
+
 #include "in4073.h"
+#include "drone.h"
 
 #include "FreeRTOS.h"
 #include "rtos_task.h"
@@ -24,20 +27,11 @@
 #include "sdk_errors.h"
 #include "app_error.h"
 
+
+
 #define CONTROL_PERIOD 10
-#define SENSOR_LOOP 1
+#define SENSOR_PERIOD 1
 
-enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MODE_1, RAW_MODE_2, RAW_MODE_3} GlobalState;
-
-
-
-
-
-
-/*------------------------------------------------------------------
- * main -- everything you need is here :)
- *------------------------------------------------------------------
- */
 
 
 /*--------------------------------------------------------------------------------------
@@ -52,24 +46,29 @@ enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MO
 static void control_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = CONTROL_PERIOD; //period of task 
-
+	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
 	int i = 0;
-	int seconds = 0;
+
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
+
 		if ((i++ % 100) == 0){
-			seconds++;
-			DEBUG_PRINT("we zitten nu op de tijd sdfjlasdfjkasldfj asdklfj lasdkfjhlkasdf%d\n", seconds);	
-			
+			nrf_gpio_pin_toggle(GREEN);
 		}
 		switch(GlobalState){
 			case SAFE:
-				motors_off();
+				ae[0] = 0;
+				ae[1] = 0;
+				ae[2] = 0;
+				ae[3] = 0;
+				break;
+			case MANUAL:
+				manual_control();
 				break;
 			default:
 				break;
 		};
+		update_motors();
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}	
 }
@@ -87,23 +86,26 @@ static void sensor_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
 
-	const TickType_t xFrequency = SENSOR_LOOP; //period of task 
+	const TickType_t xFrequency = SENSOR_PERIOD; //period of task 
+	int i = 0;
 
 	for(;;){
-		xLastWakeTime = xTaskGetTickCount();
-		nrf_gpio_pin_toggle(RED);
-		vTaskDelayUntil( &xLastWakeTime, xFrequency );
-		
+		xLastWakeTime = xTaskGetTickCount();	
+		if ((i++ % 5000) == 0){
+			nrf_gpio_pin_toggle(BLUE);
+		}
+		vTaskDelayUntil( &xLastWakeTime, xFrequency );	
 	}
-
 }
+
+
 
 /*--------------------------------------------------------------------------------------
  * vCheck_battery_voltage:    Checks the battery voltage and triggers panic mode if low
- * Parameters: 	pointer to function parameters
- * Return:		void
- * Author:		Jetse Brouwer
- * Date:    	2-5-2018
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
  *--------------------------------------------------------------------------------------
  */
 
@@ -111,26 +113,45 @@ static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	for(;;){
 
-		nrf_gpio_pin_toggle(BLUE);
+		nrf_gpio_pin_toggle(YELLOW);
 
 		adc_request_sample();
 		vTaskDelay(1);
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
-		DEBUG_PRINT("Battery check met extra veel tijd to improve the likelhood of collision\n");
-		vTaskDelay(999);
+		DEBUG_PRINTEGER((uint) uxTaskGetStackHighWaterMark(NULL));
+		DEBUG_PRINT(": battcheck \n\f");
+		vTaskDelay(1203);
 
 	}
 }
 
+void print_heil_hendrik(void *pvParameter){
+	UNUSED_PARAMETER(pvParameter);
+	//char henk[] = 
+	for(;;){
+		DEBUG_PRINTEGER((uint) uxTaskGetStackHighWaterMark(NULL));
+		DEBUG_PRINT(": hendrik\n\f");
+		vTaskDelay(900);
+	}
+}
 
 
+/*------------------------------------------------------------------
+ * main -- everything you need is here :)
+ *------------------------------------------------------------------
+ */
 
 int main(void)
 {
 
 	GlobalState = SAFE;
+
+	SetPoint.pitch = 0;
+	SetPoint.yaw = 0;
+	SetPoint.roll = 0;
+	SetPoint.lift = 0;
 
 	uart_init();
 	gpio_init();
@@ -142,14 +163,15 @@ int main(void)
 	spi_flash_init();
 	// ble_init();
 
-	DEBUG_PRINT("Peripherals initialized\n");
+	print("Peripherals initialized\n\f");
 	
+	UNUSED_VARIABLE(xTaskCreate(print_heil_hendrik, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE, NULL, 3, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE  + 10, NULL, 2, NULL));
 
-
-    // UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
-	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
-	DEBUG_PRINT("Tasks registered\n");
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	print("Tasks registered\n\f");
 
     /* Activate deep sleep mode */
     // SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
@@ -165,3 +187,31 @@ int main(void)
     }
 	NVIC_SystemReset();
 }
+
+/* Functions that will be used by freertos if eneabled in FreeRTOSCONFIG.h   */	
+
+void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName )
+{
+    ( void ) pcTaskName;
+    ( void ) xTask;
+    int i = 0;
+    print("someone caused a stack overflow\f\n");
+    for( ;; ){
+	    while(i++ < 2000000){};
+	    i = 0;
+	    nrf_gpio_pin_toggle(RED);
+    }
+}
+
+void vApplicationIdleHook( void )
+{
+	uint16_t i = 0;
+    for(;;){
+	    while(i++ < 65535){};
+	    printeger(xPortGetFreeHeapSize());
+		print(": free heapsize \n\f");
+		i=0;
+	}
+}
+
+

@@ -13,12 +13,16 @@
 
 #define DEBUG 1
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#define DEBUG_PRINT(fmt, args...) do { if (DEBUG) fprintf(stdout, "DEBUG: %s:%d:%s(): " \
-fmt, __FILENAME__, __LINE__, __func__, ##args);} while (0)
+#define DEBUG_PRINT(fmt, args...) do { if (DEBUG) print(fmt);} while (0)
+#define DEBUG_PRINTEGER(fmt, args...) do { if (DEBUG) printeger(fmt);} while (0)
+#define DEBUG_UPRINTEGER(fmt, args...) do { if (DEBUG) uprinteger(fmt);} while (0)
 
 
 #include <inttypes.h>
 #include <stdio.h>
+
+#include "micro_print.h"
+
 #include "nrf_gpio.h"
 #include "nrf_delay.h"
 #include "inv_mpu.h"
@@ -42,8 +46,12 @@ bool demo_done;
 
 // Control
 int16_t motor[4],ae[4];
+
+
 void run_filters_and_control();
+void update_motors();
 void motors_off();
+void manual_control();
 
 // Timers
 #define TIMER_PERIOD	50 //50ms=20Hz (MAX 23bit, 4.6h)
