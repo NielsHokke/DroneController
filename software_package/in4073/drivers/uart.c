@@ -153,6 +153,21 @@ void validate_para_msg(void *pvParameter){
 
 
 /*------------------------------------------------------------------
+ * UartTimeoutCallback -- 	Calback function which is reset everytime
+ *						  	a byte arives over uart. if for 100ms nothing
+ *							is recieved, the function is executed once.
+ * Parameters:			 	it's own timer handle 
+ * Author:	Niels Hokke
+ * Date:	16-5-2018
+ *------------------------------------------------------------------
+ */
+void UartTimeoutCallback( TimerHandle_t xTimer ){
+	DEBUG_PRINT("PANIC ALLES STUK!\n\f");
+	//TODO change to panic mode
+}
+
+
+/*------------------------------------------------------------------
  * handle_serial_rx -- 	Handles incoming Serial bytes via a state
  *						Machine. scheduls 'CTRL Validation' and 
  *						'PARA Validation' tasks
@@ -225,6 +240,9 @@ void handle_serial_rx(char c){
 			//nrf_gpio_pin_toggle(RED);
 		DEBUG_PRINT("Unexpected State");
 	}
+
+	// Reset non-connectin inerupt.
+	xTimerReset(UartTimeoutHandle, 0);
 }
 
 
@@ -260,6 +278,8 @@ void uart_init(void)
 
 	ctrl_msg_queue = xQueueCreate(1, sizeof(uint8_t)*(CTRL_DATA_LENGTH+2));
 	para_msg_queue = xQueueCreate(PARA_MSG_QUEUE_SIZE, sizeof(uint8_t)*(PARA_DATA_LENGTH+2));
+
+	UartTimeoutHandle = xTimerCreate("Uart timout checker", 1000, pdFALSE, ( void * ) 0, UartTimeoutCallback);
 
 	nrf_gpio_cfg_output(TX_PIN_NUMBER);
 	nrf_gpio_cfg_input(RX_PIN_NUMBER, NRF_GPIO_PIN_NOPULL);
