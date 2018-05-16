@@ -94,17 +94,11 @@ void validate_ctrl_msg(void *pvParameter){
 
 		// Calculate crc
 		uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
-		
-		// Print message content
-		taskENTER_CRITICAL();
-		DEBUG_PRINT("CTRL message recieved:\nstrt_byte: %d\nyaw: %d\npitch:%d\nroll: %d\nlift: %d\nCRC: %d\n",
-			ctrl_buffer[0], ctrl_buffer[1], ctrl_buffer[2], ctrl_buffer[3], ctrl_buffer[4], ctrl_buffer[5]);
-		taskEXIT_CRITICAL();
 
 		// Verify crc
 		if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
 			// Incorrect CRC
-			DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
+			//DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
 		}else{
 			// Correct CRC
 			// TODO execute comand
@@ -124,9 +118,6 @@ void validate_ctrl_msg(void *pvParameter){
 void validate_para_msg(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	char para_buffer[PARA_DATA_LENGTH+2];
-	taskENTER_CRITICAL();
-	DEBUG_PRINT("started\n");
-	taskEXIT_CRITICAL();
 
 	for(;;){
 		// Yielding till something in queue
@@ -135,19 +126,17 @@ void validate_para_msg(void *pvParameter){
 		// Calculate crc
 		uint8_t crc = crcFast(para_buffer, PARA_DATA_LENGTH+1);
 
-		// Print message content
-		taskENTER_CRITICAL();
-		DEBUG_PRINT("PARA message recieved:\nstrt_byte: %d\nReg.address: %d\ndata:%d\ndata: %d\nldata: %d\nldata: %d\nCRC: %d\n",
-			para_buffer[0], para_buffer[1], para_buffer[2], para_buffer[3], para_buffer[4], para_buffer[5], para_buffer[6]);
-		taskEXIT_CRITICAL();
-
 		// Verify crc
 		if(crc != para_buffer[PARA_DATA_LENGTH+1]){
 			// Incorrect CRC
 			DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
 		}else{
 			// Correct CRC
-			// TODO execute comand
+			uint8_t index = (uint8_t) para_buffer[1];
+			parameters[index] = para_buffer[2];
+			parameters[index+ 1] = para_buffer[3];
+			parameters[index+2] = para_buffer[4];
+			parameters[index+3] = para_buffer[5];
 		}
 	}
 }
@@ -179,9 +168,6 @@ void handle_serial_rx(char c){
 				para_buffer[byte_counter++] = c;
 				serialstate = PARA;
 			}
-			taskENTER_CRITICAL();
-			DEBUG_PRINT("recieved: dec %d\n", c);
-			taskEXIT_CRITICAL();
 			//TODO reset timetout
 			break;
 
@@ -192,7 +178,7 @@ void handle_serial_rx(char c){
 				// Putting message on to para queue
 				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 				if(xQueueOverwriteFromISR( ctrl_msg_queue, ctrl_buffer, &xHigherPriorityTaskWoken) != pdPASS){
-					DEBUG_PRINT("Failed to put ctrl msg into ctrl queue\n");
+					//DEBUG_PRINT("Failed to put ctrl msg into ctrl queue\n");
 				}else{
 					vTaskResume( validate_ctrl_msg_Handle );
 				}
@@ -215,7 +201,7 @@ void handle_serial_rx(char c){
 				// Putting message on to para queue
 				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 				if(xQueueSendFromISR( para_msg_queue, para_buffer, &xHigherPriorityTaskWoken) != pdPASS){
-					DEBUG_PRINT("Failed to put para msg into para queue\n");
+					//DEBUG_PRINT("Failed to put para msg into para queue\n");
 				}else{
 					vTaskResume( validate_para_msg_Handle );
 				}

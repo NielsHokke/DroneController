@@ -12,7 +12,9 @@
  *  June 2016
  *------------------------------------------------------------------
  */
+#include "drone.h"
 #include "in4073.h"
+
 
 #include "FreeRTOS.h"
 #include "rtos_task.h"
@@ -118,8 +120,9 @@ static void check_battery_voltage(void *pvParameter){
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
-		DEBUG_PRINT("Battery check met extra veel tijd to improve the likelhood of collision\n");
-		vTaskDelay(999);
+		DEBUG_PRINT("%d, %d, %d, %d\n", parameters[0], parameters[1], parameters[2], parameters[P_MODE]);
+		// DEBUG_PRINT("Battery check met extra veel tijd to improve the likelhood of collision\n");
+		vTaskDelay(499);
 
 	}
 }
@@ -147,7 +150,7 @@ int main(void)
 
 
     // UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
+	// UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 2, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
 	DEBUG_PRINT("Tasks registered\n");
 
