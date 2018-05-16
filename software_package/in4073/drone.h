@@ -12,8 +12,9 @@
 
 // Global Variables
 
-enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MODE_1, RAW_MODE_2, RAW_MODE_3} GlobalState;
+//enum state {CALIBRATION, SAFE, PANIC, MANUAL, YAW_CONTROL, FULL_CONTROLL, RAW_MODE_1, RAW_MODE_2, RAW_MODE_3} GlobalState;
 
+#define GLOBALSTATE parameters[3]
 
 // Motor Control
 #define MAN_PITCH_SCALER 10

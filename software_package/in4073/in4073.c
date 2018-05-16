@@ -65,14 +65,14 @@ static void control_loop(void *pvParameter){
 			DEBUG_PRINT("\n\f");
 		}
 
-		switch(GlobalState){
-			case SAFE:
+		switch(GLOBALSTATE){
+			case 0:
 				ae[0] = 0;
 				ae[1] = 0;
 				ae[2] = 0;
 				ae[3] = 0;
 				break;
-			case MANUAL:
+			case 1:
 				manual_control();
 				break;
 			default:
@@ -158,7 +158,7 @@ void print_heil_hendrik(void *pvParameter){
 int main(void)
 {
 
-	GlobalState = SAFE;
+	GLOBALSTATE = 0; //safe
 
 	SetPoint.pitch = 0;
 	SetPoint.yaw = 0;
