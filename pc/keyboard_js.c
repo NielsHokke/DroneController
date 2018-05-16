@@ -195,13 +195,21 @@ int main (int argc, char **argv)
 	    			  packet.pitch, 
 	    			  packet.roll, 
 	    			  packet.lift);
-        
+
+        payload_len = snprintf(payload, PAYLOAD_LEN, 
+	    			  "%02x%02x%02x%02x%02x", 
+	    			  0xAA,   			   
+	    			  0x01, 
+	    			  0x02, 
+	    			  0x03, 
+	    			  0x04);
+
         crcByte = crcFast(payload, payload_len);
         payload_crc_len = snprintf(payload_crc, PAYLOAD_LEN, 
         						"%s%02x", payload, crcByte);// crcByte);
 	    
 	   	// #if DEBUG == 1
-    	printf("\033[0;31mtx : %s len: %d\n\033[0m", 
+    	printf("\033[0;31mtx: %s len: %d\n\033[0m", 
     			payload_crc, payload_crc_len);
     	
 
@@ -210,6 +218,22 @@ int main (int argc, char **argv)
 	    	terminate = true;
 	    }
 	    // #endif
+	    // probably use if ((i++ % 100) == 0)
+	    
+	    /*
+	    serial_putchar(packet.yaw);
+	    serial_putchar(packet.pitch);
+	    serial_putchar(packet.roll);
+	    serial_putchar(packet.lift);
+	    serial_putchar(crcByte);
+
+	    serial_putchar(0xAA);
+		serial_putchar(0x01);
+		serial_putchar(0x02);
+		serial_putchar(0x03);
+		serial_putchar(0x04);
+		serial_putchar(0xE0);
+		*/
 
     	serial_putstring(payload_crc, payload_crc_len);
 
@@ -227,12 +251,11 @@ int main (int argc, char **argv)
 			printf("\033[1;31mError in reading, errno: d\033[0m\n");
 			// switch mode 
 			break;
-
 		}
 		else if (n == 0) {
-			printf("\033[1;31mTimeout: read from Serial - maybe flash chip again\033[0m\n");
+			printf("\033[1;31mTimeout: read from Serial\033[0m\n");
 			// switch mode 
-			break;
+			// break;
 		}
 		else {
 			printf("\033[0;33mrx: %s, len %d\033[0m\n", response, spot);
@@ -250,8 +273,8 @@ int main (int argc, char **argv)
 
 		// set frequency
 
-		// mon_delay_ms(100);
-		// t = mon_time_ms();
+		mon_delay_ms(50);
+		t = mon_time_ms();
 
   	} while(!terminate); //while (ch != 27);
 
