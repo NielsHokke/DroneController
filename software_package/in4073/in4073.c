@@ -177,8 +177,8 @@ int main(void)
 
 	print("Peripherals initialized\n\f");
 	
-	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE + 10, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE  + 10, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE + 100, NULL, 3, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE + 100, NULL, 2, NULL));
 
     UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	// UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));

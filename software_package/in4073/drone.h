@@ -46,6 +46,8 @@ enum SerialStates serialstate;
 void validate_ctrl_msg(void *);
 void validate_para_msg(void *);
 
+TimerHandle_t UartTimeoutHandle;
+
 
 
 // Global parameters
