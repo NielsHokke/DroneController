@@ -135,7 +135,7 @@ void validate_para_msg(void *pvParameter){
 			// Correct CRC
 			uint8_t index = (uint8_t) para_buffer[1];
 			parameters[index] = para_buffer[2];
-			parameters[index+ 1] = para_buffer[3];
+			parameters[index+1] = para_buffer[3];
 			parameters[index+2] = para_buffer[4];
 			parameters[index+3] = para_buffer[5];
 		}
