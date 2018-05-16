@@ -152,7 +152,6 @@ void handle_serial_rx(char c){
 	static char ctrl_buffer[CTRL_DATA_LENGTH+2];
 	static char para_buffer[PARA_DATA_LENGTH+2];
 	static uint8_t byte_counter;
-	print("char\n\f");	
 	switch(serialstate){
 		case IDLE:
 			if(c == 0xAA){ // control message start byte
