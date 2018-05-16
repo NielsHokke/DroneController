@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
@@ -5,6 +6,7 @@
 #include <stdbool.h> 
 #include "packet.h"
 #include "terminals.c"
+#include <string.h>
 
 #define OFFSET 1       // trim offest on single keypress
 #define PAYLOAD_LEN 30 // length of packet over serial
@@ -21,10 +23,8 @@ int main(void)
 
   // open both the terminal sessions (keyboard and serial port)
   init_keyboard();
-  serial_open();
-
-  /* keymaps
-  • ESC: abort / exit 
+  init_serial();
+  /*
   • 0 mode 0, 1 mode 1, etc. (random access) 
   • a/z: lift up/down 
   • left/right arrow: roll up/down 
@@ -38,7 +38,21 @@ int main(void)
   char ch = 0;
   int payload_len;
   char *payload;
-  payload = (char *) malloc(PAYLOAD_LEN);
+  payload = (char *) malloc(PAYLOAD_LEN * sizeof(char));
+
+  char *rx_c;
+  rx_c = (char *) malloc(200 * sizeof(char));
+  int result = 0; 
+
+ // char buffer[200];
+
+
+	int n = 0; int spot = 0;
+	char buf = '\0';
+
+	/* Whole response*/
+	char response[200];
+	memset(response, '\0', 200 * sizeof(char));
 
   do {
     // update variables only when read returns on ch.
@@ -93,17 +107,36 @@ int main(void)
     }
 
     /*-----------------------------------------
-     			read from drone //put read packet size
+     	read from drone //put read packet size
     ------------------------------------------*/
-	
-  	char rx_c[1000];
-  	int result = 0;
-  	if((result = read(fd_serial, rx_c, sizeof(rx_c))) != 0) {
-  		//printf("rx: %s, len: %d\n", rx_c, result);
-  		//if(result == 0) { 
-  		//	tcflush(fd_serial, TCIFLUSH); /* Discards old data in the rx buffer */
-  		//}
-	  }
+	spot = 0;
+	do {
+		n = read(fd_serial, &buf, 1 );
+		sprintf( &response[spot], "%c", buf );
+		spot += n;
+	} while( buf != '\n' && n > 0);
+
+	if (n < 0) {
+		printf("\033[1;31mError in reading, errno: d\033[0m\n");
+		// switch mode 
+		break;
+
+	}
+	else if (n == 0) {
+		printf("\033[1;31mTimeout: read from Serial - maybe flash chip again\033[0m\n");
+		// switch mode 
+		break;
+	}
+	else {
+		printf("\033[0;33mrx: %s, len %d\033[0m\n", response, spot);
+	}
+
+	/* to do"
+	1) impl delay?
+    3) parse recieved
+    4) port makefile
+    5) without js code?
+	*/
 
     /*----------------------------------------
     			compose packet 
@@ -118,15 +151,13 @@ int main(void)
     			  packet.yaw, packet.pitch, packet.roll, 
     			  packet.p1, packet.p2);
     if(payload_len <= PAYLOAD_LEN) {
-    	printf("payload: %s len: %d\n", payload, payload_len);
+    	printf("\033[0;32mpayload: %s len: %d\033[0m\n", payload, payload_len);
     	serial_putstring(payload, payload_len);
     }
     else {
      	printf("increase payload len\n"); terminate = true;
     }
-
-
-    //usleep(100000); // Cut update rate to 10Hz
+    // usleep(100000); // Cut update rate to 10Hz
   } while(!terminate); //while (ch != 27);
 
   /*----------------------------------------
@@ -139,7 +170,7 @@ int main(void)
   printf("\033[1;31mexit\033[0m\n\n");
 
   free(payload);
-
+  free(rx_c);
   deinit_keyboard();
   serial_close();
 

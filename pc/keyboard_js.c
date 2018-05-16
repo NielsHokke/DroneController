@@ -15,7 +15,7 @@
 #define P2 200         // position controller gain
 
 // see all terminals print everything
-#define DEBUG 0
+#define DEBUG 1
 
 bool terminate = false; //checks for ESC pattern
 
@@ -60,9 +60,22 @@ int main (int argc, char **argv)
 	int payload_crc_len;
 	payload_crc = (char *) malloc(PAYLOAD_LEN);
 
-	// initalize the lookup table
+	/* counter for received buffer */
+	int n = 0; int spot = 0;
+	char buf = '\0';
+
+	/* Whole response*/
+	char response[200];
+	memset(response, '\0', 200 * sizeof(char));
+
+	// initalize the crc lookup table
 	crcInit();
 	uint8_t crcByte;
+
+	keyboard.lift  = 0;
+	keyboard.yaw   = 0;
+	keyboard.pitch = 0;
+	keyboard.roll  = 0;
 
 	/*--------------------------------------------
 		Parse i) keypress
@@ -147,7 +160,7 @@ int main (int argc, char **argv)
 					break;
 			}
 		}
-
+		
 		// downgrade joystick resolution
 		joystick.yaw   = (axis[2] >> 8) + 128;
 		joystick.pitch = (axis[1] >> 8) + 128;
@@ -160,21 +173,21 @@ int main (int argc, char **argv)
 		packet.roll  = joystick.roll  + keyboard.roll  ;
 		packet.lift  = joystick.lift  + keyboard.lift  ;
 
-		if (button[0]) //shoot or trigger button
+		if (button[0]) {//shoot or trigger button
 			packet.mode = 0; // safe mode
 			break;
-
+		}
 		/*-----------------------------------------
 	      compose packet 
 	      int snprintf(char *str, size_t size, const char *format, ...);
 	    ------------------------------------------*/
-		#if DEBUG == 1
+		// #if DEBUG == 1
 		printf("yprl: %03d %03d %03d %03d\n",
 				      packet.yaw, 
 	    			  packet.pitch, 
 	    			  packet.roll, 
 	    			  packet.lift);
-		#endif
+		// #endif
         payload_len = snprintf(payload, PAYLOAD_LEN, 
 	    			  "%02x%02x%02x%02x%02x", 
 	    			  0xAA,   			   
@@ -187,21 +200,45 @@ int main (int argc, char **argv)
         payload_crc_len = snprintf(payload_crc, PAYLOAD_LEN, 
         						"%s%02x", payload, crcByte);// crcByte);
 	    
-	   	#if DEBUG == 1
-    	printf("\033[0;31m payload : %s len: %d\n\033[0m", 
+	   	// #if DEBUG == 1
+    	printf("\033[0;31mtx : %s len: %d\n\033[0m", 
     			payload_crc, payload_crc_len);
-    	#endif
+    	
 
 	    if(payload_crc_len > PAYLOAD_LEN) {
 	    	printf("\033[0;31m check payload lengths\n\033[0m");
 	    	terminate = true;
 	    }
+	    // #endif
 
     	serial_putstring(payload_crc, payload_crc_len);
-    	
-    	//usleep(100000); // Cut update rate to 10Hz
 
-		// maybe for timeout
+		/*-----------------------------------------
+			read from drone //put read packet size
+		------------------------------------------*/
+		spot = 0;
+		do {
+			n = read(fd_serial, &buf, 1 );
+			sprintf( &response[spot], "%c", buf );
+			spot += n;
+		} while( buf != '\n' && n > 0);
+
+		if (n < 0) {
+			printf("\033[1;31mError in reading, errno: d\033[0m\n");
+			// switch mode 
+			break;
+
+		}
+		else if (n == 0) {
+			printf("\033[1;31mTimeout: read from Serial - maybe flash chip again\033[0m\n");
+			// switch mode 
+			break;
+		}
+		else {
+			printf("\033[0;33mrx: %s, len %d\033[0m\n", response, spot);
+		}
+
+		// maybe for timeout: 
 		if (errno != EAGAIN) {
 			perror("\njs: error reading (EAGAIN)");
 			deinit_keyboard();
@@ -212,8 +249,9 @@ int main (int argc, char **argv)
 		unsigned int t, i;
 
 		// set frequency
-		mon_delay_ms(300);
-		t = mon_time_ms();
+
+		// mon_delay_ms(100);
+		// t = mon_time_ms();
 
   	} while(!terminate); //while (ch != 27);
 
