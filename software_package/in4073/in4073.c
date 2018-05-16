@@ -55,7 +55,16 @@ static void control_loop(void *pvParameter){
 
 		if ((i++ % 100) == 0){
 			nrf_gpio_pin_toggle(GREEN);
+			DEBUG_PRINTEGER(SetPoint.pitch);
+			DEBUG_PRINT(", \f");
+			DEBUG_PRINTEGER(SetPoint.yaw);
+			DEBUG_PRINT(", \f");
+			DEBUG_PRINTEGER(SetPoint.roll);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER(SetPoint.lift);
+			DEBUG_PRINT("\n\f");
 		}
+
 		switch(GlobalState){
 			case SAFE:
 				ae[0] = 0;
