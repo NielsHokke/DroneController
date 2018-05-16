@@ -94,16 +94,13 @@ void validate_ctrl_msg(void *pvParameter){
 
 		// Calculate crc
 		uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
-		
-		// Print message content
-
-
 		// Verify crc
 		if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
 			// Incorrect CRC
-			DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
+			DEBUG_PRINT("Incorrect CRC, Calculated\n\f", crc);
 		}else{
 			// Correct CRC
+			DEBUG_PRINT("CTRL crc correct\n\f");
 			// TODO execute comand
 		}
 	}
@@ -121,34 +118,23 @@ void validate_ctrl_msg(void *pvParameter){
 void validate_para_msg(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	char para_buffer[PARA_DATA_LENGTH+2];
-	taskENTER_CRITICAL();
-	DEBUG_PRINT("started\n");
-	taskEXIT_CRITICAL();
 
 	for(;;){
 		// Yielding till something in queue
-		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
-		print(": parastack \n\f");
 		xQueueReceive(para_msg_queue, para_buffer, portMAX_DELAY);
 
 		// Calculate crc
 		uint8_t crc = crcFast(para_buffer, PARA_DATA_LENGTH+1);
 
-		// Print message content
-
-
 		// Verify crc
 		if(crc != para_buffer[PARA_DATA_LENGTH+1]){
 			// Incorrect CRC
-			print("PARAAA\n\f");	
-			DEBUG_PRINT("Incorrect CRC, Calculated: %d\n", crc);
+			DEBUG_PRINT("Incorrect CRC, Calculated:\n\f");
 		}else{
+			DEBUG_PRINT("param. crc correct\n\f");
 			// Correct CRC
 			// TODO execute comand
-
 		}
-		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
-		print(": parastack 1\n\f");
 	}
 }
 
@@ -163,7 +149,6 @@ void validate_para_msg(void *pvParameter){
  *------------------------------------------------------------------
  */
 void handle_serial_rx(char c){
-
 	static char ctrl_buffer[CTRL_DATA_LENGTH+2];
 	static char para_buffer[PARA_DATA_LENGTH+2];
 	static uint8_t byte_counter;
@@ -179,9 +164,6 @@ void handle_serial_rx(char c){
 				para_buffer[byte_counter++] = c;
 				serialstate = PARA;
 			}
-			taskENTER_CRITICAL();
-			DEBUG_PRINT("recieved: dec %d\n", c);
-			taskEXIT_CRITICAL();
 			//TODO reset timetout
 			break;
 
@@ -266,12 +248,6 @@ void uart_init(void)
 	ctrl_msg_queue = xQueueCreate(1, sizeof(uint8_t)*(CTRL_DATA_LENGTH+2));
 	para_msg_queue = xQueueCreate(PARA_MSG_QUEUE_SIZE, sizeof(uint8_t)*(PARA_DATA_LENGTH+2));
 
-	// BaseType_t xReturned_ctrl = xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", 128, NULL, 2, NULL);
-	// BaseType_t xReturned_para = xTaskCreate(validate_para_msg, "Validate and execute para message", 128, NULL, 3, NULL);
-
-	// if( xReturned_ctrl != pdPASS ) DEBUG_PRINT("Failed to create 'validate_ctrl_msg' task");
-	// if( xReturned_para != pdPASS ) DEBUG_PRINT("Failed to create 'validate_para_msg' task");
-
 	nrf_gpio_cfg_output(TX_PIN_NUMBER);
 	nrf_gpio_cfg_input(RX_PIN_NUMBER, NRF_GPIO_PIN_NOPULL);
 
@@ -294,5 +270,5 @@ void uart_init(void)
 	NVIC_SetPriority(UART0_IRQn, 3); // either 1 or 3, 3 being low. (sd present)
 	NVIC_EnableIRQ(UART0_IRQn);
 
-	print("UART intitialised\n\f");
+	DEBUG_PRINT("UART intitialised\n\f");
 }

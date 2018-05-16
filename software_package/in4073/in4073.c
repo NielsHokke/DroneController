@@ -30,14 +30,8 @@
 
 
 #define CONTROL_PERIOD 10
-#define SENSOR_PERIOD 500
+#define SENSOR_PERIOD 1
 
-
-
-/*------------------------------------------------------------------
- * main -- everything you need is here :)
- *------------------------------------------------------------------
- */
 
 
 /*--------------------------------------------------------------------------------------
@@ -53,24 +47,13 @@ static void control_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
-
-
-
 	int i = 0;
-	int seconds = 0;
+
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
 
 		if ((i++ % 100) == 0){
-			seconds++;
 			nrf_gpio_pin_toggle(GREEN);
-
-
-			
-			// printf("%d \n I'm in a loop\n", stack);
-
-			// printf("yaw: %d \t pitch:%d \t roll: %d \t lift: %u PRIu8 \n",
-			// SetPoint.yaw, SetPoint.pitch, SetPoint.roll, SetPoint.lift);	
 		}
 		switch(GlobalState){
 			case SAFE:
@@ -104,50 +87,14 @@ static void sensor_loop(void *pvParameter){
 	TickType_t xLastWakeTime;
 
 	const TickType_t xFrequency = SENSOR_PERIOD; //period of task 
+	int i = 0;
 
 	for(;;){
-		xLastWakeTime = xTaskGetTickCount();
-		printeger(xPortGetFreeHeapSize());
-		print("heap\n\f");		
-		nrf_gpio_pin_toggle(BLUE);
-		vTaskDelayUntil( &xLastWakeTime, xFrequency );
-		
-	}
-
-}
-
-void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName )
-{
-    ( void ) pcTaskName;
-    //( void ) xTask;
-    int i = 0;
-    /* Run time stack overflow checking is performed if
-    configconfigCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
-    function is called if a stack overflow is detected.  pxCurrentTCB can be
-    inspected in the debugger if the task name passed into this function is
-    corrupt. */
-    print("someone caused a stack overflow\f\n");
-    for( ;; ){
-	    while(i++ < 2000000){};
-	    i = 0;
-	    nrf_gpio_pin_toggle(RED);
-    }
-}
-
-void vApplicationIdleHook( void )
-{
-	uint16_t i = 0;
-    /* The idle task hook is enabled by setting configUSE_IDLE_HOOK to 1 in
-    FreeRTOSConfig.h.
-
-    This function is called on each cycle of the idle task.  In this case it
-    does nothing useful, other than report the amount of FreeRTOS heap that
-    remains unallocated. */
-    for(;;){
-	    while(i++ < 65535){};
-	    printeger(xPortGetFreeHeapSize());
-		print(": free heapsize \n\f");
-		i=0;
+		xLastWakeTime = xTaskGetTickCount();	
+		if ((i++ % 5000) == 0){
+			nrf_gpio_pin_toggle(BLUE);
+		}
+		vTaskDelayUntil( &xLastWakeTime, xFrequency );	
 	}
 }
 
@@ -173,8 +120,8 @@ static void check_battery_voltage(void *pvParameter){
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
-		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
-		print(": battcheck \n\f");
+		DEBUG_PRINTEGER((uint) uxTaskGetStackHighWaterMark(NULL));
+		DEBUG_PRINT(": battcheck \n\f");
 		vTaskDelay(1203);
 
 	}
@@ -184,12 +131,17 @@ void print_heil_hendrik(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	//char henk[] = 
 	for(;;){
-		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
-		print(": hendrik\n\f");
+		DEBUG_PRINTEGER((uint) uxTaskGetStackHighWaterMark(NULL));
+		DEBUG_PRINT(": hendrik\n\f");
 		vTaskDelay(900);
 	}
 }
 
+
+/*------------------------------------------------------------------
+ * main -- everything you need is here :)
+ *------------------------------------------------------------------
+ */
 
 int main(void)
 {
@@ -234,6 +186,32 @@ int main(void)
          * in vTaskStartScheduler function. */
     }
 	NVIC_SystemReset();
+}
+
+/* Functions that will be used by freertos if eneabled in FreeRTOSCONFIG.h   */	
+
+void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName )
+{
+    ( void ) pcTaskName;
+    ( void ) xTask;
+    int i = 0;
+    print("someone caused a stack overflow\f\n");
+    for( ;; ){
+	    while(i++ < 2000000){};
+	    i = 0;
+	    nrf_gpio_pin_toggle(RED);
+    }
+}
+
+void vApplicationIdleHook( void )
+{
+	uint16_t i = 0;
+    for(;;){
+	    while(i++ < 65535){};
+	    printeger(xPortGetFreeHeapSize());
+		print(": free heapsize \n\f");
+		i=0;
+	}
 }
 
 

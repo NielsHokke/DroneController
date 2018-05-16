@@ -11,10 +11,11 @@
 #ifndef IN4073_H__
 #define IN4073_H__
 
-#define DEBUG 0
+#define DEBUG 1
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#define DEBUG_PRINT(fmt, args...) do { if (DEBUG) fprintf(stdout, "DEBUG: %s:%d:%s(): " \
-fmt, __FILENAME__, __LINE__, __func__, ##args);} while (0)
+#define DEBUG_PRINT(fmt, args...) do { if (DEBUG) print(fmt);} while (0)
+#define DEBUG_PRINTEGER(fmt, args...) do { if (DEBUG) printeger(fmt);} while (0)
+#define DEBUG_UPRINTEGER(fmt, args...) do { if (DEBUG) uprinteger(fmt);} while (0)
 
 
 #include <inttypes.h>
