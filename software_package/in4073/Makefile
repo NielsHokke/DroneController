@@ -73,6 +73,7 @@ $(abspath ./invensense/inv_mpu.c) \
 $(abspath ./invensense/inv_mpu_dmp_motion_driver.c) \
 $(abspath ./invensense/ml.c) \
 $(abspath ./invensense/mpu_wrapper.c) \
+$(abspath ./micro_print.c) \
 
 #$(abspath ../components/libraries/timer/app_timer.c) \
 
@@ -145,6 +146,7 @@ CFLAGS += -mfloat-abi=soft # we don't want floats - no hardware fpu
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
 CFLAGS += -fno-builtin --short-enums
 CFLAGS += -DFREERTOS
+#CFLAGS += -fstack-usage
 
 
 # keep every function in separate section. This will allow linker to dump unused functions

@@ -19,6 +19,9 @@ fmt, __FILENAME__, __LINE__, __func__, ##args);} while (0)
 
 #include <inttypes.h>
 #include <stdio.h>
+
+#include "micro_print.h"
+
 #include "nrf_gpio.h"
 #include "nrf_delay.h"
 #include "inv_mpu.h"

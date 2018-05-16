@@ -27,6 +27,8 @@
 #include "sdk_errors.h"
 #include "app_error.h"
 
+#include "micro_print.h"
+
 #define CONTROL_PERIOD 10
 #define SENSOR_PERIOD 500
 
@@ -58,11 +60,18 @@ static void control_loop(void *pvParameter){
 	int seconds = 0;
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
+
 		if ((i++ % 100) == 0){
 			seconds++;
 			nrf_gpio_pin_toggle(GREEN);
-			//DEBUG_PRINT("yaw: %d \t pitch:%d \t roll: %d \t lift: %u PRIu8 \n",
-			//SetPoint.yaw, SetPoint.pitch, SetPoint.roll, SetPoint.lift);	
+
+			printeger((uint) uxTaskGetStackHighWaterMark(NULL));
+			print(": from control loop \n\f");
+			
+			// printf("%d \n I'm in a loop\n", stack);
+
+			// printf("yaw: %d \t pitch:%d \t roll: %d \t lift: %u PRIu8 \n",
+			// SetPoint.yaw, SetPoint.pitch, SetPoint.roll, SetPoint.lift);	
 		}
 		switch(GlobalState){
 			case SAFE:
@@ -99,6 +108,8 @@ static void sensor_loop(void *pvParameter){
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
+		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
+		print(": from sensor_loop \n\f");		
 		nrf_gpio_pin_toggle(BLUE);
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
@@ -126,8 +137,9 @@ static void check_battery_voltage(void *pvParameter){
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
-		//DEBUG_PRINT("Battery check: %d \n", bat_volt);
-		vTaskDelay(999);
+		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
+		print(": battcheck \n\f");
+		vTaskDelay(1203);
 
 	}
 }
@@ -135,7 +147,8 @@ static void check_battery_voltage(void *pvParameter){
 void print_heil_hendrik(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	for(;;){
-		DEBUG_PRINT("Heil Hendrik!");
+		printeger((uint) uxTaskGetStackHighWaterMark(NULL));
+		print(": hendrik \n\f");
 		vTaskDelay(900);
 	}
 }
@@ -160,15 +173,15 @@ int main(void)
 	spi_flash_init();
 	// ble_init();
 
-	DEBUG_PRINT("Peripherals initialized\n");
+	print("Peripherals initialized\n\f");
 	
-	UNUSED_VARIABLE(xTaskCreate(print_heil_hendrik, "Validate and execute ctrl message", 128, NULL, 3, NULL));
+	UNUSED_VARIABLE(xTaskCreate(print_heil_hendrik, "Validate and execute ctrl message", 60, NULL, 3, NULL));
 	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", 128, NULL, 2, NULL));
 
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 128, NULL, 1, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 128, NULL, 1, NULL));
-	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 128, NULL, 1, NULL));
-	DEBUG_PRINT("Tasks registered\n");
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", 60, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", 60, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", 60, NULL, 1, NULL));
+	print("Tasks registered\n\f");
 
     /* Activate deep sleep mode */
     // SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
