@@ -163,7 +163,7 @@ void validate_para_msg(void *pvParameter){
  */
 void UartTimeoutCallback( TimerHandle_t xTimer ){
 	DEBUG_PRINT("PANIC ALLES STUK!\n\f");
-	//TODO change to panic mode
+	GLOBALSTATE = S_PANIC;
 }
 
 
