@@ -103,9 +103,8 @@ void validate_ctrl_msg(void *pvParameter){
 		}else{
 			// Correct CRC
 			DEBUG_PRINT("CTRL crc correct\n\f");
-
-			SetPoint.pitch = ctrl_buffer[1];
-			SetPoint.yaw = ctrl_buffer[2];
+			SetPoint.yaw = ctrl_buffer[1];
+			SetPoint.pitch = ctrl_buffer[2];
 			SetPoint.roll = ctrl_buffer[3];
 			SetPoint.lift = ctrl_buffer[4];
 		}

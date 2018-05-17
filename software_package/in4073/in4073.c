@@ -55,13 +55,15 @@ static void control_loop(void *pvParameter){
 
 		if ((i++ % 100) == 0){
 			nrf_gpio_pin_toggle(GREEN);
-			DEBUG_PRINTEGER(SetPoint.pitch);
+			DEBUG_UPRINTEGER(ae[0]);
 			DEBUG_PRINT(", \f");
-			DEBUG_PRINTEGER(SetPoint.yaw);
+			DEBUG_UPRINTEGER(ae[1]);
 			DEBUG_PRINT(", \f");
-			DEBUG_PRINTEGER(SetPoint.roll);
+			DEBUG_UPRINTEGER(ae[2]);
 			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(SetPoint.lift);
+			DEBUG_UPRINTEGER(ae[3]);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER (radio_active);
 			DEBUG_PRINT("\n\f");
 		}
 
@@ -123,7 +125,7 @@ static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	for(;;){
 
-		nrf_gpio_pin_toggle(YELLOW);
+		nrf_gpio_pin_toggle(BLUE);
 
 		adc_request_sample();
 		vTaskDelay(1);
@@ -131,24 +133,10 @@ static void check_battery_voltage(void *pvParameter){
 			//TODO: goto panic mode	
 		}
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
-		DEBUG_PRINTEGER(12345);
-		// DEBUG_PRINT("\n\f");
-		DEBUG_PRINT(": battcheck \n\f");
-		vTaskDelay(1203);
+		vTaskDelay(999);
 
 	}
 }
-
-void print_heil_hendrik(void *pvParameter){
-	UNUSED_PARAMETER(pvParameter);
-	//char henk[] = 
-	for(;;){
-		DEBUG_PRINTEGER((uint) uxTaskGetStackHighWaterMark(NULL));
-		DEBUG_PRINT(": hendrik\n\f");
-		vTaskDelay(900);
-	}
-}
-
 
 /*------------------------------------------------------------------
  * main -- everything you need is here :)
@@ -158,7 +146,7 @@ void print_heil_hendrik(void *pvParameter){
 int main(void)
 {
 
-	GLOBALSTATE = 0; //safe
+	GLOBALSTATE = 1; //safe
 
 	SetPoint.pitch = 0;
 	SetPoint.yaw = 0;
@@ -177,10 +165,10 @@ int main(void)
 
 	print("Peripherals initialized\n\f");
 	
-	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE + 100, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE + 100, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE, NULL, 3, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE, NULL, 2, NULL));
 
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE + 100, NULL, 1, NULL));
 	// UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");
