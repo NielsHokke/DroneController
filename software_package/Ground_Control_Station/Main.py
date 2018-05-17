@@ -60,6 +60,7 @@ class ControlThread(threading.Thread):
                         self.lift_byte = (255 - round((joystick.get_axis(LIFT)+1)*127.5)).to_bytes(1, byteorder='big', signed=False)
                         payload = b'\xAA' + self.yaw_byte + self.pitch_byte + self.roll_byte + self.lift_byte
                         self.ctrl_message = payload + bytearray([crc8(payload)])
+                        self.send_update = 0
 
             if self.send_update == 0:
                 pass
