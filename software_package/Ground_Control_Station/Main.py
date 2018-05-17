@@ -7,7 +7,7 @@ import crcmod
 
 
 
-# ser = serial.Serial('COM4', 115200, writeTimeout=0, dsrdtr=True)
+ser = serial.Serial('/dev/ttyACM2', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 Running = True
 in_use = False
@@ -30,7 +30,6 @@ class ControlThread(threading.Thread):
         # polynomial = 0xD8 this function requires a 1 at the start so sure
         crc8 = crcmod.mkCrcFun(0x1D8, initCrc=0, xorOut=0x00, rev=False)
 
-
         pygame.init()
 
         has_joystick = True
@@ -41,11 +40,8 @@ class ControlThread(threading.Thread):
             pygame.joystick.init()
             joystick = pygame.joystick.Joystick(0)
             joystick.init()
-            start = time.time()
 
-        start = time.time()
         while Running:
-
             if has_joystick:
                 for event in pygame.event.get():  # User did something
                     # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
@@ -63,41 +59,23 @@ class ControlThread(threading.Thread):
                         self.send_update = 0
 
             if self.send_update == 0:
-                pass
-                # ser.write(b'\n' + self.ctrl_message + b'\n')
-                # ser.write(b'hoisdf gsdfg sdfgsdfgs dfg \n')
-                # print(ctrl_message)
-                end = time.time()
-                print("{0:.12f} ".format(end - start))
-                start = time.time()
+                ser.write(self.ctrl_message + b'\n')             
+                # ser.write("Pitch: {:>4} yaw: {:>4} Roll: {:>4} lift: {:>4} \n".format(int.from_bytes(self.pitch_byte, byteorder='little', signed='True'),int.from_bytes(self.yaw_byte, byteorder='little', signed='True'),int.from_bytes(self.roll_byte, byteorder='little', signed='True'),int.from_bytes(self.lift_byte, byteorder='little')).encode())
                 self.send_update = 100
             else:
-                # ser.write(b'.')
+                # ser.write(b'\x00')
                 self.send_update = self.send_update - 1
 
-            # print("Pitch: {:>6.3f} yaw: {:>6.3f} Roll: {:>6.3f} lift: {:>6.3f}".format(joystick.get_axis(PITCH),joystick.get_axis(YAW),joystick.get_axis(ROLL),joystick.get_axis(LIFT)))
-            time.sleep(0.01)
-
-
-
-
-class ConsoleThread(threading.Thread):
-    def run(self):
-        while ser.inWaiting() > 0:
-            # print(ser.read(1).decode("utf-8", "backslashreplace"), end='', flush=True)
-
-            # print("BYTEEES")
-            time.sleep(0.01)
+            time.sleep(0.005)
 
 
 if __name__ == '__main__':
-    # ser.close()
-    # ser.open()
-    # ser.read(10000)
+    ser.close()
+    ser.open()
+    ser.flush()
     controller = ControlThread(name="Control Thread")
     controller.start()
-    # console = ConsoleThread(name="Console thread")
-    # console.start()
 
     while True:
-        time.sleep(100)
+        print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
+        # time.sleep(100)
