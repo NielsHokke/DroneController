@@ -97,11 +97,17 @@ void validate_ctrl_msg(void *pvParameter){
 		// Verify crc
 		if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
 			// Incorrect CRC
-			DEBUG_PRINT("Incorrect CRC, Calculated\n\f", crc);
+			DEBUG_PRINT("Incorrect CRC, Calculated: \f");
+			DEBUG_PRINTEGER(crc);
+			DEBUG_PRINT("\n\f");
 		}else{
 			// Correct CRC
 			DEBUG_PRINT("CTRL crc correct\n\f");
-			// TODO execute comand
+
+			SetPoint.pitch = ctrl_buffer[1];
+			SetPoint.yaw = ctrl_buffer[2];
+			SetPoint.roll = ctrl_buffer[3];
+			SetPoint.lift = ctrl_buffer[4];
 		}
 	}
 }
@@ -129,13 +135,35 @@ void validate_para_msg(void *pvParameter){
 		// Verify crc
 		if(crc != para_buffer[PARA_DATA_LENGTH+1]){
 			// Incorrect CRC
-			DEBUG_PRINT("Incorrect CRC, Calculated:\n\f");
+			DEBUG_PRINT("Incorrect CRC, Calculated: \f");
+			DEBUG_PRINTEGER(crc);
+			DEBUG_PRINT("\n\f");
 		}else{
-			DEBUG_PRINT("param. crc correct\n\f");
 			// Correct CRC
-			// TODO execute comand
+			DEBUG_PRINT("param. crc correct\n\f");
+
+			uint8_t index = (uint8_t) para_buffer[1];
+			parameters[index] = para_buffer[2];
+			parameters[index+1] = para_buffer[3];
+			parameters[index+2] = para_buffer[4];
+			parameters[index+3] = para_buffer[5];
 		}
 	}
+}
+
+
+/*------------------------------------------------------------------
+ * UartTimeoutCallback -- 	Calback function which is reset everytime
+ *						  	a byte arives over uart. if for 100ms nothing
+ *							is recieved, the function is executed once.
+ * Parameters:			 	it's own timer handle 
+ * Author:	Niels Hokke
+ * Date:	16-5-2018
+ *------------------------------------------------------------------
+ */
+void UartTimeoutCallback( TimerHandle_t xTimer ){
+	DEBUG_PRINT("PANIC ALLES STUK!\n\f");
+	GLOBALSTATE = S_PANIC;
 }
 
 
@@ -152,6 +180,7 @@ void handle_serial_rx(char c){
 	static char ctrl_buffer[CTRL_DATA_LENGTH+2];
 	static char para_buffer[PARA_DATA_LENGTH+2];
 	static uint8_t byte_counter;
+		
 	switch(serialstate){
 		case IDLE:
 			if(c == 0xAA){ // control message start byte
@@ -211,6 +240,9 @@ void handle_serial_rx(char c){
 			//nrf_gpio_pin_toggle(RED);
 		DEBUG_PRINT("Unexpected State");
 	}
+
+	// Reset non-connectin inerupt.
+	xTimerReset(UartTimeoutHandle, 0);
 }
 
 
@@ -246,6 +278,8 @@ void uart_init(void)
 
 	ctrl_msg_queue = xQueueCreate(1, sizeof(uint8_t)*(CTRL_DATA_LENGTH+2));
 	para_msg_queue = xQueueCreate(PARA_MSG_QUEUE_SIZE, sizeof(uint8_t)*(PARA_DATA_LENGTH+2));
+
+	UartTimeoutHandle = xTimerCreate("Uart timout checker", 1000, pdFALSE, ( void * ) 0, UartTimeoutCallback);
 
 	nrf_gpio_cfg_output(TX_PIN_NUMBER);
 	nrf_gpio_cfg_input(RX_PIN_NUMBER, NRF_GPIO_PIN_NOPULL);

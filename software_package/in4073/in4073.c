@@ -17,6 +17,7 @@
 #include "in4073.h"
 #include "drone.h"
 
+
 #include "FreeRTOS.h"
 #include "rtos_task.h"
 #include "rtos_queue.h"
@@ -54,15 +55,24 @@ static void control_loop(void *pvParameter){
 
 		if ((i++ % 100) == 0){
 			nrf_gpio_pin_toggle(GREEN);
+			DEBUG_PRINTEGER(SetPoint.pitch);
+			DEBUG_PRINT(", \f");
+			DEBUG_PRINTEGER(SetPoint.yaw);
+			DEBUG_PRINT(", \f");
+			DEBUG_PRINTEGER(SetPoint.roll);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER(SetPoint.lift);
+			DEBUG_PRINT("\n\f");
 		}
-		switch(GlobalState){
-			case SAFE:
+
+		switch(GLOBALSTATE){
+			case 0:
 				ae[0] = 0;
 				ae[1] = 0;
 				ae[2] = 0;
 				ae[3] = 0;
 				break;
-			case MANUAL:
+			case 1:
 				manual_control();
 				break;
 			default:
@@ -120,7 +130,9 @@ static void check_battery_voltage(void *pvParameter){
 		if (bat_volt > 123){
 			//TODO: goto panic mode	
 		}
-		DEBUG_PRINTEGER((uint) uxTaskGetStackHighWaterMark(NULL));
+		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
+		DEBUG_PRINTEGER(12345);
+		// DEBUG_PRINT("\n\f");
 		DEBUG_PRINT(": battcheck \n\f");
 		vTaskDelay(1203);
 
@@ -146,7 +158,7 @@ void print_heil_hendrik(void *pvParameter){
 int main(void)
 {
 
-	GlobalState = SAFE;
+	GLOBALSTATE = 0; //safe
 
 	SetPoint.pitch = 0;
 	SetPoint.yaw = 0;
@@ -165,11 +177,11 @@ int main(void)
 
 	print("Peripherals initialized\n\f");
 	
-	UNUSED_VARIABLE(xTaskCreate(print_heil_hendrik, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE  + 10, NULL, 2, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE + 100, NULL, 3, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE + 100, NULL, 2, NULL));
 
     UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	// UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");
 
