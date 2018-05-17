@@ -7,7 +7,7 @@ import crcmod
 
 
 
-ser = serial.Serial('COM4', 115200, writeTimeout=0, dsrdtr=True)
+# ser = serial.Serial('COM4', 115200, writeTimeout=0, dsrdtr=True)
 
 Running = True
 in_use = False
@@ -42,7 +42,8 @@ class ControlThread(threading.Thread):
             joystick = pygame.joystick.Joystick(0)
             joystick.init()
             start = time.time()
-        old_crc = 0
+
+        start = time.time()
         while Running:
 
             if has_joystick:
@@ -53,32 +54,22 @@ class ControlThread(threading.Thread):
                     if event.type == pygame.JOYBUTTONUP:
                         print("Joystick button released.")
                     if event.type == pygame.JOYAXISMOTION:
-                        pass
-
-                self.pitch_byte = (round(joystick.get_axis(PITCH)*127.5)).to_bytes(1, byteorder='big', signed=True)
-                self.yaw_byte = (round(joystick.get_axis(YAW)*127.5)).to_bytes(1, byteorder='big', signed=True)
-                self.roll_byte = (round(joystick.get_axis(ROLL)*127.5)).to_bytes(1, byteorder='big', signed=True)
-                self.lift_byte = (255 - round((joystick.get_axis(LIFT)+1)*127.5)).to_bytes(1, byteorder='big', signed=False)
-
-                payload = b'\xAA' + self.yaw_byte + self.pitch_byte + self.roll_byte + self.lift_byte
-                crc = crc8(payload)
-                if crc != old_crc:
-                    self.send_update = 0
-                    old_crc = crc
-
-                    end = time.time()
-                    print("{0:.12f} ".format(end - start))
-                    print(crc)
-                    start = time.time()
-                self.ctrl_message = payload + bytearray([crc8(payload)])
+                        self.pitch_byte = (round(joystick.get_axis(PITCH)*127.5)).to_bytes(1, byteorder='big', signed=True)
+                        self.yaw_byte = (round(joystick.get_axis(YAW)*127.5)).to_bytes(1, byteorder='big', signed=True)
+                        self.roll_byte = (round(joystick.get_axis(ROLL)*127.5)).to_bytes(1, byteorder='big', signed=True)
+                        self.lift_byte = (255 - round((joystick.get_axis(LIFT)+1)*127.5)).to_bytes(1, byteorder='big', signed=False)
+                        payload = b'\xAA' + self.yaw_byte + self.pitch_byte + self.roll_byte + self.lift_byte
+                        self.ctrl_message = payload + bytearray([crc8(payload)])
 
             if self.send_update == 0:
                 pass
                 # ser.write(b'\n' + self.ctrl_message + b'\n')
                 # ser.write(b'hoisdf gsdfg sdfgsdfgs dfg \n')
                 # print(ctrl_message)
-
-                # self.send_update = 100
+                end = time.time()
+                print("{0:.12f} ".format(end - start))
+                start = time.time()
+                self.send_update = 100
             else:
                 # ser.write(b'.')
                 self.send_update = self.send_update - 1
@@ -99,8 +90,8 @@ class ConsoleThread(threading.Thread):
 
 
 if __name__ == '__main__':
-    ser.close()
-    ser.open()
+    # ser.close()
+    # ser.open()
     # ser.read(10000)
     controller = ControlThread(name="Control Thread")
     controller.start()
