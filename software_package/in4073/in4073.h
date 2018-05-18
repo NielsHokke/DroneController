@@ -13,9 +13,9 @@
 
 #define DEBUG 1
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#define DEBUG_PRINT(fmt, args...) do { if (DEBUG) print(fmt);} while (0)
-#define DEBUG_PRINTEGER(fmt, args...) do { if (DEBUG) printeger(fmt);} while (0)
-#define DEBUG_UPRINTEGER(fmt, args...) do { if (DEBUG) uprinteger(fmt);} while (0)
+#define DEBUG_PRINT(...) do { if (DEBUG) print(__VA_ARGS__);} while (0)
+#define DEBUG_PRINTEGER(...) do { if (DEBUG) printeger(__VA_ARGS__);} while (0)
+#define DEBUG_UPRINTEGER(...) do { if (DEBUG) uprinteger(__VA_ARGS__);} while (0)
 
 
 #include <inttypes.h>
