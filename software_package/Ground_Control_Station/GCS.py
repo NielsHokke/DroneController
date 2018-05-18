@@ -17,7 +17,7 @@ class ConsoleThread(threading.Thread):
         self.Running = False
 
 
-ser = serial.Serial('/COM4', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
@@ -54,9 +54,10 @@ if __name__ == '__main__':
     pygame.display.set_caption("Ground Control Station")
 
 
-    if pygame.joystick.get_count() < 1:
+    if pygame.joystick.get_count() < 0:
         print("No joystick detected. Keyboard only mode")
         has_joystick = False
+
     if has_joystick:
         pygame.joystick.init()
         joystick = pygame.joystick.Joystick(0)
@@ -69,7 +70,6 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Running = False
-                pygame.quit()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
@@ -91,6 +91,8 @@ if __name__ == '__main__':
                     send_update = 0
 
         if send_update == 0:
+
+            #print("{} {} {} {}".format(raw_pitch, raw_yaw, raw_lift, raw_roll))
             pitch_byte = raw_pitch.to_bytes(1, byteorder='big', signed=True)
             yaw_byte = raw_yaw.to_bytes(1, byteorder='big', signed=True)
             roll_byte = raw_roll.to_bytes(1, byteorder='big', signed=True)
@@ -107,6 +109,9 @@ if __name__ == '__main__':
 
         time.sleep(0.005)
 
+    print("Shutting down")
+    joystick.quit()
     console.stop()
     ser.flush()
     ser.close()
+    pygame.quit()

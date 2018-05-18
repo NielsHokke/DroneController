@@ -58,8 +58,6 @@ static void control_loop(void *pvParameter){
 	spi_flash_init();
 	// ble_init();
 
-
-
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
 
