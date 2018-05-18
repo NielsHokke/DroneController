@@ -50,20 +50,35 @@ static void control_loop(void *pvParameter){
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
 	int i = 0;
 
+	gpio_init();
+	timers_init();
+	twi_init();
+	imu_init(true, 100);	
+	baro_init();
+	spi_flash_init();
+	// ble_init();
+
+
+
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
 
 		if ((i++ % 100) == 0){
-			nrf_gpio_pin_toggle(GREEN);
-			DEBUG_UPRINTEGER(ae[0]);
+			//nrf_gpio_pin_toggle(GREEN);
+
+			DEBUG_PRINT("\n\f");
+
+			DEBUG_UPRINTEGER (xLastWakeTime, 6);
+			DEBUG_PRINT(": \f");
+			DEBUG_UPRINTEGER(ae[0], 3);
 			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[1]);
+			DEBUG_UPRINTEGER(ae[1], 3);
 			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[2]);
+			DEBUG_UPRINTEGER(ae[2], 3);
 			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[3]);
-			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER (radio_active);
+			DEBUG_UPRINTEGER(ae[3], 3);
+
+
 			DEBUG_PRINT("\n\f");
 		}
 
@@ -154,21 +169,16 @@ int main(void)
 	SetPoint.lift = 0;
 
 	uart_init();
-	gpio_init();
-	timers_init();
 	adc_init();
-	twi_init();
-	imu_init(true, 100);	
-	baro_init();
-	spi_flash_init();
-	// ble_init();
+
+
 
 	print("Peripherals initialized\n\f");
 	
-	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE, NULL, 3, NULL));
+	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE, NULL, 2, NULL));
 	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE, NULL, 2, NULL));
 
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE + 100, NULL, 1, NULL));
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE + 100, NULL, 3, NULL));
 	// UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");
@@ -208,7 +218,7 @@ void vApplicationIdleHook( void )
 	uint16_t i = 0;
     for(;;){
 	    while(i++ < 65535){};
-	    printeger(xPortGetFreeHeapSize());
+	    printeger(xPortGetFreeHeapSize(), 4);
 		print(": free heapsize \n\f");
 		i=0;
 	}
