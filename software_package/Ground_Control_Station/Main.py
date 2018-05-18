@@ -7,7 +7,7 @@ import crcmod
 
 
 
-ser = serial.Serial('/dev/ttyACM2', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 Running = True
 in_use = False
@@ -59,7 +59,8 @@ class ControlThread(threading.Thread):
                         self.send_update = 0
 
             if self.send_update == 0:
-                ser.write(self.ctrl_message + b'\n')             
+                ser.write(self.ctrl_message + b'\n')
+                ser.flush()             
                 # ser.write("Pitch: {:>4} yaw: {:>4} Roll: {:>4} lift: {:>4} \n".format(int.from_bytes(self.pitch_byte, byteorder='little', signed='True'),int.from_bytes(self.yaw_byte, byteorder='little', signed='True'),int.from_bytes(self.roll_byte, byteorder='little', signed='True'),int.from_bytes(self.lift_byte, byteorder='little')).encode())
                 self.send_update = 100
             else:
