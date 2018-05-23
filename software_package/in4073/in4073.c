@@ -62,10 +62,11 @@ static void control_loop(void *pvParameter){
 		xLastWakeTime = xTaskGetTickCount();
 
 		if ((i++ % 100) == 0){
-			nrf_gpio_pin_toggle(GREEN);
+			// nrf_gpio_pin_toggle(GREEN);
 
 			DEBUG_PRINT("\n\f");
 
+			/* PRINT MOTOR SETPOINT */
 			DEBUG_UPRINTEGER (xLastWakeTime, 6);
 			DEBUG_PRINT(": \f");
 			DEBUG_PRINTEGER(ae[0], 3);
@@ -76,7 +77,7 @@ static void control_loop(void *pvParameter){
 			DEBUG_PRINT(", \f");
 			DEBUG_PRINTEGER(ae[3], 3);
 
-
+			/* PRINT JOYSTICK SETPOINTS */
 			// DEBUG_PRINT(": \f");
 			// DEBUG_PRINTEGER(SetPoint.yaw, 3);
 			// DEBUG_PRINT(", \f");
@@ -145,12 +146,12 @@ static void sensor_loop(void *pvParameter){
 static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	for(;;){
-
 		nrf_gpio_pin_toggle(BLUE);
 
 		adc_request_sample();
 		vTaskDelay(1);
-		if (bat_volt > 123){
+		if (bat_volt < 1530){ // minimum = 10.8/0.007058824
+			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f")
 			//TODO: goto panic mode	
 		}
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
