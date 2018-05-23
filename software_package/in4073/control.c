@@ -51,6 +51,10 @@ void run_filters_and_control()
  *--------------------------------------------------------------------------------------
  */
 
+void yaw_control(void){
+	get_dmp_data();	
+}
+
 void manual_control(void){
 	int32_t tempMotor[4]; 
 	//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
@@ -58,10 +62,10 @@ void manual_control(void){
 	//TODO: the scalars should be a on the go settable parameter.
 
 	//TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
-	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER - (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  - (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER + (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  + (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
 
 
 	tempMotor[0] = tempMotor[0] /1024;

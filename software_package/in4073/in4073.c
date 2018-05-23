@@ -31,7 +31,7 @@
 
 
 #define CONTROL_PERIOD 10
-#define SENSOR_PERIOD 1
+#define SENSOR_PERIOD 10
 
 
 
@@ -65,7 +65,7 @@ static void control_loop(void *pvParameter){
 		xLastWakeTime = xTaskGetTickCount();
 
 		if ((i++ % 100) == 0){
-			// nrf_gpio_pin_toggle(GREEN);
+			nrf_gpio_pin_toggle(GREEN);
 
 			//nrf_gpio_pin_toggle(GREEN);
 
@@ -83,6 +83,20 @@ static void control_loop(void *pvParameter){
 
 
 			// DEBUG_PRINT("\n\f");
+
+			DEBUG_PRINT("\n phi: \f");
+
+			DEBUG_PRINTEGER(phi, 6);
+			DEBUG_PRINT(" theta: \f");
+			DEBUG_PRINTEGER(theta, 6);
+			DEBUG_PRINT(" psi: \f");
+			DEBUG_PRINTEGER(psi, 6);
+			DEBUG_PRINT(".\n\n\f");
+
+			printf("%6d %6d %6d | ", phi, theta, psi);
+			// printf("%6d %6d %6d | ", sp, sq, sr); //  from the gyro
+
+			DEBUG_PRINT("\n\f");
 
 			printing = true;
 		}else{
@@ -107,7 +121,7 @@ static void control_loop(void *pvParameter){
 				break;
 			case S_YAW_CONTROL :
 				if(printing) DEBUG_PRINT("S_YAW_CONTROL\n\f");
-				// TODO implement mode
+				yaw_control();
 				break;
 			case S_FULL_CONTROLL :
 				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
@@ -160,13 +174,10 @@ static void sensor_loop(void *pvParameter){
 	TickType_t xLastWakeTime;
 
 	const TickType_t xFrequency = SENSOR_PERIOD; //period of task 
-	int i = 0;
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();	
-		if ((i++ % 5000) == 0){
-			nrf_gpio_pin_toggle(BLUE);
-		}
+
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );	
 	}
 }
@@ -193,7 +204,7 @@ static void check_battery_voltage(void *pvParameter){
 
 		if (bat_volt < 1080){ // minimum = 10.8/0.007058824
 			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
-			GLOBALSTATE = S_PANIC;
+			// GLOBALSTATE = S_PANIC;
 		}
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
 		vTaskDelay(999);
@@ -209,7 +220,7 @@ static void check_battery_voltage(void *pvParameter){
 int main(void)
 {
 
-	GLOBALSTATE = 1; //manual mode 0 = safe
+	GLOBALSTATE = S_YAW_CONTROL; //manual mode 0 = safe
 
 	SetPoint.pitch = 0;
 	SetPoint.yaw = 0;
@@ -227,7 +238,7 @@ int main(void)
 	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE, NULL, 2, NULL));
 
     UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE + 100, NULL, 3, NULL));
-	// UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");
 
