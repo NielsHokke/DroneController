@@ -39,7 +39,7 @@
  * control_loop: task containing the control loop of the quad-copter
  * Parameters: pointer to function parameters
  * Return:   void
- * Author:    Jetse Brouwer
+ * Author:   Jetse Brouwer
  * Date:    2-5-2018
  *--------------------------------------------------------------------------------------
  */
@@ -50,6 +50,8 @@ static void control_loop(void *pvParameter){
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
 	int i = 0;
 
+	bool printing = false;
+
 	gpio_init();
 	timers_init();
 	twi_init();
@@ -59,40 +61,82 @@ static void control_loop(void *pvParameter){
 	// ble_init();
 
 
-
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
 
 		if ((i++ % 100) == 0){
 			//nrf_gpio_pin_toggle(GREEN);
 
-			DEBUG_PRINT("\n\f");
+			// DEBUG_PRINT("\n\f");
 
-			DEBUG_UPRINTEGER (xLastWakeTime, 6);
-			DEBUG_PRINT(": \f");
-			DEBUG_UPRINTEGER(ae[0], 3);
-			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[1], 3);
-			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[2], 3);
-			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[3], 3);
+			// DEBUG_UPRINTEGER (xLastWakeTime, 6);
+			// DEBUG_PRINT(": \f");
+			// DEBUG_UPRINTEGER(ae[0], 3);
+			// DEBUG_PRINT(", \f");
+			// DEBUG_UPRINTEGER(ae[1], 3);
+			// DEBUG_PRINT(", \f");
+			// DEBUG_UPRINTEGER(ae[2], 3);
+			// DEBUG_PRINT(", \f");
+			// DEBUG_UPRINTEGER(ae[3], 3);
 
 
-			DEBUG_PRINT("\n\f");
+			// DEBUG_PRINT("\n\f");
+
+			printing = true;
+		}else{
+			printing = false;
 		}
 
 		switch(GLOBALSTATE){
-			case 0:
+			case S_SAFE:
+				if(printing) DEBUG_PRINT("S_SAFE\n\f");
 				ae[0] = 0;
 				ae[1] = 0;
 				ae[2] = 0;
 				ae[3] = 0;
 				break;
-			case 1:
+			case S_MANUAL:
+				if(printing) DEBUG_PRINT("S_MANUAL\n\f");
 				manual_control();
 				break;
+			case S_CALIBRATION :
+				if(printing) DEBUG_PRINT("DEBUG_PRINT\n\f");
+				// TODO implement mode
+				break;
+			case S_YAW_CONTROL :
+				if(printing) DEBUG_PRINT("S_YAW_CONTROL\n\f");
+				// TODO implement mode
+				break;
+			case S_FULL_CONTROLL :
+				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
+				// TODO implement mode
+				break;
+			case S_RAW_MODE_1 :
+				if(printing) DEBUG_PRINT("S_RAW_MODE_1\n\f");
+				// TODO implement mode
+				break;
+			case S_RAW_MODE_2 :
+				if(printing) DEBUG_PRINT("S_RAW_MODE_2\n\f");
+				// TODO implement mode
+				break;
+			case S_RAW_MODE_3 :
+				if(printing) DEBUG_PRINT("S_RAW_MODE_3\n\f");
+				// TODO implement mode
+				break;
+			case S_GlobalState :
+				if(printing) DEBUG_PRINT("S_GlobalState\n\f");
+				// TODO implement mode
+				break;
+			case S_PANIC :
+				if(printing) DEBUG_PRINT("S_PANIC\n\f");
+				// TODO implement mode
+				ae[0] = 0;
+				ae[1] = 0;
+				ae[2] = 0;
+				ae[3] = 0;
+				break;
 			default:
+				if(printing) DEBUG_PRINT("ERROR in Default state!\n\f");
 				break;
 		};
 		update_motors();
