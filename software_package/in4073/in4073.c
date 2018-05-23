@@ -65,6 +65,8 @@ static void control_loop(void *pvParameter){
 		xLastWakeTime = xTaskGetTickCount();
 
 		if ((i++ % 100) == 0){
+			// nrf_gpio_pin_toggle(GREEN);
+
 			//nrf_gpio_pin_toggle(GREEN);
 
 			// DEBUG_PRINT("\n\f");
@@ -188,8 +190,10 @@ static void check_battery_voltage(void *pvParameter){
 
 		adc_request_sample();
 		vTaskDelay(1);
-		if (bat_volt > 123){
-			//TODO: goto panic mode	
+
+		if (bat_volt < 1080){ // minimum = 10.8/0.007058824
+			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
+			GLOBALSTATE = S_PANIC;
 		}
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
 		vTaskDelay(999);
