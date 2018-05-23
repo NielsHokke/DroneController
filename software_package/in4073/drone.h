@@ -27,9 +27,9 @@
 
 
 // Motor Control
-#define MAN_PITCH_SCALER 10
-#define MAN_ROLL_SCALER 10
-#define MAN_YAW_SCALER 10
+#define MAN_PITCH_SCALER 1
+#define MAN_ROLL_SCALER 1
+#define MAN_YAW_SCALER 1
 
 
 typedef struct {

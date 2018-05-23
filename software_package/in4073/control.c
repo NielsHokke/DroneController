@@ -56,14 +56,31 @@ void manual_control(void){
 	//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
 	//Pitch and roll are first scaled by 2^10 to increase percision and next divided by a fixed scaler which can be set in drone.h
 	//TODO: the scalars should be a on the go settable parameter.
-	tempMotor[0] = ( (int32_t) SetPoint.lift * 4015) + 	 (int32_t) SetPoint.pitch * 1024 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1024 / MAN_YAW_SCALER;
-	tempMotor[1] =  (int32_t) SetPoint.lift * 4015 + (int32_t) SetPoint.roll * 1024 / MAN_ROLL_SCALER - (int32_t) SetPoint.yaw * 1024 / MAN_YAW_SCALER;
-	tempMotor[2] =  (int32_t) (SetPoint.lift * 4015) - 	(int32_t) SetPoint.pitch * 1024 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1024 / MAN_YAW_SCALER;
-	tempMotor[3] =  (int32_t) SetPoint.lift * 4015 - (int32_t)	SetPoint.roll * 1024 / MAN_ROLL_SCALER  - (int32_t) SetPoint.yaw * 1024 / MAN_YAW_SCALER;
 
-	ae[0] = tempMotor[0] /1024;
-	ae[1] = tempMotor[1] /1024;
-	ae[2] = tempMotor[2] /1024;
-	ae[3] = tempMotor[3] /1024;
+	//TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
+	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER - (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  - (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
 
+
+	tempMotor[0] = tempMotor[0] /1024;
+	tempMotor[1] = tempMotor[1] /1024;
+	tempMotor[2] = tempMotor[2] /1024;
+	tempMotor[3] = tempMotor[3] /1024;
+
+	if (tempMotor[0] > 400) tempMotor[0] = 400;
+	if (tempMotor[1] > 400) tempMotor[1] = 400;
+	if (tempMotor[2] > 400) tempMotor[2] = 400;
+	if (tempMotor[3] > 400) tempMotor[3] = 400;
+
+	if (tempMotor[0] < 0) tempMotor[0] = 0;
+	if (tempMotor[1] < 0) tempMotor[1] = 0;
+	if (tempMotor[2] < 0) tempMotor[2] = 0;
+	if (tempMotor[3] < 0) tempMotor[3] = 0;
+
+	ae[0] = (int16_t) tempMotor[0];
+	ae[1] = (int16_t) tempMotor[1];
+	ae[2] = (int16_t) tempMotor[2];
+	ae[3] = (int16_t) tempMotor[3];
 }
