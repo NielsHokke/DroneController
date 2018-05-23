@@ -150,9 +150,10 @@ static void check_battery_voltage(void *pvParameter){
 
 		adc_request_sample();
 		vTaskDelay(1);
-		if (bat_volt < 1530){ // minimum = 10.8/0.007058824
-			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f")
-			//TODO: goto panic mode	
+
+		if (bat_volt < 1080){ // minimum = 10.8/0.007058824
+			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
+			GLOBALSTATE = S_PANIC;
 		}
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
 		vTaskDelay(999);
