@@ -92,6 +92,8 @@ void validate_ctrl_msg(void *pvParameter){
 		// Yielding till something in queue
 		xQueueReceive(ctrl_msg_queue, ctrl_buffer, portMAX_DELAY);
 
+		// TODO start critical section
+
 		// Calculate crc
 		uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
 		// Verify crc
@@ -108,6 +110,7 @@ void validate_ctrl_msg(void *pvParameter){
 			SetPoint.roll = ctrl_buffer[3];
 			SetPoint.lift = ctrl_buffer[4];
 		}
+		// TODO end critical section
 	}
 }
 
@@ -128,6 +131,8 @@ void validate_para_msg(void *pvParameter){
 		// Yielding till something in queue
 		xQueueReceive(para_msg_queue, para_buffer, portMAX_DELAY);
 
+		// TODO start critical section
+
 		// Calculate crc
 		uint8_t crc = crcFast(para_buffer, PARA_DATA_LENGTH+1);
 
@@ -146,6 +151,8 @@ void validate_para_msg(void *pvParameter){
 			parameters[index+1] = para_buffer[3];
 			parameters[index+2] = para_buffer[4];
 			parameters[index+3] = para_buffer[5];
+
+			// TODO end critical section
 		}
 	}
 }
