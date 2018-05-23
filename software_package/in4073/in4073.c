@@ -62,7 +62,7 @@ static void control_loop(void *pvParameter){
 		xLastWakeTime = xTaskGetTickCount();
 
 		if ((i++ % 100) == 0){
-			//nrf_gpio_pin_toggle(GREEN);
+			nrf_gpio_pin_toggle(GREEN);
 
 			DEBUG_PRINT("\n\f");
 
