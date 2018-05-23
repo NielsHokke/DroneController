@@ -100,7 +100,7 @@ static void control_loop(void *pvParameter){
 				manual_control();
 				break;
 			case S_CALIBRATION :
-				if(printing) DEBUG_PRINT("DEBUG_PRINT\n\f");
+				if(printing) DEBUG_PRINT("S_CALIBRATION\n\f");
 				// TODO implement mode
 				break;
 			case S_YAW_CONTROL :
