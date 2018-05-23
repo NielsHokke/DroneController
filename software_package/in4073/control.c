@@ -58,10 +58,10 @@ void manual_control(void){
 	//TODO: the scalars should be a on the go settable parameter.
 
 	//TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
-	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1024 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1024 / MAN_YAW_SCALER;
-	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 + (int32_t) SetPoint.roll * 1024 / MAN_ROLL_SCALER - (int32_t) SetPoint.yaw * 1024 / MAN_YAW_SCALER;
-	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1024 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1024 / MAN_YAW_SCALER;
-	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 - (int32_t)	SetPoint.roll * 1024 / MAN_ROLL_SCALER  - (int32_t) SetPoint.yaw * 1024 / MAN_YAW_SCALER;
+	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER - (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  - (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
 
 
 	tempMotor[0] = tempMotor[0] /1024;
