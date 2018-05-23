@@ -27,9 +27,9 @@ Running = True
 in_use = False
 
 PITCH = 1
-YAW = 3
+YAW = 2
 ROLL = 0
-LIFT = 2
+LIFT = 3
 
 if __name__ == '__main__':
     send_update = 0

@@ -68,16 +68,24 @@ static void control_loop(void *pvParameter){
 
 			DEBUG_UPRINTEGER (xLastWakeTime, 6);
 			DEBUG_PRINT(": \f");
-			DEBUG_UPRINTEGER(ae[0], 3);
+			DEBUG_PRINTEGER(ae[0], 3);
 			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[1], 3);
+			DEBUG_PRINTEGER(ae[1], 3);
 			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[2], 3);
+			DEBUG_PRINTEGER(ae[2], 3);
 			DEBUG_PRINT(", \f");
-			DEBUG_UPRINTEGER(ae[3], 3);
+			DEBUG_PRINTEGER(ae[3], 3);
 
 
-			DEBUG_PRINT("\n\f");
+			// DEBUG_PRINT(": \f");
+			// DEBUG_PRINTEGER(SetPoint.yaw, 3);
+			// DEBUG_PRINT(", \f");
+			// DEBUG_PRINTEGER(SetPoint.pitch, 3);
+			// DEBUG_PRINT(", \f");
+			// DEBUG_PRINTEGER(SetPoint.roll, 3);
+			// DEBUG_PRINT(", \f");
+			// DEBUG_UPRINTEGER(SetPoint.lift, 3);
+			// DEBUG_PRINT("\n\f");
 		}
 
 		switch(GLOBALSTATE){
@@ -159,7 +167,7 @@ static void check_battery_voltage(void *pvParameter){
 int main(void)
 {
 
-	GLOBALSTATE = 1; //safe
+	GLOBALSTATE = 1; //manual mode 0 = safe
 
 	SetPoint.pitch = 0;
 	SetPoint.yaw = 0;
