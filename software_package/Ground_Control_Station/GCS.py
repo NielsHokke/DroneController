@@ -8,15 +8,15 @@ from enum import Enum
 
 #enumarate the different modes
 class Mode(Enum):
-	MODE_SAFE = 0
-	MODE_PANIC = 1
-	MODE_MANUAL = 2
-	MODE_CALIBRATION = 3
-	MODE_YAW_CONTROL = 4
-	MODE_FULL = 5
-	MODE_RAW = 6
-	MODE_HEIGHT = 7
-	MODE_WIRELESS = 8
+    MODE_SAFE = 0
+    MODE_PANIC = 1
+    MODE_MANUAL = 2
+    MODE_CALIBRATION = 3
+    MODE_YAW_CONTROL = 4
+    MODE_FULL = 5
+    MODE_RAW = 6
+    MODE_HEIGHT = 7
+    MODE_WIRELESS = 8
 
 #some functions to handle the communication 
 def send_control_message():
@@ -26,15 +26,33 @@ def send_control_message():
     roll_byte = raw_roll.to_bytes(1, byteorder='big', signed=True)
     lift_byte = raw_lift.to_bytes(1, byteorder='big', signed=False)
     payload = b'\xAA' + yaw_byte + pitch_byte + roll_byte + lift_byte
-    ctrl_message = payload + bytearray([crc8(payload)])
-
-    ser.write(ctrl_message + b'\n')
-    ser.flush()
+    send_message(payload)
     send_control_message_flag = 100
     return
 
-def send_parameter_message():
+#per byte register mapping
+def send_parameter_message(register,byteA,byteB,ByteC,ByteD):
+    payload = b'\x55' + 
+    byteA.to_bytes(1, byteorder='big', signed=True) + 
+    byteB.to_bytes(1, byteorder='big', signed=True) + 
+    ByteC.to_bytes(1, byteorder='big', signed=True) + 
+    ByteD.to_bytes(1, byteorder='big', signed=True)
+    send_message(payload)
+    return 
+
+#per 4 byte register 
+def send_parameter_message(register,data):
+    payload = b'\x55' + data.to_bytes(4, byteorder='big', signed=True)
+    send_message(payload)
     return
+
+#only used for finnishing the send operation   
+def send_message(payload):
+    message = payload + bytearray([crc8(payload)])
+    ser.write(message + b'\n')
+    ser.flush()
+   return
+
 
 #funtion to handel all the keyboard input
 def handle_keypress(pressed_key):
@@ -48,10 +66,11 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_3:Switch_Mode(Mode.MODE_CALIBRATION)
     elif pressed_key == pygame.K_4:Switch_Mode(Mode.MODE_YAW_CONTROL)
     elif pressed_key == pygame.K_5:Switch_Mode(Mode.MODE_FULL)
+    """
     elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
     elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
     elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
-    
+
     elif MODE == MODE.MODE_MANUAL:
         # lift 
         if pressed_key == pygame.K_a #up
@@ -78,11 +97,26 @@ def handle_keypress(pressed_key):
         #rollpitch control P2
         elif pressed_key == pygame.K_o
         elif pressed_key == pygame.K_l 
-
+    """
     return
 
 #funtion to test the various mode switches
 def Switch_Mode(new_mode):
+    # if the requested mode is the panic mode
+    if new_mode == MODE_PANIC:
+        #cant go to panic from normal states
+        if MODE == MODE_SAFE or MODE == MODE_CALIBRATION:
+            print("Can't go to panic mode from this state")
+        else:
+            MODE == MODE_PANIC
+            send_parameter_message(REGMAP_NEWMODE, MODE_PANIC)
+
+    #elif no motors are spinning
+    if new_mode == MODE_SAFE:
+        MODE = MODE_SAF
+    elif new_mode == MODE_CALIBRATION and MODE == MODE_SAFE:
+       MODE = 
+
     return
 
 class ConsoleThread(threading.Thread):
@@ -118,7 +152,7 @@ if __name__ == '__main__':
     yaw_byte = b'\x00'
     roll_byte = b'\x00'
     lift_byte = b'\x00'
-    ctrl_message = b'\xaa\x00\x00\x00\x00\x48'
+    #ctrl_message = b'\xaa\x00\x00\x00\x00\x48'
     raw_pitch = 0
     raw_yaw = 0
     raw_roll = 0
