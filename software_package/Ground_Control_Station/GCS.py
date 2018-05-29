@@ -4,10 +4,12 @@ import time
 import serial
 import pygame
 import crcmod
-from enum import Enum
+import Registermapping #homebrew registermpping file
+import GUI #homebrew gui file
+from enum import IntEnum
 
 #enumarate the different modes
-class Mode(Enum):
+class Mode(IntEnum):
     MODE_SAFE = 0
     MODE_PANIC = 1
     MODE_MANUAL = 2
@@ -36,13 +38,13 @@ def send_parameter_message(register,byteA,byteB,ByteC,ByteD):
     B = byteB.to_bytes(1, byteorder='big', signed=True)
     C = ByteC.to_bytes(1, byteorder='big', signed=True)
     D = ByteD.to_bytes(1, byteorder='big', signed=True)
-    payload = b'\x55'+A+B+C+D
+    payload = b'\x55'+register+A+B+C+D
     send_message(payload)
     return 
 
 #per 4 byte register 
 def send_parameter_message(register,data):
-    payload = b'\x55' + data.to_bytes(4, byteorder='big', signed=True)
+    payload = b'\x55' + register + data.to_bytes(4, byteorder='big', signed=True)
     send_message(payload)
     return
 
@@ -58,7 +60,7 @@ def handle_keypress(pressed_key):
     global Running #use global variable to shut the thing down
 
     #escape -> close program
-    if pressed_key == pygame.K_ESCAPE: Running = False #not functionall yet
+    if pressed_key == pygame.K_ESCAPE: Running = False
 
     #number -> switch mode
     elif pressed_key == pygame.K_0:Switch_Mode(Mode.MODE_SAFE)
@@ -67,6 +69,10 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_3:Switch_Mode(Mode.MODE_CALIBRATION)
     elif pressed_key == pygame.K_4:Switch_Mode(Mode.MODE_YAW_CONTROL)
     elif pressed_key == pygame.K_5:Switch_Mode(Mode.MODE_FULL)
+    #debug key
+    elif pressed_key == pygame.K_SPACE:
+        print(MODE)
+        
     """
     elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
     elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
@@ -105,6 +111,7 @@ def handle_keypress(pressed_key):
 def Switch_Mode(new_mode):
 
     global MODE #use the global variable
+    regmap =  Registermapping.REGMAP_NEWMODE #destination adress from registermapping.py
 
     # if the requested mode is the panic mode
     if new_mode == Mode.MODE_PANIC:
@@ -112,50 +119,62 @@ def Switch_Mode(new_mode):
         if MODE == Mode.MODE_SAFE or MODE == Mode.MODE_CALIBRATION:
             print("Can't go to panic mode from this state")
         else:
-            MODE == Mode.MODE_PANIC
-            send_parameter_message(REGMAP_NEWMODE, Mode.MODE_PANIC)
+            MODE = Mode.MODE_PANIC
+            send_parameter_message(regmap, Mode.MODE_PANIC)
+            print("mode switched to: ",new_mode)
 
     elif True: #TODO: no motors are spinning
         if new_mode == Mode.MODE_SAFE:
             MODE = Mode.MODE_SAFE
-        elif new_mode == Mode.MODE_CALIBRATION and MODE == Mode.MODE_SAFE:
-            MODE = Mode.MODE_CALIBRATION
+            send_parameter_message(regmap, Mode.MODE_SAFE)
+            print("mode switched to: ",new_mode)
+
         elif MODE == Mode.MODE_SAFE:
-    	    #manual
-            if new_mode == Mode.MODE_MANUAL:
-                MODE == Mode.MODE_MANUAL
-                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_MANUAL)
+            #calibration
+            if new_mode == Mode.MODE_CALIBRATION:
+                MODE = Mode.MODE_CALIBRATION
+                send_parameter_message(regmap, Mode.MODE_MANUAL)
+            #manual
+            elif new_mode == Mode.MODE_MANUAL:
+                MODE = Mode.MODE_MANUAL
+                send_parameter_message(regmap, Mode.MODE_MANUAL)
             #yaw
             elif new_mode == Mode.MODE_YAW_CONTROL:
-                MODE == Mode.MODE_YAW_CONTROL
-                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_YAW_CONTROL)
+                MODE = Mode.MODE_YAW_CONTROL
+                send_parameter_message(regmap, Mode.MODE_YAW_CONTROL)
             #full
             elif new_mode == Mode.MODE_FULL:
-                MODE == Mode.MODE_FULL
-                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_FULL)
+                MODE = Mode.MODE_FULL
+                send_parameter_message(regmap, Mode.MODE_FULL)
             #Raw
             elif new_mode == Mode.MODE_RAW:
-                MODE == Mode.MODE_RAW
-                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_RAW)
+                MODE = Mode.MODE_RAW
+                send_parameter_message(regmap, Mode.MODE_RAW)
             #height
             elif new_mode == Mode.MODE_HEIGHT:
-                MODE == Mode.MODE_HEIGHT
-                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_HEIGHT)
+                MODE = Mode.MODE_HEIGHT
+                send_parameter_message(regmap, Mode.MODE_HEIGHT)
             #wireless
             elif new_mode == Mode.MODE_WIRELESS:
-                MODE == Mode.MODE_WIRELESS
-                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_WIRELESS)
-    else:
-    	Print("invalid Mode switch requested, no mode switched")
+                MODE = Mode.MODE_WIRELESS
+                send_parameter_message(regmap, Mode.MODE_WIRELESS)
+            print("mode switched to: ",new_mode)
+        else:
+    	    print("invalid Mode switch requested, no mode switched")
+    return
+
+def draw_gui():
+    global screen
+    screen.fill(GUI.col_grey)
+    myrect = pygame.Rect(30,30,30,30)
+    pygame.draw.rect(screen,GUI.col_black,myrect)
     return
 
 class ConsoleThread(threading.Thread):
     Running = True
-
     def run(self):
         while self.Running:
             print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
-
     def stop(self):
         self.Running = False
 
@@ -176,7 +195,6 @@ LIFT = 3
 
 if __name__ == '__main__':
     send_control_message_flag = 100 #timer and flag for sending controll messages
-    send_parameter_message =0 #flag for sending parameters
     pitch_byte = b'\x00'
     yaw_byte = b'\x00'
     roll_byte = b'\x00'
@@ -193,7 +211,7 @@ if __name__ == '__main__':
 
     pygame.init()
 
-    screen = pygame.display.set_mode([500, 700])
+    screen = pygame.display.set_mode([1000, 700])
 
     pygame.display.set_caption("Ground Control Station")
 
@@ -210,8 +228,9 @@ if __name__ == '__main__':
 
     # --- Main loop ---
     while Running:
+        #pygame.event.wait() #wait until event happens, doesnt work 
+
         # Line below should becommented out as soon as we're using the GUI
-        # pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Running = False
@@ -235,8 +254,11 @@ if __name__ == '__main__':
         if send_control_message_flag == 0:
         	send_control_message()      
         else:
-            # ser.write(b'\x00')
             if has_joystick: send_control_message_flag = send_control_message_flag - 1
+        
+        #draw the gui and update it
+        draw_gui()
+        pygame.display.flip()
 
         time.sleep(0.005)
 
