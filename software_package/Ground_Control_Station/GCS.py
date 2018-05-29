@@ -32,11 +32,11 @@ def send_control_message():
 
 #per byte register mapping
 def send_parameter_message(register,byteA,byteB,ByteC,ByteD):
-    payload = b'\x55' + 
-    byteA.to_bytes(1, byteorder='big', signed=True) + 
-    byteB.to_bytes(1, byteorder='big', signed=True) + 
-    ByteC.to_bytes(1, byteorder='big', signed=True) + 
-    ByteD.to_bytes(1, byteorder='big', signed=True)
+    A = byteA.to_bytes(1, byteorder='big', signed=True)
+    B = byteB.to_bytes(1, byteorder='big', signed=True)
+    C = ByteC.to_bytes(1, byteorder='big', signed=True)
+    D = ByteD.to_bytes(1, byteorder='big', signed=True)
+    payload = b'\x55'+A+B+C+D
     send_message(payload)
     return 
 
@@ -51,11 +51,12 @@ def send_message(payload):
     message = payload + bytearray([crc8(payload)])
     ser.write(message + b'\n')
     ser.flush()
-   return
-
+    return
 
 #funtion to handel all the keyboard input
 def handle_keypress(pressed_key):
+    global Running #use global variable to shut the thing down
+
     #escape -> close program
     if pressed_key == pygame.K_ESCAPE: Running = False #not functionall yet
 
@@ -102,21 +103,50 @@ def handle_keypress(pressed_key):
 
 #funtion to test the various mode switches
 def Switch_Mode(new_mode):
+
+    global MODE #use the global variable
+
     # if the requested mode is the panic mode
-    if new_mode == MODE_PANIC:
+    if new_mode == Mode.MODE_PANIC:
         #cant go to panic from normal states
-        if MODE == MODE_SAFE or MODE == MODE_CALIBRATION:
+        if MODE == Mode.MODE_SAFE or MODE == Mode.MODE_CALIBRATION:
             print("Can't go to panic mode from this state")
         else:
-            MODE == MODE_PANIC
-            send_parameter_message(REGMAP_NEWMODE, MODE_PANIC)
+            MODE == Mode.MODE_PANIC
+            send_parameter_message(REGMAP_NEWMODE, Mode.MODE_PANIC)
 
-    #elif no motors are spinning
-    if new_mode == MODE_SAFE:
-        MODE = MODE_SAF
-    elif new_mode == MODE_CALIBRATION and MODE == MODE_SAFE:
-       MODE = 
-
+    elif True: #TODO: no motors are spinning
+        if new_mode == Mode.MODE_SAFE:
+            MODE = Mode.MODE_SAFE
+        elif new_mode == Mode.MODE_CALIBRATION and MODE == Mode.MODE_SAFE:
+            MODE = Mode.MODE_CALIBRATION
+        elif MODE == Mode.MODE_SAFE:
+    	    #manual
+            if new_mode == Mode.MODE_MANUAL:
+                MODE == Mode.MODE_MANUAL
+                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_MANUAL)
+            #yaw
+            elif new_mode == Mode.MODE_YAW_CONTROL:
+                MODE == Mode.MODE_YAW_CONTROL
+                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_YAW_CONTROL)
+            #full
+            elif new_mode == Mode.MODE_FULL:
+                MODE == Mode.MODE_FULL
+                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_FULL)
+            #Raw
+            elif new_mode == Mode.MODE_RAW:
+                MODE == Mode.MODE_RAW
+                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_RAW)
+            #height
+            elif new_mode == Mode.MODE_HEIGHT:
+                MODE == Mode.MODE_HEIGHT
+                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_HEIGHT)
+            #wireless
+            elif new_mode == Mode.MODE_WIRELESS:
+                MODE == Mode.MODE_WIRELESS
+                send_parameter_message(REGMAP_NEWMODE, Mode.MODE_WIRELESS)
+    else:
+    	Print("invalid Mode switch requested, no mode switched")
     return
 
 class ConsoleThread(threading.Thread):
@@ -136,7 +166,6 @@ console = ConsoleThread(name="Console Thread")
 console.start()
 
 MODE = Mode.MODE_SAFE
-
 Running = True
 in_use = False
 
