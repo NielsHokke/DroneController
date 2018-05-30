@@ -20,6 +20,10 @@ class Mode(IntEnum):
     MODE_HEIGHT = 7
     MODE_WIRELESS = 8
 
+class Trimdirection(IntEnum):
+    UP = 1
+    DOWN = 0
+
 #some functions to handle the communication 
 def send_control_message():
     #print("{} {} {} {}".format(raw_pitch, raw_yaw, raw_lift, raw_roll))
@@ -58,6 +62,7 @@ def send_message(payload):
 #funtion to handel all the keyboard input
 def handle_keypress(pressed_key):
     global Running #use global variable to shut the thing down
+    global trimvalues
 
     #escape -> close program
     if pressed_key == pygame.K_ESCAPE: Running = False #TODO: check for safety
@@ -72,26 +77,31 @@ def handle_keypress(pressed_key):
     #debug key
     elif pressed_key == pygame.K_SPACE:
         print(MODE)
-        
+        print("pitch: ",trimvalues.pitch)
+        print("roll: ",trimvalues.roll)
+        print("yaw: ",trimvalues.yaw)
+        print("lift: ",trimvalues.lift)
+
+
+    #elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
+    #elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
+    #elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
+
+    # TODO conditional safty thing
+    # lift 
+    elif pressed_key == pygame.K_a:change_trimvalue(Trimdirection.UP,joystic_axis_lift) # up
+    elif pressed_key == pygame.K_z:change_trimvalue(Trimdirection.DOWN,joystic_axis_lift) # down
+    # roll
+    elif pressed_key == pygame.K_LEFT:change_trimvalue(Trimdirection.UP,joystic_axis_roll) #down
+    elif pressed_key == pygame.K_RIGHT:change_trimvalue(Trimdirection.DOWN,joystic_axis_roll) #up
+    #pitch
+    elif pressed_key == pygame.K_UP:change_trimvalue(Trimdirection.DOWN,joystic_axis_pitch) #nose more down
+    elif pressed_key == pygame.K_DOWN:change_trimvalue(Trimdirection.UP,joystic_axis_pitch) #nose more up
+    #yaw
+    elif pressed_key == pygame.K_q:change_trimvalue(Trimdirection.DOWN,joystic_axis_yaw) #rotate more counterclockwise
+    elif pressed_key == pygame.K_w:change_trimvalue(Trimdirection.UP,joystic_axis_yaw) #rotate more clockwise
+
     """
-    elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
-    elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
-    elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
-
-    elif MODE == MODE.MODE_MANUAL:
-        # lift 
-        if pressed_key == pygame.K_a #up
-        elif pressed_key == pygame.K_z #down
-        # roll
-        elif pressed_key == pygame.K_LEFT #down
-        elif pressed_key == pygame.K_RIGHT #up
-        #pitch
-        elif pressed_key == pygame.K_UP #up
-        elif pressed_key == pygame.K_DOWN #down
-        #yaw
-        elif pressed_key == pygame.K_q
-        elif pressed_key == pygame.K_w
-
     elif MODE == MODE.MODE_YAW_CONTROL:
         #yawcontroll
         if pressed_key == pygame.K_u
@@ -123,7 +133,7 @@ def Switch_Mode(new_mode):
             send_parameter_message(regmap, Mode.MODE_PANIC)
             print("mode switched to: ",new_mode)
 
-    elif True: #TODO: no motors are spinning
+    elif True: #TODO: no motors are spinning & lift is zero on joystick
         if new_mode == Mode.MODE_SAFE:
             MODE = Mode.MODE_SAFE
             send_parameter_message(regmap, Mode.MODE_SAFE)
@@ -165,8 +175,33 @@ def Switch_Mode(new_mode):
 
 def draw_gui():
     global screen
-    screen.fill(GUI.col_white)
     screen = GUI.drawbackground(screen)
+    return
+
+def change_trimvalue(trimidirection,trimvar):
+    global trimvalues
+    #input checking
+    if not (trimidirection == Trimdirection.UP or trimidirection == Trimdirection.DOWN):
+        print("wrong value given for trim direction")
+        return
+
+    #adapt right trim value    
+    if trimvar == joystic_axis_lift: 
+        if trimidirection == Trimdirection.UP: trimvalues.lift = min(255, trimvalues.lift+1)#trim up
+        else: trimvalues.lift = max(0, trimvalues.lift-1) #trim down
+        return
+    elif trimvar == joystic_axis_pitch: 
+        if trimidirection == Trimdirection.UP: trimvalues.pitch = min(255, trimvalues.pitch+1)#trim up
+        else: trimvalues.pitch = max(-255, trimvalues.pitch-1) #trim down
+        return
+    elif trimvar == joystic_axis_roll: 
+        if trimidirection == Trimdirection.UP: trimvalues.roll = min(255, trimvalues.roll+1)#trim up
+        else: trimvalues.roll = max(-255, trimvalues.roll-1) #trim down
+        return
+    elif trimvar == joystic_axis_yaw: 
+        if trimidirection == Trimdirection.UP: trimvalues.yaw = min(255, trimvalues.yaw+1)#trim up
+        else: trimvalues.yaw = max(-255, trimvalues.yaw-1) #trim down
+        return
     return
 
 class ConsoleThread(threading.Thread):
@@ -177,20 +212,27 @@ class ConsoleThread(threading.Thread):
     def stop(self):
         self.Running = False
 
+class Trimvalues:
+    pitch = 0
+    yaw = 0
+    roll = 0
+    lift = 0
 
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
 
+trimvalues = Trimvalues()
+
 MODE = Mode.MODE_SAFE
 Running = True
 in_use = False
 
-PITCH = 1
-YAW = 2
-ROLL = 0
-LIFT = 3
+joystic_axis_pitch = 1
+joystic_axis_yaw = 2
+joystic_axis_roll = 0
+joystic_axis_lift = 3
 
 if __name__ == '__main__':
     send_control_message_flag = 100 #timer and flag for sending controll messages
@@ -248,11 +290,11 @@ if __name__ == '__main__':
                 if event.type == pygame.JOYBUTTONUP:
                     print("Joystick button released.")
                 if event.type == pygame.JOYAXISMOTION:
-                    raw_pitch = round(GCS_joystick.get_axis(PITCH) * 127.5)
-                    raw_yaw = round(GCS_joystick.get_axis(YAW) * 127.5)
-                    raw_roll = round(GCS_joystick.get_axis(ROLL) * 127.5)
-                    #TODO
-                    raw_lift = (255 - round((GCS_joystick.get_axis(LIFT) + 1) * 127.5))
+                    raw_pitch = round(GCS_joystick.get_axis(joystic_axis_pitch) * 127.5)
+                    raw_yaw = round(GCS_joystick.get_axis(joystic_axis_yaw) * 127.5)
+                    raw_roll = round(GCS_joystick.get_axis(joystic_axis_roll) * 127.5)
+                    #TODO fix negativity
+                    raw_lift = (255 - round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:
