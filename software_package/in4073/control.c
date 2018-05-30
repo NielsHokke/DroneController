@@ -99,20 +99,72 @@ void calibrate(bool raw){
 }
 
 
-
 /*--------------------------------------------------------------------------------------
- * yaw_control: Takes the values from the setpoint and directly maps this to motor output
- /				DO NOT USE THIS TO FLY, YOU WILL CRASH THE DRONE. TESTING ONLY
- * Parameters:	pointer to function parameters
+ * yaw_control: Takes the values from the setpoint and uses sr for angulaur momentum to implement the yaw control
+ * Parameters: 	pointer to function parameters
  * Return:   	void
  * Author:    	Jetse Brouwer
  * Date:    	14-5-2018
  *--------------------------------------------------------------------------------------
  */
+ 
+
 void yaw_control(void){
-	get_dmp_data();	
+	get_dmp_data();
+	uint8_t P_yaw; 
+
+	// YAW: P-controller for yaw
+	// 16.4 LSB/deg/s so sr to actual angulur momentum is SR/16.4
+	// SetPoint.yaw = -128 deg/s to 127 deg/s
+	// We scale the setpoint by 16.4 to make them have the same sis
+
+	int16_t yaw_output = (SetPoint.yaw*16 - sr) * parameters[P_P_yaw]; 	
+	
+
+	//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
+	//Pitch and roll are first scaled by 2^10 to increase percision and next divided by a fixed scaler which can be set in drone.h
+	//TODO: the scalars should be a on the go settable parameter.
+
+	//TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
+	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) psi_error;
+	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER + (int32_t) psi_error;
+	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) psi_error;
+	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  + (int32_t) psi_error;
+
+	tempMotor[0] = tempMotor[0] /1024;
+	tempMotor[1] = tempMotor[1] /1024;
+	tempMotor[2] = tempMotor[2] /1024;
+	tempMotor[3] = tempMotor[3] /1024;
+
+	if (tempMotor[0] > 400) tempMotor[0] = 400;
+	if (tempMotor[1] > 400) tempMotor[1] = 400;
+	if (tempMotor[2] > 400) tempMotor[2] = 400;
+	if (tempMotor[3] > 400) tempMotor[3] = 400;
+
+	if (tempMotor[0] < 0) tempMotor[0] = 0;
+	if (tempMotor[1] < 0) tempMotor[1] = 0;
+	if (tempMotor[2] < 0) tempMotor[2] = 0;
+	if (tempMotor[3] < 0) tempMotor[3] = 0;
+
+	ae[0] = (int16_t) tempMotor[0];
+	ae[1] = (int16_t) tempMotor[1];
+	ae[2] = (int16_t) tempMotor[2];
+	ae[3] = (int16_t) tempMotor[3];
 }
 
+
+
+
+
+/*--------------------------------------------------------------------------------------
+ * manual_control: Takes the values from the setpoint and directly maps this to motor output
+ /				DO NOT USE THIS TO FLY, YOU WILL CRASH THE DRONE. TESTING ONLY
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    14-5-2018
+ *--------------------------------------------------------------------------------------
+ */
 void manual_control(void){
 	int32_t tempMotor[4]; 
 	//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
