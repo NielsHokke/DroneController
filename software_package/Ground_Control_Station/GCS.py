@@ -104,12 +104,12 @@ def handle_keypress(pressed_key):
     #TODO safegaurd
     #yawcontroll
     elif pressed_key == pygame.K_u:
-        parametervalues.P += 1
-        parametervalues.P.to_bytes(1, byteorder='big', signed=True)
+        parametervalues.P = min(255,parametervalues.P+1)
+        parametervalues.P.to_bytes(1, byteorder='big', signed=False)
         send_parameter_message(Regstermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=True))
     elif pressed_key == pygame.K_j:
-        parametervalues.P -= 1
-        parametervalues.P.to_bytes(1, byteorder='big', signed=True)
+        parametervalues.P = max(0,parametervalues.P-1)
+        parametervalues.P.to_bytes(1, byteorder='big', signed=False)
         send_parameter_message(Regstermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=True))
     """
     elif MODE == MODE.MODE_FULL:
@@ -233,7 +233,7 @@ class Trimvalues:
     lift = 0
 
 class Parametervalues:
-    P = 0
+    int8 P = 0
     P1 = 0
     P2 = 0
 
