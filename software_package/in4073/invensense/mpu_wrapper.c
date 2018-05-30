@@ -48,7 +48,8 @@ void get_dmp_data(void)
 			saz = accel[2];
 		}
 	}
-	else printf("Error reading sensor fifo: %d\n", read_stat);
+	else DEBUG_PRINT("Error reading sensor fifo\n\f");
+	//printf("Error reading sensor fifo: %d\n", read_stat);
 }
 
 void get_raw_sensor_data(void)

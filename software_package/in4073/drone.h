@@ -13,17 +13,26 @@
 // Global Variables
 
 #define S_SAFE 			0
-#define S_MANUAL 		1
-#define S_CALIBRATION	2
-#define S_YAW_CONTROL	3
-#define S_FULL_CONTROLL	4
-#define S_RAW_MODE_1	5
-#define S_RAW_MODE_2	6
-#define S_RAW_MODE_3	7
-#define S_GlobalState	8
-#define S_PANIC 		255
+#define S_PANIC 		1
+#define S_MANUAL 		2
+#define S_CALIBRATION	3
+#define S_YAW_CONTROL	4
+#define S_FULL_CONTROLL	5
+#define S_RAW_MODE		6
+#define S_HEIGHT_CTRL	7
+#define S_WIRELESS		8
 
 #define GLOBALSTATE parameters[3]
+
+
+// Calibration
+#define CALIBRATION_ROUNDS 100
+void calibrate(bool raw);
+int calibration_counter;
+
+int16_t phi_offset;
+int16_t theta_offset;
+int16_t psi_offset;
 
 
 // Motor Control
@@ -62,7 +71,6 @@ TimerHandle_t UartTimeoutHandle;
 
 
 // Global parameters
-
 #define P_MODE 3
 #define PARAMETER_ARRAY_SIZE 4
 uint8_t parameters[PARAMETER_ARRAY_SIZE];

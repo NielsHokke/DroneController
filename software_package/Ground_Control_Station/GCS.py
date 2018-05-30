@@ -17,7 +17,7 @@ class ConsoleThread(threading.Thread):
         self.Running = False
 
 
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
