@@ -1,3 +1,5 @@
+#todo make default regmap
+
 #!/usr/bin/env python
 import threading
 import time
@@ -6,6 +8,7 @@ import pygame
 import crcmod
 import Registermapping #homebrew registermpping file
 import GUI #homebrew gui file
+import parameterdefaults #homebrew parameter defaults
 from enum import IntEnum
 
 #enumarate the different modes
@@ -33,7 +36,6 @@ def send_control_message():
     lift_byte = raw_lift.to_bytes(1, byteorder='big', signed=False)
     payload = b'\xAA' + yaw_byte + pitch_byte + roll_byte + lift_byte
     send_message(payload)
-    send_control_message_flag = 100
     return
 
 #per byte register mapping
@@ -237,9 +239,9 @@ class Trimvalues:
     lift = 0
 
 class Parametervalues:
-    P = 0
-    P1 = 0
-    P2 = 0
+    P = parameterdefaults.P
+    P1 = parameterdefaults.P1
+    P2 = parameterdefaults.P2
 
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
@@ -291,7 +293,7 @@ if __name__ == '__main__':
         GCS_joystick = pygame.joystick.Joystick(0)
         GCS_joystick.init()
         print("checking lift")
-        while GCS_joystick.get_axis(LIFT) > 1:
+        while GCS_joystick.get_axis(joystic_axis_lift) > 1:
         	time.sleep(0.1)
         print("lift is correctly set")
 
@@ -322,7 +324,9 @@ if __name__ == '__main__':
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:
-        	send_control_message()      
+            send_control_message()
+            send_control_message_flag = 100
+      
         else:
             if has_joystick: send_control_message_flag = send_control_message_flag - 1
         
@@ -333,7 +337,7 @@ if __name__ == '__main__':
         time.sleep(0.005)
 
     print("Shutting down")
-    if has_joystick: joystick.quit()
+    if has_joystick: GCS_joystick.quit()
     console.stop()
     ser.flush()
     ser.close()
