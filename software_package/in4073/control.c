@@ -111,7 +111,6 @@ void calibrate(bool raw){
 
 void yaw_control(void){
 	get_dmp_data();
-	uint8_t P_yaw; 
 
 	// YAW: P-controller for yaw
 	// 16.4 LSB/deg/s so sr to actual angulur momentum is SR/16.4
