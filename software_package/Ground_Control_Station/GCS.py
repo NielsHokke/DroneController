@@ -60,7 +60,7 @@ def handle_keypress(pressed_key):
     global Running #use global variable to shut the thing down
 
     #escape -> close program
-    if pressed_key == pygame.K_ESCAPE: Running = False
+    if pressed_key == pygame.K_ESCAPE: Running = False #TODO: check for safety
 
     #number -> switch mode
     elif pressed_key == pygame.K_0:Switch_Mode(Mode.MODE_SAFE)
@@ -165,9 +165,8 @@ def Switch_Mode(new_mode):
 
 def draw_gui():
     global screen
-    screen.fill(GUI.col_grey)
-    myrect = pygame.Rect(30,30,30,30)
-    pygame.draw.rect(screen,GUI.col_black,myrect)
+    screen.fill(GUI.col_white)
+    screen = GUI.drawbackground(screen)
     return
 
 class ConsoleThread(threading.Thread):
@@ -211,7 +210,7 @@ if __name__ == '__main__':
 
     pygame.init()
 
-    screen = pygame.display.set_mode([1000, 700])
+    screen = pygame.display.set_mode([1000, 800])
 
     pygame.display.set_caption("Ground Control Station")
 
@@ -225,6 +224,10 @@ if __name__ == '__main__':
         #pygame.joystick.init()
         GCS_joystick = pygame.joystick.Joystick(0)
         GCS_joystick.init()
+        print("checking lift")
+        while GCS_joystick.get_axis(LIFT) > 1:
+        	time.sleep(0.1)
+        print("lift is correctly set")
 
     # --- Main loop ---
     while Running:
@@ -248,6 +251,7 @@ if __name__ == '__main__':
                     raw_pitch = round(GCS_joystick.get_axis(PITCH) * 127.5)
                     raw_yaw = round(GCS_joystick.get_axis(YAW) * 127.5)
                     raw_roll = round(GCS_joystick.get_axis(ROLL) * 127.5)
+                    #TODO
                     raw_lift = (255 - round((GCS_joystick.get_axis(LIFT) + 1) * 127.5))
                     send_control_message_flag = 0
 
