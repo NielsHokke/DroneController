@@ -175,6 +175,15 @@ def Switch_Mode(new_mode):
 
 def draw_gui():
     global screen
+    tw = GUI.trimbar_width
+    #calculate blue part for trimbars
+    GUI.r_trim_roll_a.width = round(((tw/2)/255)*trimvalues.roll)
+    GUI.r_trim_pitch_a.width = round(((tw/2)/255)*trimvalues.pitch)
+    GUI.r_trim_yaw_a.width = round(((tw/2)/255)*trimvalues.yaw)
+    GUI.r_trim_lift_a.width = round(((tw)/255)*trimvalues.lift)
+
+    #trimbar text
+
     screen = GUI.drawbackground(screen)
     return
 

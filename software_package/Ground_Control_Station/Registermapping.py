@@ -9,13 +9,13 @@ desired new mode
 register adresses
 |adress |msb     |        |        |lsb     |
 |0x00   |--------|--------|--------|--------| intentionally unused
-|0x01   |--------|--------|--------|mode    | NEWMODE: the new desired state to be in
+|0x04   |--------|--------|--------|mode    | NEWMODE: the new desired state to be in
 parameter1
 parameter2
 parameter3
 parameter4
 
-|0xFF   |--------|--------|--------|0xFF    | ABORTREQUEST: the drone is requested to safely abort
+|0xFB   |--------|--------|--------|0xFF    | ABORTREQUEST: the drone is requested to safely abort
 
 
 """
