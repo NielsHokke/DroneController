@@ -217,7 +217,14 @@ class ConsoleThread(threading.Thread):
     Running = True
     def run(self):
         while self.Running:
-            print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
+            data = ser.readline()
+            print("data[0] = {}", data[0])
+
+            if data[0] == 10:
+                print("data ontvangen!!!!!\n")
+                print(data.decode("utf-8", "backslashreplace"))
+            else:
+                print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
     def stop(self):
         self.Running = False
 

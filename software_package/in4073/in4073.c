@@ -127,7 +127,6 @@ static void control_loop(void *pvParameter){
 
 			case S_CALIBRATION :
 				if(printing) DEBUG_PRINT("S_CALIBRATION\n\f");
-
 				calibrate(false);
 				break;
 
@@ -203,7 +202,11 @@ static void check_battery_voltage(void *pvParameter){
 	for(;;){
 
 		nrf_gpio_pin_toggle(BLUE);
-		DEBUG_PRINTEGER(xPortGetFreeHeapSize(), 6);
+
+		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
+
+
+		// DEBUG_PRINTEGER(xPortGetFreeHeapSize(), 6);
 
 		// adc_request_sample();
 		// vTaskDelay(1);
