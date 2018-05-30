@@ -29,7 +29,6 @@
 #include "app_error.h"
 
 
-
 #define CONTROL_PERIOD 10
 #define SENSOR_PERIOD 10
 
@@ -86,11 +85,11 @@ static void control_loop(void *pvParameter){
 
 			DEBUG_PRINT("\n phi: \f");
 
-			DEBUG_PRINTEGER(phi, 6);
+			DEBUG_PRINTEGER(phi - phi_offset, 6);
 			DEBUG_PRINT(" theta: \f");
-			DEBUG_PRINTEGER(theta, 6);
+			DEBUG_PRINTEGER(theta - theta_offset, 6);
 			DEBUG_PRINT(" psi: \f");
-			DEBUG_PRINTEGER(psi, 6);
+			DEBUG_PRINTEGER(psi - psi_offset, 6);
 			DEBUG_PRINT(".\n\n\f");
 
 			printf("%6d %6d %6d | ", phi, theta, psi);
@@ -111,38 +110,7 @@ static void control_loop(void *pvParameter){
 				ae[2] = 0;
 				ae[3] = 0;
 				break;
-			case S_MANUAL:
-				if(printing) DEBUG_PRINT("S_MANUAL\n\f");
-				manual_control();
-				break;
-			case S_CALIBRATION :
-				if(printing) DEBUG_PRINT("S_CALIBRATION\n\f");
-				// TODO implement mode
-				break;
-			case S_YAW_CONTROL :
-				if(printing) DEBUG_PRINT("S_YAW_CONTROL\n\f");
-				yaw_control();
-				break;
-			case S_FULL_CONTROLL :
-				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
-				// TODO implement mode
-				break;
-			case S_RAW_MODE_1 :
-				if(printing) DEBUG_PRINT("S_RAW_MODE_1\n\f");
-				// TODO implement mode
-				break;
-			case S_RAW_MODE_2 :
-				if(printing) DEBUG_PRINT("S_RAW_MODE_2\n\f");
-				// TODO implement mode
-				break;
-			case S_RAW_MODE_3 :
-				if(printing) DEBUG_PRINT("S_RAW_MODE_3\n\f");
-				// TODO implement mode
-				break;
-			case S_GlobalState :
-				if(printing) DEBUG_PRINT("S_GlobalState\n\f");
-				// TODO implement mode
-				break;
+
 			case S_PANIC :
 				if(printing) DEBUG_PRINT("S_PANIC\n\f");
 				// TODO implement mode
@@ -151,6 +119,43 @@ static void control_loop(void *pvParameter){
 				ae[2] = 0;
 				ae[3] = 0;
 				break;
+
+			case S_MANUAL:
+				if(printing) DEBUG_PRINT("S_MANUAL\n\f");
+				manual_control();
+				break;
+
+			case S_CALIBRATION :
+				if(printing) DEBUG_PRINT("S_CALIBRATION\n\f");
+
+				calibrate(false);
+				break;
+
+			case S_YAW_CONTROL :
+				if(printing) DEBUG_PRINT("S_YAW_CONTROL\n\f");
+				yaw_control();
+				break;
+
+			case S_FULL_CONTROLL :
+				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
+				// TODO implement mode
+				break;
+
+			case S_RAW_MODE :
+				if(printing) DEBUG_PRINT("S_RAW_MODE\n\f");
+				// TODO implement mode
+				break;
+
+			case S_HEIGHT_CTRL :
+				if(printing) DEBUG_PRINT("S_HEIGHT_CTRL\n\f");
+				// TODO implement mode
+				break;
+
+			case S_WIRELESS :
+				if(printing) DEBUG_PRINT("S_WIRELESS\n\f");
+				// TODO implement mode
+				break;
+
 			default:
 				if(printing) DEBUG_PRINT("ERROR in Default state!\n\f");
 				break;
@@ -198,14 +203,16 @@ static void check_battery_voltage(void *pvParameter){
 	for(;;){
 
 		nrf_gpio_pin_toggle(BLUE);
+		DEBUG_PRINTEGER(xPortGetFreeHeapSize(), 6);
 
-		adc_request_sample();
-		vTaskDelay(1);
+		// adc_request_sample();
+		// vTaskDelay(1);
 
-		if (bat_volt < 1080){ // minimum = 10.8/0.007058824
-			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
-			// GLOBALSTATE = S_PANIC;
-		}
+		// if (bat_volt < 1080){ // minimum = 10.8/0.007058824
+			
+		// 	//DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
+		// 	// GLOBALSTATE = S_PANIC;
+		// }
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
 		vTaskDelay(999);
 
@@ -220,7 +227,7 @@ static void check_battery_voltage(void *pvParameter){
 int main(void)
 {
 
-	GLOBALSTATE = S_YAW_CONTROL; //manual mode 0 = safe
+	GLOBALSTATE = S_SAFE; //manual mode 0 = safe
 
 	SetPoint.pitch = 0;
 	SetPoint.yaw = 0;
@@ -238,7 +245,7 @@ int main(void)
 	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE, NULL, 2, NULL));
 
     UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE + 100, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	//UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");
 

@@ -39,18 +39,76 @@ void run_filters_and_control()
 	update_motors();
 }
 
+/*--------------------------------------------------------------------------------------
+ * calibrate: 	Getting zero point from sensors
+ * Parameters: 	bool raw indiaction if calibrating raw or dmp mode 
+ * Return:   	void, but sets gloab phi_offset, theta_offset, psi_offset
+ * Author:    	Niels Hokke
+ * Date:    	30-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+void calibrate(bool raw){
+	int32_t phi_total = 0;
+	int32_t theta_total = 0;
+	int32_t psi_total = 0;
+
+	for(uint8_t i=0; i<CALIBRATION_ROUNDS; i++){
+		if(raw){
+
+		}else{
+			get_dmp_data();
+
+			phi_total += phi;
+			theta_total += theta;
+			psi_total += psi;
+
+			DEBUG_PRINT("phi_total: \f");
+			DEBUG_PRINTEGER(phi_total, 6);
+			DEBUG_PRINT(" phi: \f");
+			DEBUG_PRINTEGER(phi, 6);
+
+			DEBUG_PRINT(" theta_total: \f");
+			DEBUG_PRINTEGER(theta_total, 6);
+			DEBUG_PRINT(" theta: \f");
+			DEBUG_PRINTEGER(theta, 6);
+
+
+			DEBUG_PRINT(" psi_total: \f");
+			DEBUG_PRINTEGER(psi_total, 6);
+			DEBUG_PRINT(" psi: \f");
+			DEBUG_PRINTEGER(psi, 6);
+			DEBUG_PRINT("\n\n\f");
+
+			vTaskDelay(7);
+		}
+	}
+
+	phi_offset 	 = phi_total/CALIBRATION_ROUNDS;
+	theta_offset = theta_total/CALIBRATION_ROUNDS;
+	psi_offset 	 = psi_total/CALIBRATION_ROUNDS;
+
+	DEBUG_PRINT("phi_offset: \f");
+	DEBUG_PRINTEGER(phi_offset, 6);
+	DEBUG_PRINT(" theta_offset: \f");
+	DEBUG_PRINTEGER(theta_offset, 6);
+	DEBUG_PRINT(" psi_offset: \f");
+	DEBUG_PRINTEGER(psi_offset, 6);
+	DEBUG_PRINT("\n\n\f");
+
+	GLOBALSTATE = S_SAFE;
+}
+
 
 
 /*--------------------------------------------------------------------------------------
- * sensor_loop: Takes the values from the setpoint and directly maps this to motor output
+ * yaw_control: Takes the values from the setpoint and directly maps this to motor output
  /				DO NOT USE THIS TO FLY, YOU WILL CRASH THE DRONE. TESTING ONLY
- * Parameters: pointer to function parameters
- * Return:   void
- * Author:    Jetse Brouwer
- * Date:    14-5-2018
+ * Parameters:	pointer to function parameters
+ * Return:   	void
+ * Author:    	Jetse Brouwer
+ * Date:    	14-5-2018
  *--------------------------------------------------------------------------------------
  */
-
 void yaw_control(void){
 	get_dmp_data();	
 }
