@@ -20,5 +20,5 @@ parameter4
 
 """
 
-REGMAP_NEWMODE = b'\x01'
+REGMAP_NEWMODE = b'\x00'
 REGMAP_ABORTREQUEST = b'\xFF'
