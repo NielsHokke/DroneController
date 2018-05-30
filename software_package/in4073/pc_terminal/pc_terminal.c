@@ -13,7 +13,6 @@
 #include <string.h>
 #include <inttypes.h>
 
-char *port_num;
 /*------------------------------------------------------------
  * console I/O
  *------------------------------------------------------------
@@ -91,11 +90,9 @@ void rs232_open(void)
   	int 		result;
   	struct termios	tty;
 
-    fd_RS232 = open(port_num, O_RDWR | O_NOCTTY);  // Hardcode your serial port here, or request it as an argument at runtime
+       	fd_RS232 = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY);  // Hardcode your serial port here, or request it as an argument at runtime
 
-	if(fd_RS232==0) {
-		term_exitio();
-	}
+	assert(fd_RS232>=0);
 
   	result = isatty(fd_RS232);
   	assert(result == 1);
@@ -176,6 +173,7 @@ int 	rs232_putchar(char c)
 	return result;
 }
 
+
 /*----------------------------------------------------------------
  * main -- execute terminal
  *----------------------------------------------------------------
@@ -183,14 +181,6 @@ int 	rs232_putchar(char c)
 int main(int argc, char **argv)
 {
 	char	c;
-	if (argc < 2)
-	{
-		term_puts("\nSerial port not given\n");	
-		term_exitio();
-	}
-
-	printf("Port selected: %s\n", argv[1]);
-	port_num = argv[1];
 
 	term_puts("\nTerminal program - Embedded Real-Time Systems\n");
 
