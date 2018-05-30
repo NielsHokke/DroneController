@@ -22,7 +22,7 @@
 #define S_HEIGHT_CTRL	7
 #define S_WIRELESS		8
 
-#define GLOBALSTATE parameters[3]
+#define GLOBALSTATE parameters[P_MODE]
 
 
 // Calibration
@@ -71,8 +71,9 @@ TimerHandle_t UartTimeoutHandle;
 
 
 // Global parameters
-#define P_MODE 3
-#define PARAMETER_ARRAY_SIZE 4
+#define P_MODE 7
+#define P_P_YAW 11
+#define PARAMETER_ARRAY_SIZE 12
 uint8_t parameters[PARAMETER_ARRAY_SIZE];
 
 
