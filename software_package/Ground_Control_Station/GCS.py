@@ -143,7 +143,7 @@ def Switch_Mode(new_mode):
             #calibration
             if new_mode == Mode.MODE_CALIBRATION:
                 MODE = Mode.MODE_CALIBRATION
-                send_parameter_message(regmap, Mode.MODE_MANUAL)
+                send_parameter_message(regmap, Mode.MODE_CALIBRATION)
             #manual
             elif new_mode == Mode.MODE_MANUAL:
                 MODE = Mode.MODE_MANUAL
