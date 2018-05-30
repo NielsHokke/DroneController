@@ -63,6 +63,7 @@ def send_message(payload):
 def handle_keypress(pressed_key):
     global Running #use global variable to shut the thing down
     global trimvalues
+    global parametervalues
 
     #escape -> close program
     if pressed_key == pygame.K_ESCAPE: Running = False #TODO: check for safety
@@ -74,6 +75,10 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_3:Switch_Mode(Mode.MODE_CALIBRATION)
     elif pressed_key == pygame.K_4:Switch_Mode(Mode.MODE_YAW_CONTROL)
     elif pressed_key == pygame.K_5:Switch_Mode(Mode.MODE_FULL)
+    elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
+    elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
+    elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
+
     #debug key
     elif pressed_key == pygame.K_SPACE:
         print(MODE)
@@ -81,11 +86,6 @@ def handle_keypress(pressed_key):
         print("roll: ",trimvalues.roll)
         print("yaw: ",trimvalues.yaw)
         print("lift: ",trimvalues.lift)
-
-
-    #elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
-    #elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
-    #elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
 
     # TODO conditional safty thing
     # lift 
@@ -101,12 +101,17 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_q:change_trimvalue(Trimdirection.DOWN,joystic_axis_yaw) #rotate more counterclockwise
     elif pressed_key == pygame.K_w:change_trimvalue(Trimdirection.UP,joystic_axis_yaw) #rotate more clockwise
 
+    #TODO safegaurd
+    #yawcontroll
+    elif pressed_key == pygame.K_u:
+        parametervalues.P += 1
+        parametervalues.P.to_bytes(1, byteorder='big', signed=True)
+        send_parameter_message(Regstermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=True))
+    elif pressed_key == pygame.K_j:
+        parametervalues.P -= 1
+        parametervalues.P.to_bytes(1, byteorder='big', signed=True)
+        send_parameter_message(Regstermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=True))
     """
-    elif MODE == MODE.MODE_YAW_CONTROL:
-        #yawcontroll
-        if pressed_key == pygame.K_u
-        elif pressed_key == pygame.K_j 
-
     elif MODE == MODE.MODE_FULL:
         #rollpitch control P1
         elif pressed_key == pygame.K_i
@@ -227,12 +232,18 @@ class Trimvalues:
     roll = 0
     lift = 0
 
+class Parametervalues:
+    P = 0
+    P1 = 0
+    P2 = 0
+
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
 
 trimvalues = Trimvalues()
+parametervalues = Parametervalues()
 
 MODE = Mode.MODE_SAFE
 Running = True
