@@ -110,6 +110,7 @@ void calibrate(bool raw){
  
 
 void yaw_control(void){
+	int32_t tempMotor[4]; 
 	get_dmp_data();
 
 	// YAW: P-controller for yaw
@@ -117,7 +118,7 @@ void yaw_control(void){
 	// SetPoint.yaw = -128 deg/s to 127 deg/s
 	// We scale the setpoint by 16.4 to make them have the same sis
 
-	int16_t yaw_output = (SetPoint.yaw*16 - sr) * parameters[P_P_yaw]; 	
+	int16_t yaw_output = (SetPoint.yaw*16 - sr) * parameters[P_P_YAW]; 	
 	
 
 	//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
@@ -125,10 +126,10 @@ void yaw_control(void){
 	//TODO: the scalars should be a on the go settable parameter.
 
 	//TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
-	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) psi_error;
-	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER + (int32_t) psi_error;
-	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) psi_error;
-	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  + (int32_t) psi_error;
+	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) yaw_output;
+	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER + (int32_t) yaw_output;
+	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) yaw_output;
+	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  + (int32_t) yaw_output;
 
 	tempMotor[0] = tempMotor[0] /1024;
 	tempMotor[1] = tempMotor[1] /1024;
