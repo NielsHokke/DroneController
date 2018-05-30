@@ -37,11 +37,15 @@ def send_control_message():
     return
 
 #per byte register mapping
-def send_parameter_message(register,byteA,byteB,ByteC,ByteD):
-    A = byteA.to_bytes(1, byteorder='big', signed=True)
-    B = byteB.to_bytes(1, byteorder='big', signed=True)
-    C = ByteC.to_bytes(1, byteorder='big', signed=True)
-    D = ByteD.to_bytes(1, byteorder='big', signed=True)
+def send_parameter_message_4(register,byteA,byteB,byteC,byteD):
+    if not isinstance(byteA,bytes):byteA = byteA.to_bytes(1, byteorder='big', signed=False)
+    if not isinstance(byteB,bytes):byteB = byteB.to_bytes(1, byteorder='big', signed=False)
+    if not isinstance(byteC,bytes):byteC = byteC.to_bytes(1, byteorder='big', signed=False)
+    if not isinstance(byteD,bytes):byteD = byteD.to_bytes(1, byteorder='big', signed=False)
+    A = byteA
+    B = byteB
+    C = byteC
+    D = byteD
     payload = b'\x55'+register+A+B+C+D
     send_message(payload)
     return 
@@ -63,6 +67,7 @@ def send_message(payload):
 def handle_keypress(pressed_key):
     global Running #use global variable to shut the thing down
     global trimvalues
+    global parametervalues
 
     #escape -> close program
     if pressed_key == pygame.K_ESCAPE: Running = False #TODO: check for safety
@@ -74,6 +79,10 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_3:Switch_Mode(Mode.MODE_CALIBRATION)
     elif pressed_key == pygame.K_4:Switch_Mode(Mode.MODE_YAW_CONTROL)
     elif pressed_key == pygame.K_5:Switch_Mode(Mode.MODE_FULL)
+    elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
+    elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
+    elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
+
     #debug key
     elif pressed_key == pygame.K_SPACE:
         print(MODE)
@@ -81,11 +90,6 @@ def handle_keypress(pressed_key):
         print("roll: ",trimvalues.roll)
         print("yaw: ",trimvalues.yaw)
         print("lift: ",trimvalues.lift)
-
-
-    #elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
-    #elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
-    #elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
 
     # TODO conditional safty thing
     # lift 
@@ -101,27 +105,32 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_q:change_trimvalue(Trimdirection.DOWN,joystic_axis_yaw) #rotate more counterclockwise
     elif pressed_key == pygame.K_w:change_trimvalue(Trimdirection.UP,joystic_axis_yaw) #rotate more clockwise
 
-    """
-    elif MODE == MODE.MODE_YAW_CONTROL:
-        #yawcontroll
-        if pressed_key == pygame.K_u
-        elif pressed_key == pygame.K_j 
+    #TODO safegaurd
+    #yawcontroll
+    elif pressed_key == pygame.K_u:
+        parametervalues.P = min(255,parametervalues.P+1)
+        parametervalues.P.to_bytes(1, byteorder='big', signed=False)
+        send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
+    elif pressed_key == pygame.K_j:
+        parametervalues.P = max(0,parametervalues.P-1)
+        parametervalues.P.to_bytes(1, byteorder='big', signed=False)
+        send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
 
-    elif MODE == MODE.MODE_FULL:
-        #rollpitch control P1
-        elif pressed_key == pygame.K_i
-        elif pressed_key == pygame.K_k 
-        #rollpitch control P2
-        elif pressed_key == pygame.K_o
-        elif pressed_key == pygame.K_l 
-    """
+    # elif MODE == MODE.MODE_FULL:
+    #     #rollpitch control P1
+    #     elif pressed_key == pygame.K_i
+    #     elif pressed_key == pygame.K_k 
+    #     #rollpitch control P2
+    #     elif pressed_key == pygame.K_o
+    #     elif pressed_key == pygame.K_l 
+
     return
 
 #funtion to test the various mode switches
 def Switch_Mode(new_mode):
 
     global MODE #use the global variable
-    regmap =  Registermapping.REGMAP_NEWMODE #destination adress from registermapping.py
+    regmap = Registermapping.REGMAP_NEWMODE #destination adress from registermapping.py
 
     # if the requested mode is the panic mode
     if new_mode == Mode.MODE_PANIC:
@@ -234,12 +243,18 @@ class Trimvalues:
     roll = 0
     lift = 0
 
+class Parametervalues:
+    P = 0
+    P1 = 0
+    P2 = 0
+
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
 
 trimvalues = Trimvalues()
+parametervalues = Parametervalues()
 
 MODE = Mode.MODE_SAFE
 Running = True
