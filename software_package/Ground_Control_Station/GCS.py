@@ -33,7 +33,6 @@ def send_control_message():
     lift_byte = raw_lift.to_bytes(1, byteorder='big', signed=False)
     payload = b'\xAA' + yaw_byte + pitch_byte + roll_byte + lift_byte
     send_message(payload)
-    send_control_message_flag = 100
     return
 
 #per byte register mapping
@@ -110,10 +109,12 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_u:
         parametervalues.P = min(255,parametervalues.P+1)
         parametervalues.P.to_bytes(1, byteorder='big', signed=False)
+        print("P_yaw = {}".format(parametervalues.P ))
         send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
     elif pressed_key == pygame.K_j:
         parametervalues.P = max(0,parametervalues.P-1)
         parametervalues.P.to_bytes(1, byteorder='big', signed=False)
+        print("P_yaw = {}".format(parametervalues.P ))
         send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
 
     # elif MODE == MODE.MODE_FULL:
@@ -227,13 +228,11 @@ class ConsoleThread(threading.Thread):
     def run(self):
         while self.Running:
             data = ser.readline()
-            print("data[0] = {}", data[0])
-
-            if data[0] == 10:
-                print("data ontvangen!!!!!\n")
-                print(data.decode("utf-8", "backslashreplace"))
-            else:
-                print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
+            # if data[0] == 10:
+            #     print("data ontvangen!!!!!\n")
+            #     print(data.decode("utf-8", "backslashreplace"))
+            # else:
+            print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
     def stop(self):
         self.Running = False
 
@@ -244,11 +243,11 @@ class Trimvalues:
     lift = 0
 
 class Parametervalues:
-    P = 0
+    P = 255
     P1 = 0
     P2 = 0
 
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+ser = serial.Serial('/dev/ttyUSB2', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
@@ -298,7 +297,7 @@ if __name__ == '__main__':
         GCS_joystick = pygame.joystick.Joystick(0)
         GCS_joystick.init()
         print("checking lift")
-        while GCS_joystick.get_axis(LIFT) > 1:
+        while GCS_joystick.get_axis(joystic_axis_lift) > 1:
         	time.sleep(0.1)
         print("lift is correctly set")
 
@@ -329,9 +328,11 @@ if __name__ == '__main__':
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:
-        	send_control_message()      
+        	send_control_message_flag = 100
+        	send_control_message()     
         else:
-            if has_joystick: send_control_message_flag = send_control_message_flag - 1
+            if has_joystick: 
+            	send_control_message_flag = send_control_message_flag - 1
         
         #draw the gui and update it
         draw_gui()
@@ -340,7 +341,7 @@ if __name__ == '__main__':
         time.sleep(0.005)
 
     print("Shutting down")
-    if has_joystick: joystick.quit()
+    if has_joystick: GCS_joystick.quit()
     console.stop()
     ser.flush()
     ser.close()

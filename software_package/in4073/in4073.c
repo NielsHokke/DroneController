@@ -66,38 +66,37 @@ static void control_loop(void *pvParameter){
 		if ((i++ % 100) == 0){
 			nrf_gpio_pin_toggle(GREEN);
 
-			//nrf_gpio_pin_toggle(GREEN);
+			DEBUG_PRINT("\n\f");
 
-			// DEBUG_PRINT("\n\f");
-
-			// DEBUG_UPRINTEGER (xLastWakeTime, 6);
-			// DEBUG_PRINT(": \f");
-			// DEBUG_UPRINTEGER(ae[0], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[1], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[2], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[3], 3);
+			DEBUG_UPRINTEGER (xLastWakeTime, 6);
+			DEBUG_PRINT(": \f");
+			DEBUG_UPRINTEGER(ae[0], 3);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER(ae[1], 3);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER(ae[2], 3);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER(ae[3], 3);
 
 
 			// DEBUG_PRINT("\n\f");
 
-			DEBUG_PRINT("\n phi: \f");
+			// DEBUG_PRINT("\n phi: \f");
 
-			DEBUG_PRINTEGER(phi - phi_offset, 6);
-			DEBUG_PRINT(" theta: \f");
-			DEBUG_PRINTEGER(theta - theta_offset, 6);
-			DEBUG_PRINT(" psi: \f");
-			DEBUG_PRINTEGER(psi - psi_offset, 6);
+			// DEBUG_PRINTEGER(phi - phi_offset, 6);
+			// DEBUG_PRINT(" theta: \f");
+			// DEBUG_PRINTEGER(theta - theta_offset, 6);
+			// DEBUG_PRINT(" psi: \f");
+			// DEBUG_PRINTEGER(psi - psi_offset, 6);
+
+			
 			DEBUG_PRINT(".\n\n\f");
 
-			printf("%6d %6d %6d | ", phi, theta, psi);
 			// printf("%6d %6d %6d | ", sp, sq, sr); //  from the gyro
 
 			DEBUG_PRINT("\n\f");
 
-			printing = true;
+			// printing = true;
 		}else{
 			printing = false;
 		}
@@ -203,19 +202,20 @@ static void check_battery_voltage(void *pvParameter){
 
 		nrf_gpio_pin_toggle(BLUE);
 
-		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
+		// downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
 
 
 		// DEBUG_PRINTEGER(xPortGetFreeHeapSize(), 6);
 
-		// adc_request_sample();
-		// vTaskDelay(1);
+		adc_request_sample();
+		vTaskDelay(1);
 
-		// if (bat_volt < 1080){ // minimum = 10.8/0.007058824
+		if (bat_volt < 1080){ // minimum = 10.8/0.007058824
 			
-		// 	//DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
-		// 	// GLOBALSTATE = S_PANIC;
-		// }
+			//DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
+			// GLOBALSTATE = S_PANIC;
+		}
+
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
 		vTaskDelay(999);
 

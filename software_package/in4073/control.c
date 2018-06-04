@@ -112,24 +112,49 @@ void calibrate(bool raw){
 void yaw_control(void){
 	int32_t tempMotor[4]; 
 	get_dmp_data();
+	static uint8_t i = 0;
 
 	// YAW: P-controller for yaw
 	// 16.4 LSB/deg/s so sr to actual angulur momentum is SR/16.4
 	// SetPoint.yaw = -128 deg/s to 127 deg/s
-	// We scale the setpoint by 16.4 to make them have the same sis
+	// We scale the setpoint by 16.4 to make them have the same size
 
-	int16_t yaw_output = (SetPoint.yaw*16 - sr) * parameters[P_P_YAW]; 	
+	if (i++ > 10){
+		DEBUG_PRINT(".\n sr \f");
+		DEBUG_PRINTEGER(sr, 6);
+		DEBUG_PRINT(".\n\f");
+		i = 0;
+	}
+	
+
+	int32_t yaw_output = (SetPoint.yaw*16 - sr) * 64 *parameters[P_P_YAW]; 	
+	if (yaw_output > 200){
+		yaw_output = 200;
+	}else if (yaw_output < -200){
+		yaw_output = -200;
+	}
 	
 
 	//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
 	//Pitch and roll are first scaled by 2^10 to increase percision and next divided by a fixed scaler which can be set in drone.h
 	//TODO: the scalars should be a on the go settable parameter.
 
-	//TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
-	tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) yaw_output;
-	tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER + (int32_t) yaw_output;
-	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) yaw_output;
-	tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  + (int32_t) yaw_output;
+	// //TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
+	// tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + 	 (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) yaw_output;
+	// tempMotor[1] =  (int32_t) SetPoint.lift * 1606 - (int32_t) SetPoint.roll * 1606 / MAN_ROLL_SCALER - (int32_t) yaw_output;
+	// tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) yaw_output;
+	// tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  - (int32_t) yaw_output;
+
+
+	// tempMotor[0] = ( (int32_t) SetPoint.lift * 1606) + (int32_t) yaw_output;
+	// tempMotor[1] =  (int32_t) SetPoint.lift * 1606 6 / MAN_ROLL_SCALER - (int32_t) yaw_output;
+	// tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) - 	(int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	+ (int32_t) yaw_output;
+	// tempMotor[3] =  (int32_t) SetPoint.lift * 1606 + (int32_t)	SetPoint.roll * 1606 / MAN_ROLL_SCALER  - (int32_t) yaw_output;
+
+	tempMotor[0] =  (int32_t) (SetPoint.lift * 1606) + (int32_t) yaw_output;
+	tempMotor[1] =  (int32_t) (SetPoint.lift * 1606) -  (int32_t) yaw_output;
+	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) + (int32_t) yaw_output;
+	tempMotor[3] =  (int32_t) (SetPoint.lift * 1606) - (int32_t) yaw_output;
 
 	tempMotor[0] = tempMotor[0] /1024;
 	tempMotor[1] = tempMotor[1] /1024;
