@@ -131,12 +131,12 @@ static void control_loop(void *pvParameter){
 
 			case S_YAW_CONTROL :
 				if(printing) DEBUG_PRINT("S_YAW_CONTROL\n\f");
-				yaw_control();
+				dmp_control(true); // dmp_control with yaw mod only set to true
 				break;
 
 			case S_FULL_CONTROLL :
 				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
-				// TODO implement mode
+				dmp_control(false);
 				break;
 
 			case S_RAW_MODE :
