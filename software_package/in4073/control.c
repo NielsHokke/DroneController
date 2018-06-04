@@ -125,7 +125,7 @@ P1 (uint16), P2 (uint16), angle_min (uint8), angle_max (uint8)
 
 void dmp_control(bool yaw_only){
 	int32_t tempMotor[4];
-	int32_t yaw_output, pitch_output, roll_output
+	int32_t yaw_output, pitch_output, roll_output;
 	get_dmp_data();
 	static uint8_t i = 0;
 
@@ -147,8 +147,8 @@ void dmp_control(bool yaw_only){
 		roll_output = 0;	
 	}
 	else {
-		roll_output = 	parameters[P_P1] * (SetPoint.roll - phi) - parameters[P_P2] * sp
-		pitch_output = 	parameters[P_P1] * (SetPoint.pitch - theta) - parameters[P_P2] * sq
+		roll_output = 	parameters[P_P1] * (SetPoint.roll - phi) - parameters[P_P2] * sp;
+		pitch_output = 	parameters[P_P1] * (SetPoint.pitch - theta) - parameters[P_P2] * sq;
 	}
 
 	// The following function limits the output to the values set by the yaw min max
@@ -232,10 +232,10 @@ void manual_control(void){
 	//TODO: the scalars should be a on the go settable parameter.
 
 	//TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
-	tempMotor[0] = ( (int32_t) (SetPoint.lift * 1606) 	+ (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[1] =  (int32_t) (SetPoint.lift * 1606) 	- (int32_t) SetPoint.roll  * 1606 / MAN_ROLL_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[2] =  (int32_t) (SetPoint.lift * 1606) 	- (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[3] =  (int32_t) (SetPoint.lift * 1606) 	+ (int32_t)	SetPoint.roll  * 1606 / MAN_ROLL_SCALER  	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[0] = (int32_t) (SetPoint.lift * 1606) 	+ (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[1] = (int32_t) (SetPoint.lift * 1606) 	- (int32_t) SetPoint.roll  * 1606 / MAN_ROLL_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[2] = (int32_t) (SetPoint.lift * 1606) 	- (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[3] = (int32_t) (SetPoint.lift * 1606) 	+ (int32_t)	SetPoint.roll  * 1606 / MAN_ROLL_SCALER  	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
 
 
 	tempMotor[0] = tempMotor[0] >> 10;

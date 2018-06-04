@@ -40,6 +40,9 @@ int16_t psi_offset;
 #define MAN_ROLL_SCALER 1
 #define MAN_YAW_SCALER 1
 
+void motors_off();
+void manual_control();
+void dmp_control(bool yaw_only);
 
 typedef struct {
 	int8_t yaw;
