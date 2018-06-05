@@ -26,7 +26,7 @@
 
 
 // Calibration
-#define CALIBRATION_ROUNDS 100
+#define CALIBRATION_ROUNDS 255
 void calibrate(bool raw);
 int calibration_counter;
 

@@ -62,10 +62,11 @@ void calibrate(bool raw){
 	int32_t theta_total = 0;
 	int32_t psi_total = 0;
 
-	for(uint8_t i=0; i<CALIBRATION_ROUNDS; i++){
+	for(uint8_t i=0; i < CALIBRATION_ROUNDS; i++){
 		if(raw){
 
 		}else{
+			TickType_t xLastWakeTime = xTaskGetTickCount();
 			get_dmp_data();
 
 			phi_total += phi;
@@ -88,7 +89,7 @@ void calibrate(bool raw){
 			DEBUG_PRINTEGER(psi, 6);
 			DEBUG_PRINT("\n\n\f");
 
-			vTaskDelay(7);
+			vTaskDelayUntil( &xLastWakeTime, 10);
 		}
 	}
 
@@ -126,17 +127,19 @@ P1 (uint16), P2 (uint16), angle_min (uint8), angle_max (uint8)
 void dmp_control(bool yaw_only){
 	int32_t tempMotor[4];
 	int32_t yaw_output, pitch_output, roll_output;
-	get_dmp_data();
-	static uint8_t i = 0;
 
-	if (i++ > 10){
-		DEBUG_PRINT(".\n sr \f");
-		DEBUG_PRINTEGER(sr, 6);
-		DEBUG_PRINT(".\n\f");
-		i = 0;
-	}
+
+	// static uint8_t i = 0;
+
+	// if (i++ > 10){
+	// 	DEBUG_PRINT(".\n sr \f");
+	// 	DEBUG_PRINTEGER(sr, 6);
+	// 	DEBUG_PRINT(".\n\f");
+	// 	i = 0;
+	// }
 
 	// YAW: P-controller for yaw
+	// Step 1: make setpoint and sensor comparable by scaling them to a common unit
 	// 16.4 LSB/deg/s so sr to actual angulur momentum is SR/16.4
 	// SetPoint.yaw = -128 deg/s to 127 deg/s
 	// We scale the setpoint by 16.4 to make them have the same size ('<< 4' = '* 16')
@@ -147,8 +150,22 @@ void dmp_control(bool yaw_only){
 		roll_output = 0;	
 	}
 	else {
-		roll_output = 	parameters[P_P1] * (SetPoint.roll - phi) - parameters[P_P2] * sp;
-		pitch_output = 	parameters[P_P1] * (SetPoint.pitch - theta) - parameters[P_P2] * sq;
+		// ROLL: P controller for roll
+		// Step 1: make setpoint and sensor comparable by scaling them to a common unit
+		// for phi 220 maps to 1 degree. the setpoints (-128,127) map should map to (-5,5) degrees
+		// (5 degrees / 128) * 220 = 8.59375 so (setpoint.roll * 8.59375) gets it in the same unit as the sensor
+		// if we multiply sensor value by 2, we can multiply setpoint by 17 (with an rounding error of 1.09%)
+
+
+		roll_output = 	parameters[P_P1] * (	((int32_t) SetPoint.roll * 17) - (phi << 1)) - 	parameters[P_P2] * sp;
+		
+
+		// PITCH: P controller for roll
+		// Step 1: make setpoint and sensor comparable by scaling them to a common unit
+		// for phi 140 maps to 1 degree. the setpoints (-128,127) map should map to (-5,5) degrees
+		// (5 degrees / 128) * 140 = 5.46785 so (setpoint.pitch * 5.46785) gets it in the same unit as the sensor
+		// if we multiply sensor value by 2, we can multiply setpoint by 11 (with an rounding error of 0.58%)
+		pitch_output = 	parameters[P_P1] * (	((int32_t) SetPoint.pitch * 11) - (theta << 1)) - parameters[P_P2] * sq;
 	}
 
 	// The following function limits the output to the values set by the yaw min max
