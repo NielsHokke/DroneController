@@ -1,6 +1,7 @@
 #todo make default regmap
 
 #!/usr/bin/env python
+import sys
 import threading
 import time
 import serial
@@ -111,11 +112,11 @@ def handle_keypress(pressed_key):
     #yawcontroll
     elif pressed_key == pygame.K_u:
         parametervalues.P = min(255,parametervalues.P+1)
-        parametervalues.P.to_bytes(1, byteorder='big', signed=False)
+        #parametervalues.P.to_bytes(1, byteorder='big', signed=False)
         send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
     elif pressed_key == pygame.K_j:
         parametervalues.P = max(0,parametervalues.P-1)
-        parametervalues.P.to_bytes(1, byteorder='big', signed=False)
+        #parametervalues.P.to_bytes(1, byteorder='big', signed=False)
         send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
 
     # elif MODE == MODE.MODE_FULL:
@@ -186,17 +187,29 @@ def Switch_Mode(new_mode):
 
 def draw_gui():
     global screen
-    tw = GUI.trimbar_width
-    #calculate blue part for trimbars
-    GUI.r_trim_roll_a.width = round(((tw/2)/255)*trimvalues.roll)
-    GUI.r_trim_pitch_a.width = round(((tw/2)/255)*trimvalues.pitch)
-    GUI.r_trim_yaw_a.width = round(((tw/2)/255)*trimvalues.yaw)
-    GUI.r_trim_lift_a.width = round(((tw)/255)*trimvalues.lift)
+    global trimvalues
+    global allguibars
 
-    #trimbar text
+    #update trim values
+    GUI.allguibars[0].settrim(trimvalues.roll)
+    GUI.allguibars[1].settrim(trimvalues.pitch)
+    GUI.allguibars[2].settrim(trimvalues.yaw)
+    GUI.allguibars[3].settrim(trimvalues.lift)
 
-    screen = GUI.drawbackground(screen)
+    screen = GUI.draw_all(screen)
     return
+
+def init_gui():
+    #name,top,left,hor,uns,trim:
+    GUI.Guibar("Roll",440,60,True,False,True)
+    GUI.Guibar("Pitch",500,60,True,False,True)
+    GUI.Guibar("Yaw",560,60,True,False,True)
+    GUI.Guibar("Lift",620,60,True,True,True)
+
+    GUI.Guibar("M1",440,300,False,True,False)
+    GUI.Guibar("M2",440,340,False,True,False)
+    GUI.Guibar("M3",440,380,False,True,False)
+    GUI.Guibar("M4",440,420,False,True,False)
 
 def change_trimvalue(trimidirection,trimvar):
     global trimvalues
@@ -243,6 +256,17 @@ class Parametervalues:
     P1 = parameterdefaults.P1
     P2 = parameterdefaults.P2
 
+#TODO commport as argument
+# #if no comport is given as a argument default to ttyUSB0
+# if len(sys.argv) == 1:
+#     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+# else:
+#     print(str(sys.argv))
+#     argslist = str(sys.argv)
+#     print(argslist)
+#     print(argslist[1],type(argslist[1]))
+#     #ser = serial.Serial(str(sys.argv)[1], 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
@@ -278,9 +302,14 @@ if __name__ == '__main__':
 
     pygame.init()
 
-    screen = pygame.display.set_mode([1000, 800])
-
+    screen = pygame.display.set_mode([740, 800])
+    init_gui() #init all the homebrew gui stuff
     pygame.display.set_caption("Ground Control Station")
+
+    #set the parameters to start with:
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P1,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P2,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
 
     if pygame.joystick.get_count() > 0:
         print("Joystick detected")
