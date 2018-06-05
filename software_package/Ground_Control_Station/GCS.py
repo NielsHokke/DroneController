@@ -237,6 +237,12 @@ def change_trimvalue(trimidirection,trimvar):
         return
     return
 
+def setparams():
+    global parametervalues
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.PYaw.to_bytes(1, byteorder='big', signed=False))
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P1,0,0,0,parametervalues.P1.to_bytes(1, byteorder='big', signed=False))
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P2,0,0,0,parametervalues.P2.to_bytes(1, byteorder='big', signed=False))
+
 class ConsoleThread(threading.Thread):
     Running = True
     def run(self):
@@ -252,9 +258,14 @@ class Trimvalues:
     lift = 0
 
 class Parametervalues:
-    P = parameterdefaults.P
-    P1 = parameterdefaults.P1
-    P2 = parameterdefaults.P2
+    PYaw = parameterdefaults.P_Yaw
+    P1 = parameterdefaults.P_P1
+    P2 = parameterdefaults.P_P2
+    yaw_min = parameterdefaults.P_yaw_min
+    yaw_max = parameterdefaults.P_yaw_max
+    angle_min = parameterdefaults.P_angle_min
+    angle_max = parameterdefaults.P_angle_max
+
 
 #TODO commport as argument
 # #if no comport is given as a argument default to ttyUSB0
@@ -305,11 +316,9 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode([740, 800])
     init_gui() #init all the homebrew gui stuff
     pygame.display.set_caption("Ground Control Station")
+    
+    setparams()
 
-    #set the parameters to start with:
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P1,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P2,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
 
     if pygame.joystick.get_count() > 0:
         print("Joystick detected")
