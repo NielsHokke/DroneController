@@ -36,7 +36,7 @@ class Guibar(object):
         #add to all guibars list    
         allguibars.append(self)
 
-    def drawbar(self,screen):
+    def draw(self,screen):
         #update the rects (only horizontal bars have trims)
         if self.b_horizontal == True:
             if self.b_unsigned == True:
@@ -80,7 +80,29 @@ class Guibar(object):
     def __iter__(self):
         return self
 
+class Button(object):
+#text #left #top #height #widht #function r_button
+    def __init__(self,name,top,left,width,height,fx,fy):
+        self.name = name
+        self.top = top
+        self.left = left
+        self.width = width
+        self.height = height
+        self.fx = fx #used for ofsetting the button text
+        self.fy = fy #used for ofsetting the button text
+        self.r_button = pygame.Rect(left,top, width, height)
+        self.f_title = f_font_16.render(name,True,col_grey1)
+        allbuttons.append(self)
+
+    def draw(self,screen):
+        pygame.draw.rect(screen,col_grey3,self.r_button)
+        screen.blit(self.f_title,(self.left+self.fy,self.top+self.fx))
+
+    def checkclicked(self,pos):
+    	return self.r_button.collidepoint(pos)
+
 allguibars = []
+allbuttons = []
 
 col_white = pygame.Color(255,255,255)
 col_grey1 = pygame.Color(230,230,230) #background stuff
@@ -102,9 +124,7 @@ f_font_16 = pygame.font.Font('OpenSans.ttf',16)
 Text_Title = f_font_60.render('Ground Control Station',True,col_grey3)
 Text_trim_header = f_font_20.render('Trim settings',True,col_grey3)
 Text_motor_header = f_font_20.render('Motors',True,col_grey3)
-
-
-#rects = left,top,widht,height
+Text_params_header = f_font_20.render('Parameters',True,col_grey3)
 
 #titlebanner
 r_topbar = pygame.Rect(0,0,740,20)
@@ -141,11 +161,15 @@ def draw_all(screen):
 
     #draw gui bars
     for bar in range(len(allguibars)):
-        allguibars[bar].drawbar(screen)
+        allguibars[bar].draw(screen)
+    #draw buttons
+    for button in range(len(allbuttons)):
+        allbuttons[button].draw(screen)
 
     #draw title text
     screen.blit(Text_Title,(60,16))
     screen.blit(Text_trim_header,(57,385))
     screen.blit(Text_motor_header,(297,385))
+    screen.blit(Text_params_header,(497,270))
 
     return screen

@@ -210,6 +210,56 @@ def init_gui():
     GUI.Guibar("M2",440,340,False,True,False)
     GUI.Guibar("M3",440,380,False,True,False)
     GUI.Guibar("M4",440,420,False,True,False)
+    
+    #name,top,left,width,height,function
+    GUI.Button("PANIC",720,60,60,40,8,9)       
+    GUI.Button("CAL",720,140,60,40,8,14)
+    GUI.Button("MAN",720,220,60,40,8,12)
+    GUI.Button("REQUEST",600,500,80,40,8,4)
+    GUI.Button("SEND",600,600,80,40,8,18)
+
+    #P_YAW buttons
+    GUI.Button("<<",300,600,20,20,0,4)
+    GUI.Button("<",300,620,20,20,0,6)
+    GUI.Button(">",300,640,20,20,0,2)
+    GUI.Button(">>",300,660,20,20,0,2)
+    #P1buttons
+    GUI.Button("<<",330,600,20,20,0,4)
+    GUI.Button("<",330,620,20,20,0,6)
+    GUI.Button(">",330,640,20,20,0,2)
+    GUI.Button(">>",330,660,20,20,0,2)
+    #P2buttons
+    GUI.Button("<<",360,600,20,20,0,4)
+    GUI.Button("<",360,620,20,20,0,6)
+    GUI.Button(">",360,640,20,20,0,2)
+    GUI.Button(">>",360,660,20,20,0,2)
+
+def handlebuttonfunction(button):
+    global newparametervalues
+
+    step = 1
+    bigstep = 5
+
+    if button == 0 : return#PANIC
+    elif button == 1: return#CAL
+    elif button == 2: return#MAN
+    elif button == 3: return#REQUEST
+    elif button == 4: setparams()#SEND
+    #YAW
+    elif button == 5: newparametervalues.PYaw = max(0,newparametervalues.PYaw-bigstep)#<<
+    elif button == 6: newparametervalues.PYaw = max(0,newparametervalues.PYaw-step)#<
+    elif button == 7: newparametervalues.PYaw = min(255,newparametervalues.PYaw+step)#>
+    elif button == 8: newparametervalues.PYaw = min(255,newparametervalues.PYaw+bigstep)#>>
+    #P1
+    elif button == 9: newparametervalues.PYaw = max(0,newparametervalues.P1-bigstep)#<<
+    elif button == 10: newparametervalues.PYaw = max(0,newparametervalues.P1-step)#<
+    elif button == 11: newparametervalues.PYaw = min(255,newparametervalues.P1+step)#>
+    elif button == 12: newparametervalues.PYaw = min(255,newparametervalues.P1+bigstep)#>>
+    #P2
+    elif button == 13: newparametervalues.PYaw = max(0,newparametervalues.P2-bigstep)#<<
+    elif button == 14: newparametervalues.PYaw = max(0,newparametervalues.P2-step)#<
+    elif button == 15: newparametervalues.PYaw = min(255,newparametervalues.P2+step)#>
+    elif button == 16: newparametervalues.PYaw = min(255,newparametervalues.P2+bigstep)#>>
 
 def change_trimvalue(trimidirection,trimvar):
     global trimvalues
@@ -239,9 +289,9 @@ def change_trimvalue(trimidirection,trimvar):
 
 def setparams():
     global parametervalues
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.PYaw.to_bytes(1, byteorder='big', signed=False))
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P1,0,0,0,parametervalues.P1.to_bytes(1, byteorder='big', signed=False))
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P2,0,0,0,parametervalues.P2.to_bytes(1, byteorder='big', signed=False))
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,newparametervalues.PYaw.to_bytes(1, byteorder='big', signed=False))
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P1,0,0,0,newparametervalues.P1.to_bytes(1, byteorder='big', signed=False))
+    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P2,0,0,0,newparametervalues.P2.to_bytes(1, byteorder='big', signed=False))
 
 class ConsoleThread(threading.Thread):
     Running = True
@@ -266,7 +316,6 @@ class Parametervalues:
     angle_min = parameterdefaults.P_angle_min
     angle_max = parameterdefaults.P_angle_max
 
-
 #TODO commport as argument
 # #if no comport is given as a argument default to ttyUSB0
 # if len(sys.argv) == 1:
@@ -285,6 +334,8 @@ console.start()
 
 trimvalues = Trimvalues()
 parametervalues = Parametervalues()
+newparametervalues = Parametervalues()
+
 
 MODE = Mode.MODE_SAFE
 Running = True
@@ -332,7 +383,7 @@ if __name__ == '__main__':
         GCS_joystick.init()
         print("checking lift")
         while GCS_joystick.get_axis(joystic_axis_lift) > 1:
-        	time.sleep(0.1)
+             time.sleep(0.1)
         print("lift is correctly set")
 
     # --- Main loop ---
@@ -345,7 +396,13 @@ if __name__ == '__main__':
                 Running = False
 
             if event.type == pygame.KEYDOWN:
-            	handle_keypress(event.key)
+                handle_keypress(event.key)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for button in range(len(GUI.allbuttons)):
+                    if GUI.allbuttons[button].checkclicked(event.pos):
+                        handlebuttonfunction(button)
+                        print(newparametervalues.PYaw)
 
             if has_joystick:
                 # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
