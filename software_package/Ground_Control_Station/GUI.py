@@ -26,6 +26,8 @@ class Guibar(object):
         self.left = left
         self.v_value = 0
         self.v_trim = 0
+        self.f_title = f_font_18.render(name,True,col_grey3)
+        self.f_value = f_font_16.render('0',True,col_grey3)
         if self.b_horizontal == True:
         	self.r_back = pygame.Rect(left,top,160,20)
         	self.r_trimbar = pygame.Rect(0,top+17,1,3)
@@ -53,11 +55,16 @@ class Guibar(object):
                 if self.b_trim == True:
                     self.r_trimbar.left = self.left+80
                     self.r_trimbar.width = round(((80)/255)*self.v_trim)
+
+            screen.blit(self.f_title,(self.left-2,self.top-24))
+            screen.blit(self.f_value,(self.left+164,self.top-4))
         else:     #(vertical bars are always unsigned)
                 self.r_bar.top = self.top + 200
                 self.r_bar.left = self.left
                 self.r_bar.width = 20
                 self.r_bar.height = round(-((200)/255)*self.v_value)
+                screen.blit(self.f_title,(self.left-2,self.top - 24))
+                screen.blit(self.f_value,(self.left,self.top + 200))
 
         #draw the rects
         pygame.draw.rect(screen,col_grey2,self.r_back)
@@ -66,7 +73,7 @@ class Guibar(object):
 
     def settrim(self,trim):
     	self.v_trim = trim
-    	
+
     def setval(self,val):
     	self.v_value = val
 
@@ -93,24 +100,15 @@ f_font_16 = pygame.font.Font('OpenSans.ttf',16)
 
 #texts    
 Text_Title = f_font_60.render('Ground Control Station',True,col_grey3)
+Text_trim_header = f_font_20.render('Trim settings',True,col_grey3)
+Text_motor_header = f_font_20.render('Motors',True,col_grey3)
 
-# Text_live_Lift = f_font_18.render('Lift',True,col_grey3)
-# Text_live_M1 = f_font_18.render('M1',True,col_grey3)
-# Text_live_M2 = f_font_18.render('M2',True,col_grey3)
-# Text_live_M3 = f_font_18.render('M3',True,col_grey3)
-# Text_live_M4 = f_font_18.render('M4',True,col_grey3)
-
-# Text_trim_header = f_font_20.render('Trim settings',True,col_grey3)
-# Text_trim_roll = f_font_18.render('Roll',True,col_grey3)
-# Text_trim_yaw = f_font_18.render('Yaw',True,col_grey3)
-# Text_trim_pitch = f_font_18.render('Pitch',True,col_grey3)
-# Text_trim_lift = f_font_18.render('Lift',True,col_grey3)
 
 #rects = left,top,widht,height
+
 #titlebanner
 r_topbar = pygame.Rect(0,0,740,20)
 r_topbar2 = pygame.Rect(0,100,740,20)
-
 r_topbar_shadow1 = pygame.Rect(0,19,740,1)
 r_topbar2_shadow1 = pygame.Rect(0,100,740,1)
 r_topbar2_shadow2 = pygame.Rect(0,119,740,1)
@@ -146,18 +144,8 @@ def draw_all(screen):
         allguibars[bar].drawbar(screen)
 
     #draw title text
-    screen.blit(Text_Title,(20,19))
-    # #live view textr_back
-    # screen.blit(Text_live_Lift,(57,150))
-    # screen.blit(Text_live_M1,(139,150))
-    # screen.blit(Text_live_M2,(179,150))
-    # screen.blit(Text_live_M3,(219,150))
-    # screen.blit(Text_live_M4,(259,150))
-    # #trim
-    # screen.blit(Text_trim_header,(40,380))
-    # screen.blit(Text_trim_roll,(60,415))
-    # screen.blit(Text_trim_yaw,(60,475))
-    # screen.blit(Text_trim_pitch,(60,535))
-    # screen.blit(Text_trim_lift,(60,595))
+    screen.blit(Text_Title,(60,16))
+    screen.blit(Text_trim_header,(57,385))
+    screen.blit(Text_motor_header,(297,385))
 
     return screen
