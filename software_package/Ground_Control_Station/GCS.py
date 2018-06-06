@@ -1,4 +1,7 @@
+#todo make default regmap
+
 #!/usr/bin/env python
+import sys
 import threading
 import time
 import serial
@@ -6,6 +9,7 @@ import pygame
 import crcmod
 import Registermapping #homebrew registermpping file
 import GUI #homebrew gui file
+import parameterdefaults #homebrew parameter defaults
 from enum import IntEnum
 
 #enumarate the different modes
@@ -48,6 +52,20 @@ def send_parameter_message_4(register,byteA,byteB,byteC,byteD):
     payload = b'\x55'+register+A+B+C+D
     send_message(payload)
     return 
+
+#per 2 bytes register mapping
+def send_parameter_message_2(register,byteA,byteB):
+    if not isinstance(byteA,bytes):byteA = byteA.to_bytes(2, byteorder='big', signed=False)
+    if not isinstance(byteB,bytes):byteB = byteB.to_bytes(2, byteorder='big', signed=False)
+    A = byteA
+    B = byteB
+
+    # print('myvalue for A is: ', A, '\n')
+    # print('myvalue for B is: ', B, '\n')
+
+    payload = b'\x55'+register+A+B
+    send_message(payload)
+    return     
 
 #per 4 byte register 
 def send_parameter_message(register,data):
@@ -108,13 +126,11 @@ def handle_keypress(pressed_key):
     #yawcontroll
     elif pressed_key == pygame.K_u:
         parametervalues.P = min(255,parametervalues.P+1)
-        parametervalues.P.to_bytes(1, byteorder='big', signed=False)
-        print("P_yaw = {}".format(parametervalues.P ))
+        #parametervalues.P.to_bytes(1, byteorder='big', signed=False)
         send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
     elif pressed_key == pygame.K_j:
         parametervalues.P = max(0,parametervalues.P-1)
-        parametervalues.P.to_bytes(1, byteorder='big', signed=False)
-        print("P_yaw = {}".format(parametervalues.P ))
+        #parametervalues.P.to_bytes(1, byteorder='big', signed=False)
         send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
 
     # elif MODE == MODE.MODE_FULL:
@@ -185,17 +201,111 @@ def Switch_Mode(new_mode):
 
 def draw_gui():
     global screen
-    tw = GUI.trimbar_width
-    #calculate blue part for trimbars
-    GUI.r_trim_roll_a.width = round(((tw/2)/255)*trimvalues.roll)
-    GUI.r_trim_pitch_a.width = round(((tw/2)/255)*trimvalues.pitch)
-    GUI.r_trim_yaw_a.width = round(((tw/2)/255)*trimvalues.yaw)
-    GUI.r_trim_lift_a.width = round(((tw)/255)*trimvalues.lift)
+    global trimvalues
+    global allguibars
 
-    #trimbar text
+    #update trim values
+    GUI.allguibars[0].settrim(trimvalues.roll)
+    GUI.allguibars[1].settrim(trimvalues.pitch)
+    GUI.allguibars[2].settrim(trimvalues.yaw)
+    GUI.allguibars[3].settrim(trimvalues.lift)
 
-    screen = GUI.drawbackground(screen)
+    #TODO updatae bar values
+
+    #update parameter display
+    Text_PY   = GUI.f_font_16.render(str(parametervalues.PYaw),True,GUI.col_grey3)
+    Text_P1   = GUI.f_font_16.render(str(parametervalues.P1),True,GUI.col_grey3)
+    Text_P2   = GUI.f_font_16.render(str(parametervalues.P2),True,GUI.col_grey3)
+    Text_PY_n   = GUI.f_font_16.render(str(newparametervalues.PYaw),True,GUI.col_grey3)
+    Text_P1_n   = GUI.f_font_16.render(str(newparametervalues.P1),True,GUI.col_grey3)
+    Text_P2_n   = GUI.f_font_16.render(str(newparametervalues.P2),True,GUI.col_grey3)
+    Text_PY_h   = GUI.f_font_16.render("PY",True,GUI.col_grey3)
+    Text_P1_h   = GUI.f_font_16.render("P1",True,GUI.col_grey3)
+    Text_P2_h   = GUI.f_font_16.render("P2",True,GUI.col_grey3)
+
+    #draw most of the gui
+    screen = GUI.draw_all(screen)
+
+    #update the parameter text
+    screen.blit(Text_PY_h,(490,299))
+    screen.blit(Text_P1_h,(490,329))
+    screen.blit(Text_P2_h,(490,359))
+    screen.blit(Text_PY,(520,299))
+    screen.blit(Text_P1,(520,329))
+    screen.blit(Text_P2,(520,359))
+    screen.blit(Text_PY_n,(560,299))
+    screen.blit(Text_P1_n,(560,329))
+    screen.blit(Text_P2_n,(560,359))
+
     return
+
+def init_gui():
+    #name,top,left,hor,uns,trim:
+    GUI.Guibar("Roll",440,60,True,False,True)
+    GUI.Guibar("Pitch",500,60,True,False,True)
+    GUI.Guibar("Yaw",560,60,True,False,True)
+    GUI.Guibar("Lift",620,60,True,True,True)
+
+    GUI.Guibar("M1",440,300,False,True,False)
+    GUI.Guibar("M2",440,340,False,True,False)
+    GUI.Guibar("M3",440,380,False,True,False)
+    GUI.Guibar("M4",440,420,False,True,False)
+    
+    #name,top,left,width,height,function
+    GUI.Button("PANIC",720,60,60,40,8,9)       
+    GUI.Button("CAL",720,140,60,40,8,14)
+    GUI.Button("MAN",720,220,60,40,8,12)
+    GUI.Button("REQUEST",600,500,80,40,8,4)
+    GUI.Button("SEND",600,600,80,40,8,18)
+
+    #P_YAW buttons
+    GUI.Button("<<",300,600,20,20,-1,4)
+    GUI.Button("<",300,620,20,20,-1,6)
+    GUI.Button(">",300,640,20,20,-1,2)
+    GUI.Button(">>",300,660,20,20,-1,2)
+    #P1buttons
+    GUI.Button("<<",330,600,20,20,-1,4)
+    GUI.Button("<",330,620,20,20,-1,6)
+    GUI.Button(">",330,640,20,20,-1,2)
+    GUI.Button(">>",330,660,20,20,-1,2)
+    #P2buttons
+    GUI.Button("<<",360,600,20,20,-1,4)
+    GUI.Button("<",360,620,20,20,-1,6)
+    GUI.Button(">",360,640,20,20,-1,2)
+    GUI.Button(">>",360,660,20,20,-1,2)
+
+def handlebuttonfunction(button):
+    global newparametervalues
+    global parametervalues
+
+    step = 4
+    bigstep = 64
+
+    if button == 0 : return#PANIC
+    elif button == 1: return#CAL
+    elif button == 2: return#MAN
+    elif button == 3: return#REQUEST
+    elif button == 4: 
+        setparams()#SEND
+        parametervalues = newparametervalues
+
+    #YAW
+    elif button == 5: newparametervalues.PYaw = max(0,newparametervalues.PYaw-bigstep)#<<
+    elif button == 6: newparametervalues.PYaw = max(0,newparametervalues.PYaw-step)#<
+    elif button == 7: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+step)#>
+    elif button == 8: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+bigstep)#>>
+    
+    #P1
+    elif button == 9:  newparametervalues.P1 = max(0,newparametervalues.P1-bigstep)#<<
+    elif button == 10: newparametervalues.P1 = max(0,newparametervalues.P1-step)#<
+    elif button == 11: newparametervalues.P1 = min(2**16,newparametervalues.P1+step)#>
+    elif button == 12: newparametervalues.P1 = min(2**16,newparametervalues.P1+bigstep)#>>
+    
+    #P2
+    elif button == 13: newparametervalues.P2 = max(0,newparametervalues.P2-bigstep)#<<
+    elif button == 14: newparametervalues.P2 = max(0,newparametervalues.P2-step)#<
+    elif button == 15: newparametervalues.P2 = min(2**16,newparametervalues.P2+step)#>
+    elif button == 16: newparametervalues.P2 = min(2**16,newparametervalues.P2+bigstep)#>>
 
 def change_trimvalue(trimidirection,trimvar):
     global trimvalues
@@ -223,13 +333,25 @@ def change_trimvalue(trimidirection,trimvar):
         return
     return
 
+def setparams():
+    global parametervalues
+    global newparametervalues
+    #bounderies
+    b1 = newparametervalues.angle_max.to_bytes(1, byteorder='big', signed=False)
+    b2 = newparametervalues.angle_min.to_bytes(1, byteorder='big', signed=False)
+    b3 = newparametervalues.yaw_max.to_bytes(1, byteorder='big', signed=False)
+    b4 = newparametervalues.yaw_min.to_bytes(1, byteorder='big', signed=False)
+    send_parameter_message_4(Registermapping.REGMAP_BOUNDARIES,b1,b2,b3,b4)
+
+    send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
+    send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+
 class ConsoleThread(threading.Thread):
     Running = True
     def run(self):
         while self.Running:
-            data = ser.readline()
+            # data = ser.readline()
             # if data[0] == 10:
-            #     print("data ontvangen!!!!!\n")
             #     print(data.decode("utf-8", "backslashreplace"))
             # else:
             print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
@@ -243,17 +365,33 @@ class Trimvalues:
     lift = 0
 
 class Parametervalues:
-    P = 255
-    P1 = 0
-    P2 = 0
+    PYaw = parameterdefaults.P_Yaw
+    P1 = parameterdefaults.P_P1
+    P2 = parameterdefaults.P_P2
+    yaw_min = parameterdefaults.P_yaw_min
+    yaw_max = parameterdefaults.P_yaw_max
+    angle_min = parameterdefaults.P_angle_min
+    angle_max = parameterdefaults.P_angle_max
 
-ser = serial.Serial('/dev/ttyUSB2', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+#TODO commport as argument
+# #if no comport is given as a argument default to ttyUSB0
+# if len(sys.argv) == 1:
+#     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+# else:
+#     print(str(sys.argv))
+#     argslist = str(sys.argv)
+#     print(argslist)
+#     print(argslist[1],type(argslist[1]))
+#     #ser = serial.Serial(str(sys.argv)[1], 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
 
 trimvalues = Trimvalues()
 parametervalues = Parametervalues()
+newparametervalues = Parametervalues()
 
 MODE = Mode.MODE_SAFE
 Running = True
@@ -282,9 +420,11 @@ if __name__ == '__main__':
 
     pygame.init()
 
-    screen = pygame.display.set_mode([1000, 800])
-
+    screen = pygame.display.set_mode([740, 800])
+    init_gui() #init all the homebrew gui stuff
     pygame.display.set_caption("Ground Control Station")
+    
+    # setparams()
 
     if pygame.joystick.get_count() > 0:
         print("Joystick detected")
@@ -298,7 +438,7 @@ if __name__ == '__main__':
         GCS_joystick.init()
         print("checking lift")
         while GCS_joystick.get_axis(joystic_axis_lift) > 1:
-        	time.sleep(0.1)
+             time.sleep(0.1)
         print("lift is correctly set")
 
     # --- Main loop ---
@@ -311,7 +451,12 @@ if __name__ == '__main__':
                 Running = False
 
             if event.type == pygame.KEYDOWN:
-            	handle_keypress(event.key)
+                handle_keypress(event.key)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for button in range(len(GUI.allbuttons)):
+                    if GUI.allbuttons[button].checkclicked(event.pos):
+                        handlebuttonfunction(button)
 
             if has_joystick:
                 # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
@@ -328,11 +473,11 @@ if __name__ == '__main__':
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:
-        	send_control_message_flag = 100
-        	send_control_message()     
+            send_control_message()
+            send_control_message_flag = 100
+      
         else:
-            if has_joystick: 
-            	send_control_message_flag = send_control_message_flag - 1
+            if has_joystick: send_control_message_flag = send_control_message_flag - 1
         
         #draw the gui and update it
         draw_gui()
@@ -344,6 +489,7 @@ if __name__ == '__main__':
     if has_joystick: GCS_joystick.quit()
     console.stop()
     ser.flush()
+    time.sleep(0.01)
     ser.close()
     pygame.display.quit()
     pygame.quit()

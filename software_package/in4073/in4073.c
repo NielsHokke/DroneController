@@ -199,22 +199,34 @@ static void sensor_loop(void *pvParameter){
 static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 
-	parameters[16] = 4;
-	parameters[17] = 3;
-	parameters[18] = 2;
-	parameters[19] = 1;
+
 
 	for(;;){
+
+
+		// parameters[P_P1] = 4;
+		// parameters[P_P1 + 1] = 3;
+		// parameters[P_P2] = 2;
+		// parameters[P_P2 + 1] = 1;
 
 		nrf_gpio_pin_toggle(BLUE);
 
 		// downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
 
-		DEBUG_PRINT("P1: \f");
-		DEBUG_UPRINTEGER(GET_PARA_16(P_P1), 6);
+		DEBUG_PRINT("PY: \f");
+		DEBUG_UPRINTEGER(GET_PARA_16(P_P_YAW), 6);
 
-		DEBUG_PRINT("\nP2: \f");
-		DEBUG_UPRINTEGER(GET_PARA_16(P_P2), 6);
+		DEBUG_PRINT("\nP1 H: \f");
+		DEBUG_UPRINTEGER(GET_PARA_8(P_P1), 6);
+
+		DEBUG_PRINT("\nP1 L: \f");
+		DEBUG_UPRINTEGER(GET_PARA_8(P_P1 + 1), 6);
+
+		DEBUG_PRINT("\nP2 H: \f");
+		DEBUG_UPRINTEGER(GET_PARA_8(P_P2), 6);
+
+		DEBUG_PRINT("\nP2 L: \f");
+		DEBUG_UPRINTEGER(GET_PARA_8(P_P2+1), 6);
 		
 		DEBUG_PRINT("\n\n\f");
 
