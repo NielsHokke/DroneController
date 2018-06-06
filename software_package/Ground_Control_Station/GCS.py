@@ -28,14 +28,14 @@ class Trimdirection(IntEnum):
     UP = 1
     DOWN = 0
 
-#some functions to handle the communication 
-def send_control_message():
-    #print("{} {} {} {}".format(raw_pitch, raw_yaw, raw_lift, raw_roll))
-    pitch_byte = raw_pitch.to_bytes(1, byteorder='big', signed=True)
-    yaw_byte = raw_yaw.to_bytes(1, byteorder='big', signed=True)
-    roll_byte = raw_roll.to_bytes(1, byteorder='big', signed=True)
-    lift_byte = raw_lift.to_bytes(1, byteorder='big', signed=False)
-    payload = b'\xAA' + yaw_byte + pitch_byte + roll_byte + lift_byte
+#functions to handle the controll message sending
+def send_control_message():    
+    global controlvalues
+    pitch_byte = controlvalues.pitch.to_bytes(1, byteorder='big', signed=True)
+    yaw_byte   = controlvalues.yaw.to_bytes(1, byteorder='big', signed=True)
+    roll_byte  = controlvalues.pitch.to_bytes(1, byteorder='big', signed=True)
+    lift_byte  = controlvalues.lift.to_bytes(1, byteorder='big', signed=False)
+    payload    = b'\xAA' + yaw_byte + pitch_byte + roll_byte + lift_byte
     send_message(payload)
     return
 
@@ -85,6 +85,7 @@ def handle_keypress(pressed_key):
     global Running #use global variable to shut the thing down
     global trimvalues
     global parametervalues
+    global newparametervalues
 
     #escape -> close program
     if pressed_key == pygame.K_ESCAPE: Running = False #TODO: check for safety
@@ -125,21 +126,36 @@ def handle_keypress(pressed_key):
     #TODO safegaurd
     #yawcontroll
     elif pressed_key == pygame.K_u:
-        parametervalues.P = min(255,parametervalues.P+1)
-        #parametervalues.P.to_bytes(1, byteorder='big', signed=False)
-        send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
-    elif pressed_key == pygame.K_j:
-        parametervalues.P = max(0,parametervalues.P-1)
-        #parametervalues.P.to_bytes(1, byteorder='big', signed=False)
-        send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
+        newparametervalues.PYaw = min(2**16,parametervalues.PYaw+4)
+        send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
+        parametervalues.PYaw = newparametervalues.PYaw
 
-    # elif MODE == MODE.MODE_FULL:
-    #     #rollpitch control P1
-    #     elif pressed_key == pygame.K_i
-    #     elif pressed_key == pygame.K_k 
-    #     #rollpitch control P2
-    #     elif pressed_key == pygame.K_o
-    #     elif pressed_key == pygame.K_l 
+    elif pressed_key == pygame.K_j:
+        newparametervalues.PYaw = max(0,parametervalues.PYaw-4)
+        parametervalues.PYaw = newparametervalues.PYaw
+
+    elif MODE == MODE.MODE_FULL:
+        #rollpitch control P1
+        if pressed_key == pygame.K_i:
+            newparametervalues.P1 = min(2**16,parametervalues.P1+4)
+            send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),parametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+            parametervalues.P1 = newparametervalues.P1
+
+        elif pressed_key == pygame.K_k:
+            newparametervalues.P1 = max(0,parametervalues.P1-4)
+            send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),parametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+            parametervalues.P1 = newparametervalues.P1
+
+        #rollpitch control P2
+        elif pressed_key == pygame.K_o:
+            newparametervalues.P2 = min(2**16,parametervalues.P2+4)
+            send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+            parametervalues.P2 = newparametervalues.P2
+
+        elif pressed_key == pygame.K_l:
+            newparametervalues.P2 = min(0,parametervalues.P2-4)
+            send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+            parametervalues.P2 = newparametervalues.P2
 
     return
 
@@ -203,16 +219,22 @@ def draw_gui():
     global screen
     global trimvalues
     global allguibars
+    global controlvalues
 
     #update trim values
     GUI.allguibars[0].settrim(trimvalues.roll)
     GUI.allguibars[1].settrim(trimvalues.pitch)
     GUI.allguibars[2].settrim(trimvalues.yaw)
     GUI.allguibars[3].settrim(trimvalues.lift)
+    #update setpoints
+    GUI.allguibars[0].setval(controlvalues.roll)
+    GUI.allguibars[1].setval(controlvalues.pitch)
+    GUI.allguibars[2].setval(controlvalues.yaw)
+    GUI.allguibars[3].setval(controlvalues.lift)
 
-    #TODO updatae bar values
+    #TODO updatae bar values for motor
 
-    #update parameter display
+    #update parameter display P1 P2 P3
     Text_PY   = GUI.f_font_16.render(str(parametervalues.PYaw),True,GUI.col_grey3)
     Text_P1   = GUI.f_font_16.render(str(parametervalues.P1),True,GUI.col_grey3)
     Text_P2   = GUI.f_font_16.render(str(parametervalues.P2),True,GUI.col_grey3)
@@ -222,6 +244,20 @@ def draw_gui():
     Text_PY_h   = GUI.f_font_16.render("PY",True,GUI.col_grey3)
     Text_P1_h   = GUI.f_font_16.render("P1",True,GUI.col_grey3)
     Text_P2_h   = GUI.f_font_16.render("P2",True,GUI.col_grey3)
+
+    #yaw max and angle max text
+    Text_ymax   = GUI.f_font_16.render(str(parametervalues.yaw_max),True,GUI.col_grey3)
+    Text_ymin   = GUI.f_font_16.render(str(parametervalues.yaw_min),True,GUI.col_grey3)
+    Text_amax   = GUI.f_font_16.render(str(parametervalues.angle_max),True,GUI.col_grey3)
+    Text_amin   = GUI.f_font_16.render(str(parametervalues.angle_min),True,GUI.col_grey3)
+    Text_ymax_n = GUI.f_font_16.render(str(newparametervalues.yaw_max),True,GUI.col_grey3)
+    Text_ymin_n = GUI.f_font_16.render(str(newparametervalues.yaw_min),True,GUI.col_grey3)
+    Text_amax_n = GUI.f_font_16.render(str(newparametervalues.angle_max),True,GUI.col_grey3)
+    Text_amin_n = GUI.f_font_16.render(str(newparametervalues.angle_min),True,GUI.col_grey3)
+    Text_ymax_h = GUI.f_font_16.render("Y+",True,GUI.col_grey3)
+    Text_ymin_h = GUI.f_font_16.render("Y-",True,GUI.col_grey3)
+    Text_amax_h = GUI.f_font_16.render("A+",True,GUI.col_grey3)
+    Text_amin_h = GUI.f_font_16.render("A-",True,GUI.col_grey3)
 
     #draw most of the gui
     screen = GUI.draw_all(screen)
@@ -236,7 +272,19 @@ def draw_gui():
     screen.blit(Text_PY_n,(560,299))
     screen.blit(Text_P1_n,(560,329))
     screen.blit(Text_P2_n,(560,359))
-
+    #angle and yaw
+    screen.blit(Text_ymax_h,(490,389))
+    screen.blit(Text_ymin_h,(490,419))
+    screen.blit(Text_amax_h,(490,449))
+    screen.blit(Text_amin_h,(490,479))
+    screen.blit(Text_ymax,(520,389))
+    screen.blit(Text_ymin,(520,419))
+    screen.blit(Text_amax,(520,449))
+    screen.blit(Text_amin,(520,479))
+    screen.blit(Text_ymax_n,(560,389))
+    screen.blit(Text_ymin_n,(560,419))
+    screen.blit(Text_amax_n,(560,449))
+    screen.blit(Text_amin_n,(560,479))
     return
 
 def init_gui():
@@ -255,7 +303,7 @@ def init_gui():
     GUI.Button("PANIC",720,60,60,40,8,9)       
     GUI.Button("CAL",720,140,60,40,8,14)
     GUI.Button("MAN",720,220,60,40,8,12)
-    GUI.Button("REQUEST",600,500,80,40,8,4)
+    GUI.Button("SAFE",720,300,60,40,8,10)
     GUI.Button("SEND",600,600,80,40,8,18)
 
     #P_YAW buttons
@@ -273,6 +321,26 @@ def init_gui():
     GUI.Button("<",360,620,20,20,-1,6)
     GUI.Button(">",360,640,20,20,-1,2)
     GUI.Button(">>",360,660,20,20,-1,2)
+    #Y+ buttons
+    GUI.Button("<<",390,600,20,20,-1,4)
+    GUI.Button("<",390,620,20,20,-1,6)
+    GUI.Button(">",390,640,20,20,-1,2)
+    GUI.Button(">>",390,660,20,20,-1,2)
+    #Y- buttons
+    GUI.Button("<<",420,600,20,20,-1,4)
+    GUI.Button("<",420,620,20,20,-1,6)
+    GUI.Button(">",420,640,20,20,-1,2)
+    GUI.Button(">>",420,660,20,20,-1,2)
+    #Y+ buttons
+    GUI.Button("<<",450,600,20,20,-1,4)
+    GUI.Button("<",450,620,20,20,-1,6)
+    GUI.Button(">",450,640,20,20,-1,2)
+    GUI.Button(">>",450,660,20,20,-1,2)
+    #Y- buttons
+    GUI.Button("<<",480,600,20,20,-1,4)
+    GUI.Button("<",480,620,20,20,-1,6)
+    GUI.Button(">",480,640,20,20,-1,2)
+    GUI.Button(">>",480,660,20,20,-1,2)
 
 def handlebuttonfunction(button):
     global newparametervalues
@@ -281,12 +349,12 @@ def handlebuttonfunction(button):
     step = 4
     bigstep = 64
 
-    if button == 0 : return#PANIC
-    elif button == 1: return#CAL
-    elif button == 2: return#MAN
-    elif button == 3: return#REQUEST
-    elif button == 4: 
-        setparams()#SEND
+    if button == 0 : Switch_Mode(Mode.MODE_PANIC)#PANIC
+    elif button == 1: Switch_Mode(Mode.MODE_CALIBRATION)#CAL
+    elif button == 2: Switch_Mode(Mode.MODE_MANUAL)#MAN
+    elif button == 3: Switch_Mode(Mode.MODE_SAFE)#SAFE
+    elif button == 4: #SEND
+        setparams()
         parametervalues = newparametervalues
 
     #YAW
@@ -306,6 +374,30 @@ def handlebuttonfunction(button):
     elif button == 14: newparametervalues.P2 = max(0,newparametervalues.P2-step)#<
     elif button == 15: newparametervalues.P2 = min(2**16,newparametervalues.P2+step)#>
     elif button == 16: newparametervalues.P2 = min(2**16,newparametervalues.P2+bigstep)#>>
+    
+    #Y+
+    elif button == 17: newparametervalues.yaw_max = max(0,newparametervalues.yaw_max-5)#<<
+    elif button == 18: newparametervalues.yaw_max = max(0,newparametervalues.yaw_max-1)#<
+    elif button == 19: newparametervalues.yaw_max = min(2**8,newparametervalues.yaw_max+1)#>
+    elif button == 20: newparametervalues.yaw_max = min(2**8,newparametervalues.yaw_max+5)#>>
+    
+    #Y-
+    elif button == 21: newparametervalues.yaw_min = max(0,newparametervalues.yaw_min-5)#<<
+    elif button == 22: newparametervalues.yaw_min = max(0,newparametervalues.yaw_min-1)#<
+    elif button == 23: newparametervalues.yaw_min = min(2**8,newparametervalues.yaw_min+1)#>
+    elif button == 24: newparametervalues.yaw_min = min(2**8,newparametervalues.yaw_min+5)#>>
+    
+    #A+
+    elif button == 25: newparametervalues.angle_max = max(0,newparametervalues.angle_max-5)#<<
+    elif button == 26: newparametervalues.angle_max = max(0,newparametervalues.angle_max-1)#<
+    elif button == 27: newparametervalues.angle_max = min(2**8,newparametervalues.angle_max+1)#>
+    elif button == 28: newparametervalues.angle_max = min(2**8,newparametervalues.angle_max+5)#>>
+    
+    #A-
+    elif button == 29: newparametervalues.angle_min = max(0,newparametervalues.angle_min-5)#<<
+    elif button == 30: newparametervalues.angle_min = max(0,newparametervalues.angle_min-1)#<
+    elif button == 31: newparametervalues.angle_min = min(2**8,newparametervalues.angle_min+1)#>
+    elif button == 32: newparametervalues.angle_min = min(2**8,newparametervalues.angle_min+5)#>>
 
 def change_trimvalue(trimidirection,trimvar):
     global trimvalues
@@ -333,9 +425,11 @@ def change_trimvalue(trimidirection,trimvar):
         return
     return
 
+#send all parameters
 def setparams():
     global parametervalues
     global newparametervalues
+
     #bounderies
     b1 = newparametervalues.angle_max.to_bytes(1, byteorder='big', signed=False)
     b2 = newparametervalues.angle_min.to_bytes(1, byteorder='big', signed=False)
@@ -357,6 +451,12 @@ class ConsoleThread(threading.Thread):
             print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
     def stop(self):
         self.Running = False
+
+class Controlvalues:
+    pitch = 0
+    yaw = 0
+    roll = 0
+    lift = 0
 
 class Trimvalues:
     pitch = 0
@@ -392,6 +492,7 @@ console.start()
 trimvalues = Trimvalues()
 parametervalues = Parametervalues()
 newparametervalues = Parametervalues()
+controlvalues = Controlvalues()
 
 MODE = Mode.MODE_SAFE
 Running = True
@@ -404,15 +505,15 @@ joystic_axis_lift = 3
 
 if __name__ == '__main__':
     send_control_message_flag = 100 #timer and flag for sending controll messages
-    pitch_byte = b'\x00'
-    yaw_byte = b'\x00'
-    roll_byte = b'\x00'
-    lift_byte = b'\x00'
+    # pitch_byte = b'\x00'
+    # yaw_byte = b'\x00'
+    # roll_byte = b'\x00'
+    # lift_byte = b'\x00'
     #ctrl_message = b'\xaa\x00\x00\x00\x00\x48'
-    raw_pitch = 0
-    raw_yaw = 0
-    raw_roll = 0
-    raw_lift = 0
+    # raw_pitch = 0
+    # raw_yaw = 0
+    # raw_roll = 0
+    # raw_lift = 0
     has_joystick = False
 
     # polynomial = 0xD8 this function requires a 1 at the start so sure
@@ -465,11 +566,12 @@ if __name__ == '__main__':
                 if event.type == pygame.JOYBUTTONUP:
                     print("Joystick button released.")
                 if event.type == pygame.JOYAXISMOTION:
-                    raw_pitch = round(GCS_joystick.get_axis(joystic_axis_pitch) * 127.5)
-                    raw_yaw = round(GCS_joystick.get_axis(joystic_axis_yaw) * 127.5)
-                    raw_roll = round(GCS_joystick.get_axis(joystic_axis_roll) * 127.5)
-                    #TODO fix negativity
-                    raw_lift = (255 - round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))
+                    #add trim values and bounds                     #TODO fix lift negativity
+
+                    controlvalues.pitch = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_pitch) * 127.5)+trimvalues.pitch))
+                    controlvalues.yaw   = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_yaw) * 127.5)+trimvalues.yaw))
+                    controlvalues.roll  = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_roll) * 127.5)+trimvalues.roll))
+                    controlvalues.lift  = min(255,max(0,(255 - round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5)+trimvalues.lift)))
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:

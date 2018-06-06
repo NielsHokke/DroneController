@@ -37,6 +37,8 @@ class Guibar(object):
         allguibars.append(self)
 
     def draw(self,screen):
+        self.f_value = f_font_16.render(str(self.v_value),True,col_grey3)
+
         #update the rects (only horizontal bars have trims)
         if self.b_horizontal == True:
             if self.b_unsigned == True:
@@ -50,11 +52,11 @@ class Guibar(object):
             else:
                 self.r_bar.top = self.top
                 self.r_bar.left = self.left + 80
-                self.r_bar.width = round(((80)/255)*self.v_value)
+                self.r_bar.width = round(((80)/127)*self.v_value)
                 self.r_bar.height = 20
                 if self.b_trim == True:
                     self.r_trimbar.left = self.left+80
-                    self.r_trimbar.width = round(((80)/255)*self.v_trim)
+                    self.r_trimbar.width = round(((80)/127)*self.v_trim)
 
             screen.blit(self.f_title,(self.left-2,self.top-24))
             screen.blit(self.f_value,(self.left+164,self.top-4))
