@@ -85,6 +85,7 @@ def handle_keypress(pressed_key):
     global Running #use global variable to shut the thing down
     global trimvalues
     global parametervalues
+    global newparametervalues
 
     #escape -> close program
     if pressed_key == pygame.K_ESCAPE: Running = False #TODO: check for safety
@@ -125,21 +126,36 @@ def handle_keypress(pressed_key):
     #TODO safegaurd
     #yawcontroll
     elif pressed_key == pygame.K_u:
-        parametervalues.P = min(255,parametervalues.P+1)
-        #parametervalues.P.to_bytes(1, byteorder='big', signed=False)
-        send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
-    elif pressed_key == pygame.K_j:
-        parametervalues.P = max(0,parametervalues.P-1)
-        #parametervalues.P.to_bytes(1, byteorder='big', signed=False)
-        send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,parametervalues.P.to_bytes(1, byteorder='big', signed=False))
+        newparametervalues.PYaw = min(2**16,parametervalues.PYaw+4)
+        send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
+        parametervalues.PYaw = newparametervalues.PYaw
 
-    # elif MODE == MODE.MODE_FULL:
-    #     #rollpitch control P1
-    #     elif pressed_key == pygame.K_i
-    #     elif pressed_key == pygame.K_k 
-    #     #rollpitch control P2
-    #     elif pressed_key == pygame.K_o
-    #     elif pressed_key == pygame.K_l 
+    elif pressed_key == pygame.K_j:
+        newparametervalues.PYaw = max(0,parametervalues.PYaw-4)
+        parametervalues.PYaw = newparametervalues.PYaw
+
+    elif MODE == MODE.MODE_FULL:
+        #rollpitch control P1
+        if pressed_key == pygame.K_i:
+            newparametervalues.P1 = min(2**16,parametervalues.P1+4)
+            send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),parametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+            parametervalues.P1 = newparametervalues.P1
+
+        elif pressed_key == pygame.K_k:
+            newparametervalues.P1 = max(0,parametervalues.P1-4)
+            send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),parametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+            parametervalues.P1 = newparametervalues.P1
+
+        #rollpitch control P2
+        elif pressed_key == pygame.K_o:
+            newparametervalues.P2 = min(2**16,parametervalues.P2+4)
+            send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+            parametervalues.P2 = newparametervalues.P2
+
+        elif pressed_key == pygame.K_l:
+            newparametervalues.P2 = min(0,parametervalues.P2-4)
+            send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
+            parametervalues.P2 = newparametervalues.P2
 
     return
 
@@ -287,7 +303,7 @@ def init_gui():
     GUI.Button("PANIC",720,60,60,40,8,9)       
     GUI.Button("CAL",720,140,60,40,8,14)
     GUI.Button("MAN",720,220,60,40,8,12)
-    GUI.Button("SAFE",720,280,60,40,8,4)
+    GUI.Button("SAFE",720,300,60,40,8,10)
     GUI.Button("SEND",600,600,80,40,8,18)
 
     #P_YAW buttons
