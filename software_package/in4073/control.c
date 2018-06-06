@@ -13,16 +13,6 @@
 #include "in4073.h"
 #include "drone.h"
 
-// placeholder defines
-#define P_P1 0
-#define P_P2 0
-#define P_YAW_MAX 0 
-#define P_YAW_MIN 0
-#define P_ANGLE_MIN 0 
-#define P_ANGLE_MAX 0
-#define P_MIN_LIFT 0
-#define P_MAX_RPM 0
-
 void update_motors(void)
 {					
 	//TODO check for max
@@ -143,7 +133,7 @@ void dmp_control(bool yaw_only){
 	// 16.4 LSB/deg/s so sr to actual angulur momentum is SR/16.4
 	// SetPoint.yaw = -128 deg/s to 127 deg/s
 	// We scale the setpoint by 16.4 to make them have the same size ('<< 4' = '* 16')
-	yaw_output = (( (int32_t) SetPoint.yaw << 4) - sr) * parameters[P_P_YAW]; 
+	yaw_output = (( (int32_t) SetPoint.yaw << 4) - sr) * GET_PARA_16(P_P_YAW); 
 
 	if (yaw_only) {
 		pitch_output = 0;
@@ -157,7 +147,8 @@ void dmp_control(bool yaw_only){
 		// if we multiply sensor value by 2, we can multiply setpoint by 17 (with an rounding error of 1.09%)
 
 
-		roll_output = 	parameters[P_P1] * (	((int32_t) SetPoint.roll * 17) - (phi << 1)) - 	parameters[P_P2] * sp;
+		roll_output = 	GET_PARA_16(P_P1) * (	((int32_t) SetPoint.roll * 17) - (phi << 1)) - 	GET_PARA_16(P_P2) * sp;
+
 		
 
 		// PITCH: P controller for roll
@@ -165,27 +156,27 @@ void dmp_control(bool yaw_only){
 		// for phi 140 maps to 1 degree. the setpoints (-128,127) map should map to (-5,5) degrees
 		// (5 degrees / 128) * 140 = 5.46785 so (setpoint.pitch * 5.46785) gets it in the same unit as the sensor
 		// if we multiply sensor value by 2, we can multiply setpoint by 11 (with an rounding error of 0.58%)
-		pitch_output = 	parameters[P_P1] * (	((int32_t) SetPoint.pitch * 11) - (theta << 1)) - parameters[P_P2] * sq;
+		pitch_output = 	GET_PARA_16(P_P1) * (	((int32_t) SetPoint.pitch * 11) - (theta << 1)) - GET_PARA_16(P_P2) * sq;
 	}
 
 	// The following function limits the output to the values set by the yaw min max
 	// The value is scaled by a factor 4 ( << 2) so we can use a single byte to cap over the whole range (0 - 1000)	
-	if (yaw_output >= ((int32_t) parameters[P_YAW_MAX] << 2)) {
-		yaw_output = ((int32_t) parameters[P_YAW_MAX] << 2);
-	}else if (yaw_output <=  -((int32_t) parameters[P_YAW_MIN] << 2) ){
-		yaw_output =  -((int32_t) parameters[P_YAW_MIN] << 2);
+	if (yaw_output >= ((int32_t) GET_PARA_16(P_YAW_MAX) << 2)) {
+		yaw_output = ((int32_t) GET_PARA_16(P_YAW_MAX) << 2);
+	}else if (yaw_output <=  -((int32_t) GET_PARA_16(P_YAW_MIN) << 2) ){
+		yaw_output =  -((int32_t) GET_PARA_16(P_YAW_MIN) << 2);
 	}
 
-	if (roll_output >= ((int32_t) parameters[P_ANGLE_MAX] << 2)) {
-		roll_output = ((int32_t) parameters[P_ANGLE_MAX] << 2);
-	}else if (roll_output <=  -((int32_t) parameters[P_ANGLE_MIN] << 2) ){
-		roll_output =  -((int32_t) parameters[P_ANGLE_MIN] << 2);
+	if (roll_output >= ((int32_t) GET_PARA_16(P_ANGLE_MAX) << 2)) {
+		roll_output = ((int32_t) GET_PARA_16(P_ANGLE_MAX) << 2);
+	}else if (roll_output <=  -((int32_t) GET_PARA_16(P_ANGLE_MIN) << 2) ){
+		roll_output =  -((int32_t) GET_PARA_16(P_ANGLE_MIN) << 2);
 	}
 
-	if (pitch_output >= ((int32_t) parameters[P_ANGLE_MAX] << 2)) {
-		pitch_output = ((int32_t) parameters[P_ANGLE_MAX] << 2);
-	}else if (pitch_output <=  -((int32_t) parameters[P_ANGLE_MIN] << 2) ){
-		pitch_output =  -((int32_t) parameters[P_ANGLE_MIN] << 2);
+	if (pitch_output >= ((int32_t) GET_PARA_16(P_ANGLE_MAX) << 2)) {
+		pitch_output = ((int32_t) GET_PARA_16(P_ANGLE_MAX) << 2);
+	}else if (pitch_output <=  -((int32_t) GET_PARA_16(P_ANGLE_MIN) << 2) ){
+		pitch_output =  -((int32_t) GET_PARA_16(P_ANGLE_MIN) << 2);
 	}
 
 
@@ -201,16 +192,16 @@ void dmp_control(bool yaw_only){
 
 	// Minimum lift guard:
 	// The first part (SetPoint.lift << 2) maps '0 - 255' to values ranging from '0 - 1024'
-	// The second part (parameters[P_MIN_LIFT] << 2) also scales from '0 - 1024'
+	// The second part (GET_PARA_16(P_MIN_LIFT) << 2) also scales from '0 - 1024'
 	// we compare a shifted value (times 1024) with a none-shifted value
 	// The trick here is that if the second part is 1024, it is canceled out by shifting the answer back by 10 bits (effectivly being multiplying by 1)
 	// If the value is smaller we are effectivly dividing. giving us the possibility to set the minimum lift ranging from 0 - 1 times the liftsetpoint in steps of 1/256
-	// min = ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2))
+	// min = ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2))
 
-	if (tempMotor[0] < ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2))) tempMotor[0] = ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2));
-	if (tempMotor[1] < ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2))) tempMotor[1] = ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2));
-	if (tempMotor[2] < ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2))) tempMotor[2] = ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2));
-	if (tempMotor[3] < ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2))) tempMotor[3] = ((SetPoint.lift << 2)  * (parameters[P_MIN_LIFT] << 2));
+	if (tempMotor[0] < ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2))) tempMotor[0] = ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2));
+	if (tempMotor[1] < ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2))) tempMotor[1] = ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2));
+	if (tempMotor[2] < ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2))) tempMotor[2] = ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2));
+	if (tempMotor[3] < ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2))) tempMotor[3] = ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2));
 
 	// Scale values back to range from 0 - 1000 again
 	tempMotor[0] = tempMotor[0] >> 10;
@@ -219,10 +210,10 @@ void dmp_control(bool yaw_only){
 	tempMotor[3] = tempMotor[3] >> 10;
 
 	// Maximum RPM guard:
-	if (tempMotor[0] > (parameters[P_MAX_RPM] << 2)) tempMotor[0] = (parameters[P_MAX_RPM] << 2);
-	if (tempMotor[1] > (parameters[P_MAX_RPM] << 2)) tempMotor[1] = (parameters[P_MAX_RPM] << 2);
-	if (tempMotor[2] > (parameters[P_MAX_RPM] << 2)) tempMotor[2] = (parameters[P_MAX_RPM] << 2);
-	if (tempMotor[3] > (parameters[P_MAX_RPM] << 2)) tempMotor[3] = (parameters[P_MAX_RPM] << 2);
+	if (tempMotor[0] > (GET_PARA_16(P_MAX_RPM) << 2)) tempMotor[0] = (GET_PARA_16(P_MAX_RPM) << 2);
+	if (tempMotor[1] > (GET_PARA_16(P_MAX_RPM) << 2)) tempMotor[1] = (GET_PARA_16(P_MAX_RPM) << 2);
+	if (tempMotor[2] > (GET_PARA_16(P_MAX_RPM) << 2)) tempMotor[2] = (GET_PARA_16(P_MAX_RPM) << 2);
+	if (tempMotor[3] > (GET_PARA_16(P_MAX_RPM) << 2)) tempMotor[3] = (GET_PARA_16(P_MAX_RPM) << 2);
 
 	// Set calculated values to setpoints
 	ae[0] = (int16_t) tempMotor[0];
