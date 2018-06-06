@@ -127,6 +127,7 @@ Text_Title = f_font_60.render('Ground Control Station',True,col_grey3)
 Text_trim_header = f_font_20.render('Trim settings',True,col_grey3)
 Text_motor_header = f_font_20.render('Motors',True,col_grey3)
 Text_params_header = f_font_20.render('Parameters',True,col_grey3)
+Text_modeswitch_header = f_font_20.render('Modes',True,col_grey3)
 
 #titlebanner
 r_topbar = pygame.Rect(0,0,740,20)
@@ -173,5 +174,6 @@ def draw_all(screen):
     screen.blit(Text_trim_header,(57,385))
     screen.blit(Text_motor_header,(297,385))
     screen.blit(Text_params_header,(497,270))
+    screen.blit(Text_modeswitch_header,(57,685))
 
     return screen

@@ -152,8 +152,9 @@ def handle_keypress(pressed_key):
 
 #funtion to test the various mode switches
 def Switch_Mode(new_mode):
-
+    global controlvalues
     global MODE #use the global variable
+
     regmap = Registermapping.REGMAP_NEWMODE #destination adress from registermapping.py
 
     # if the requested mode is the panic mode
@@ -166,7 +167,7 @@ def Switch_Mode(new_mode):
             send_parameter_message(regmap, Mode.MODE_PANIC)
             print("mode switched to: ",new_mode)
 
-    elif True: #TODO: no motors are spinning & lift is zero on joystick
+    elif controlvalues.lift == 0 :
         if new_mode == Mode.MODE_SAFE:
             MODE = Mode.MODE_SAFE
             send_parameter_message(regmap, Mode.MODE_SAFE)
@@ -203,7 +204,10 @@ def Switch_Mode(new_mode):
                 send_parameter_message(regmap, Mode.MODE_WIRELESS)
             print("mode switched to: ",new_mode)
         else:
-    	    print("invalid Mode switch requested, no mode switched")
+            print("invalid Mode switch requested, no mode switched")
+    else:
+        print("make sure lift is zero before changing modes")
+
     return
 
 def draw_gui():
@@ -212,6 +216,7 @@ def draw_gui():
     global allguibars
     global controlvalues
     global motorvalues
+    global has_joystick
 
     #update trim values
     GUI.allguibars[0].settrim(trimvalues.roll)
@@ -228,6 +233,14 @@ def draw_gui():
     GUI.allguibars[5].setval(motorvalues.M2)
     GUI.allguibars[6].setval(motorvalues.M3)
     GUI.allguibars[7].setval(motorvalues.M4)
+
+    #text in middel
+    Text_mode = GUI.f_font_16.render(str(MODE)[5:],True,GUI.col_grey3)
+
+    if has_joystick:
+        Text_controller = GUI.f_font_18.render("Joystick",True,GUI.col_grey3)
+    else : 
+        Text_controller = GUI.f_font_16.render("No Joystick",True,GUI.col_grey3)
 
     #update parameter display P1 P2 P3
     Text_PY   = GUI.f_font_16.render(str(parametervalues.PYaw),True,GUI.col_grey3)
@@ -256,6 +269,10 @@ def draw_gui():
 
     #draw most of the gui
     screen = GUI.draw_all(screen)
+
+    #text in middel
+    screen.blit(Text_controller,(300,290))
+    screen.blit(Text_mode,(300,270))
 
     #update the parameter text
     screen.blit(Text_PY_h,(490,299))
