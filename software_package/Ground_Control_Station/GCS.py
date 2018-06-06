@@ -206,7 +206,33 @@ def draw_gui():
     GUI.allguibars[2].settrim(trimvalues.yaw)
     GUI.allguibars[3].settrim(trimvalues.lift)
 
+    #TODO updatae bar values
+
+    #update parameter display
+    Text_PY   = GUI.f_font_16.render(str(parametervalues.PYaw),True,GUI.col_grey3)
+    Text_P1   = GUI.f_font_16.render(str(parametervalues.P1),True,GUI.col_grey3)
+    Text_P2   = GUI.f_font_16.render(str(parametervalues.P2),True,GUI.col_grey3)
+    Text_PY_n   = GUI.f_font_16.render(str(newparametervalues.PYaw),True,GUI.col_grey3)
+    Text_P1_n   = GUI.f_font_16.render(str(newparametervalues.P1),True,GUI.col_grey3)
+    Text_P2_n   = GUI.f_font_16.render(str(newparametervalues.P2),True,GUI.col_grey3)
+    Text_PY_h   = GUI.f_font_16.render("PY",True,GUI.col_grey3)
+    Text_P1_h   = GUI.f_font_16.render("P1",True,GUI.col_grey3)
+    Text_P2_h   = GUI.f_font_16.render("P2",True,GUI.col_grey3)
+
+    #draw most of the gui
     screen = GUI.draw_all(screen)
+
+    #update the parameter text
+    screen.blit(Text_PY_h,(490,299))
+    screen.blit(Text_P1_h,(490,329))
+    screen.blit(Text_P2_h,(490,359))
+    screen.blit(Text_PY,(520,299))
+    screen.blit(Text_P1,(520,329))
+    screen.blit(Text_P2,(520,359))
+    screen.blit(Text_PY_n,(560,299))
+    screen.blit(Text_P1_n,(560,329))
+    screen.blit(Text_P2_n,(560,359))
+
     return
 
 def init_gui():
@@ -246,6 +272,7 @@ def init_gui():
 
 def handlebuttonfunction(button):
     global newparametervalues
+    global parametervalues
 
     step = 4
     bigstep = 64
@@ -254,17 +281,22 @@ def handlebuttonfunction(button):
     elif button == 1: return#CAL
     elif button == 2: return#MAN
     elif button == 3: return#REQUEST
-    elif button == 4: setparams()#SEND
+    elif button == 4: 
+        setparams()#SEND
+        parametervalues = newparametervalues
+
     #YAW
     elif button == 5: newparametervalues.PYaw = max(0,newparametervalues.PYaw-bigstep)#<<
     elif button == 6: newparametervalues.PYaw = max(0,newparametervalues.PYaw-step)#<
     elif button == 7: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+step)#>
     elif button == 8: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+bigstep)#>>
+    
     #P1
     elif button == 9:  newparametervalues.P1 = max(0,newparametervalues.P1-bigstep)#<<
     elif button == 10: newparametervalues.P1 = max(0,newparametervalues.P1-step)#<
     elif button == 11: newparametervalues.P1 = min(2**16,newparametervalues.P1+step)#>
     elif button == 12: newparametervalues.P1 = min(2**16,newparametervalues.P1+bigstep)#>>
+    
     #P2
     elif button == 13: newparametervalues.P2 = max(0,newparametervalues.P2-bigstep)#<<
     elif button == 14: newparametervalues.P2 = max(0,newparametervalues.P2-step)#<
@@ -300,10 +332,10 @@ def change_trimvalue(trimidirection,trimvar):
 def setparams():
     global parametervalues
     #bounderies
-    b1 = newparametervalues.P_angle_max.to_bytes(1, byteorder='big', signed=False)
-    b2 = newparametervalues.P_angle_min.to_bytes(1, byteorder='big', signed=False)
-    b3 = newparametervalues.P_yaw_max.to_bytes(1, byteorder='big', signed=False)
-    b4 = newparametervalues.P_yaw_min.to_bytes(1, byteorder='big', signed=False)
+    b1 = newparametervalues.angle_max.to_bytes(1, byteorder='big', signed=False)
+    b2 = newparametervalues.angle_min.to_bytes(1, byteorder='big', signed=False)
+    b3 = newparametervalues.yaw_max.to_bytes(1, byteorder='big', signed=False)
+    b4 = newparametervalues.yaw_min.to_bytes(1, byteorder='big', signed=False)
     send_parameter_message_4(Registermapping.REGMAP_BOUNDARIES,b1,b2,b3,b4)
 
     send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
@@ -351,7 +383,6 @@ console.start()
 trimvalues = Trimvalues()
 parametervalues = Parametervalues()
 newparametervalues = Parametervalues()
-
 
 MODE = Mode.MODE_SAFE
 Running = True
@@ -418,7 +449,6 @@ if __name__ == '__main__':
                 for button in range(len(GUI.allbuttons)):
                     if GUI.allbuttons[button].checkclicked(event.pos):
                         handlebuttonfunction(button)
-                        print(newparametervalues.PYaw)
 
             if has_joystick:
                 # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
@@ -451,6 +481,7 @@ if __name__ == '__main__':
     if has_joystick: GCS_joystick.quit()
     console.stop()
     ser.flush()
+    sleep(0.01)
     ser.close()
     pygame.display.quit()
     pygame.quit()
