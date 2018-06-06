@@ -24,9 +24,10 @@
 #define P_MAX_RPM 0
 
 #define BUTTERWORTH_GAIN  1.482463775e+01
-//#define KALMAN_C1 100
-//#define KALMAN_C2 1000000
-#define P2PHI 0.0081 //0.023
+
+
+#define ABS(x)           (((x) < 0) ? -(x) : (x))
+#define MUL_SCALED(a,b,scale)  (a >> (scale/2)) * (b >> (scale/2))
 
 void update_motors(void)
 {					
@@ -297,11 +298,7 @@ void manual_control(void){
  */
 int16_t mul_scale(int16_t a, int16_t b, uint8_t scale)
 {
-	int32_t prod;
-	int16_t ans;
-	prod = a * b;
-	ans = prod >> scale;
-	return ans;
+	return (a >> (scale/2)) * (b >> (scale/2));
 }
 
 /*--------------------------------------------------------------------------------------
@@ -319,6 +316,7 @@ void run_filter(filter_select_t filter)
 	 */
 	static int16_t p_bias, q_bias;
 	static int16_t p, q;
+	static int16_t p2phi = 133;
 
 	/*--------------------------------------------------------------------------------------
 	 * filter roll and pitch using a filter resembling kalman filter
@@ -329,16 +327,20 @@ void run_filter(filter_select_t filter)
 	 *--------------------------------------------------------------------------------------
 	 */
 	if (filter == ROLL) {
-		p      = sp     - p_bias;							      // remove the bias
-		phi_f  = phi_f  + p * P2PHI;						      // weight of increments
-		phi_f  = phi_f  - (phi_f - phi) / parameters[KALMAN_C1];  // sensor fusion
-		p_bias = p_bias + (phi_f - phi) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
+		p      = sp     - p_bias;							      	 // remove the bias
+		phi_f  = phi_f  + MUL_SCALED(p, p2phi, 14);			      	 // weight of increments
+		phi_f  = phi_f  - ((phi_f - say) >> 3);                      // maybe 2^8
+		p_bias = p_bias + ((phi_f - say) >> 10);                     // maybe 2^14
+		// phi_f  = phi_f  - (phi_f - phi) / parameters[KALMAN_C1];  // sensor fusion
+		// p_bias = p_bias + (phi_f - phi) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
 	}
 	else if (filter == PITCH) {
 		q       = sq       - q_bias;									  // remove the bias
-		theta_f = theta_f  + q * P2PHI;									  // weight of increments
-		theta_f = theta_f  - (theta_f - theta) / parameters[KALMAN_C1];   // sensor fusion
-		q_bias  = q_bias   + (theta_f - theta) / parameters[KALMAN_C2];   // how noisy is the data? changes rate of update 
+		theta_f = theta_f  + MUL_SCALED(q, p2phi, 14);				      // weight of increments
+		theta_f = theta_f  - ((theta_f - sax) >> 3);					  // maybe 2^8
+		q_bias  = q_bias   + ((theta_f - sax) >> 10);					  // maybe 2^14
+		// theta_f = theta_f  - (theta_f - sax) / parameters[KALMAN_C1];  // sensor fusion
+		// q_bias  = q_bias   + (theta_f - sax) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
 	}
 
 
@@ -379,8 +381,8 @@ void run_filter(filter_select_t filter)
 		static int16_t y1 = 0;
 
 		x0 = sr; 										// take current raw sample
-		y0 = (mul_scale(a0, x0, 14) + mul_scale(a1, x1, 14)
-		    - mul_scale(b1, y1, 14));		 			//implement the filter
+		y0 = (MUL_SCALED(a0, x0, 14) + MUL_SCALED(a1, x1, 14)
+		    - MUL_SCALED(b1, y1, 14));		 			//implement the filter
 		sr_f = y0;										// extract filtered value
 		x1   = x0;
 		y1   = y0; 

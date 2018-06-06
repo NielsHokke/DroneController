@@ -64,12 +64,12 @@ static void control_loop(void *pvParameter){
 		if ((i++ % 10) == 0){
 			nrf_gpio_pin_toggle(GREEN);
 
-			DEBUG_PRINT("\n psi: \f");
-			DEBUG_PRINTEGER(psi, 6);// - phi_offset, 6);
-			DEBUG_PRINT(" srf: \f");
-			DEBUG_PRINTEGER(sr_f, 6);// - theta_offset, 6);
-			DEBUG_PRINT(" sr: \f");
-			DEBUG_PRINTEGER(sr, 6);// - psi_offset, 6);
+			DEBUG_PRINT("\n say: \f");
+			DEBUG_PRINTEGER(say, 6);// - phi_offset, 6);
+			DEBUG_PRINT(" sq: \f");
+			DEBUG_PRINTEGER(sp, 6);// - theta_offset, 6);
+			DEBUG_PRINT(" fphi: \f");
+			DEBUG_PRINTEGER(phi_f, 6);// - psi_offset, 6);
 
 			DEBUG_PRINT(" .\n\f");
 
@@ -121,7 +121,7 @@ static void control_loop(void *pvParameter){
 
 			case S_RAW_MODE :
 				if(printing) DEBUG_PRINT("S_RAW_MODE\n\f");
-				raw_control(true);
+				raw_control(false);
 				break;
 
 			case S_HEIGHT_CTRL :
