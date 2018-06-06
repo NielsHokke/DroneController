@@ -33,7 +33,7 @@ def send_control_message():
     global controlvalues
     pitch_byte = controlvalues.pitch.to_bytes(1, byteorder='big', signed=True)
     yaw_byte   = controlvalues.yaw.to_bytes(1, byteorder='big', signed=True)
-    roll_byte  = controlvalues.pitch.to_bytes(1, byteorder='big', signed=True)
+    roll_byte  = controlvalues.roll.to_bytes(1, byteorder='big', signed=True)
     lift_byte  = controlvalues.lift.to_bytes(1, byteorder='big', signed=False)
     payload    = b'\xAA' + yaw_byte + pitch_byte + roll_byte + lift_byte
     send_message(payload)
