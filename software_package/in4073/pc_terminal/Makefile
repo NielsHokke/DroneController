@@ -7,4 +7,4 @@ all:
 	$(CC) $(CFLAGS) pc_terminal.c -o $(EXEC)
 
 run: all
-	$(EXEC)
+	$(EXEC) "$(PORT)"
