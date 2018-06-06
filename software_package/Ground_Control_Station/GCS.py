@@ -562,9 +562,11 @@ if __name__ == '__main__':
             if has_joystick:
                 # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
                 if event.type == pygame.JOYBUTTONDOWN:
-                    print("Joystick button pressed.")
-                if event.type == pygame.JOYBUTTONUP:
-                    print("Joystick button released.")
+                    print("Joystick button pressed. go to panic mode")
+                    Switch_Mode(Mode.MODE_PANIC)
+
+                # if event.type == pygame.JOYBUTTONUP:
+                #     print("Joystick button released.")
                 if event.type == pygame.JOYAXISMOTION:
                     #add trim values and bounds                     #TODO fix lift negativity
 
