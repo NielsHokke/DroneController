@@ -53,6 +53,17 @@ typedef struct {
 
 setpoint SetPoint;
 
+typedef enum {
+	YAW,
+	PITCH,
+	ROLL
+} filter_select_t;
+
+//filter_select_t filter_select;
+
+int16_t theta_f, phi_f, psi_f;
+int16_t sr_f;
+
 
 // UART
 #define CTRL_DATA_LENGTH 4
@@ -74,9 +85,11 @@ TimerHandle_t UartTimeoutHandle;
 
 
 // Global parameters
-#define P_MODE 7
-#define P_P_YAW 11
-#define PARAMETER_ARRAY_SIZE 12
+#define P_MODE    				 7
+#define P_P_YAW   				11
+#define KALMAN_C1 				12
+#define KALMAN_C2 				13
+#define PARAMETER_ARRAY_SIZE 	14
 uint8_t parameters[PARAMETER_ARRAY_SIZE];
 
 
