@@ -307,7 +307,7 @@ def setparams():
     send_parameter_message_4(Registermapping.REGMAP_BOUNDARIES,b1,b2,b3,b4)
 
     send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
-    send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P2.to_bytes(2, byteorder='big', signed=False),newparametervalues.P1.to_bytes(2, byteorder='big', signed=False))
+    send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
 
 class ConsoleThread(threading.Thread):
     Running = True
