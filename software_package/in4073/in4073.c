@@ -213,20 +213,21 @@ static void check_battery_voltage(void *pvParameter){
 
 		// downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
 
-		DEBUG_PRINT("PY: \f");
-		DEBUG_UPRINTEGER(GET_PARA_16(P_P_YAW), 6);
+		DEBUG_PRINT(".PY: \f");
+		DEBUG_UPRINTEGER(GET_PARA_8(P_MAX_RPM), 6);
 
-		DEBUG_PRINT("\nP1 H: \f");
-		DEBUG_UPRINTEGER(GET_PARA_8(P_P1), 6);
 
-		DEBUG_PRINT("\nP1 L: \f");
-		DEBUG_UPRINTEGER(GET_PARA_8(P_P1 + 1), 6);
+		// DEBUG_PRINT("\nP1 H: \f");
+		// DEBUG_UPRINTEGER(GET_PARA_8(P_P1), 6);
 
-		DEBUG_PRINT("\nP2 H: \f");
-		DEBUG_UPRINTEGER(GET_PARA_8(P_P2), 6);
+		// DEBUG_PRINT("\nP1 L: \f");
+		// DEBUG_UPRINTEGER(GET_PARA_8(P_P1 + 1), 6);
 
-		DEBUG_PRINT("\nP2 L: \f");
-		DEBUG_UPRINTEGER(GET_PARA_8(P_P2+1), 6);
+		// DEBUG_PRINT("\nP2 H: \f");
+		// DEBUG_UPRINTEGER(GET_PARA_8(P_P2), 6);
+
+		// DEBUG_PRINT("\nP2 L: \f");
+		// DEBUG_UPRINTEGER(GET_PARA_8(P_P2+1), 6);
 		
 		DEBUG_PRINT("\n\n\f");
 
@@ -238,7 +239,7 @@ static void check_battery_voltage(void *pvParameter){
 
 		if (bat_volt < 1080){ // minimum = 10.8/0.007058824
 			
-			//DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
+			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
 			// GLOBALSTATE = S_PANIC;
 		}
 
@@ -262,6 +263,10 @@ int main(void)
 	SetPoint.yaw = 0;
 	SetPoint.roll = 0;
 	SetPoint.lift = 0;
+
+	parameters[P_MIN_LIFT] = 0;
+	parameters[P_MAX_RPM] = 137; // Value gets scaled by 4, 137 = 548
+
 
 	uart_init();
 	adc_init();
