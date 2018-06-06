@@ -199,11 +199,25 @@ static void sensor_loop(void *pvParameter){
 
 static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
+
+	parameters[16] = 4;
+	parameters[17] = 3;
+	parameters[18] = 2;
+	parameters[19] = 1;
+
 	for(;;){
 
 		nrf_gpio_pin_toggle(BLUE);
 
-		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
+		// downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
+
+		DEBUG_PRINT("P1: \f");
+		DEBUG_UPRINTEGER(GET_PARA_16(P_P1), 6);
+
+		DEBUG_PRINT("\nP2: \f");
+		DEBUG_UPRINTEGER(GET_PARA_16(P_P2), 6);
+		
+		DEBUG_PRINT("\n\n\f");
 
 
 		// DEBUG_PRINTEGER(xPortGetFreeHeapSize(), 6);
