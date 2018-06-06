@@ -22,8 +22,6 @@
 #define S_HEIGHT_CTRL	7
 #define S_WIRELESS		8
 
-#define GLOBALSTATE parameters[P_MODE]
-
 
 // Calibration
 #define CALIBRATION_ROUNDS 255
@@ -74,9 +72,26 @@ TimerHandle_t UartTimeoutHandle;
 
 
 // Global parameters
+#define GET_PARA_8(R) parameters[R]
+#define GET_PARA_16(R) (parameters[R] << 8) + parameters[R + 1]
+#define GET_PARA_32(R) (parameters[R] << 24) + (parameters[R + 1] << 16) + (parameters[R + 2] << 8) + parameters[R + 3]
+
+#define GLOBALSTATE parameters[P_MODE]
+
 #define P_MODE 7
-#define P_P_YAW 11
-#define PARAMETER_ARRAY_SIZE 12
+
+#define P_P_YAW	  10
+#define P_ANGLE_MAX 12
+#define P_ANGLE_MIN 13
+#define P_YAW_MAX 14
+#define P_YAW_MIN 15
+
+#define P_P1 16
+#define P_P2 18
+
+
+
+#define PARAMETER_ARRAY_SIZE 36
 uint8_t parameters[PARAMETER_ARRAY_SIZE];
 
 
