@@ -358,8 +358,8 @@ def handlebuttonfunction(button):
     global newparametervalues
     global parametervalues
 
-    step = 4
-    bigstep = 64
+    step = 1
+    bigstep = 32
 
     if button == 0 : Switch_Mode(Mode.MODE_PANIC)#PANIC
     elif button == 1: Switch_Mode(Mode.MODE_CALIBRATION)#CAL
