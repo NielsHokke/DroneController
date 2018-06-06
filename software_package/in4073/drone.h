@@ -73,8 +73,8 @@ TimerHandle_t UartTimeoutHandle;
 
 // Global parameters
 #define GET_PARA_8(R) parameters[R]
-#define GET_PARA_16(R) ((parameters[R] << 8) + parameters[R + 1])
-#define GET_PARA_32(R) ((parameters[R] << 24) + (parameters[R + 1] << 16) + (parameters[R + 2] << 8) + parameters[R + 3])
+#define GET_PARA_16(R) (( (uint16_t) parameters[R] << 8) + (uint16_t) parameters[R + 1])
+#define GET_PARA_32(R) (( (uint32_t) parameters[R] << 24) + (uint32_t) (parameters[R + 1] << 16) + (uint32_t) (parameters[R + 2] << 8) + (uint32_t) parameters[R + 3])
 
 #define GLOBALSTATE parameters[P_MODE]
 
