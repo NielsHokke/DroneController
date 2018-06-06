@@ -288,6 +288,23 @@ void manual_control(void){
 }
 
 /*--------------------------------------------------------------------------------------
+ * mul_scale:   multiply and scale before returning
+ * Parameters: 	(a * b) >> scale
+ * Return:   	signed integer 16
+ * Author:    	Nilay
+ * Date:    	5-6-2018
+ *--------------------------------------------------------------------------------------
+ */
+int16_t mul_scale(int16_t a, int16_t b, uint8_t scale)
+{
+	int32_t prod;
+	int16_t ans;
+	prod = a * b;
+	ans = prod >> scale;
+	return ans;
+}
+
+/*--------------------------------------------------------------------------------------
  * run_filter: 	run selected filter to give smooth values like DMP
  * Parameters: 	select kalman (pitch and roll) or butterworth filter (yaw)
  * Return:   	populated struct of filtered phi theta psi, sp sq sr
@@ -306,7 +323,9 @@ void run_filter(filter_select_t filter)
 	/*--------------------------------------------------------------------------------------
 	 * filter roll and pitch using a filter resembling kalman filter
 	 * reference: Arjan J.C. van Gemund (IN4073: QR controller theory)
-	 * todo: check if the signs of gyro and accelerometer are changing together
+	 * todo: 1) check if the signs of gyro and accelerometer are changing together
+	 *       2) matlab does it as p_bias(i) = p_bias(i-1) + (phi_error(i)/p2phi) / C2;
+	 * 
 	 *--------------------------------------------------------------------------------------
 	 */
 	if (filter == ROLL) {
@@ -322,12 +341,14 @@ void run_filter(filter_select_t filter)
 		q_bias  = q_bias   + (theta_f - theta) / parameters[KALMAN_C2];   // how noisy is the data? changes rate of update 
 	}
 
-	/*--------------------------------------------------------------------------------------
-	 * filter_yaw: 	run 2nd order butterworth filter on the yaw controller (fixed point implementation)
-	 * reference: 	http://www-users.cs.york.ac.uk/~fisher/cgi-bin/mkfscript
-	 *--------------------------------------------------------------------------------------
-	 */
+
 	else if (filter == YAW) {
+		
+		/*--------------------------------------------------------------------------------------
+		 * filter_yaw: 	run 2nd order butterworth filter on the yaw controller (fixed point implementation)
+		 * reference: 	http://www-users.cs.york.ac.uk/~fisher/cgi-bin/mkfscript
+		 *--------------------------------------------------------------------------------------
+		
 		static float xv[3], yv[3];
 
 		xv[0] = xv[1]; 
@@ -337,8 +358,33 @@ void run_filter(filter_select_t filter)
 		yv[1] = yv[2]; 
 		yv[2] = (xv[0] + xv[2]) + 2 * xv[1] + (-0.4128015981 * yv[0]) + (1.1429805025 * yv[1]);
 		sr_f = yv[2];
-	}
+		*/
 
+		/*--------------------------------------------------------------------------------------
+		 * fixed point implementation for 1st order 
+		 * filter co-efficients when fs = 100 Hz, fc = 10Hz. 
+		 * use [a,b] = butter(1, 10/(100/2))
+		 * reference: CS4140ES Resources page > butterworth filters implementation
+		 *--------------------------------------------------------------------------------------
+		 */
+		// initialize the scaled parameters by shifting left, by b0 = (1*2^14)
+		static int16_t a0 = 4018;   //0.2452
+		static int16_t a1 = 4018;   //0.2452
+		//static int16_t b0 = 16384;  //1
+		static int16_t b1 = -8348;  //-0.5095
+		// todo: will this be okay, everytime function is called?
+		static int16_t x0 = 0; 
+		static int16_t x1 = 0; 
+		static int16_t y0 = 0;
+		static int16_t y1 = 0;
+
+		x0 = sr; 										// take current raw sample
+		y0 = (mul_scale(a0, x0, 14) + mul_scale(a1, x1, 14)
+		    - mul_scale(b1, y1, 14));		 			//implement the filter
+		sr_f = y0;										// extract filtered value
+		x1   = x0;
+		y1   = y0; 
+	}
 }
 
 

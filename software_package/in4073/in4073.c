@@ -32,8 +32,6 @@
 #define CONTROL_PERIOD 10
 #define SENSOR_PERIOD 10
 
-
-
 /*--------------------------------------------------------------------------------------
  * control_loop: task containing the control loop of the quad-copter
  * Parameters: pointer to function parameters
@@ -42,7 +40,6 @@
  * Date:    2-5-2018
  *--------------------------------------------------------------------------------------
  */
-
 static void control_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
@@ -54,54 +51,37 @@ static void control_loop(void *pvParameter){
 	gpio_init();
 	timers_init();
 	twi_init();
-	imu_init(true, 100);	
+	imu_init(false, 100);	
 	baro_init();
 	spi_flash_init();
 	// ble_init();
 
-
-	for(;;){
+	for(;;) {
 		xLastWakeTime = xTaskGetTickCount();
-		get_dmp_data(); // If we don;t continously read the fifo after initializing it's throwing errors adn exceptions all over the place
+		//get_dmp_data(); // If we don;t continously read the fifo after initializing it's throwing errors adn exceptions all over the place
 
 
-		if ((i++ % 100) == 0){
+		if ((i++ % 10) == 0){
 			nrf_gpio_pin_toggle(GREEN);
+
+			DEBUG_PRINT("\n psi: \f");
+			DEBUG_PRINTEGER(psi, 6);// - phi_offset, 6);
+			DEBUG_PRINT(" srf: \f");
+			DEBUG_PRINTEGER(sr_f, 6);// - theta_offset, 6);
+			DEBUG_PRINT(" sr: \f");
+			DEBUG_PRINTEGER(sr, 6);// - psi_offset, 6);
+
+			DEBUG_PRINT(" .\n\f");
 
 			DEBUG_PRINT("\n\f");
 
-			// DEBUG_UPRINTEGER(ae[0], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[1], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[2], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[3], 3);
-
-
-			// DEBUG_PRINT("\n\f");
-
-			DEBUG_PRINT("\n phi: \f");
-
-			DEBUG_PRINTEGER((phi - phi_offset) / 220, 6);
-			DEBUG_PRINT(" theta: \f");
-			DEBUG_PRINTEGER((theta - theta_offset) / 140, 6);
-			DEBUG_PRINT(" psi: \f");
-			DEBUG_PRINTEGER((psi - psi_offset) / 170, 6);
-
-			
-			DEBUG_PRINT(".\n\f");
-
-			// printf("%6d %6d %6d | ", sp, sq, sr); //  from the gyro
-
-			printing = true;
-		}else{
+			printing = false;
+		}
+		else {
 			printing = false;
 		}
 
-		
-
-		switch(GLOBALSTATE){
+		switch(GLOBALSTATE) {
 			case S_SAFE:
 				if(printing) DEBUG_PRINT("S_SAFE\n\f");
 				ae[0] = 0;
@@ -141,7 +121,7 @@ static void control_loop(void *pvParameter){
 
 			case S_RAW_MODE :
 				if(printing) DEBUG_PRINT("S_RAW_MODE\n\f");
-				// TODO implement mode
+				raw_control(true);
 				break;
 
 			case S_HEIGHT_CTRL :
@@ -230,7 +210,7 @@ static void check_battery_voltage(void *pvParameter){
 int main(void)
 {
 
-	GLOBALSTATE = S_SAFE; //manual mode 0 = safe
+	GLOBALSTATE = S_RAW_MODE; //manual mode 0 = safe
 
 	SetPoint.pitch = 0;
 	SetPoint.yaw = 0;

@@ -44,6 +44,7 @@ void motors_off();
 void manual_control();
 void dmp_control(bool yaw_only);
 
+
 typedef struct {
 	int8_t yaw;
 	int8_t pitch;
@@ -58,6 +59,10 @@ typedef enum {
 	PITCH,
 	ROLL
 } filter_select_t;
+
+void raw_control(bool yaw_only);
+void run_filter(filter_select_t filter);
+int16_t mul_scale(int16_t a, int16_t b, uint8_t scale);
 
 //filter_select_t filter_select;
 
