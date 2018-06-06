@@ -53,6 +53,16 @@ def send_parameter_message_4(register,byteA,byteB,byteC,byteD):
     send_message(payload)
     return 
 
+#per 2 bytes register mapping
+def send_parameter_message_2(register,byteA,byteB):
+    if not isinstance(byteA,bytes):byteA = byteA.to_bytes(2, byteorder='big', signed=False)
+    if not isinstance(byteB,bytes):byteB = byteB.to_bytes(2, byteorder='big', signed=False)
+    A = byteA
+    B = byteB
+    payload = b'\x55'+register+A+B
+    send_message(payload)
+    return     
+
 #per 4 byte register 
 def send_parameter_message(register,data):
     payload = b'\x55' + register + data.to_bytes(4, byteorder='big', signed=True)
@@ -219,26 +229,26 @@ def init_gui():
     GUI.Button("SEND",600,600,80,40,8,18)
 
     #P_YAW buttons
-    GUI.Button("<<",300,600,20,20,0,4)
-    GUI.Button("<",300,620,20,20,0,6)
-    GUI.Button(">",300,640,20,20,0,2)
-    GUI.Button(">>",300,660,20,20,0,2)
+    GUI.Button("<<",300,600,20,20,-1,4)
+    GUI.Button("<",300,620,20,20,-1,6)
+    GUI.Button(">",300,640,20,20,-1,2)
+    GUI.Button(">>",300,660,20,20,-1,2)
     #P1buttons
-    GUI.Button("<<",330,600,20,20,0,4)
-    GUI.Button("<",330,620,20,20,0,6)
-    GUI.Button(">",330,640,20,20,0,2)
-    GUI.Button(">>",330,660,20,20,0,2)
+    GUI.Button("<<",330,600,20,20,-1,4)
+    GUI.Button("<",330,620,20,20,-1,6)
+    GUI.Button(">",330,640,20,20,-1,2)
+    GUI.Button(">>",330,660,20,20,-1,2)
     #P2buttons
-    GUI.Button("<<",360,600,20,20,0,4)
-    GUI.Button("<",360,620,20,20,0,6)
-    GUI.Button(">",360,640,20,20,0,2)
-    GUI.Button(">>",360,660,20,20,0,2)
+    GUI.Button("<<",360,600,20,20,-1,4)
+    GUI.Button("<",360,620,20,20,-1,6)
+    GUI.Button(">",360,640,20,20,-1,2)
+    GUI.Button(">>",360,660,20,20,-1,2)
 
 def handlebuttonfunction(button):
     global newparametervalues
 
-    step = 1
-    bigstep = 5
+    step = 4
+    bigstep = 64
 
     if button == 0 : return#PANIC
     elif button == 1: return#CAL
@@ -248,18 +258,18 @@ def handlebuttonfunction(button):
     #YAW
     elif button == 5: newparametervalues.PYaw = max(0,newparametervalues.PYaw-bigstep)#<<
     elif button == 6: newparametervalues.PYaw = max(0,newparametervalues.PYaw-step)#<
-    elif button == 7: newparametervalues.PYaw = min(255,newparametervalues.PYaw+step)#>
-    elif button == 8: newparametervalues.PYaw = min(255,newparametervalues.PYaw+bigstep)#>>
+    elif button == 7: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+step)#>
+    elif button == 8: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+bigstep)#>>
     #P1
-    elif button == 9: newparametervalues.PYaw = max(0,newparametervalues.P1-bigstep)#<<
-    elif button == 10: newparametervalues.PYaw = max(0,newparametervalues.P1-step)#<
-    elif button == 11: newparametervalues.PYaw = min(255,newparametervalues.P1+step)#>
-    elif button == 12: newparametervalues.PYaw = min(255,newparametervalues.P1+bigstep)#>>
+    elif button == 9:  newparametervalues.P1 = max(0,newparametervalues.P1-bigstep)#<<
+    elif button == 10: newparametervalues.P1 = max(0,newparametervalues.P1-step)#<
+    elif button == 11: newparametervalues.P1 = min(2**16,newparametervalues.P1+step)#>
+    elif button == 12: newparametervalues.P1 = min(2**16,newparametervalues.P1+bigstep)#>>
     #P2
-    elif button == 13: newparametervalues.PYaw = max(0,newparametervalues.P2-bigstep)#<<
-    elif button == 14: newparametervalues.PYaw = max(0,newparametervalues.P2-step)#<
-    elif button == 15: newparametervalues.PYaw = min(255,newparametervalues.P2+step)#>
-    elif button == 16: newparametervalues.PYaw = min(255,newparametervalues.P2+bigstep)#>>
+    elif button == 13: newparametervalues.P2 = max(0,newparametervalues.P2-bigstep)#<<
+    elif button == 14: newparametervalues.P2 = max(0,newparametervalues.P2-step)#<
+    elif button == 15: newparametervalues.P2 = min(2**16,newparametervalues.P2+step)#>
+    elif button == 16: newparametervalues.P2 = min(2**16,newparametervalues.P2+bigstep)#>>
 
 def change_trimvalue(trimidirection,trimvar):
     global trimvalues
@@ -289,9 +299,15 @@ def change_trimvalue(trimidirection,trimvar):
 
 def setparams():
     global parametervalues
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_YAW,0,0,0,newparametervalues.PYaw.to_bytes(1, byteorder='big', signed=False))
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P1,0,0,0,newparametervalues.P1.to_bytes(1, byteorder='big', signed=False))
-    send_parameter_message_4(Registermapping.REGMAP_PARAMETER_P2,0,0,0,newparametervalues.P2.to_bytes(1, byteorder='big', signed=False))
+    #bounderies
+    b1 = newparametervalues.P_angle_max.to_bytes(1, byteorder='big', signed=False)
+    b2 = newparametervalues.P_angle_min.to_bytes(1, byteorder='big', signed=False)
+    b3 = newparametervalues.P_yaw_max.to_bytes(1, byteorder='big', signed=False)
+    b4 = newparametervalues.P_yaw_min.to_bytes(1, byteorder='big', signed=False)
+    send_parameter_message_4(Registermapping.REGMAP_BOUNDARIES,b1,b2,b3,b4)
+
+    send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
+    send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P2.to_bytes(2, byteorder='big', signed=False),newparametervalues.P1.to_bytes(2, byteorder='big', signed=False))
 
 class ConsoleThread(threading.Thread):
     Running = True
