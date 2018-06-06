@@ -62,16 +62,14 @@ static void control_loop(void *pvParameter){
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
+		get_dmp_data(); // If we don;t continously read the fifo after initializing it's throwing errors adn exceptions all over the place
+
 
 		if ((i++ % 100) == 0){
 			nrf_gpio_pin_toggle(GREEN);
 
-			//nrf_gpio_pin_toggle(GREEN);
+			DEBUG_PRINT("\n\f");
 
-			// DEBUG_PRINT("\n\f");
-
-			// DEBUG_UPRINTEGER (xLastWakeTime, 6);
-			// DEBUG_PRINT(": \f");
 			// DEBUG_UPRINTEGER(ae[0], 3);
 			// DEBUG_PRINT(", \f");
 			// DEBUG_UPRINTEGER(ae[1], 3);
@@ -85,22 +83,23 @@ static void control_loop(void *pvParameter){
 
 			DEBUG_PRINT("\n phi: \f");
 
-			DEBUG_PRINTEGER(phi - phi_offset, 6);
+			DEBUG_PRINTEGER((phi - phi_offset) / 220, 6);
 			DEBUG_PRINT(" theta: \f");
-			DEBUG_PRINTEGER(theta - theta_offset, 6);
+			DEBUG_PRINTEGER((theta - theta_offset) / 140, 6);
 			DEBUG_PRINT(" psi: \f");
-			DEBUG_PRINTEGER(psi - psi_offset, 6);
-			DEBUG_PRINT(".\n\n\f");
+			DEBUG_PRINTEGER((psi - psi_offset) / 170, 6);
 
-			printf("%6d %6d %6d | ", phi, theta, psi);
+			
+			DEBUG_PRINT(".\n\f");
+
 			// printf("%6d %6d %6d | ", sp, sq, sr); //  from the gyro
-
-			DEBUG_PRINT("\n\f");
 
 			printing = true;
 		}else{
 			printing = false;
 		}
+
+		
 
 		switch(GLOBALSTATE){
 			case S_SAFE:
@@ -132,12 +131,12 @@ static void control_loop(void *pvParameter){
 
 			case S_YAW_CONTROL :
 				if(printing) DEBUG_PRINT("S_YAW_CONTROL\n\f");
-				yaw_control();
+				dmp_control(true); // dmp_control with yaw mod only set to true
 				break;
 
 			case S_FULL_CONTROLL :
 				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
-				// TODO implement mode
+				dmp_control(false);
 				break;
 
 			case S_RAW_MODE :
@@ -222,14 +221,15 @@ static void check_battery_voltage(void *pvParameter){
 
 		// DEBUG_PRINTEGER(xPortGetFreeHeapSize(), 6);
 
-		// adc_request_sample();
-		// vTaskDelay(1);
+		adc_request_sample();
+		vTaskDelay(1);
 
-		// if (bat_volt < 1080){ // minimum = 10.8/0.007058824
+		if (bat_volt < 1080){ // minimum = 10.8/0.007058824
 			
-		// 	//DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
-		// 	// GLOBALSTATE = S_PANIC;
-		// }
+			//DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
+			// GLOBALSTATE = S_PANIC;
+		}
+
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
 		vTaskDelay(999);
 

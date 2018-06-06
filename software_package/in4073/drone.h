@@ -24,7 +24,7 @@
 
 
 // Calibration
-#define CALIBRATION_ROUNDS 100
+#define CALIBRATION_ROUNDS 255
 void calibrate(bool raw);
 int calibration_counter;
 
@@ -38,6 +38,9 @@ int16_t psi_offset;
 #define MAN_ROLL_SCALER 1
 #define MAN_YAW_SCALER 1
 
+void motors_off();
+void manual_control();
+void dmp_control(bool yaw_only);
 
 typedef struct {
 	int8_t yaw;
@@ -70,12 +73,12 @@ TimerHandle_t UartTimeoutHandle;
 
 // Global parameters
 #define GET_PARA_8(R) parameters[R]
-#define GET_PARA_16(R) (parameters[R] << 8) + parameters[R + 1]
-#define GET_PARA_32(R) (parameters[R] << 24) + (parameters[R + 1] << 16) + (parameters[R + 2] << 8) + parameters[R + 3]
+#define GET_PARA_16(R) ((parameters[R] << 8) + parameters[R + 1])
+#define GET_PARA_32(R) ((parameters[R] << 24) + (parameters[R + 1] << 16) + (parameters[R + 2] << 8) + parameters[R + 3])
 
 #define GLOBALSTATE parameters[P_MODE]
 
-#define P_MMIN_LIFT 5
+#define P_MIN_LIFT 5
 #define P_MAX_RPM 6
 #define P_MODE 7
 

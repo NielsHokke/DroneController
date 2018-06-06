@@ -50,9 +50,7 @@ int16_t motor[4],ae[4];
 
 void run_filters_and_control();
 void update_motors();
-void motors_off();
-void manual_control();
-void yaw_control();
+
 
 
 
