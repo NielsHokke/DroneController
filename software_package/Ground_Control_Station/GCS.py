@@ -118,34 +118,34 @@ def handle_keypress(pressed_key):
     #TODO safegaurd
     #yawcontroll
     elif pressed_key == pygame.K_u:
-        newparametervalues.PYaw = min(2**16,parametervalues.PYaw+4)
+        newparametervalues.PYaw = min(2**16,parametervalues.PYaw+1)
         send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
         parametervalues.PYaw = newparametervalues.PYaw
 
     elif pressed_key == pygame.K_j:
-        newparametervalues.PYaw = max(0,parametervalues.PYaw-4)
+        newparametervalues.PYaw = max(0,parametervalues.PYaw-1)
         parametervalues.PYaw = newparametervalues.PYaw
 
     elif MODE == MODE.MODE_FULL:
         #rollpitch control P1
         if pressed_key == pygame.K_i:
-            newparametervalues.P1 = min(2**16,parametervalues.P1+4)
+            newparametervalues.P1 = min(2**16,parametervalues.P1+1)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),parametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P1 = newparametervalues.P1
 
         elif pressed_key == pygame.K_k:
-            newparametervalues.P1 = max(0,parametervalues.P1-4)
+            newparametervalues.P1 = max(0,parametervalues.P1-1)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),parametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P1 = newparametervalues.P1
 
         #rollpitch control P2
         elif pressed_key == pygame.K_o:
-            newparametervalues.P2 = min(2**16,parametervalues.P2+4)
+            newparametervalues.P2 = min(2**16,parametervalues.P2+1)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P2 = newparametervalues.P2
 
         elif pressed_key == pygame.K_l:
-            newparametervalues.P2 = min(0,parametervalues.P2-4)
+            newparametervalues.P2 = max(0,parametervalues.P2-1)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P2 = newparametervalues.P2
     return
