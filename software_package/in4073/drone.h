@@ -13,17 +13,24 @@
 // Global Variables
 
 #define S_SAFE 			0
-#define S_MANUAL 		1
-#define S_CALIBRATION	2
-#define S_YAW_CONTROL	3
-#define S_FULL_CONTROLL	4
-#define S_RAW_MODE_1	5
-#define S_RAW_MODE_2	6
-#define S_RAW_MODE_3	7
-#define S_GlobalState	8
-#define S_PANIC 		255
+#define S_PANIC 		1
+#define S_MANUAL 		2
+#define S_CALIBRATION	3
+#define S_YAW_CONTROL	4
+#define S_FULL_CONTROLL	5
+#define S_RAW_MODE		6
+#define S_HEIGHT_CTRL	7
+#define S_WIRELESS		8
 
-#define GLOBALSTATE parameters[3]
+
+// Calibration
+#define CALIBRATION_ROUNDS 100
+void calibrate(bool raw);
+int calibration_counter;
+
+int16_t phi_offset;
+int16_t theta_offset;
+int16_t psi_offset;
 
 
 // Motor Control
@@ -62,9 +69,26 @@ TimerHandle_t UartTimeoutHandle;
 
 
 // Global parameters
+#define GET_PARA_8(R) parameters[R]
+#define GET_PARA_16(R) (parameters[R] << 8) + parameters[R + 1]
+#define GET_PARA_32(R) (parameters[R] << 24) + (parameters[R + 1] << 16) + (parameters[R + 2] << 8) + parameters[R + 3]
 
-#define P_MODE 3
-#define PARAMETER_ARRAY_SIZE 4
+#define GLOBALSTATE parameters[P_MODE]
+
+#define P_MODE 7
+
+#define P_P_YAW	  10
+#define P_ANGLE_MAX 12
+#define P_ANGLE_MIN 13
+#define P_YAW_MAX 14
+#define P_YAW_MIN 15
+
+#define P_P1 16
+#define P_P2 18
+
+
+
+#define PARAMETER_ARRAY_SIZE 36
 uint8_t parameters[PARAMETER_ARRAY_SIZE];
 
 

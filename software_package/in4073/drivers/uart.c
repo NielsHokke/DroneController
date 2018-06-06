@@ -104,7 +104,7 @@ void validate_ctrl_msg(void *pvParameter){
 			DEBUG_PRINT("\n\f");
 		}else{
 			// Correct CRC
-			// DEBUG_PRINT("CTRL crc correct\n\f");
+			DEBUG_PRINT("CTRL crc correct\n\f");
 			SetPoint.yaw = ctrl_buffer[1];
 			SetPoint.pitch = ctrl_buffer[2];
 			SetPoint.roll = ctrl_buffer[3];
@@ -248,7 +248,7 @@ void handle_serial_rx(char c){
 	}
 
 	// Reset non-connectin inerupt.
-	xTimerReset(UartTimeoutHandle, 0);
+	// xTimerReset(UartTimeoutHandle, 0);
 }
 
 
