@@ -59,6 +59,10 @@ def send_parameter_message_2(register,byteA,byteB):
     if not isinstance(byteB,bytes):byteB = byteB.to_bytes(2, byteorder='big', signed=False)
     A = byteA
     B = byteB
+
+    # print('myvalue for A is: ', A, '\n')
+    # print('myvalue for B is: ', B, '\n')
+
     payload = b'\x55'+register+A+B
     send_message(payload)
     return     
@@ -331,6 +335,7 @@ def change_trimvalue(trimidirection,trimvar):
 
 def setparams():
     global parametervalues
+    global newparametervalues
     #bounderies
     b1 = newparametervalues.angle_max.to_bytes(1, byteorder='big', signed=False)
     b2 = newparametervalues.angle_min.to_bytes(1, byteorder='big', signed=False)
@@ -345,14 +350,11 @@ class ConsoleThread(threading.Thread):
     Running = True
     def run(self):
         while self.Running:
-            data = ser.readline()
-            print("data[0] = {}", data[0])
-
-            if data[0] == 10:
-                print("data ontvangen!!!!!\n")
-                print(data.decode("utf-8", "backslashreplace"))
-            else:
-                print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
+            # data = ser.readline()
+            # if data[0] == 10:
+            #     print(data.decode("utf-8", "backslashreplace"))
+            # else:
+            print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
     def stop(self):
         self.Running = False
 
@@ -422,8 +424,7 @@ if __name__ == '__main__':
     init_gui() #init all the homebrew gui stuff
     pygame.display.set_caption("Ground Control Station")
     
-    setparams()
-
+    # setparams()
 
     if pygame.joystick.get_count() > 0:
         print("Joystick detected")
@@ -488,7 +489,7 @@ if __name__ == '__main__':
     if has_joystick: GCS_joystick.quit()
     console.stop()
     ser.flush()
-    sleep(0.01)
+    time.sleep(0.01)
     ser.close()
     pygame.display.quit()
     pygame.quit()
