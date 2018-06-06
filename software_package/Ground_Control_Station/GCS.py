@@ -101,14 +101,6 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
     elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
 
-    #debug key
-    elif pressed_key == pygame.K_SPACE:
-        print(MODE)
-        print("pitch: ",trimvalues.pitch)
-        print("roll: ",trimvalues.roll)
-        print("yaw: ",trimvalues.yaw)
-        print("lift: ",trimvalues.lift)
-
     # TODO conditional safty thing
     # lift 
     elif pressed_key == pygame.K_a:change_trimvalue(Trimdirection.UP,joystic_axis_lift) # up
@@ -156,7 +148,6 @@ def handle_keypress(pressed_key):
             newparametervalues.P2 = min(0,parametervalues.P2-4)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P2 = newparametervalues.P2
-
     return
 
 #funtion to test the various mode switches
@@ -220,6 +211,7 @@ def draw_gui():
     global trimvalues
     global allguibars
     global controlvalues
+    global motorvalues
 
     #update trim values
     GUI.allguibars[0].settrim(trimvalues.roll)
@@ -231,8 +223,11 @@ def draw_gui():
     GUI.allguibars[1].setval(controlvalues.pitch)
     GUI.allguibars[2].setval(controlvalues.yaw)
     GUI.allguibars[3].setval(controlvalues.lift)
-
-    #TODO updatae bar values for motor
+    #update bar values for motor
+    GUI.allguibars[4].setval(motorvalues.M1)
+    GUI.allguibars[5].setval(motorvalues.M2)
+    GUI.allguibars[6].setval(motorvalues.M3)
+    GUI.allguibars[7].setval(motorvalues.M4)
 
     #update parameter display P1 P2 P3
     Text_PY   = GUI.f_font_16.render(str(parametervalues.PYaw),True,GUI.col_grey3)
@@ -473,6 +468,12 @@ class Parametervalues:
     angle_min = parameterdefaults.P_angle_min
     angle_max = parameterdefaults.P_angle_max
 
+class Motorvalues:
+    M1 = 50
+    M2 = 50
+    M3 = 50
+    M4 = 50
+
 #TODO commport as argument
 # #if no comport is given as a argument default to ttyUSB0
 # if len(sys.argv) == 1:
@@ -493,6 +494,7 @@ trimvalues = Trimvalues()
 parametervalues = Parametervalues()
 newparametervalues = Parametervalues()
 controlvalues = Controlvalues()
+motorvalues = Motorvalues()
 
 MODE = Mode.MODE_SAFE
 Running = True
@@ -545,8 +547,6 @@ if __name__ == '__main__':
     # --- Main loop ---
     while Running:
         #pygame.event.wait() #wait until event happens, doesnt work 
-
-        # Line below should becommented out as soon as we're using the GUI
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Running = False
@@ -568,12 +568,11 @@ if __name__ == '__main__':
                 # if event.type == pygame.JOYBUTTONUP:
                 #     print("Joystick button released.")
                 if event.type == pygame.JOYAXISMOTION:
-                    #add trim values and bounds                     #TODO fix lift negativity
-
+                    #add trim values and bounds
                     controlvalues.pitch = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_pitch) * 127.5)+trimvalues.pitch))
                     controlvalues.yaw   = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_yaw) * 127.5)+trimvalues.yaw))
                     controlvalues.roll  = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_roll) * 127.5)+trimvalues.roll))
-                    controlvalues.lift  = min(255,max(0,(255 - round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5)+trimvalues.lift)))
+                    controlvalues.lift  = min(255,max(0,(255 - (round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))+trimvalues.lift)))
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:
@@ -586,7 +585,6 @@ if __name__ == '__main__':
         #draw the gui and update it
         draw_gui()
         pygame.display.flip()
-
         time.sleep(0.005)
 
     print("Shutting down")
