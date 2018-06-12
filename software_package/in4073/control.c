@@ -192,10 +192,10 @@ void dmp_control(bool yaw_only){
 	//Pitch and roll are first scaled by 2^10 to increase percision and next divided by a fixed scaler which can be set in drone.h
 
 	//TODO: change 1606 (which scales up to 400) back to 4015 which scales to 1000 (maybe use 4096 which can be done by '<< 12' which scales to 1020)
-	tempMotor[0] =  ((int32_t) SetPoint.lift  << 12) + yaw_output + pitch_output;
-	tempMotor[1] =  ((int32_t) SetPoint.lift  << 12) - yaw_output - roll_output;
-	tempMotor[2] =  ((int32_t) SetPoint.lift  << 12) + yaw_output - pitch_output;
-	tempMotor[3] =  ((int32_t) SetPoint.lift  << 12) - yaw_output + roll_output;
+	tempMotor[0] =  ((int32_t) SetPoint.lift  << 14) + yaw_output + pitch_output;
+	tempMotor[1] =  ((int32_t) SetPoint.lift  << 14) - yaw_output - roll_output;
+	tempMotor[2] =  ((int32_t) SetPoint.lift  << 14) + yaw_output - pitch_output;
+	tempMotor[3] =  ((int32_t) SetPoint.lift  << 14) - yaw_output + roll_output;
 
 
 	// Minimum lift guard:
@@ -212,10 +212,10 @@ void dmp_control(bool yaw_only){
 	// if (tempMotor[3] < (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[3] = (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2));
 
 	// Scale values back to range from 0 - 1000 again
-	tempMotor[0] = tempMotor[0] >> 10;
-	tempMotor[1] = tempMotor[1] >> 10;
-	tempMotor[2] = tempMotor[2] >> 10;
-	tempMotor[3] = tempMotor[3] >> 10;
+	tempMotor[0] = tempMotor[0] >> 12;
+	tempMotor[1] = tempMotor[1] >> 12;
+	tempMotor[2] = tempMotor[2] >> 12;
+	tempMotor[3] = tempMotor[3] >> 12;
 
 		// Maximum RPM guard:
 	// if (tempMotor[0] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[0] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
