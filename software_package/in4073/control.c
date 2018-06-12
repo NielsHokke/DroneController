@@ -175,17 +175,17 @@ void dmp_control(bool yaw_only){
 	// 	yaw_output =  -((int32_t) GET_PARA_8(P_YAW_MIN) << 2);
 	// }
 
-	if (roll_output >= ((int32_t) GET_PARA_8(P_ANGLE_MAX) << 2)) {
-		roll_output = ((int32_t) GET_PARA_8(P_ANGLE_MAX) << 2);
-	}else if (roll_output <=  -((int32_t) GET_PARA_8(P_ANGLE_MIN) << 2) ){
-		roll_output =  -((int32_t) GET_PARA_8(P_ANGLE_MIN) << 2);
-	}
+	// if (roll_output >= ((int32_t) GET_PARA_8(P_ANGLE_MAX) << 2)) {
+	// 	roll_output = ((int32_t) GET_PARA_8(P_ANGLE_MAX) << 2);
+	// }else if (roll_output <=  -((int32_t) GET_PARA_8(P_ANGLE_MIN) << 2) ){
+	// 	roll_output =  -((int32_t) GET_PARA_8(P_ANGLE_MIN) << 2);
+	// }
 
-	if (pitch_output >= ((int32_t) GET_PARA_8(P_ANGLE_MAX) << 2)) {
-		pitch_output = ((int32_t) GET_PARA_8(P_ANGLE_MAX) << 2);
-	}else if (pitch_output <=  -((int32_t) GET_PARA_8(P_ANGLE_MIN) << 2) ){
-		pitch_output =  -((int32_t) GET_PARA_8(P_ANGLE_MIN) << 2);
-	}
+	// if (pitch_output >= ((int32_t) GET_PARA_8(P_ANGLE_MAX) << 2)) {
+	// 	pitch_output = ((int32_t) GET_PARA_8(P_ANGLE_MAX) << 2);
+	// }else if (pitch_output <=  -((int32_t) GET_PARA_8(P_ANGLE_MIN) << 2) ){
+	// 	pitch_output =  -((int32_t) GET_PARA_8(P_ANGLE_MIN) << 2);
+	// }
 
 
 	//LIFT: We use fixed point precions of 1 = 1024. We're mapping 255 (max value) to 1024000 (1000 times the 1024 fixed point precions whichs gives us 1024000/255 = 4015)
@@ -194,8 +194,8 @@ void dmp_control(bool yaw_only){
 	//TODO: change 1606 (which scales up to 400) back to 4015 which scales to 1000 (maybe use 4096 which can be done by '<< 12' which scales to 1020)
 	tempMotor[0] =  ((int32_t) SetPoint.lift  << 12) + yaw_output + pitch_output;
 	tempMotor[1] =  ((int32_t) SetPoint.lift  << 12) - yaw_output - roll_output;
-	tempMotor[2] =  ((int32_t) SetPoint.lift  << 12) + yaw_output + roll_output;
-	tempMotor[3] =  ((int32_t) SetPoint.lift  << 12) - yaw_output - pitch_output;
+	tempMotor[2] =  ((int32_t) SetPoint.lift  << 12) + yaw_output - pitch_output;
+	tempMotor[3] =  ((int32_t) SetPoint.lift  << 12) - yaw_output + roll_output;
 
 
 	// Minimum lift guard:
@@ -206,10 +206,10 @@ void dmp_control(bool yaw_only){
 	// If the value is smaller we are effectivly dividing. giving us the possibility to set the minimum lift ranging from 0 - 1 times the liftsetpoint in steps of 1/256
 	// min = ((SetPoint.lift << 2)  * (GET_PARA_16(P_MIN_LIFT) << 2))
 
-	if (tempMotor[0] < ((SetPoint.lift << 2)  * (GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[0] = ((SetPoint.lift << 2)  * (GET_PARA_8(P_MIN_LIFT) << 2));
-	if (tempMotor[1] < ((SetPoint.lift << 2)  * (GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[1] = ((SetPoint.lift << 2)  * (GET_PARA_8(P_MIN_LIFT) << 2));
-	if (tempMotor[2] < ((SetPoint.lift << 2)  * (GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[2] = ((SetPoint.lift << 2)  * (GET_PARA_8(P_MIN_LIFT) << 2));
-	if (tempMotor[3] < ((SetPoint.lift << 2)  * (GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[3] = ((SetPoint.lift << 2)  * (GET_PARA_8(P_MIN_LIFT) << 2));
+	// if (tempMotor[0] < (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[0] = (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2));
+	// if (tempMotor[1] < (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[1] = (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2));
+	// if (tempMotor[2] < (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[2] = (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2));
+	// if (tempMotor[3] < (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2))) tempMotor[3] = (((uint16_t) SetPoint.lift << 2)  * ((uint16_t) GET_PARA_8(P_MIN_LIFT) << 2));
 
 	// Scale values back to range from 0 - 1000 again
 	tempMotor[0] = tempMotor[0] >> 10;
@@ -218,10 +218,21 @@ void dmp_control(bool yaw_only){
 	tempMotor[3] = tempMotor[3] >> 10;
 
 		// Maximum RPM guard:
-	if (tempMotor[0] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[0] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
-	if (tempMotor[1] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[1] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
-	if (tempMotor[2] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[2] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
-	if (tempMotor[3] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[3] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
+	// if (tempMotor[0] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[0] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
+	// if (tempMotor[1] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[1] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
+	// if (tempMotor[2] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[2] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
+	// if (tempMotor[3] > ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2)) tempMotor[3] = ((uint16_t) GET_PARA_8(P_MAX_RPM) << 2);
+
+	if (tempMotor[0] < 200) tempMotor[0] = 200;
+	if (tempMotor[1] < 200) tempMotor[1] = 200;
+	if (tempMotor[2] < 200) tempMotor[2] = 200;
+	if (tempMotor[3] < 200) tempMotor[3] = 200;
+
+	if (tempMotor[0] > 700) tempMotor[0] = 700;
+	if (tempMotor[1] > 700) tempMotor[1] = 700;
+	if (tempMotor[2] > 700) tempMotor[2] = 700;
+	if (tempMotor[3] > 700) tempMotor[3] = 700;
+
 
 	// Set calculated values to setpoints
 	ae[0] = (int16_t) tempMotor[0];

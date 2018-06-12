@@ -29,7 +29,7 @@
 #include "app_error.h"
 
 
-#define CONTROL_PERIOD 10
+#define CONTROL_PERIOD 9
 #define SENSOR_PERIOD 10
 
 
@@ -45,6 +45,7 @@
 
 static void control_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
+
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
 	int i = 0;
@@ -62,7 +63,7 @@ static void control_loop(void *pvParameter){
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
-		get_dmp_data(); // If we don;t continously read the fifo after initializing it's throwing errors adn exceptions all over the place
+
 
 
 		if ((i++ % 100) == 0){
@@ -70,24 +71,24 @@ static void control_loop(void *pvParameter){
 
 			DEBUG_PRINT("\n\f");
 
-			// DEBUG_UPRINTEGER(ae[0], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[1], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[2], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[3], 3);
+			DEBUG_UPRINTEGER(ae[0], 3);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER(ae[1], 3);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER(ae[2], 3);
+			DEBUG_PRINT(", \f");
+			DEBUG_UPRINTEGER(ae[3], 3);
 
 
-			// DEBUG_PRINT("\n\f");
+			DEBUG_PRINT("\n\f");
 
-			DEBUG_PRINT("\n phi: \f");
+			// DEBUG_PRINT("\n phi: \f");
 
-			DEBUG_PRINTEGER((phi - phi_offset) / 220, 6);
-			DEBUG_PRINT(" theta: \f");
-			DEBUG_PRINTEGER((theta - theta_offset) / 140, 6);
-			DEBUG_PRINT(" psi: \f");
-			DEBUG_PRINTEGER((psi - psi_offset) / 170, 6);
+			// DEBUG_PRINTEGER((phi - phi_offset) / 220, 6);
+			// DEBUG_PRINT(" theta: \f");
+			// DEBUG_PRINTEGER((theta - theta_offset) / 140, 6);
+			// DEBUG_PRINT(" psi: \f");
+			// DEBUG_PRINTEGER((psi - psi_offset) / 170, 6);
 
 			
 			DEBUG_PRINT(".\n\f");
@@ -99,8 +100,7 @@ static void control_loop(void *pvParameter){
 			printing = false;
 		}
 
-		
-
+		get_dmp_data(); // If we don;t continously read the fifo after initializing it's throwing errors adn exceptions all over the place
 		switch(GLOBALSTATE){
 			case S_SAFE:
 				if(printing) DEBUG_PRINT("S_SAFE\n\f");
@@ -120,8 +120,8 @@ static void control_loop(void *pvParameter){
 				break;
 
 			case S_MANUAL:
-				if(printing) DEBUG_PRINT("S_MANUAL\n\f");
 				manual_control();
+				if(printing) DEBUG_PRINT("S_MANUAL\n\f");
 				break;
 
 			case S_CALIBRATION :
@@ -130,13 +130,13 @@ static void control_loop(void *pvParameter){
 				break;
 
 			case S_YAW_CONTROL :
-				if(printing) DEBUG_PRINT("S_YAW_CONTROL\n\f");
 				dmp_control(true); // dmp_control with yaw mod only set to true
+				if(printing) DEBUG_PRINT("S_YAW_CONTROL\n\f");
 				break;
 
 			case S_FULL_CONTROLL :
-				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
 				dmp_control(false);
+				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
 				break;
 
 			case S_RAW_MODE :
@@ -159,6 +159,7 @@ static void control_loop(void *pvParameter){
 				break;
 		};
 		update_motors();
+
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}	
 }
@@ -264,8 +265,8 @@ int main(void)
 	SetPoint.roll = 0;
 	SetPoint.lift = 0;
 
-	parameters[P_MIN_LIFT] = 0;
-	parameters[P_MAX_RPM] = 137; // Value gets scaled by 4, 137 = 548
+	parameters[P_MIN_LIFT] = 100;
+	parameters[P_MAX_RPM] = 175; // Value gets scaled by 4, 137 = 548
 
 
 	uart_init();
