@@ -84,7 +84,7 @@ class Guibar(object):
 
 class Button(object):
 #text #left #top #height #widht #function r_button
-    def __init__(self,name,top,left,width,height,fx,fy):
+    def __init__(self,name,top,left,width,height,fx,fy, color=pygame.Color(60,60,60)):
         self.name = name
         self.top = top
         self.left = left
@@ -94,11 +94,21 @@ class Button(object):
         self.fy = fy #used for ofsetting the button text
         self.r_button = pygame.Rect(left,top, width, height)
         self.f_title = f_font_16.render(name,True,col_grey1)
+        self.color = color
         allbuttons.append(self)
 
     def draw(self,screen):
-        pygame.draw.rect(screen,col_grey3,self.r_button)
+        pygame.draw.rect(screen,self.color,self.r_button)
         screen.blit(self.f_title,(self.left+self.fy,self.top+self.fx))
+
+    def set_enable(self, able):
+        if able:
+            self.color = pygame.Color(60,60,60)
+        else:
+            self.color = pygame.Color(180,180,180)
+
+    def set_selected(self):
+        self.color = pygame.Color(30,120,190)
 
     def checkclicked(self,pos):
     	return self.r_button.collidepoint(pos)

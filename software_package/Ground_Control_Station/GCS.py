@@ -97,9 +97,9 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_3:Switch_Mode(Mode.MODE_CALIBRATION)
     elif pressed_key == pygame.K_4:Switch_Mode(Mode.MODE_YAW_CONTROL)
     elif pressed_key == pygame.K_5:Switch_Mode(Mode.MODE_FULL)
-    elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
+    # elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
     elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
-    elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
+    # elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
 
     # TODO conditional safty thing
     # lift 
@@ -155,6 +155,14 @@ def Switch_Mode(new_mode):
     global controlvalues
     global MODE #use the global variable
 
+    global safe_bt
+    global panic_bt 
+    global man_bt
+    global cal_bt
+    global yaw_bt
+    global full_bt
+    global height_bt
+
     regmap = Registermapping.REGMAP_NEWMODE #destination adress from registermapping.py
 
     # if the requested mode is the panic mode
@@ -165,12 +173,26 @@ def Switch_Mode(new_mode):
         else:
             MODE = Mode.MODE_PANIC
             send_parameter_message(regmap, Mode.MODE_PANIC)
+            safe_bt.set_enable(True)
+            panic_bt.set_selected()
+            man_bt.set_enable(False)
+            cal_bt.set_enable(False)
+            yaw_bt.set_enable(False)
+            full_bt.set_enable(False)
+            height_bt.set_enable(False)
             print("mode switched to: ",new_mode)
 
     elif controlvalues.lift == 0 :
         if new_mode == Mode.MODE_SAFE:
             MODE = Mode.MODE_SAFE
             send_parameter_message(regmap, Mode.MODE_SAFE)
+            safe_bt.set_selected()
+            panic_bt.set_enable(False)
+            man_bt.set_enable(True)
+            cal_bt.set_enable(True)
+            yaw_bt.set_enable(True)
+            full_bt.set_enable(True)
+            height_bt.set_enable(True)
             print("mode switched to: ",new_mode)
 
         elif MODE == Mode.MODE_SAFE:
@@ -178,30 +200,79 @@ def Switch_Mode(new_mode):
             if new_mode == Mode.MODE_CALIBRATION:
                 MODE = Mode.MODE_CALIBRATION
                 send_parameter_message(regmap, Mode.MODE_CALIBRATION)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(False)
+                man_bt.set_enable(False)
+                cal_bt.set_selected()
+                yaw_bt.set_enable(False)
+                full_bt.set_enable(False)
+                height_bt.set_enable(False)
             #manual
             elif new_mode == Mode.MODE_MANUAL:
                 MODE = Mode.MODE_MANUAL
                 send_parameter_message(regmap, Mode.MODE_MANUAL)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(True)
+                man_bt.set_selected()
+                cal_bt.set_enable(False)
+                yaw_bt.set_enable(False)
+                full_bt.set_enable(False)
+                height_bt.set_enable(False)
             #yaw
             elif new_mode == Mode.MODE_YAW_CONTROL:
                 MODE = Mode.MODE_YAW_CONTROL
                 send_parameter_message(regmap, Mode.MODE_YAW_CONTROL)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(True)
+                man_bt.set_enable(False)
+                cal_bt.set_enable(False)
+                yaw_bt.set_selected()
+                full_bt.set_enable(False)
+                height_bt.set_enable(False)
             #full
             elif new_mode == Mode.MODE_FULL:
                 MODE = Mode.MODE_FULL
                 send_parameter_message(regmap, Mode.MODE_FULL)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(True)
+                man_bt.set_enable(False)
+                cal_bt.set_enable(False)
+                yaw_bt.set_enable(False)
+                full_bt.set_selected()
+                height_bt.set_enable(False)
             #Raw
-            elif new_mode == Mode.MODE_RAW:
-                MODE = Mode.MODE_RAW
-                send_parameter_message(regmap, Mode.MODE_RAW)
+            # elif new_mode == Mode.MODE_RAW:
+            #     MODE = Mode.MODE_RAW
+            #     send_parameter_message(regmap, Mode.MODE_RAW)
+            #     safe_bt.set_enable(True)
+            #     panic_bt.set_enable(True)
+            #     man_bt.set_enable(False)
+            #     cal_bt.set_enable(False)
+            #     yaw_bt.set_enable(False)
+            #     full_bt.set_enable(False)
+            #     height_bt.set_enable(False)
             #height
             elif new_mode == Mode.MODE_HEIGHT:
                 MODE = Mode.MODE_HEIGHT
                 send_parameter_message(regmap, Mode.MODE_HEIGHT)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(True)
+                man_bt.set_enable(False)
+                cal_bt.set_enable(False)
+                yaw_bt.set_enable(False)
+                full_bt.set_enable(False)
+                height_bt.set_selected()
             #wireless
-            elif new_mode == Mode.MODE_WIRELESS:
-                MODE = Mode.MODE_WIRELESS
-                send_parameter_message(regmap, Mode.MODE_WIRELESS)
+            # elif new_mode == Mode.MODE_WIRELESS:
+            #     MODE = Mode.MODE_WIRELESS
+            #     send_parameter_message(regmap, Mode.MODE_WIRELESS)
+            #     safe_bt.set_enable(True)
+            #     panic_bt.set_enable(True)
+            #     man_bt.set_enable(False)
+            #     cal_bt.set_enable(False)
+            #     yaw_bt.set_enable(False)
+            #     full_bt.set_enable(False)
+            #     height_bt.set_enable(False)
             print("mode switched to: ",new_mode)
         else:
             print("invalid Mode switch requested, no mode switched")
@@ -300,6 +371,15 @@ def draw_gui():
     return
 
 def init_gui():
+    global safe_bt
+    global panic_bt 
+    global man_bt
+    global cal_bt
+    global yaw_bt
+    global full_bt
+    global height_bt
+
+
     #name,top,left,hor,uns,trim:
     GUI.Guibar("Roll",440,60,True,False,True)
     GUI.Guibar("Pitch",500,60,True,False,True)
@@ -312,11 +392,18 @@ def init_gui():
     GUI.Guibar("M4",440,420,False,True,False)
     
     #name,top,left,width,height,function
-    GUI.Button("PANIC",720,60,60,40,8,9)       
-    GUI.Button("CAL",720,140,60,40,8,14)
-    GUI.Button("MAN",720,220,60,40,8,12)
-    GUI.Button("SAFE",720,300,60,40,8,10)
+    safe_bt = GUI.Button("0: SAFE",720,60,80,40,8,12)
+    safe_bt.set_selected()
+    panic_bt = GUI.Button("1: PANIC",720,150,80,40,8,8)
+    panic_bt.set_enable(False)
+    man_bt = GUI.Button("2: MAN",720,240,80,40,8,12)
+    cal_bt = GUI.Button("3: CAL",720,330,80,40,8,16)
+    yaw_bt = GUI.Button("4: YAW",720,420,80,40,8,15)
+    full_bt = GUI.Button("5: FULL",720,510,80,40,8,14)
+    height_bt = GUI.Button("7: HEIGHT",720,600,80,40,8,2)
+
     GUI.Button("SEND",600,600,80,40,8,18)
+
 
     #P_YAW buttons
     GUI.Button("<<",300,600,20,20,-1,4)
@@ -361,11 +448,14 @@ def handlebuttonfunction(button):
     step = 1
     bigstep = 32
 
-    if button == 0 : Switch_Mode(Mode.MODE_PANIC)#PANIC
-    elif button == 1: Switch_Mode(Mode.MODE_CALIBRATION)#CAL
+    if button == 0 : Switch_Mode(Mode.MODE_SAFE)#SAFE
+    elif button == 1: Switch_Mode(Mode.MODE_PANIC)#PANIC
     elif button == 2: Switch_Mode(Mode.MODE_MANUAL)#MAN
-    elif button == 3: Switch_Mode(Mode.MODE_SAFE)#SAFE
-    elif button == 4: #SEND
+    elif button == 3: Switch_Mode(Mode.MODE_CALIBRATION)#CAlIBRATION
+    elif button == 4: Switch_Mode(Mode.MODE_YAW_CONTROL)#YAW
+    elif button == 5: Switch_Mode(Mode.MODE_FULL)#FULL
+    elif button == 6: Switch_Mode(Mode.MODE_HEIGHT)#HEIGHT
+    elif button == 7: #SEND
         setparams()
         parametervalues = newparametervalues
 
@@ -521,6 +611,14 @@ joystic_axis_pitch = 1
 joystic_axis_yaw = 2
 joystic_axis_roll = 0
 joystic_axis_lift = 3
+
+safe_bt = None
+panic_bt = None
+man_bt = None
+cal_bt = None
+yaw_bt = None
+full_bt = None
+height_bt = None
 
 if __name__ == '__main__':
     send_control_message_flag = 100 #timer and flag for sending controll messages
