@@ -6,8 +6,10 @@
 
 
 void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_t pitch, int16_t yaw, int16_t roll){
-	uart_put(0x02);
-	uart_put(0x02);
+	uart_put('a');
+	uart_put('a');
+	uart_put('a');
+	uart_put('a');
 	uart_put(mode);
 
 	uart_put(m1 >> 8 & 0xFF);
@@ -30,6 +32,11 @@ void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_
 	
 	uart_put(roll >> 8 & 0xFF);
 	uart_put(roll >> 0 & 0xFF);
+
+	uart_put('z');
+	uart_put('z');
+	uart_put('z');
+	uart_put('z');
 
 	// Flush uart
 	uart_put('\n');

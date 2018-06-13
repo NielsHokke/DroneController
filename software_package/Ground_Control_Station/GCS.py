@@ -544,13 +544,52 @@ def setparams():
 
 class ConsoleThread(threading.Thread):
     Running = True
+
     def run(self):
+        data = bytearray()
         while self.Running:
-            # data = ser.readline()
+            temp_data = bytearray(ser.readline())
+            # print(temp_data)
+            for byte in temp_data:
+                # print(byte)
+                data.append(byte)
+                if 10 == byte:
+                    # print(data)
+                    dataString = data.decode("utf-8", "backslashreplace")
+                    if 'aaa' in dataString and 'zzz' in dataString:
+                        index = 0
+                        for char in dataString:
+                            if char == 'a':
+                                index += 1
+                            else:
+                                break
+
+                        print("found information string")
+                        print(data)
+                        print("Mode", data[index])
+                        print("M1", data[index+1] << 8 + data[index+2])
+                        print("M2", data[index+3] << 8 + data[index+4])
+                        print("M3", data[index+5] << 8 + data[index+6])
+                        print("M4", data[index+7] << 8 + data[index+8])
+                        print("Pitch", data[index+9] << 8 + data[index+10])
+                        print("Yaw", data[index+11] << 8 + data[index+12])
+                        print("Roll", data[index+13] << 8 + data[index+14], "\n")
+                    # else:
+                    #     print(dataString)
+
+                    # print("found enter\n")
+                    data = bytearray()
+            
+
+            # if b'\n' in data:
+                
+            # else:
+            #     print("no enter\n")
+
             # if data[0] == 10:
             #     print(data.decode("utf-8", "backslashreplace"))
             # else:
-            print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
+            # print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
     def stop(self):
         self.Running = False
 
