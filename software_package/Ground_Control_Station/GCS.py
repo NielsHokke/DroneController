@@ -7,6 +7,7 @@ import time
 import serial
 import pygame
 import crcmod
+import math
 import Registermapping #homebrew registermpping file
 import GUI #homebrew gui file
 import parameterdefaults #homebrew parameter defaults
@@ -574,10 +575,10 @@ class ConsoleThread(threading.Thread):
                         print("Pitch", data[index+9] << 8 + data[index+10])
                         print("Yaw", data[index+11] << 8 + data[index+12])
                         print("Roll", data[index+13] << 8 + data[index+14], "\n")
-                    # else:
-                    #     print(dataString)
+                    else:
+                        print(dataString)
 
-                    # print("found enter\n")
+                    #print("found enter\n")
                     data = bytearray()
             
 
@@ -631,7 +632,7 @@ class Motorvalues:
 #     print(argslist[1],type(argslist[1]))
 #     #ser = serial.Serial(str(sys.argv)[1], 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
@@ -727,6 +728,13 @@ if __name__ == '__main__':
                     controlvalues.yaw   = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_yaw) * 127.5)+trimvalues.yaw))
                     controlvalues.roll  = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_roll) * 127.5)+trimvalues.roll))
                     controlvalues.lift  = min(255,max(0,(255 - (round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))+trimvalues.lift)))
+                    if controlvalues.lift < 45:
+                        controlvalues.lift = controlvalues.lift * 4
+                    else:
+                        value = controlvalues.lift
+                        templift = round(180 + 75 * math.sqrt((value-45)/210))
+                        controlvalues.lift = max(0,min(255, templift))
+
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:
