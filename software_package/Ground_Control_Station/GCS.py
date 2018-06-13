@@ -97,8 +97,8 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_3:Switch_Mode(Mode.MODE_CALIBRATION)
     elif pressed_key == pygame.K_4:Switch_Mode(Mode.MODE_YAW_CONTROL)
     elif pressed_key == pygame.K_5:Switch_Mode(Mode.MODE_FULL)
-    # elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
-    elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
+    elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
+    # elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
     # elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
 
     # TODO conditional safty thing
@@ -161,7 +161,7 @@ def Switch_Mode(new_mode):
     global cal_bt
     global yaw_bt
     global full_bt
-    global height_bt
+    global raw_bt
 
     regmap = Registermapping.REGMAP_NEWMODE #destination adress from registermapping.py
 
@@ -179,7 +179,7 @@ def Switch_Mode(new_mode):
             cal_bt.set_enable(False)
             yaw_bt.set_enable(False)
             full_bt.set_enable(False)
-            height_bt.set_enable(False)
+            raw_bt.set_enable(False)
             print("mode switched to: ",new_mode)
 
     elif controlvalues.lift == 0 :
@@ -192,7 +192,7 @@ def Switch_Mode(new_mode):
             cal_bt.set_enable(True)
             yaw_bt.set_enable(True)
             full_bt.set_enable(True)
-            height_bt.set_enable(True)
+            raw_bt.set_enable(True)
             print("mode switched to: ",new_mode)
 
         elif MODE == Mode.MODE_SAFE:
@@ -206,7 +206,7 @@ def Switch_Mode(new_mode):
                 cal_bt.set_selected()
                 yaw_bt.set_enable(False)
                 full_bt.set_enable(False)
-                height_bt.set_enable(False)
+                raw_bt.set_enable(False)
             #manual
             elif new_mode == Mode.MODE_MANUAL:
                 MODE = Mode.MODE_MANUAL
@@ -217,7 +217,7 @@ def Switch_Mode(new_mode):
                 cal_bt.set_enable(False)
                 yaw_bt.set_enable(False)
                 full_bt.set_enable(False)
-                height_bt.set_enable(False)
+                raw_bt.set_enable(False)
             #yaw
             elif new_mode == Mode.MODE_YAW_CONTROL:
                 MODE = Mode.MODE_YAW_CONTROL
@@ -228,7 +228,7 @@ def Switch_Mode(new_mode):
                 cal_bt.set_enable(False)
                 yaw_bt.set_selected()
                 full_bt.set_enable(False)
-                height_bt.set_enable(False)
+                raw_bt.set_enable(False)
             #full
             elif new_mode == Mode.MODE_FULL:
                 MODE = Mode.MODE_FULL
@@ -239,29 +239,29 @@ def Switch_Mode(new_mode):
                 cal_bt.set_enable(False)
                 yaw_bt.set_enable(False)
                 full_bt.set_selected()
-                height_bt.set_enable(False)
+                raw_bt.set_enable(False)
             #Raw
-            # elif new_mode == Mode.MODE_RAW:
-            #     MODE = Mode.MODE_RAW
-            #     send_parameter_message(regmap, Mode.MODE_RAW)
-            #     safe_bt.set_enable(True)
-            #     panic_bt.set_enable(True)
-            #     man_bt.set_enable(False)
-            #     cal_bt.set_enable(False)
-            #     yaw_bt.set_enable(False)
-            #     full_bt.set_enable(False)
-            #     height_bt.set_enable(False)
-            #height
-            elif new_mode == Mode.MODE_HEIGHT:
-                MODE = Mode.MODE_HEIGHT
-                send_parameter_message(regmap, Mode.MODE_HEIGHT)
+            elif new_mode == Mode.MODE_RAW:
+                MODE = Mode.MODE_RAW
+                send_parameter_message(regmap, Mode.MODE_RAW)
                 safe_bt.set_enable(True)
                 panic_bt.set_enable(True)
                 man_bt.set_enable(False)
                 cal_bt.set_enable(False)
                 yaw_bt.set_enable(False)
                 full_bt.set_enable(False)
-                height_bt.set_selected()
+                raw_bt.set_selected()
+            #height
+            # elif new_mode == Mode.MODE_HEIGHT:
+            #     MODE = Mode.MODE_HEIGHT
+            #     send_parameter_message(regmap, Mode.MODE_HEIGHT)
+            #     safe_bt.set_enable(True)
+            #     panic_bt.set_enable(True)
+            #     man_bt.set_enable(False)
+            #     cal_bt.set_enable(False)
+            #     yaw_bt.set_enable(False)
+            #     full_bt.set_enable(False)
+            #     raw_bt.set_selected()
             #wireless
             # elif new_mode == Mode.MODE_WIRELESS:
             #     MODE = Mode.MODE_WIRELESS
@@ -272,8 +272,8 @@ def Switch_Mode(new_mode):
             #     cal_bt.set_enable(False)
             #     yaw_bt.set_enable(False)
             #     full_bt.set_enable(False)
-            #     height_bt.set_enable(False)
-            print("mode switched to: ",new_mode)
+            #     raw_bt.set_enable(False)
+            print("mode switched to: ", MODE)
         else:
             print("invalid Mode switch requested, no mode switched")
     else:
@@ -377,7 +377,7 @@ def init_gui():
     global cal_bt
     global yaw_bt
     global full_bt
-    global height_bt
+    global raw_bt
 
 
     #name,top,left,hor,uns,trim:
@@ -400,7 +400,7 @@ def init_gui():
     cal_bt = GUI.Button("3: CAL",720,330,80,40,8,16)
     yaw_bt = GUI.Button("4: YAW",720,420,80,40,8,15)
     full_bt = GUI.Button("5: FULL",720,510,80,40,8,14)
-    height_bt = GUI.Button("7: HEIGHT",720,600,80,40,8,2)
+    raw_bt = GUI.Button("6: RAW",720,600,80,40,8,12)
 
     GUI.Button("SEND",600,600,80,40,8,18)
 
@@ -454,7 +454,7 @@ def handlebuttonfunction(button):
     elif button == 3: Switch_Mode(Mode.MODE_CALIBRATION)#CAlIBRATION
     elif button == 4: Switch_Mode(Mode.MODE_YAW_CONTROL)#YAW
     elif button == 5: Switch_Mode(Mode.MODE_FULL)#FULL
-    elif button == 6: Switch_Mode(Mode.MODE_HEIGHT)#HEIGHT
+    elif button == 6: Switch_Mode(Mode.MODE_RAW)#HEIGHT
     elif button == 7: #SEND
         setparams()
         parametervalues = newparametervalues
@@ -592,7 +592,7 @@ class Motorvalues:
 #     print(argslist[1],type(argslist[1]))
 #     #ser = serial.Serial(str(sys.argv)[1], 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
-ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
@@ -618,7 +618,7 @@ man_bt = None
 cal_bt = None
 yaw_bt = None
 full_bt = None
-height_bt = None
+raw_bt = None
 
 if __name__ == '__main__':
     send_control_message_flag = 100 #timer and flag for sending controll messages
