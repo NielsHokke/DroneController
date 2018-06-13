@@ -78,8 +78,8 @@ TimerHandle_t UartTimeoutHandle;
 
 #define GLOBALSTATE parameters[P_MODE]
 
-#define P_MIN_LIFT 5
-#define P_MAX_RPM 6
+#define P_MIN_LIFT 0
+#define P_MAX_RPM 1
 #define P_MODE 7
 
 #define P_P_YAW	  10
