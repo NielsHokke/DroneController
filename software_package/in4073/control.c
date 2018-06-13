@@ -50,7 +50,7 @@ void run_filters_and_control()
 /*--------------------------------------------------------------------------------------
  * calibrate: 	Getting zero point from sensors
  * Parameters: 	bool raw indiaction if calibrating raw or dmp mode 
- * Return:   	void, but sets gloab phi_offset, theta_offset, psi_offset
+ * Return:   	void, but sets global phi_offset, theta_offset, psi_offset
  * Author:    	Niels Hokke
  * Date:    	30-5-2018
  *--------------------------------------------------------------------------------------
@@ -59,6 +59,11 @@ void calibrate(bool raw){
 	int32_t phi_total = 0;
 	int32_t theta_total = 0;
 	int32_t psi_total = 0;
+
+	phi_offset 	 	= 0;
+	theta_offset	= 0;
+	psi_offset 	 	= 0;
+
 
 	for(uint8_t i=0; i < CALIBRATION_ROUNDS; i++){
 		if(raw){
