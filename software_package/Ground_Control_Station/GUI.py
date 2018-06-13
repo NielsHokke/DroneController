@@ -84,7 +84,7 @@ class Guibar(object):
 
 class Button(object):
 #text #left #top #height #widht #function r_button
-    def __init__(self,name,top,left,width,height,fx,fy):
+    def __init__(self,name,top,left,width,height,fx,fy, color=pygame.Color(60,60,60)):
         self.name = name
         self.top = top
         self.left = left
@@ -94,11 +94,21 @@ class Button(object):
         self.fy = fy #used for ofsetting the button text
         self.r_button = pygame.Rect(left,top, width, height)
         self.f_title = f_font_16.render(name,True,col_grey1)
+        self.color = color
         allbuttons.append(self)
 
     def draw(self,screen):
-        pygame.draw.rect(screen,col_grey3,self.r_button)
+        pygame.draw.rect(screen,self.color,self.r_button)
         screen.blit(self.f_title,(self.left+self.fy,self.top+self.fx))
+
+    def set_enable(self, able):
+        if able:
+            self.color = pygame.Color(60,60,60)
+        else:
+            self.color = pygame.Color(180,180,180)
+
+    def set_selected(self):
+        self.color = pygame.Color(30,120,190)
 
     def checkclicked(self,pos):
     	return self.r_button.collidepoint(pos)
@@ -127,6 +137,7 @@ Text_Title = f_font_60.render('Ground Control Station',True,col_grey3)
 Text_trim_header = f_font_20.render('Trim settings',True,col_grey3)
 Text_motor_header = f_font_20.render('Motors',True,col_grey3)
 Text_params_header = f_font_20.render('Parameters',True,col_grey3)
+Text_modeswitch_header = f_font_20.render('Modes',True,col_grey3)
 
 #titlebanner
 r_topbar = pygame.Rect(0,0,740,20)
@@ -173,5 +184,6 @@ def draw_all(screen):
     screen.blit(Text_trim_header,(57,385))
     screen.blit(Text_motor_header,(297,385))
     screen.blit(Text_params_header,(497,270))
+    screen.blit(Text_modeswitch_header,(57,685))
 
     return screen

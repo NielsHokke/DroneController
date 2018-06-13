@@ -97,17 +97,9 @@ def handle_keypress(pressed_key):
     elif pressed_key == pygame.K_3:Switch_Mode(Mode.MODE_CALIBRATION)
     elif pressed_key == pygame.K_4:Switch_Mode(Mode.MODE_YAW_CONTROL)
     elif pressed_key == pygame.K_5:Switch_Mode(Mode.MODE_FULL)
-    elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
+    # elif pressed_key == pygame.K_6:Switch_Mode(Mode.MODE_RAW)
     elif pressed_key == pygame.K_7:Switch_Mode(Mode.MODE_HEIGHT)
-    elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
-
-    #debug key
-    elif pressed_key == pygame.K_SPACE:
-        print(MODE)
-        print("pitch: ",trimvalues.pitch)
-        print("roll: ",trimvalues.roll)
-        print("yaw: ",trimvalues.yaw)
-        print("lift: ",trimvalues.lift)
+    # elif pressed_key == pygame.K_8:Switch_Mode(Mode.MODE_WIRELESS)
 
     # TODO conditional safty thing
     # lift 
@@ -126,43 +118,51 @@ def handle_keypress(pressed_key):
     #TODO safegaurd
     #yawcontroll
     elif pressed_key == pygame.K_u:
-        newparametervalues.PYaw = min(2**16,parametervalues.PYaw+4)
+        newparametervalues.PYaw = min(2**16,parametervalues.PYaw+1)
         send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
         parametervalues.PYaw = newparametervalues.PYaw
 
     elif pressed_key == pygame.K_j:
-        newparametervalues.PYaw = max(0,parametervalues.PYaw-4)
+        newparametervalues.PYaw = max(0,parametervalues.PYaw-1)
         parametervalues.PYaw = newparametervalues.PYaw
 
     elif MODE == MODE.MODE_FULL:
         #rollpitch control P1
         if pressed_key == pygame.K_i:
-            newparametervalues.P1 = min(2**16,parametervalues.P1+4)
+            newparametervalues.P1 = min(2**16,parametervalues.P1+1)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),parametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P1 = newparametervalues.P1
 
         elif pressed_key == pygame.K_k:
-            newparametervalues.P1 = max(0,parametervalues.P1-4)
+            newparametervalues.P1 = max(0,parametervalues.P1-1)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),parametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P1 = newparametervalues.P1
 
         #rollpitch control P2
         elif pressed_key == pygame.K_o:
-            newparametervalues.P2 = min(2**16,parametervalues.P2+4)
+            newparametervalues.P2 = min(2**16,parametervalues.P2+1)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P2 = newparametervalues.P2
 
         elif pressed_key == pygame.K_l:
-            newparametervalues.P2 = min(0,parametervalues.P2-4)
+            newparametervalues.P2 = max(0,parametervalues.P2-1)
             send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,parametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
             parametervalues.P2 = newparametervalues.P2
-
     return
 
 #funtion to test the various mode switches
 def Switch_Mode(new_mode):
-
+    global controlvalues
     global MODE #use the global variable
+
+    global safe_bt
+    global panic_bt 
+    global man_bt
+    global cal_bt
+    global yaw_bt
+    global full_bt
+    global height_bt
+
     regmap = Registermapping.REGMAP_NEWMODE #destination adress from registermapping.py
 
     # if the requested mode is the panic mode
@@ -173,12 +173,26 @@ def Switch_Mode(new_mode):
         else:
             MODE = Mode.MODE_PANIC
             send_parameter_message(regmap, Mode.MODE_PANIC)
+            safe_bt.set_enable(True)
+            panic_bt.set_selected()
+            man_bt.set_enable(False)
+            cal_bt.set_enable(False)
+            yaw_bt.set_enable(False)
+            full_bt.set_enable(False)
+            height_bt.set_enable(False)
             print("mode switched to: ",new_mode)
 
-    elif True: #TODO: no motors are spinning & lift is zero on joystick
+    elif controlvalues.lift == 0 :
         if new_mode == Mode.MODE_SAFE:
             MODE = Mode.MODE_SAFE
             send_parameter_message(regmap, Mode.MODE_SAFE)
+            safe_bt.set_selected()
+            panic_bt.set_enable(False)
+            man_bt.set_enable(True)
+            cal_bt.set_enable(True)
+            yaw_bt.set_enable(True)
+            full_bt.set_enable(True)
+            height_bt.set_enable(True)
             print("mode switched to: ",new_mode)
 
         elif MODE == Mode.MODE_SAFE:
@@ -186,33 +200,85 @@ def Switch_Mode(new_mode):
             if new_mode == Mode.MODE_CALIBRATION:
                 MODE = Mode.MODE_CALIBRATION
                 send_parameter_message(regmap, Mode.MODE_CALIBRATION)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(False)
+                man_bt.set_enable(False)
+                cal_bt.set_selected()
+                yaw_bt.set_enable(False)
+                full_bt.set_enable(False)
+                height_bt.set_enable(False)
             #manual
             elif new_mode == Mode.MODE_MANUAL:
                 MODE = Mode.MODE_MANUAL
                 send_parameter_message(regmap, Mode.MODE_MANUAL)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(True)
+                man_bt.set_selected()
+                cal_bt.set_enable(False)
+                yaw_bt.set_enable(False)
+                full_bt.set_enable(False)
+                height_bt.set_enable(False)
             #yaw
             elif new_mode == Mode.MODE_YAW_CONTROL:
                 MODE = Mode.MODE_YAW_CONTROL
                 send_parameter_message(regmap, Mode.MODE_YAW_CONTROL)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(True)
+                man_bt.set_enable(False)
+                cal_bt.set_enable(False)
+                yaw_bt.set_selected()
+                full_bt.set_enable(False)
+                height_bt.set_enable(False)
             #full
             elif new_mode == Mode.MODE_FULL:
                 MODE = Mode.MODE_FULL
                 send_parameter_message(regmap, Mode.MODE_FULL)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(True)
+                man_bt.set_enable(False)
+                cal_bt.set_enable(False)
+                yaw_bt.set_enable(False)
+                full_bt.set_selected()
+                height_bt.set_enable(False)
             #Raw
-            elif new_mode == Mode.MODE_RAW:
-                MODE = Mode.MODE_RAW
-                send_parameter_message(regmap, Mode.MODE_RAW)
+            # elif new_mode == Mode.MODE_RAW:
+            #     MODE = Mode.MODE_RAW
+            #     send_parameter_message(regmap, Mode.MODE_RAW)
+            #     safe_bt.set_enable(True)
+            #     panic_bt.set_enable(True)
+            #     man_bt.set_enable(False)
+            #     cal_bt.set_enable(False)
+            #     yaw_bt.set_enable(False)
+            #     full_bt.set_enable(False)
+            #     height_bt.set_enable(False)
             #height
             elif new_mode == Mode.MODE_HEIGHT:
                 MODE = Mode.MODE_HEIGHT
                 send_parameter_message(regmap, Mode.MODE_HEIGHT)
+                safe_bt.set_enable(True)
+                panic_bt.set_enable(True)
+                man_bt.set_enable(False)
+                cal_bt.set_enable(False)
+                yaw_bt.set_enable(False)
+                full_bt.set_enable(False)
+                height_bt.set_selected()
             #wireless
-            elif new_mode == Mode.MODE_WIRELESS:
-                MODE = Mode.MODE_WIRELESS
-                send_parameter_message(regmap, Mode.MODE_WIRELESS)
+            # elif new_mode == Mode.MODE_WIRELESS:
+            #     MODE = Mode.MODE_WIRELESS
+            #     send_parameter_message(regmap, Mode.MODE_WIRELESS)
+            #     safe_bt.set_enable(True)
+            #     panic_bt.set_enable(True)
+            #     man_bt.set_enable(False)
+            #     cal_bt.set_enable(False)
+            #     yaw_bt.set_enable(False)
+            #     full_bt.set_enable(False)
+            #     height_bt.set_enable(False)
             print("mode switched to: ",new_mode)
         else:
-    	    print("invalid Mode switch requested, no mode switched")
+            print("invalid Mode switch requested, no mode switched")
+    else:
+        print("make sure lift is zero before changing modes")
+
     return
 
 def draw_gui():
@@ -220,6 +286,8 @@ def draw_gui():
     global trimvalues
     global allguibars
     global controlvalues
+    global motorvalues
+    global has_joystick
 
     #update trim values
     GUI.allguibars[0].settrim(trimvalues.roll)
@@ -231,8 +299,19 @@ def draw_gui():
     GUI.allguibars[1].setval(controlvalues.pitch)
     GUI.allguibars[2].setval(controlvalues.yaw)
     GUI.allguibars[3].setval(controlvalues.lift)
+    #update bar values for motor
+    GUI.allguibars[4].setval(motorvalues.M1)
+    GUI.allguibars[5].setval(motorvalues.M2)
+    GUI.allguibars[6].setval(motorvalues.M3)
+    GUI.allguibars[7].setval(motorvalues.M4)
 
-    #TODO updatae bar values for motor
+    #text in middel
+    Text_mode = GUI.f_font_16.render(str(MODE)[5:],True,GUI.col_grey3)
+
+    if has_joystick:
+        Text_controller = GUI.f_font_18.render("Joystick",True,GUI.col_grey3)
+    else : 
+        Text_controller = GUI.f_font_16.render("No Joystick",True,GUI.col_grey3)
 
     #update parameter display P1 P2 P3
     Text_PY   = GUI.f_font_16.render(str(parametervalues.PYaw),True,GUI.col_grey3)
@@ -262,6 +341,10 @@ def draw_gui():
     #draw most of the gui
     screen = GUI.draw_all(screen)
 
+    #text in middel
+    screen.blit(Text_controller,(300,290))
+    screen.blit(Text_mode,(300,270))
+
     #update the parameter text
     screen.blit(Text_PY_h,(490,299))
     screen.blit(Text_P1_h,(490,329))
@@ -288,6 +371,15 @@ def draw_gui():
     return
 
 def init_gui():
+    global safe_bt
+    global panic_bt 
+    global man_bt
+    global cal_bt
+    global yaw_bt
+    global full_bt
+    global height_bt
+
+
     #name,top,left,hor,uns,trim:
     GUI.Guibar("Roll",440,60,True,False,True)
     GUI.Guibar("Pitch",500,60,True,False,True)
@@ -300,11 +392,18 @@ def init_gui():
     GUI.Guibar("M4",440,420,False,True,False)
     
     #name,top,left,width,height,function
-    GUI.Button("PANIC",720,60,60,40,8,9)       
-    GUI.Button("CAL",720,140,60,40,8,14)
-    GUI.Button("MAN",720,220,60,40,8,12)
-    GUI.Button("SAFE",720,300,60,40,8,10)
+    safe_bt = GUI.Button("0: SAFE",720,60,80,40,8,12)
+    safe_bt.set_selected()
+    panic_bt = GUI.Button("1: PANIC",720,150,80,40,8,8)
+    panic_bt.set_enable(False)
+    man_bt = GUI.Button("2: MAN",720,240,80,40,8,12)
+    cal_bt = GUI.Button("3: CAL",720,330,80,40,8,16)
+    yaw_bt = GUI.Button("4: YAW",720,420,80,40,8,15)
+    full_bt = GUI.Button("5: FULL",720,510,80,40,8,14)
+    height_bt = GUI.Button("7: HEIGHT",720,600,80,40,8,2)
+
     GUI.Button("SEND",600,600,80,40,8,18)
+
 
     #P_YAW buttons
     GUI.Button("<<",300,600,20,20,-1,4)
@@ -346,14 +445,17 @@ def handlebuttonfunction(button):
     global newparametervalues
     global parametervalues
 
-    step = 4
-    bigstep = 64
+    step = 1
+    bigstep = 32
 
-    if button == 0 : Switch_Mode(Mode.MODE_PANIC)#PANIC
-    elif button == 1: Switch_Mode(Mode.MODE_CALIBRATION)#CAL
+    if button == 0 : Switch_Mode(Mode.MODE_SAFE)#SAFE
+    elif button == 1: Switch_Mode(Mode.MODE_PANIC)#PANIC
     elif button == 2: Switch_Mode(Mode.MODE_MANUAL)#MAN
-    elif button == 3: Switch_Mode(Mode.MODE_SAFE)#SAFE
-    elif button == 4: #SEND
+    elif button == 3: Switch_Mode(Mode.MODE_CALIBRATION)#CAlIBRATION
+    elif button == 4: Switch_Mode(Mode.MODE_YAW_CONTROL)#YAW
+    elif button == 5: Switch_Mode(Mode.MODE_FULL)#FULL
+    elif button == 6: Switch_Mode(Mode.MODE_HEIGHT)#HEIGHT
+    elif button == 7: #SEND
         setparams()
         parametervalues = newparametervalues
 
@@ -473,6 +575,12 @@ class Parametervalues:
     angle_min = parameterdefaults.P_angle_min
     angle_max = parameterdefaults.P_angle_max
 
+class Motorvalues:
+    M1 = 50
+    M2 = 50
+    M3 = 50
+    M4 = 50
+
 #TODO commport as argument
 # #if no comport is given as a argument default to ttyUSB0
 # if len(sys.argv) == 1:
@@ -493,6 +601,7 @@ trimvalues = Trimvalues()
 parametervalues = Parametervalues()
 newparametervalues = Parametervalues()
 controlvalues = Controlvalues()
+motorvalues = Motorvalues()
 
 MODE = Mode.MODE_SAFE
 Running = True
@@ -502,6 +611,14 @@ joystic_axis_pitch = 1
 joystic_axis_yaw = 2
 joystic_axis_roll = 0
 joystic_axis_lift = 3
+
+safe_bt = None
+panic_bt = None
+man_bt = None
+cal_bt = None
+yaw_bt = None
+full_bt = None
+height_bt = None
 
 if __name__ == '__main__':
     send_control_message_flag = 100 #timer and flag for sending controll messages
@@ -545,8 +662,6 @@ if __name__ == '__main__':
     # --- Main loop ---
     while Running:
         #pygame.event.wait() #wait until event happens, doesnt work 
-
-        # Line below should becommented out as soon as we're using the GUI
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Running = False
@@ -562,16 +677,17 @@ if __name__ == '__main__':
             if has_joystick:
                 # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
                 if event.type == pygame.JOYBUTTONDOWN:
-                    print("Joystick button pressed.")
-                if event.type == pygame.JOYBUTTONUP:
-                    print("Joystick button released.")
-                if event.type == pygame.JOYAXISMOTION:
-                    #add trim values and bounds                     #TODO fix lift negativity
+                    print("Joystick button pressed. go to panic mode")
+                    Switch_Mode(Mode.MODE_PANIC)
 
+                # if event.type == pygame.JOYBUTTONUP:
+                #     print("Joystick button released.")
+                if event.type == pygame.JOYAXISMOTION:
+                    #add trim values and bounds
                     controlvalues.pitch = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_pitch) * 127.5)+trimvalues.pitch))
                     controlvalues.yaw   = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_yaw) * 127.5)+trimvalues.yaw))
                     controlvalues.roll  = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_roll) * 127.5)+trimvalues.roll))
-                    controlvalues.lift  = min(255,max(0,(255 - round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5)+trimvalues.lift)))
+                    controlvalues.lift  = min(255,max(0,(255 - (round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))+trimvalues.lift)))
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:
@@ -584,7 +700,6 @@ if __name__ == '__main__':
         #draw the gui and update it
         draw_gui()
         pygame.display.flip()
-
         time.sleep(0.005)
 
     print("Shutting down")
