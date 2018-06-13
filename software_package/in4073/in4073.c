@@ -61,14 +61,14 @@ static void control_loop(void *pvParameter){
 		//get_dmp_data(); // If we don;t continously read the fifo after initializing it's throwing errors adn exceptions all over the place
 
 
-		if ((i++ % 10) == 0){
+		if ((i++ % 20) == 0){
 			nrf_gpio_pin_toggle(GREEN);
 
-			DEBUG_PRINT("\nsaz: \f");
-			DEBUG_PRINTEGER(sq, 6);// - phi_offset, 6);
-			DEBUG_PRINT(" zf: \f");
+			DEBUG_PRINT("\nsax: \f");
 			DEBUG_PRINTEGER(sax, 6);// - phi_offset, 6);
-			DEBUG_PRINT(" pres: \f");
+			DEBUG_PRINT(" sq: \f");
+			DEBUG_PRINTEGER(sq, 6);// - phi_offset, 6);
+			DEBUG_PRINT(" theta_f: \f");
 			DEBUG_PRINTEGER(theta_f, 6);// - theta_offset, 6);
 			//DEBUG_PRINT(" fphi: \f");
 			//DEBUG_PRINTEGER(theta_f, 6);// - psi_offset, 6);
@@ -155,7 +155,6 @@ static void control_loop(void *pvParameter){
  * Date:    2-5-2018
  *--------------------------------------------------------------------------------------
  */
-
 static void sensor_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
@@ -180,7 +179,6 @@ static void sensor_loop(void *pvParameter){
  * Date:    2-5-2018
  *--------------------------------------------------------------------------------------
  */
-
 static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	for(;;){
@@ -190,7 +188,7 @@ static void check_battery_voltage(void *pvParameter){
 		// downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
 
 
-		DEBUG_PRINTEGER(xPortGetFreeHeapSize(), 6);
+		//DEBUG_PRINTEGER(xPortGetFreeHeapSize(), 6);
 
 		adc_request_sample();
 		vTaskDelay(1);
@@ -225,14 +223,12 @@ int main(void)
 	uart_init();
 	adc_init();
 
-
-
 	print("Peripherals initialized\n\f");
 	
 	UNUSED_VARIABLE(xTaskCreate(validate_ctrl_msg, "Validate and execute ctrl message", configMINIMAL_STACK_SIZE, NULL, 2, NULL));
 	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE, NULL, 2, NULL));
 
-    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE + 100, NULL, 3, NULL));
+    UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE + 75, NULL, 3, NULL));
 	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE + 75, NULL, 1, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");

@@ -298,7 +298,9 @@ void manual_control(void){
  */
 int16_t mul_scale(int16_t a, int16_t b, uint8_t scale)
 {
-	return (a >> (scale/2)) * (b >> (scale/2));
+	int32_t prod = a * b; 
+	int16_t ans = (int16_t)(prod >> 14); 
+	return ans;
 }
 
 
@@ -319,7 +321,7 @@ void run_filter(char filter)
 	 */
 	static int16_t p_bias, q_bias;
 	static int16_t p, q;
-	static int16_t p2phi = 233;
+	static int16_t p2phi = 133;// 133;
 
 	/*--------------------------------------------------------------------------------------
 	 * filter roll and pitch using a filter resembling kalman filter
@@ -331,7 +333,7 @@ void run_filter(char filter)
 	 */
 	if ((filter & ROLL_FILTER)  > 0) {
 		p      = sp     - p_bias;							      	 // remove the bias
-		phi_f  = phi_f  + MUL_SCALED(p, p2phi, 14);			      	 // weight of increments
+		phi_f  = phi_f  + mul_scale(p, p2phi, 14);			      	 // weight of increments
 		phi_f  = phi_f  - ((phi_f - say) >> 3);                      // maybe 2^8
 		p_bias = p_bias + ((phi_f - say) >> 10);                     // maybe 2^14
 		// phi_f  = phi_f  - (phi_f - phi) / parameters[KALMAN_C1];  // sensor fusion
@@ -339,8 +341,8 @@ void run_filter(char filter)
 	}
 	if ((filter & PITCH_FILTER)  > 0) {
 		q       = sq       - q_bias;									  // remove the bias
-		theta_f = theta_f  + MUL_SCALED(q, p2phi, 14);				      // weight of increments
-		theta_f = theta_f  - ((theta_f - sax) >> 6);					  // maybe 2^8
+		theta_f = theta_f  + mul_scale(q, p2phi, 14);				      // weight of increments
+		theta_f = theta_f  - ((theta_f - sax) >> 3);					  // maybe 2^8
 		q_bias  = q_bias   + ((theta_f - sax) >> 10);					  // maybe 2^14
 		// theta_f = theta_f  - (theta_f - sax) / parameters[KALMAN_C1];  // sensor fusion
 		// q_bias  = q_bias   + (theta_f - sax) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
@@ -436,11 +438,11 @@ void run_filter(char filter)
 		 * b0*y0 = (a0*x0 + a1*x1 + a2*x2 - b1*y1 - b2*y2)
 		 * y0 = ( a0*(2^14) * x0 ) >> 14 ...... and so on
 		 */
-		y0 = (    MUL_SCALED(a0, x0, 14) 
-				+ MUL_SCALED(a1, x1, 14)
-				+ MUL_SCALED(a2, x2, 14) 
-				- MUL_SCALED(b1, y1, 14) 
-				- MUL_SCALED(b2, y2, 14) 
+		y0 = (    mul_scale(a0, x0, 14) 
+				+ mul_scale(a1, x1, 14)
+				+ mul_scale(a2, x2, 14) 
+				- mul_scale(b1, y1, 14) 
+				- mul_scale(b2, y2, 14) 
 		       );
 		sr_f = y0;
 
@@ -449,63 +451,6 @@ void run_filter(char filter)
 		y2 = y1;
 		x1 = x0;
 		y1 = y0;
-
-		#endif
-	}
-
-	if ((filter & ALT_FILTER)  > 0) {
-
-		#if ORDER1
-		// initialize the scaled parameters by shifting left, by b0 = (1*2^14)
-		static int16_t a0_l = 4018;   //0.2452
-		static int16_t a1_l = 4018;   //0.2452
-		//static int16_t b0_l = 16384;  //1
-		static int16_t b1_l = -8348;  //-0.5095
-		// todo: will thislbe okay, everytime function is called?
-		static int16_t x0_l = 0; 
-		static int16_t x1_l = 0; 
-		static int16_t y0_l = 0;
-		static int16_t y1_l = 0;
-
-		x0_l  = saz; 										// take current raw sample
-		y0_l  = (MUL_SCALED(a0_l, x0_l, 14) + MUL_SCALED(a1_l, x1_l, 14)
-		       - MUL_SCALED(b1_l, y1_l, 14));		 		//implement the filter
-		saz_f = y0_l;										// extract filtered value
-		x1_l  = x0_l;
-		y1_l  = y0_l; 
-		
-		#else
-
-		static int16_t a0_l =  1105;    
-		static int16_t a1_l =  2210;    
-		static int16_t a2_l =  1105;   
-		//static int16_t b0_l =  16384;  
-		static int16_t b1_l =  -18727;
-		static int16_t b2_l =  6763;
-
-		static int16_t x0_l = 0; 
-		static int16_t x1_l = 0;
-		static int16_t x2_l = 0;
-
-		static int16_t y0_l = 0;
-		static int16_t y1_l = 0;
-		static int16_t y2_l = 0;
-
-		x0_l = saz;
-
-		y0_l = (  MUL_SCALED(a0_l, x0_l, 14) 
-				+ MUL_SCALED(a1_l, x1_l, 14)
-				+ MUL_SCALED(a2_l, x2_l, 14) 
-				- MUL_SCALED(b1_l, y1_l, 14) 
-				- MUL_SCALED(b2_l, y2_l, 14) 
-		       );
-		saz_f = y0_l;
-
-		x2_l = x1_l;
-		y2_l = y1_l;
-
-		x1_l = x0_l;
-		y1_l = y0_l;
 
 		#endif
 	}
