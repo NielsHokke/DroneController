@@ -460,46 +460,46 @@ def handlebuttonfunction(button):
         parametervalues = newparametervalues
 
     #YAW
-    elif button == 5: newparametervalues.PYaw = max(0,newparametervalues.PYaw-bigstep)#<<
-    elif button == 6: newparametervalues.PYaw = max(0,newparametervalues.PYaw-step)#<
-    elif button == 7: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+step)#>
-    elif button == 8: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+bigstep)#>>
+    elif button == 8: newparametervalues.PYaw = max(0,newparametervalues.PYaw-bigstep)#<<
+    elif button == 9: newparametervalues.PYaw = max(0,newparametervalues.PYaw-step)#<
+    elif button == 10: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+step)#>
+    elif button == 11: newparametervalues.PYaw = min(2**16,newparametervalues.PYaw+bigstep)#>>
     
     #P1
-    elif button == 9:  newparametervalues.P1 = max(0,newparametervalues.P1-bigstep)#<<
-    elif button == 10: newparametervalues.P1 = max(0,newparametervalues.P1-step)#<
-    elif button == 11: newparametervalues.P1 = min(2**16,newparametervalues.P1+step)#>
-    elif button == 12: newparametervalues.P1 = min(2**16,newparametervalues.P1+bigstep)#>>
+    elif button == 12:  newparametervalues.P1 = max(0,newparametervalues.P1-bigstep)#<<
+    elif button == 13: newparametervalues.P1 = max(0,newparametervalues.P1-step)#<
+    elif button == 14: newparametervalues.P1 = min(2**16,newparametervalues.P1+step)#>
+    elif button == 15: newparametervalues.P1 = min(2**16,newparametervalues.P1+bigstep)#>>
     
     #P2
-    elif button == 13: newparametervalues.P2 = max(0,newparametervalues.P2-bigstep)#<<
-    elif button == 14: newparametervalues.P2 = max(0,newparametervalues.P2-step)#<
-    elif button == 15: newparametervalues.P2 = min(2**16,newparametervalues.P2+step)#>
-    elif button == 16: newparametervalues.P2 = min(2**16,newparametervalues.P2+bigstep)#>>
+    elif button == 16: newparametervalues.P2 = max(0,newparametervalues.P2-bigstep)#<<
+    elif button == 17: newparametervalues.P2 = max(0,newparametervalues.P2-step)#<
+    elif button == 18: newparametervalues.P2 = min(2**16,newparametervalues.P2+step)#>
+    elif button == 19: newparametervalues.P2 = min(2**16,newparametervalues.P2+bigstep)#>>
     
     #Y+
-    elif button == 17: newparametervalues.yaw_max = max(0,newparametervalues.yaw_max-5)#<<
-    elif button == 18: newparametervalues.yaw_max = max(0,newparametervalues.yaw_max-1)#<
-    elif button == 19: newparametervalues.yaw_max = min(2**8,newparametervalues.yaw_max+1)#>
-    elif button == 20: newparametervalues.yaw_max = min(2**8,newparametervalues.yaw_max+5)#>>
+    elif button == 20: newparametervalues.yaw_max = max(0,newparametervalues.yaw_max-5)#<<
+    elif button == 21: newparametervalues.yaw_max = max(0,newparametervalues.yaw_max-1)#<
+    elif button == 22: newparametervalues.yaw_max = min(2**8,newparametervalues.yaw_max+1)#>
+    elif button == 23: newparametervalues.yaw_max = min(2**8,newparametervalues.yaw_max+5)#>>
     
     #Y-
-    elif button == 21: newparametervalues.yaw_min = max(0,newparametervalues.yaw_min-5)#<<
-    elif button == 22: newparametervalues.yaw_min = max(0,newparametervalues.yaw_min-1)#<
-    elif button == 23: newparametervalues.yaw_min = min(2**8,newparametervalues.yaw_min+1)#>
-    elif button == 24: newparametervalues.yaw_min = min(2**8,newparametervalues.yaw_min+5)#>>
+    elif button == 24: newparametervalues.yaw_min = max(0,newparametervalues.yaw_min-5)#<<
+    elif button == 25: newparametervalues.yaw_min = max(0,newparametervalues.yaw_min-1)#<
+    elif button == 26: newparametervalues.yaw_min = min(2**8,newparametervalues.yaw_min+1)#>
+    elif button == 27: newparametervalues.yaw_min = min(2**8,newparametervalues.yaw_min+5)#>>
     
     #A+
-    elif button == 25: newparametervalues.angle_max = max(0,newparametervalues.angle_max-5)#<<
-    elif button == 26: newparametervalues.angle_max = max(0,newparametervalues.angle_max-1)#<
-    elif button == 27: newparametervalues.angle_max = min(2**8,newparametervalues.angle_max+1)#>
-    elif button == 28: newparametervalues.angle_max = min(2**8,newparametervalues.angle_max+5)#>>
+    elif button == 28: newparametervalues.angle_max = max(0,newparametervalues.angle_max-5)#<<
+    elif button == 29: newparametervalues.angle_max = max(0,newparametervalues.angle_max-1)#<
+    elif button == 30: newparametervalues.angle_max = min(2**8,newparametervalues.angle_max+1)#>
+    elif button == 31: newparametervalues.angle_max = min(2**8,newparametervalues.angle_max+5)#>>
     
     #A-
-    elif button == 29: newparametervalues.angle_min = max(0,newparametervalues.angle_min-5)#<<
-    elif button == 30: newparametervalues.angle_min = max(0,newparametervalues.angle_min-1)#<
-    elif button == 31: newparametervalues.angle_min = min(2**8,newparametervalues.angle_min+1)#>
-    elif button == 32: newparametervalues.angle_min = min(2**8,newparametervalues.angle_min+5)#>>
+    elif button == 32: newparametervalues.angle_min = max(0,newparametervalues.angle_min-5)#<<
+    elif button == 33: newparametervalues.angle_min = max(0,newparametervalues.angle_min-1)#<
+    elif button == 34: newparametervalues.angle_min = min(2**8,newparametervalues.angle_min+1)#>
+    elif button == 35: newparametervalues.angle_min = min(2**8,newparametervalues.angle_min+5)#>>
 
 def change_trimvalue(trimidirection,trimvar):
     global trimvalues

@@ -146,7 +146,7 @@ void dmp_control(bool yaw_only){
 	// 16.4 LSB/deg/s so sr to actual angulur momentum is SR/16.4
 	// SetPoint.yaw = -128 deg/s to 127 deg/s
 	// We scale the setpoint by 16.4 to make them have the same size ('<< 4' = '* 16')
-	yaw_output = ((- (int32_t) SetPoint.yaw << 4) - sr) * GET_PARA_16(P_P_YAW); 
+	yaw_output = ((- (int32_t) SetPoint.yaw << 6) - sr) * GET_PARA_16(P_P_YAW); 
 
 	if (yaw_only) {
 		pitch_output = 0;
@@ -169,7 +169,7 @@ void dmp_control(bool yaw_only){
 		// for phi 140 maps to 1 degree. the setpoints (-128,127) map should map to (-5,5) degrees
 		// (5 degrees / 128) * 140 = 5.46785 so (setpoint.pitch * 5.46785) gets it in the same unit as the sensor
 		// if we multiply sensor value by 2, we can multiply setpoint by 11 (with an rounding error of 0.58%)
-		pitch_output = 	GET_PARA_16(P_P1) * (	((int32_t) SetPoint.pitch * 11) - (theta << 1)) - GET_PARA_16(P_P2) * sq;
+		pitch_output = 	-1 * GET_PARA_16(P_P1) * (	((int32_t) SetPoint.pitch * 17) - (theta << 1)) - GET_PARA_16(P_P2) * sq;
 	}
 
 	// The following function limits the output to the values set by the yaw min max
@@ -197,9 +197,9 @@ void dmp_control(bool yaw_only){
 	//Pitch and roll are first scaled by 2^10 to increase percision and next divided by a fixed scaler which can be set in drone.h
 
 	//TODO: change 1606 (which scales up to 400) back to 4015 which scales to 1000 (maybe use 4096 which can be done by '<< 12' which scales to 1020)
-	tempMotor[0] =  ((int32_t) SetPoint.lift  << 14) + yaw_output + pitch_output;
+	tempMotor[0] =  ((int32_t) SetPoint.lift  << 14) + yaw_output - pitch_output;
 	tempMotor[1] =  ((int32_t) SetPoint.lift  << 14) - yaw_output - roll_output;
-	tempMotor[2] =  ((int32_t) SetPoint.lift  << 14) + yaw_output - pitch_output;
+	tempMotor[2] =  ((int32_t) SetPoint.lift  << 14) + yaw_output + pitch_output;
 	tempMotor[3] =  ((int32_t) SetPoint.lift  << 14) - yaw_output + roll_output;
 
 
@@ -233,10 +233,10 @@ void dmp_control(bool yaw_only){
 	if (tempMotor[2] < 200) tempMotor[2] = 200;
 	if (tempMotor[3] < 200) tempMotor[3] = 200;
 
-	if (tempMotor[0] > 700) tempMotor[0] = 700;
-	if (tempMotor[1] > 700) tempMotor[1] = 700;
-	if (tempMotor[2] > 700) tempMotor[2] = 700;
-	if (tempMotor[3] > 700) tempMotor[3] = 700;
+	if (tempMotor[0] > 1000) tempMotor[0] = 1000;
+	if (tempMotor[1] > 1000) tempMotor[1] = 1000;
+	if (tempMotor[2] > 1000) tempMotor[2] = 1000;
+	if (tempMotor[3] > 1000) tempMotor[3] = 1000;
 
 
 	// Set calculated values to setpoints
