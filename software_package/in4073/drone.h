@@ -54,15 +54,22 @@ typedef struct {
 
 setpoint SetPoint;
 
+/*
 typedef enum {
 	YAW,
 	PITCH,
 	ROLL, 
 	ALT
 } filter_select_t;
+*/
+
+#define YAW_FILTER    1
+#define PITCH_FILTER  2
+#define ROLL_FILTER   4
+#define ALT_FILTER    8
 
 void raw_control(bool yaw_only);
-void run_filter(filter_select_t filter);
+void run_filter(char filter);
 void alt_control(bool dmp);
 //int16_t mul_scale(int16_t a, int16_t b, uint8_t scale);
 

@@ -312,14 +312,14 @@ int16_t mul_scale(int16_t a, int16_t b, uint8_t scale)
  * Date:    	5-6-2018
  *--------------------------------------------------------------------------------------
  */
-void run_filter(filter_select_t filter)
+void run_filter(char filter)
 {	
 	/*
 	 * keep the initializations to static, since the filters use the last saved values
 	 */
 	static int16_t p_bias, q_bias;
 	static int16_t p, q;
-	static int16_t p2phi = 133;
+	static int16_t p2phi = 233;
 
 	/*--------------------------------------------------------------------------------------
 	 * filter roll and pitch using a filter resembling kalman filter
@@ -329,7 +329,7 @@ void run_filter(filter_select_t filter)
 	 * 
 	 *--------------------------------------------------------------------------------------
 	 */
-	if (filter == ROLL) {
+	if ((filter & ROLL_FILTER)  > 0) {
 		p      = sp     - p_bias;							      	 // remove the bias
 		phi_f  = phi_f  + MUL_SCALED(p, p2phi, 14);			      	 // weight of increments
 		phi_f  = phi_f  - ((phi_f - say) >> 3);                      // maybe 2^8
@@ -337,34 +337,24 @@ void run_filter(filter_select_t filter)
 		// phi_f  = phi_f  - (phi_f - phi) / parameters[KALMAN_C1];  // sensor fusion
 		// p_bias = p_bias + (phi_f - phi) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
 	}
-	else if (filter == PITCH) {
+	if ((filter & PITCH_FILTER)  > 0) {
 		q       = sq       - q_bias;									  // remove the bias
 		theta_f = theta_f  + MUL_SCALED(q, p2phi, 14);				      // weight of increments
-		theta_f = theta_f  - ((theta_f - sax) >> 3);					  // maybe 2^8
+		theta_f = theta_f  - ((theta_f - sax) >> 6);					  // maybe 2^8
 		q_bias  = q_bias   + ((theta_f - sax) >> 10);					  // maybe 2^14
 		// theta_f = theta_f  - (theta_f - sax) / parameters[KALMAN_C1];  // sensor fusion
 		// q_bias  = q_bias   + (theta_f - sax) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
 	}
 
 
-	else if (filter == YAW) {
+	if ((filter & YAW_FILTER)  > 0) {
 		
 		/*--------------------------------------------------------------------------------------
 		 * filter_yaw: 	run 2nd order butterworth filter on the yaw controller (fixed point implementation)
-		 * reference: 	http://www-users.cs.york.ac.uk/~fisher/cgi-bin/mkfscript
+		 * reference: 	http://www-users.cs.york.ac.uk/~fisher/cgi-bin/mkfscript (did not use it much)
 		 *--------------------------------------------------------------------------------------
-		
-		static float xv[3], yv[3];
-
-		xv[0] = xv[1]; 
-		xv[1] = xv[2]; 
-		xv[2] = sr / BUTTERWORTH_GAIN;
-		yv[0] = yv[1]; 
-		yv[1] = yv[2]; 
-		yv[2] = (xv[0] + xv[2]) + 2 * xv[1] + (-0.4128015981 * yv[0]) + (1.1429805025 * yv[1]);
-		sr_f = yv[2];
 		*/
-
+		#if ORDER1
 		/*--------------------------------------------------------------------------------------
 		 * fixed point implementation for 1st order 
 		 * filter co-efficients when fs = 100 Hz, fc = 10Hz. 
@@ -389,34 +379,6 @@ void run_filter(filter_select_t filter)
 		sr_f = y0;										// extract filtered value
 		x1   = x0;
 		y1   = y0; 
-	}
-
-	else if (filter == ALT) { 
-		#if ORDER1
-		/*--------------------------------------------------------------------------------------
-		 * fixed point implementation for 1st order 
-		 * filter co-efficients when fs = 100 Hz, fc = 10Hz. 
-		 * use [a,b] = butter(1, 10/(100/2))
-		 * reference: CS4140ES Resources page > butterworth filters implementation
-		 *--------------------------------------------------------------------------------------
-		 */
-		// initialize the scaled parameters by shifting left, by b0 = (1*2^14)
-		static int16_t a0_r = 4018;   //0.2452
-		static int16_t a1_r = 4018;   //0.2452
-		//static int16_t b0 = 16384;  //1
-		static int16_t b1_r = -8348;  //-0.5095
-		// todo: will this be okay, everytime function is called?
-		static int16_t x0_r = 0; 
-		static int16_t x1_r = 0; 
-		static int16_t y0_r = 0;
-		static int16_t y1_r = 0;
-
-		x0_r = saz; 										// take current raw sample
-		y0_r = (MUL_SCALED(a0_r, x0_r, 14) + MUL_SCALED(a1_r, x1_r, 14)
-		      - MUL_SCALED(b1_r, y1_r, 14));		 			//implement the filter
-		saz_f = y0_r;										// extract filtered value
-		x1_r  = x0_r;
-		y1_r  = y0_r; 
 		
 		#else
 
@@ -424,18 +386,96 @@ void run_filter(filter_select_t filter)
 		 * fixed point implementation for 2nd order 
 		 * filter co-efficients when fs = 100 Hz, fc = 10Hz. 
 		 * use [a,b] = butter(2, 10/(100/2), 'low')
-		 * reference: CS4140ES Resources page > butterworth filters implementation
-		 *--------------------------------------------------------------------------------------
-		 */
-		/*--------------------------------------------------------------------------------------
-		 * octave-online.net
+		 *
+		 * reference: CS4140ES Resources page > butterworth filters implementation and octave-online.net
+		 * 100 Hz: 
 		 * use [a,b] = butter(2, 10/(100/2), 'low')
 		 * a = [0.067455273889071881709966760354291  0.13491054777814376341993352070858  0.067455273889071881709966760354291]
 		 * b = [1.0  -1.1429805025399009110742554184981  0.41280159809618865995872738494654]
+		 * 14 bit left shift is then
+		 * a = [1105, 2210, 1105]
+		 * b = [16384, -18727, 6763]
+		 *
+		 * 1000 Hz:
+		 * use [a,b] = butter(2, 10/(1000/2), 'low')
+		 * a = [0.00094469184384015074829737956818576  0.0018893836876803014965947591363715 0.00094469184384015074829737956818576] 
+		 * b = [1.0  -1.911197067426073203932901378721  0.91497583480143385159522040339652]
+		 * 14 bit left shift is then
+		 * a = [15, 31, 15]
+		 * b = [16384, -31313, 14991]
+		 * 
+		 * 500 Hz: 
+		 * use [a,b] = butter(2, 10/(500/2), 'low')
+		 * a = [0.0036216815149286412517382061082571  0.0072433630298572825034764122165143  0.0036216815149286412517382061082571] 
+		 * b = [1.0  -1.8226949251963078246774330182234  0.83718165125602250764558220907929]
+		 * 14 bit left shift is then
+		 * a = [59, 119, 59]
+		 * b = [16384, -29863, 13716]
+		 *
 		 * round(a*(2^14))
 		 * round(b*(2^14))
          * --------------------------------------------------------------------------------------
 		*/
+		static int16_t a0 = 15;    
+		static int16_t a1 = 31;    
+		static int16_t a2 = 15;   
+		//static int16_t b0_l =  16384;  
+		static int16_t b1 = -31313;
+		static int16_t b2 =  14991;
+
+		static int16_t x0 = 0; 
+		static int16_t x1 = 0;
+		static int16_t x2 = 0;
+		static int16_t y0 = 0;
+		static int16_t y1 = 0;
+		static int16_t y2 = 0;
+
+		x0 = sr;
+		/* 
+		 * 2nd order butterworth implementation
+		 * b0*y0 = (a0*x0 + a1*x1 + a2*x2 - b1*y1 - b2*y2)
+		 * y0 = ( a0*(2^14) * x0 ) >> 14 ...... and so on
+		 */
+		y0 = (    MUL_SCALED(a0, x0, 14) 
+				+ MUL_SCALED(a1, x1, 14)
+				+ MUL_SCALED(a2, x2, 14) 
+				- MUL_SCALED(b1, y1, 14) 
+				- MUL_SCALED(b2, y2, 14) 
+		       );
+		sr_f = y0;
+
+		//updating values in the array.
+		x2 = x1;		
+		y2 = y1;
+		x1 = x0;
+		y1 = y0;
+
+		#endif
+	}
+
+	if ((filter & ALT_FILTER)  > 0) {
+
+		#if ORDER1
+		// initialize the scaled parameters by shifting left, by b0 = (1*2^14)
+		static int16_t a0_l = 4018;   //0.2452
+		static int16_t a1_l = 4018;   //0.2452
+		//static int16_t b0_l = 16384;  //1
+		static int16_t b1_l = -8348;  //-0.5095
+		// todo: will thislbe okay, everytime function is called?
+		static int16_t x0_l = 0; 
+		static int16_t x1_l = 0; 
+		static int16_t y0_l = 0;
+		static int16_t y1_l = 0;
+
+		x0_l  = saz; 										// take current raw sample
+		y0_l  = (MUL_SCALED(a0_l, x0_l, 14) + MUL_SCALED(a1_l, x1_l, 14)
+		       - MUL_SCALED(b1_l, y1_l, 14));		 		//implement the filter
+		saz_f = y0_l;										// extract filtered value
+		x1_l  = x0_l;
+		y1_l  = y0_l; 
+		
+		#else
+
 		static int16_t a0_l =  1105;    
 		static int16_t a1_l =  2210;    
 		static int16_t a2_l =  1105;   
@@ -452,11 +492,7 @@ void run_filter(filter_select_t filter)
 		static int16_t y2_l = 0;
 
 		x0_l = saz;
-		/* 
-		 * 2nd order butterworth implementation
-		 * b0*y0 = (a0*x0 + a1*x1 + a2*x2 - b1*y1 - b2*y2)
-		 * y0 = ( a0*(2^14) * x0 ) >> 14 ...... and so on
-		 */
+
 		y0_l = (  MUL_SCALED(a0_l, x0_l, 14) 
 				+ MUL_SCALED(a1_l, x1_l, 14)
 				+ MUL_SCALED(a2_l, x2_l, 14) 
@@ -465,7 +501,6 @@ void run_filter(filter_select_t filter)
 		       );
 		saz_f = y0_l;
 
-		//updating values in the array.
 		x2_l = x1_l;
 		y2_l = y1_l;
 
@@ -488,9 +523,9 @@ void run_filter(filter_select_t filter)
 void raw_control(bool yaw_only)
 {	
 	int32_t yaw_output, pitch_output, roll_output;
-	get_raw_sensor_data();
+	//get_raw_sensor_data();
 
-	run_filter(YAW);
+	run_filter(YAW_FILTER);
 	yaw_output = (((int32_t) SetPoint.yaw << 4) - sr_f) * parameters[P_P_YAW];
 	
 	if (yaw_only) {
@@ -501,10 +536,10 @@ void raw_control(bool yaw_only)
 	}
 	else {
 
-		run_filter(PITCH);
+		//run_filter(PITCH);
 		pitch_output = parameters[P_P1] * (((int32_t) SetPoint.pitch * 11) - (theta_f << 1)) - parameters[P_P2] * sq;
 
-		run_filter(ROLL);
+		//run_filter(ROLL);
 		roll_output  = parameters[P_P1] * (((int32_t) SetPoint.roll * 17)  - (phi_f << 1))   - parameters[P_P2] * sp;
 	}
 
@@ -531,6 +566,6 @@ void alt_control(bool dmp)
 		raw_control();
 	}
 	*/
-	get_raw_sensor_data();
-	run_filter(ALT);
+	//get_raw_sensor_data();
+	run_filter(ALT_FILTER);
 }
