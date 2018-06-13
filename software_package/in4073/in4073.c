@@ -64,10 +64,10 @@ static void control_loop(void *pvParameter){
 		if ((i++ % 20) == 0){
 			nrf_gpio_pin_toggle(GREEN);
 
-			DEBUG_PRINT("\nsax: \f");
-			DEBUG_PRINTEGER(sax, 6);// - phi_offset, 6);
+			DEBUG_PRINT("\nsaz: \f");
+			DEBUG_PRINTEGER(saz, 6);// - phi_offset, 6);
 			DEBUG_PRINT(" sq: \f");
-			DEBUG_PRINTEGER(sq, 6);// - phi_offset, 6);
+			DEBUG_PRINTEGER(saz_f, 6);// - phi_offset, 6);
 			DEBUG_PRINT(" theta_f: \f");
 			DEBUG_PRINTEGER(theta_f, 6);// - theta_offset, 6);
 			//DEBUG_PRINT(" fphi: \f");
@@ -164,7 +164,7 @@ static void sensor_loop(void *pvParameter){
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();	
 		get_raw_sensor_data();
-		run_filter(PITCH_FILTER | ROLL_FILTER | YAW_FILTER);
+		run_filter(PITCH_FILTER | ROLL_FILTER | YAW_FILTER | ALT_FILTER);
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );	
 	}
 }

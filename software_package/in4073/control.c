@@ -26,8 +26,11 @@
 #define BUTTERWORTH_GAIN  1.482463775e+01
 
 
-#define ABS(x)           (((x) < 0) ? -(x) : (x))
-#define MUL_SCALED(a,b,scale)  (a >> (scale/2)) * (b >> (scale/2))
+// Use macros instead of functions for scaling
+#define ABS(x)           	   (((x) < 0) ? -(x) : (x))
+#define MUL_SCALED(a,b,scale)  ((a >> (scale/2)) * (b >> (scale/2)))
+#define MUL_SCALED1(a,b,scale) ((a*b) >> scale)
+
 
 void update_motors(void)
 {					
@@ -295,17 +298,15 @@ void manual_control(void){
  * Author:    	Nilay
  * Date:    	5-6-2018
  *--------------------------------------------------------------------------------------
- */
 int16_t mul_scale(int16_t a, int16_t b, uint8_t scale)
 {
 	int32_t prod = a * b; 
 	int16_t ans = (int16_t)(prod >> 14); 
+
 	return ans;
 }
+*/
 
-
-
-#define ORDER1 0
 /*--------------------------------------------------------------------------------------
  * run_filter: 	run selected filter to give smooth values like DMP
  * Parameters: 	select kalman (pitch and roll) or butterworth filter (yaw)
@@ -321,7 +322,7 @@ void run_filter(char filter)
 	 */
 	static int16_t p_bias, q_bias;
 	static int16_t p, q;
-	static int16_t p2phi = 133;// 133;
+	static int16_t p2phi = 133;
 
 	/*--------------------------------------------------------------------------------------
 	 * filter roll and pitch using a filter resembling kalman filter
@@ -333,7 +334,7 @@ void run_filter(char filter)
 	 */
 	if ((filter & ROLL_FILTER)  > 0) {
 		p      = sp     - p_bias;							      	 // remove the bias
-		phi_f  = phi_f  + mul_scale(p, p2phi, 14);			      	 // weight of increments
+		phi_f  = phi_f  + MUL_SCALED1(p, p2phi, 14);			     // weight of increments
 		phi_f  = phi_f  - ((phi_f - say) >> 3);                      // maybe 2^8
 		p_bias = p_bias + ((phi_f - say) >> 10);                     // maybe 2^14
 		// phi_f  = phi_f  - (phi_f - phi) / parameters[KALMAN_C1];  // sensor fusion
@@ -341,7 +342,7 @@ void run_filter(char filter)
 	}
 	if ((filter & PITCH_FILTER)  > 0) {
 		q       = sq       - q_bias;									  // remove the bias
-		theta_f = theta_f  + mul_scale(q, p2phi, 14);				      // weight of increments
+		theta_f = theta_f  + MUL_SCALED1(q, p2phi, 14);				      // weight of increments
 		theta_f = theta_f  - ((theta_f - sax) >> 3);					  // maybe 2^8
 		q_bias  = q_bias   + ((theta_f - sax) >> 10);					  // maybe 2^14
 		// theta_f = theta_f  - (theta_f - sax) / parameters[KALMAN_C1];  // sensor fusion
@@ -350,39 +351,6 @@ void run_filter(char filter)
 
 
 	if ((filter & YAW_FILTER)  > 0) {
-		
-		/*--------------------------------------------------------------------------------------
-		 * filter_yaw: 	run 2nd order butterworth filter on the yaw controller (fixed point implementation)
-		 * reference: 	http://www-users.cs.york.ac.uk/~fisher/cgi-bin/mkfscript (did not use it much)
-		 *--------------------------------------------------------------------------------------
-		*/
-		#if ORDER1
-		/*--------------------------------------------------------------------------------------
-		 * fixed point implementation for 1st order 
-		 * filter co-efficients when fs = 100 Hz, fc = 10Hz. 
-		 * use [a,b] = butter(1, 10/(100/2))
-		 * reference: CS4140ES Resources page > butterworth filters implementation
-		 *--------------------------------------------------------------------------------------
-		 */
-		// initialize the scaled parameters by shifting left, by b0 = (1*2^14)
-		static int16_t a0 = 4018;   //0.2452
-		static int16_t a1 = 4018;   //0.2452
-		//static int16_t b0 = 16384;  //1
-		static int16_t b1 = -8348;  //-0.5095
-		// todo: will this be okay, everytime function is called?
-		static int16_t x0 = 0; 
-		static int16_t x1 = 0; 
-		static int16_t y0 = 0;
-		static int16_t y1 = 0;
-
-		x0 = sr; 										// take current raw sample
-		y0 = (MUL_SCALED(a0, x0, 14) + MUL_SCALED(a1, x1, 14)
-		    - MUL_SCALED(b1, y1, 14));		 			//implement the filter
-		sr_f = y0;										// extract filtered value
-		x1   = x0;
-		y1   = y0; 
-		
-		#else
 
 		/*--------------------------------------------------------------------------------------
 		 * fixed point implementation for 2nd order 
@@ -438,11 +406,11 @@ void run_filter(char filter)
 		 * b0*y0 = (a0*x0 + a1*x1 + a2*x2 - b1*y1 - b2*y2)
 		 * y0 = ( a0*(2^14) * x0 ) >> 14 ...... and so on
 		 */
-		y0 = (    mul_scale(a0, x0, 14) 
-				+ mul_scale(a1, x1, 14)
-				+ mul_scale(a2, x2, 14) 
-				- mul_scale(b1, y1, 14) 
-				- mul_scale(b2, y2, 14) 
+		y0 = (    MUL_SCALED1(a0, x0, 14) 
+				+ MUL_SCALED1(a1, x1, 14)
+				+ MUL_SCALED1(a2, x2, 14) 
+				- MUL_SCALED1(b1, y1, 14) 
+				- MUL_SCALED1(b2, y2, 14) 
 		       );
 		sr_f = y0;
 
@@ -451,9 +419,43 @@ void run_filter(char filter)
 		y2 = y1;
 		x1 = x0;
 		y1 = y0;
-
-		#endif
 	}
+
+	if ((filter & ALT_FILTER)  > 0) {
+
+		static int16_t a0_l =  1105;    
+		static int16_t a1_l =  2210;    
+		static int16_t a2_l =  1105;   
+		//static int16_t b0_l =  16384;  
+		static int16_t b1_l =  -18727;
+		static int16_t b2_l =  6763;
+
+		static int16_t x0_l = 0; 
+		static int16_t x1_l = 0;
+		static int16_t x2_l = 0;
+
+		static int16_t y0_l = 0;
+		static int16_t y1_l = 0;
+		static int16_t y2_l = 0;
+
+		x0_l = saz;
+
+		y0_l = (  MUL_SCALED(a0_l, x0_l, 14) 
+				+ MUL_SCALED(a1_l, x1_l, 14)
+				+ MUL_SCALED(a2_l, x2_l, 14) 
+				- MUL_SCALED(b1_l, y1_l, 14) 
+				- MUL_SCALED(b2_l, y2_l, 14) 
+		       );
+		saz_f = y0_l;
+
+		x2_l = x1_l;
+		y2_l = y1_l;
+
+		x1_l = x0_l;
+		y1_l = y0_l;
+	}
+
+
 }
 
 
@@ -468,23 +470,17 @@ void run_filter(char filter)
 void raw_control(bool yaw_only)
 {	
 	int32_t yaw_output, pitch_output, roll_output;
-	//get_raw_sensor_data();
 
 	run_filter(YAW_FILTER);
 	yaw_output = (((int32_t) SetPoint.yaw << 4) - sr_f) * parameters[P_P_YAW];
 	
 	if (yaw_only) {
-
 		pitch_output = 0;
 		roll_output  = 0;	
 
 	}
 	else {
-
-		//run_filter(PITCH);
 		pitch_output = parameters[P_P1] * (((int32_t) SetPoint.pitch * 11) - (theta_f << 1)) - parameters[P_P2] * sq;
-
-		//run_filter(ROLL);
 		roll_output  = parameters[P_P1] * (((int32_t) SetPoint.roll * 17)  - (phi_f << 1))   - parameters[P_P2] * sp;
 	}
 
