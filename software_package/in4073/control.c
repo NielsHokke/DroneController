@@ -15,7 +15,7 @@
 
 // placeholder defines
 #define P_P1 0
-#define P_P2 0
+#define P_P2 0 
 #define P_YAW_MAX 0 
 #define P_YAW_MIN 0
 #define P_ANGLE_MIN 0 
@@ -301,6 +301,9 @@ int16_t mul_scale(int16_t a, int16_t b, uint8_t scale)
 	return (a >> (scale/2)) * (b >> (scale/2));
 }
 
+
+
+#define ORDER1 0
 /*--------------------------------------------------------------------------------------
  * run_filter: 	run selected filter to give smooth values like DMP
  * Parameters: 	select kalman (pitch and roll) or butterworth filter (yaw)
@@ -387,6 +390,90 @@ void run_filter(filter_select_t filter)
 		x1   = x0;
 		y1   = y0; 
 	}
+
+	else if (filter == ALT) { 
+		#if ORDER1
+		/*--------------------------------------------------------------------------------------
+		 * fixed point implementation for 1st order 
+		 * filter co-efficients when fs = 100 Hz, fc = 10Hz. 
+		 * use [a,b] = butter(1, 10/(100/2))
+		 * reference: CS4140ES Resources page > butterworth filters implementation
+		 *--------------------------------------------------------------------------------------
+		 */
+		// initialize the scaled parameters by shifting left, by b0 = (1*2^14)
+		static int16_t a0_r = 4018;   //0.2452
+		static int16_t a1_r = 4018;   //0.2452
+		//static int16_t b0 = 16384;  //1
+		static int16_t b1_r = -8348;  //-0.5095
+		// todo: will this be okay, everytime function is called?
+		static int16_t x0_r = 0; 
+		static int16_t x1_r = 0; 
+		static int16_t y0_r = 0;
+		static int16_t y1_r = 0;
+
+		x0_r = saz; 										// take current raw sample
+		y0_r = (MUL_SCALED(a0_r, x0_r, 14) + MUL_SCALED(a1_r, x1_r, 14)
+		      - MUL_SCALED(b1_r, y1_r, 14));		 			//implement the filter
+		saz_f = y0_r;										// extract filtered value
+		x1_r  = x0_r;
+		y1_r  = y0_r; 
+		
+		#else
+
+		/*--------------------------------------------------------------------------------------
+		 * fixed point implementation for 2nd order 
+		 * filter co-efficients when fs = 100 Hz, fc = 10Hz. 
+		 * use [a,b] = butter(2, 10/(100/2), 'low')
+		 * reference: CS4140ES Resources page > butterworth filters implementation
+		 *--------------------------------------------------------------------------------------
+		 */
+		/*--------------------------------------------------------------------------------------
+		 * octave-online.net
+		 * use [a,b] = butter(2, 10/(100/2), 'low')
+		 * a = [0.067455273889071881709966760354291  0.13491054777814376341993352070858  0.067455273889071881709966760354291]
+		 * b = [1.0  -1.1429805025399009110742554184981  0.41280159809618865995872738494654]
+		 * round(a*(2^14))
+		 * round(b*(2^14))
+         * --------------------------------------------------------------------------------------
+		*/
+		static int16_t a0_l =  1105;    
+		static int16_t a1_l =  2210;    
+		static int16_t a2_l =  1105;   
+		//static int16_t b0_l =  16384;  
+		static int16_t b1_l =  -18727;
+		static int16_t b2_l =  6763;
+
+		static int16_t x0_l = 0; 
+		static int16_t x1_l = 0;
+		static int16_t x2_l = 0;
+
+		static int16_t y0_l = 0;
+		static int16_t y1_l = 0;
+		static int16_t y2_l = 0;
+
+		x0_l = saz;
+		/* 
+		 * 2nd order butterworth implementation
+		 * b0*y0 = (a0*x0 + a1*x1 + a2*x2 - b1*y1 - b2*y2)
+		 * y0 = ( a0*(2^14) * x0 ) >> 14 ...... and so on
+		 */
+		y0_l = (  MUL_SCALED(a0_l, x0_l, 14) 
+				+ MUL_SCALED(a1_l, x1_l, 14)
+				+ MUL_SCALED(a2_l, x2_l, 14) 
+				- MUL_SCALED(b1_l, y1_l, 14) 
+				- MUL_SCALED(b2_l, y2_l, 14) 
+		       );
+		saz_f = y0_l;
+
+		//updating values in the array.
+		x2_l = x1_l;
+		y2_l = y1_l;
+
+		x1_l = x0_l;
+		y1_l = y0_l;
+
+		#endif
+	}
 }
 
 
@@ -422,4 +509,28 @@ void raw_control(bool yaw_only)
 	}
 
 	scale_thrust(yaw_output, pitch_output, roll_output);
+}
+
+/*--------------------------------------------------------------------------------------
+ * alt_control: use filters and then close the loop for raw_control
+ * parameters:	Altitude control with DMP (1)	
+ * Return:   	
+ * Author:    	Nilay
+ * Date:    	5-6-2018
+ *--------------------------------------------------------------------------------------
+ */
+void alt_control(bool dmp) 
+{
+	/*
+	// read the current motor thrust values 
+	// when alt_control is enabled, set a flag. 
+	if (dmp) {
+		gain_lift*(SetPoint.lift - currentlift) + gain_baro*(SetPoint.baro - currentbaro) + gain_accZ*(change should be zero)
+	}
+	else {
+		raw_control();
+	}
+	*/
+	get_raw_sensor_data();
+	run_filter(ALT);
 }

@@ -46,9 +46,9 @@ void dmp_control(bool yaw_only);
 
 
 typedef struct {
-	int8_t yaw;
-	int8_t pitch;
-	int8_t roll;
+	int8_t  yaw;
+	int8_t  pitch;
+	int8_t  roll;
 	uint8_t lift;
 } setpoint;
 
@@ -57,17 +57,19 @@ setpoint SetPoint;
 typedef enum {
 	YAW,
 	PITCH,
-	ROLL
+	ROLL, 
+	ALT
 } filter_select_t;
 
 void raw_control(bool yaw_only);
 void run_filter(filter_select_t filter);
-int16_t mul_scale(int16_t a, int16_t b, uint8_t scale);
+void alt_control(bool dmp);
+//int16_t mul_scale(int16_t a, int16_t b, uint8_t scale);
 
 //filter_select_t filter_select;
 
 int16_t theta_f, phi_f, psi_f;
-int16_t sr_f;
+int16_t sr_f, saz_f;
 
 
 // UART

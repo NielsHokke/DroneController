@@ -64,12 +64,14 @@ static void control_loop(void *pvParameter){
 		if ((i++ % 10) == 0){
 			nrf_gpio_pin_toggle(GREEN);
 
-			DEBUG_PRINT("\n say: \f");
-			DEBUG_PRINTEGER(say, 6);// - phi_offset, 6);
-			DEBUG_PRINT(" sq: \f");
-			DEBUG_PRINTEGER(sp, 6);// - theta_offset, 6);
-			DEBUG_PRINT(" fphi: \f");
-			DEBUG_PRINTEGER(phi_f, 6);// - psi_offset, 6);
+			DEBUG_PRINT("\nsaz: \f");
+			DEBUG_PRINTEGER(saz, 6);// - phi_offset, 6);
+			DEBUG_PRINT(" zf: \f");
+			DEBUG_PRINTEGER(saz_f, 6);// - phi_offset, 6);
+			DEBUG_PRINT(" pres: \f");
+			DEBUG_PRINTEGER(pressure, 6);// - theta_offset, 6);
+			//DEBUG_PRINT(" fphi: \f");
+			//DEBUG_PRINTEGER(theta_f, 6);// - psi_offset, 6);
 
 			DEBUG_PRINT(" .\n\f");
 
@@ -122,10 +124,12 @@ static void control_loop(void *pvParameter){
 			case S_RAW_MODE :
 				if(printing) DEBUG_PRINT("S_RAW_MODE\n\f");
 				raw_control(false);
+				read_baro();
 				break;
 
 			case S_HEIGHT_CTRL :
 				if(printing) DEBUG_PRINT("S_HEIGHT_CTRL\n\f");
+				alt_control(true);
 				// TODO implement mode
 				break;
 
@@ -210,7 +214,7 @@ static void check_battery_voltage(void *pvParameter){
 int main(void)
 {
 
-	GLOBALSTATE = S_RAW_MODE; //manual mode 0 = safe
+	GLOBALSTATE = S_HEIGHT_CTRL; //manual mode 0 = safe
 
 	SetPoint.pitch = 0;
 	SetPoint.yaw = 0;
