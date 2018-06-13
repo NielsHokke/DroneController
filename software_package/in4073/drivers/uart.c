@@ -248,7 +248,7 @@ void handle_serial_rx(char c){
 	}
 
 	// Reset non-connectin inerupt.
-	// xTimerReset(UartTimeoutHandle, 0);
+	xTimerReset(UartTimeoutHandle, 0);
 }
 
 
