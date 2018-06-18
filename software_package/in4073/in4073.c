@@ -199,11 +199,11 @@ static void sensor_loop(void *pvParameter){
 
 static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
-	int i = 0;
+	int16_t i = 0;
 
 	for(;;){
 
-		if ((i++ % 100) == 0){
+		if ((i % 10) == 0){
 			nrf_gpio_pin_toggle(BLUE);
 
 			adc_request_sample();
@@ -216,8 +216,10 @@ static void check_battery_voltage(void *pvParameter){
 			}
 		}
 
-		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
+		// downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
+		downLink(GLOBALSTATE, i, motor[1], motor[2], motor[3], i, theta, psi);
 
+		i++;
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
 		vTaskDelay(99);
 
