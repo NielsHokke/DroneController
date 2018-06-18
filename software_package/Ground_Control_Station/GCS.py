@@ -559,85 +559,72 @@ class ConsoleThread(threading.Thread):
 
         data = bytearray()
         while self.Running:
-            temp_data = bytearray(ser.readline()) # TODO maby read per char
+            byte = ser.read()
+            inte = int.from_bytes(byte, byteorder='big')
+            data.append(int.from_bytes(byte, byteorder='big'))
+            if inte == 10:
+                # print(data[:-2])
+                fout = data[-2]
 
-            temp_string = temp_data.decode("utf-8", "backslashreplace")
-            if temp_string.isalnum():
-                pass
-                # print(temp_string, end='', flush=True)
-            print(data)
-            for byte in temp_data:
-                # print(byte)
-                if byte != 10:
-                    data.append(byte)
+                dataString = data[:-2].decode("utf-8", "backslashreplace")
 
-                # if 10 == byte:
-                #     # print(data)
-                dataString = data.decode("utf-8", "backslashreplace")
-                if 'aaa' in dataString and 'zzz' in dataString:
-                    # print(data)
-                    index = 0
 
-                    found_A = False
-                    for char in dataString:
-                        if not found_A:
-                            if dataString[index] != 'a':
-                                index += 1
+
+                if 'aaa' in dataString or 'zzz' in dataString:
+                    if 'aaa' in dataString and 'zzz' in dataString:
+                        index = 0
+                        found_A = False
+                        for char in dataString:
+                            if not found_A:
+                                if dataString[index] != 'a':
+                                    index += 1
+                                else:
+                                    found_A = True
                             else:
-                                found_A = True
-                        else:
-                            if dataString[index] == 'a':
-                                index += 1
-                            else:
-                                break
+                                if dataString[index] == 'a':
+                                    index += 1
+                                else:
+                                    break
 
-                    if ready:
-                        mode = data[index]
-                        m1 = data[index+1] << 8 + data[index+2]
-                        m2 = data[index+3] << 8 + data[index+4]
-                        m3 = data[index+5] << 8 + data[index+6]
-                        m4 = data[index+7] << 8 + data[index+8]
-                        pitch = data[index+9] << 8 + data[index+10]
-                        yaw = data[index+11] << 8 + data[index+12]
-                        roll = data[index+13] << 8 + data[index+14]
+                        if ready:
+                            mode = data[index]
+                            m1 = data[index+1] << 8 + data[index+2]
+                            m2 = data[index+3] << 8 + data[index+4]
+                            m3 = data[index+5] << 8 + data[index+6]
+                            m4 = data[index+7] << 8 + data[index+8]
+                            pitch = data[index+9] << 8 + data[index+10]
+                            yaw = data[index+11] << 8 + data[index+12]
+                            roll = data[index+13] << 8 + data[index+14]
 
 
-                        if mode != MODE:
-                            print("adjusted by drone", mode)
-                            Switch_Mode(mode, True, True)
+                            if mode != MODE:
+                                print("adjusted by drone", mode)
+                                Switch_Mode(mode, True, True)
 
-                        motorvalues.M1 = m1
-                        motorvalues.M2 = m2
-                        motorvalues.M3 = m3
-                        motorvalues.M4 = m4
+                            motorvalues.M1 = m1
+                            motorvalues.M2 = m2
+                            motorvalues.M3 = m3
+                            motorvalues.M4 = m4
 
-                        # print("found information string")
-                        # print(data)
-                        # print("Mode", mode)
-                        # print("M1", m1)
-                        # print("M2", m2)
-                        # print("M3", m3)
-                        # print("M4", m4)
-                        # print("Pitch", pitch)
-                        # print("Yaw", yaw)
-                        # print("Roll", roll, "\n")
+                            # print("found information string")
+                            # print(data)
+                            # print("Mode", mode)
+                            # print("M1", m1)
+                            # print("M2", m2)
+                            # print("M3", m3)
+                            # print("M4", m4)
+                            # print("Pitch", pitch)
+                            # print("Yaw", yaw)
+                            # print("Roll", roll, "\n")
+                    else:
+                        pass
+                        # half a message recieved
+                else:
+                    print (dataString)
 
-                    # else:
-                    #     print(dataString)
+                data = bytearray()
+                data.append(fout)
 
-                    #print("found enter\n")
-                    data = bytearray()
-            
-
-            # if b'\n' in data:
-                
-            # else:
-            #     print("no enter\n")
-
-            # if data[0] == 10:
-            #     print(data.decode("utf-8", "backslashreplace"))
-            # else:
-            # print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
     def stop(self):
         self.Running = False
 
