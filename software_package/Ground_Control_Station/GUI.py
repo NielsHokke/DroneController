@@ -82,6 +82,7 @@ class Guibar(object):
     def __iter__(self):
         return self
 
+
 class Button(object):
 #text #left #top #height #widht #function r_button
     def __init__(self,name,top,left,width,height,fx,fy, color=pygame.Color(60,60,60)):
@@ -113,6 +114,35 @@ class Button(object):
     def checkclicked(self,pos):
     	return self.r_button.collidepoint(pos)
 
+class Multiline(object):
+
+    def __init__(self, top, left, width, height, lines, chars):
+        self.top = top
+        self.left = left
+        self.width = width
+        self.height = height
+        self.lines = lines
+        self.chars = chars
+        self.data = [" "] * lines
+
+        # TODO teken vierkant om top left width en height te checken!
+
+    def draw(self, screen):
+        background = pygame.Rect(self.left, self.top, self.width ,self.height)
+        pygame.draw.rect(screen,pygame.Color(245,245,245),background)
+
+        for i in range(self.lines):
+            text = f_font_12.render(self.data[i],True,col_grey3)
+            screen.blit(text,(self.left,self.top + i*15))
+
+    def addLine(self, line):
+        if len(line) > self.chars:
+            line = line[:self.chars]
+
+        self.data.pop(0)
+        self.data.append(line)
+
+
 allguibars = []
 allbuttons = []
 
@@ -131,13 +161,16 @@ f_font_60 = pygame.font.Font('OpenSans.ttf',60)
 f_font_20 = pygame.font.Font('OpenSans.ttf',20)
 f_font_18 = pygame.font.Font('OpenSans.ttf',18)
 f_font_16 = pygame.font.Font('OpenSans.ttf',16)
+f_font_12 = pygame.font.Font('OpenSans.ttf',12)
 
 #texts    
 Text_Title = f_font_60.render('Ground Control Station',True,col_grey3)
+Text_serial_header = f_font_20.render('Serial',True,col_grey3)
 Text_trim_header = f_font_20.render('Trim settings',True,col_grey3)
 Text_motor_header = f_font_20.render('Motors',True,col_grey3)
 Text_params_header = f_font_20.render('Parameters',True,col_grey3)
 Text_modeswitch_header = f_font_20.render('Modes',True,col_grey3)
+Text_gyro_header = f_font_20.render('Gyro',True,col_grey3)
 
 #titlebanner
 r_topbar = pygame.Rect(0,0,740,20)
@@ -147,12 +180,12 @@ r_topbar2_shadow1 = pygame.Rect(0,100,740,1)
 r_topbar2_shadow2 = pygame.Rect(0,119,740,1)
 
 #background blocks
-r_b_gyro = pygame.Rect(40,140,220,220)
+r_b_serial= pygame.Rect(40,140,420,220)
 r_b_trim = pygame.Rect(40,380,220,280)
-r_b_param = pygame.Rect(480,260,220,400)
+r_b_param = pygame.Rect(480,380,220,280)
 r_b_motor = pygame.Rect(280,380,180,280)
 r_b_bottom = pygame.Rect(40,680,660,100)
-r_b_status = pygame.Rect(280,260,180,100)
+r_b_gyro = pygame.Rect(480,140,220,220)
 
 def draw_all(screen):
 	#background
@@ -165,12 +198,12 @@ def draw_all(screen):
     pygame.draw.rect(screen,col_grey2,r_topbar2_shadow2)
 
     #background blocks
-    pygame.draw.rect(screen,col_grey1,r_b_gyro)
+    pygame.draw.rect(screen,col_grey1,r_b_serial)
     pygame.draw.rect(screen,col_grey1,r_b_trim)
-    pygame.draw.rect(screen,col_grey1,r_b_param)
+    pygame.draw.rect(screen,col_grey1,r_b_gyro)
     pygame.draw.rect(screen,col_grey1,r_b_motor)
     pygame.draw.rect(screen,col_grey1,r_b_bottom)   
-    pygame.draw.rect(screen,col_grey1,r_b_status)
+    pygame.draw.rect(screen,col_grey1,r_b_param)
 
     #draw gui bars
     for bar in range(len(allguibars)):
@@ -181,9 +214,12 @@ def draw_all(screen):
 
     #draw title text
     screen.blit(Text_Title,(60,16))
+
+    screen.blit(Text_serial_header,(57,145))
     screen.blit(Text_trim_header,(57,385))
     screen.blit(Text_motor_header,(297,385))
-    screen.blit(Text_params_header,(497,270))
+    screen.blit(Text_params_header,(497,385))
     screen.blit(Text_modeswitch_header,(57,685))
+    screen.blit(Text_gyro_header,(497,145))
 
     return screen

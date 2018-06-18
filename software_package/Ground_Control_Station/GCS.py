@@ -3,6 +3,7 @@
 #!/usr/bin/env python
 import sys
 import threading
+import string
 import time
 import serial
 import pygame
@@ -12,6 +13,7 @@ import Registermapping #homebrew registermpping file
 import GUI #homebrew gui file
 import parameterdefaults #homebrew parameter defaults
 from enum import IntEnum
+from time import gmtime, strftime
 
 #enumarate the different modes
 class Mode(IntEnum):
@@ -294,7 +296,10 @@ def draw_gui():
     global allguibars
     global controlvalues
     global motorvalues
+    global gyrovalues
     global has_joystick
+
+    global multiline
 
     #update trim values
     GUI.allguibars[0].settrim(trimvalues.roll)
@@ -312,13 +317,14 @@ def draw_gui():
     GUI.allguibars[6].setval(motorvalues.M3)
     GUI.allguibars[7].setval(motorvalues.M4)
 
-    #text in middel
-    Text_mode = GUI.f_font_16.render(str(MODE)[5:],True,GUI.col_grey3)
+    GUI.allguibars[8].setval(gyrovalues.pitch)
+    GUI.allguibars[9].setval(gyrovalues.yaw)
+    GUI.allguibars[10].setval(gyrovalues.roll)
 
-    if has_joystick:
-        Text_controller = GUI.f_font_18.render("Joystick",True,GUI.col_grey3)
-    else : 
-        Text_controller = GUI.f_font_16.render("No Joystick",True,GUI.col_grey3)
+    #text in middel
+    text_pitch = GUI.f_font_16.render("Pitch: " + str(gyrovalues.pitch),True,GUI.col_grey3)
+    text_yaw = GUI.f_font_16.render("Yaw: " + str(gyrovalues.yaw),True,GUI.col_grey3)
+    text_roll = GUI.f_font_16.render("Roll: " + str(gyrovalues.roll),True,GUI.col_grey3)
 
     #update parameter display P1 P2 P3
     Text_PY   = GUI.f_font_16.render(str(parametervalues.PYaw),True,GUI.col_grey3)
@@ -348,33 +354,38 @@ def draw_gui():
     #draw most of the gui
     screen = GUI.draw_all(screen)
 
-    #text in middel
-    screen.blit(Text_controller,(300,290))
-    screen.blit(Text_mode,(300,270))
+    multiline.draw(screen)
+
+    # #text in middel
+    # screen.blit(text_pitch,(297,340))
+    # screen.blit(text_yaw,(297,320))
+    # screen.blit(text_roll,(297,300))
 
     #update the parameter text
-    screen.blit(Text_PY_h,(490,299))
-    screen.blit(Text_P1_h,(490,329))
-    screen.blit(Text_P2_h,(490,359))
-    screen.blit(Text_PY,(520,299))
-    screen.blit(Text_P1,(520,329))
-    screen.blit(Text_P2,(520,359))
-    screen.blit(Text_PY_n,(560,299))
-    screen.blit(Text_P1_n,(560,329))
-    screen.blit(Text_P2_n,(560,359))
+    P_H = 415
+
+    screen.blit(Text_PY_h,(490,P_H))
+    screen.blit(Text_P1_h,(490,P_H+30))
+    screen.blit(Text_P2_h,(490,P_H+60))
+    screen.blit(Text_PY,(520,P_H))
+    screen.blit(Text_P1,(520,P_H+30))
+    screen.blit(Text_P2,(520,P_H+60))
+    screen.blit(Text_PY_n,(560,P_H))
+    screen.blit(Text_P1_n,(560,P_H+30))
+    screen.blit(Text_P2_n,(560,P_H+60))
     #angle and yaw
-    screen.blit(Text_ymax_h,(490,389))
-    screen.blit(Text_ymin_h,(490,419))
-    screen.blit(Text_amax_h,(490,449))
-    screen.blit(Text_amin_h,(490,479))
-    screen.blit(Text_ymax,(520,389))
-    screen.blit(Text_ymin,(520,419))
-    screen.blit(Text_amax,(520,449))
-    screen.blit(Text_amin,(520,479))
-    screen.blit(Text_ymax_n,(560,389))
-    screen.blit(Text_ymin_n,(560,419))
-    screen.blit(Text_amax_n,(560,449))
-    screen.blit(Text_amin_n,(560,479))
+    screen.blit(Text_ymax_h,(490,P_H+90))
+    screen.blit(Text_ymin_h,(490,P_H+120))
+    screen.blit(Text_amax_h,(490,P_H+150))
+    screen.blit(Text_amin_h,(490,P_H+180))
+    screen.blit(Text_ymax,(520,P_H+90))
+    screen.blit(Text_ymin,(520,P_H+120))
+    screen.blit(Text_amax,(520,P_H+150))
+    screen.blit(Text_amin,(520,P_H+180))
+    screen.blit(Text_ymax_n,(560,P_H+90))
+    screen.blit(Text_ymin_n,(560,P_H+120))
+    screen.blit(Text_amax_n,(560,P_H+150))
+    screen.blit(Text_amin_n,(560,P_H+180))
     return
 
 def init_gui():
@@ -386,7 +397,6 @@ def init_gui():
     global full_bt
     global raw_bt
 
-
     #name,top,left,hor,uns,trim:
     GUI.Guibar("Roll",440,60,True,False,True)
     GUI.Guibar("Pitch",500,60,True,False,True)
@@ -397,6 +407,10 @@ def init_gui():
     GUI.Guibar("M2",440,340,False,True,False)
     GUI.Guibar("M3",440,380,False,True,False)
     GUI.Guibar("M4",440,420,False,True,False)
+
+    GUI.Guibar("Pitch",200,500,True,False,False)
+    GUI.Guibar("Yaw",260,500,True,False,False)
+    GUI.Guibar("Roll",320,500,True,False,False)
     
     #name,top,left,width,height,function
     safe_bt = GUI.Button("0: SAFE",720,60,80,40,8,12)
@@ -409,44 +423,45 @@ def init_gui():
     full_bt = GUI.Button("5: FULL",720,510,80,40,8,14)
     raw_bt = GUI.Button("6: RAW",720,600,80,40,8,12)
 
-    GUI.Button("SEND",600,600,80,40,8,18)
+    GUI.Button("SEND",625,600,80,25,2,18)
 
+    P_H = 415
 
     #P_YAW buttons
-    GUI.Button("<<",300,600,20,20,-1,4)
-    GUI.Button("<",300,620,20,20,-1,6)
-    GUI.Button(">",300,640,20,20,-1,2)
-    GUI.Button(">>",300,660,20,20,-1,2)
+    GUI.Button("<<",P_H,600,20,20,-1,4)
+    GUI.Button("<",P_H,620,20,20,-1,6)
+    GUI.Button(">",P_H,640,20,20,-1,2)
+    GUI.Button(">>",P_H,660,20,20,-1,2)
     #P1buttons
-    GUI.Button("<<",330,600,20,20,-1,4)
-    GUI.Button("<",330,620,20,20,-1,6)
-    GUI.Button(">",330,640,20,20,-1,2)
-    GUI.Button(">>",330,660,20,20,-1,2)
+    GUI.Button("<<",P_H+30,600,20,20,-1,4)
+    GUI.Button("<",P_H+30,620,20,20,-1,6)
+    GUI.Button(">",P_H+30,640,20,20,-1,2)
+    GUI.Button(">>",P_H+30,660,20,20,-1,2)
     #P2buttons
-    GUI.Button("<<",360,600,20,20,-1,4)
-    GUI.Button("<",360,620,20,20,-1,6)
-    GUI.Button(">",360,640,20,20,-1,2)
-    GUI.Button(">>",360,660,20,20,-1,2)
+    GUI.Button("<<",P_H+60,600,20,20,-1,4)
+    GUI.Button("<",P_H+60,620,20,20,-1,6)
+    GUI.Button(">",P_H+60,640,20,20,-1,2)
+    GUI.Button(">>",P_H+60,660,20,20,-1,2)
     #Y+ buttons
-    GUI.Button("<<",390,600,20,20,-1,4)
-    GUI.Button("<",390,620,20,20,-1,6)
-    GUI.Button(">",390,640,20,20,-1,2)
-    GUI.Button(">>",390,660,20,20,-1,2)
+    GUI.Button("<<",P_H+90,600,20,20,-1,4)
+    GUI.Button("<",P_H+90,620,20,20,-1,6)
+    GUI.Button(">",P_H+90,640,20,20,-1,2)
+    GUI.Button(">>",P_H+90,660,20,20,-1,2)
     #Y- buttons
-    GUI.Button("<<",420,600,20,20,-1,4)
-    GUI.Button("<",420,620,20,20,-1,6)
-    GUI.Button(">",420,640,20,20,-1,2)
-    GUI.Button(">>",420,660,20,20,-1,2)
+    GUI.Button("<<",P_H+120,600,20,20,-1,4)
+    GUI.Button("<",P_H+120,620,20,20,-1,6)
+    GUI.Button(">",P_H+120,640,20,20,-1,2)
+    GUI.Button(">>",P_H+120,660,20,20,-1,2)
     #Y+ buttons
-    GUI.Button("<<",450,600,20,20,-1,4)
-    GUI.Button("<",450,620,20,20,-1,6)
-    GUI.Button(">",450,640,20,20,-1,2)
-    GUI.Button(">>",450,660,20,20,-1,2)
+    GUI.Button("<<",P_H+150,600,20,20,-1,4)
+    GUI.Button("<",P_H+150,620,20,20,-1,6)
+    GUI.Button(">",P_H+150,640,20,20,-1,2)
+    GUI.Button(">>",P_H+150,660,20,20,-1,2)
     #Y- buttons
-    GUI.Button("<<",480,600,20,20,-1,4)
-    GUI.Button("<",480,620,20,20,-1,6)
-    GUI.Button(">",480,640,20,20,-1,2)
-    GUI.Button(">>",480,660,20,20,-1,2)
+    GUI.Button("<<",P_H+180,600,20,20,-1,4)
+    GUI.Button("<",P_H+180,620,20,20,-1,6)
+    GUI.Button(">",P_H+180,640,20,20,-1,2)
+    GUI.Button(">>",P_H+180,660,20,20,-1,2)
 
 def handlebuttonfunction(button):
     global newparametervalues
@@ -552,92 +567,97 @@ def setparams():
 
 class ConsoleThread(threading.Thread):
     Running = True
+    printable = set(string.printable)
 
     def run(self):
         global MODE
         global ready
+        global motorvalues
+        global gyrovalues
+        global multiline
 
         data = bytearray()
         while self.Running:
-            temp_data = bytearray(ser.readline()) # TODO maby read per char
+            byte = ser.read()
+            inte = int.from_bytes(byte, byteorder='big')
+            data.append(int.from_bytes(byte, byteorder='big'))
+            if inte == 10:
+                print(data[:-2])
+                fout = data[-2]
 
-            temp_string = temp_data.decode("utf-8", "backslashreplace")
-            if temp_string.isalnum():
-                pass
-                # print(temp_string, end='', flush=True)
-            print(data)
-            for byte in temp_data:
-                # print(byte)
-                if byte != 10:
-                    data.append(byte)
+                dataString = data[:-2].decode("utf-8", errors='ignore')
 
-                # if 10 == byte:
-                #     # print(data)
-                dataString = data.decode("utf-8", "backslashreplace")
-                if 'aaa' in dataString and 'zzz' in dataString:
-                    # print(data)
-                    index = 0
-
-                    found_A = False
-                    for char in dataString:
-                        if not found_A:
-                            if dataString[index] != 'a':
-                                index += 1
+                if 'aaa' in dataString or 'zzz' in dataString:
+                    if 'aaa' in dataString and 'zzz' in dataString:
+                        index = 0
+                        found_A = False
+                        for char in dataString:
+                            if not found_A:
+                                if dataString[index] != 'a':
+                                    index += 1
+                                else:
+                                    found_A = True
                             else:
-                                found_A = True
-                        else:
-                            if dataString[index] == 'a':
-                                index += 1
-                            else:
-                                break
+                                if dataString[index] == 'a':
+                                    index += 1
+                                else:
+                                    break
 
-                    if ready:
-                        mode = data[index]
-                        m1 = data[index+1] << 8 + data[index+2]
-                        m2 = data[index+3] << 8 + data[index+4]
-                        m3 = data[index+5] << 8 + data[index+6]
-                        m4 = data[index+7] << 8 + data[index+8]
-                        pitch = data[index+9] << 8 + data[index+10]
-                        yaw = data[index+11] << 8 + data[index+12]
-                        roll = data[index+13] << 8 + data[index+14]
+                        if ready:
+                            mode = data[index]
+                            m1 = int(data[index+1] * 255 + data[index+2])
+                            m2 = int(data[index+3] * 255 + data[index+4])
+                            m3 = int(data[index+5] * 255 + data[index+6])
+                            m4 = int(data[index+7] * 255 + data[index+8])
+                            pitch = int(data[index+9] * 255 + data[index+10])
+                            yaw = int(data[index+11] * 255 + data[index+12])
+                            roll = int(data[index+13] * 255 + data[index+14])
+
+                            if pitch > 2**15:
+                                pitch -= 2**16
+
+                            if yaw > 2**15:
+                                yaw -= 2**16
+
+                            if roll > 2**15:
+                                roll -= 2**16
 
 
-                        if mode != MODE:
-                            print("adjusted by drone", mode)
-                            Switch_Mode(mode, True, True)
+                            if mode != MODE:
+                                print("adjusted by drone", mode)
+                                Switch_Mode(mode, True, True)
 
-                        motorvalues.M1 = m1
-                        motorvalues.M2 = m2
-                        motorvalues.M3 = m3
-                        motorvalues.M4 = m4
+                            motorvalues.M1 = m1//255
+                            motorvalues.M2 = m2//255
+                            motorvalues.M3 = m3//255
+                            motorvalues.M4 = m4//255
 
-                        # print("found information string")
-                        # print(data)
-                        # print("Mode", mode)
-                        # print("M1", m1)
-                        # print("M2", m2)
-                        # print("M3", m3)
-                        # print("M4", m4)
-                        # print("Pitch", pitch)
-                        # print("Yaw", yaw)
-                        # print("Roll", roll, "\n")
+                            gyrovalues.pitch = pitch//255
+                            gyrovalues.yaw = yaw//255
+                            gyrovalues.roll = roll//255
 
-                    # else:
-                    #     print(dataString)
 
-                    #print("found enter\n")
-                    data = bytearray()
-            
+                            # print("found information string")
+                            # print(data)
+                            # print("Mode", mode)
+                            # print("M1", m1)
+                            # print("M2", m2)
+                            # print("M3", m3)
+                            # print("M4", m4)
+                            # print("Pitch", pitch)
+                            # print("Yaw", yaw)
+                            # print("Roll", roll, "\n")
+                    else:
+                        pass
+                        # half a message recieved
+                else:
+                    tijd = strftime("%H:%M:%S", gmtime())
+                    multiline.addLine(tijd+" "+ "".join(i for i in dataString if ord(i)<128 and ord(i)>31))
+                    print (dataString)
 
-            # if b'\n' in data:
-                
-            # else:
-            #     print("no enter\n")
+                data = bytearray()
+                data.append(fout)
 
-            # if data[0] == 10:
-            #     print(data.decode("utf-8", "backslashreplace"))
-            # else:
-            # print(ser.readline().decode("utf-8", "backslashreplace"), end='', flush=True)
     def stop(self):
         self.Running = False
 
@@ -663,10 +683,15 @@ class Parametervalues:
     angle_max = parameterdefaults.P_angle_max
 
 class Motorvalues:
-    M1 = 50
-    M2 = 50
-    M3 = 50
-    M4 = 50
+    M1 = 0
+    M2 = 0
+    M3 = 0
+    M4 = 0
+
+class Gyrovalues:
+    pitch = 0
+    yaw = 0
+    roll = 0
 
 #TODO commport as argument
 # #if no comport is given as a argument default to ttyUSB0
@@ -689,6 +714,9 @@ parametervalues = Parametervalues()
 newparametervalues = Parametervalues()
 controlvalues = Controlvalues()
 motorvalues = Motorvalues()
+gyrovalues = Gyrovalues()
+
+multiline = GUI.Multiline(175, 60, 380, 180, 12, 54)
 
 MODE = Mode.MODE_SAFE
 Running = True
@@ -792,7 +820,7 @@ if __name__ == '__main__':
 
         if send_control_message_flag == 0:
             send_control_message()
-            send_control_message_flag = 100
+            send_control_message_flag = 80
 
         send_control_message_flag += -1
 

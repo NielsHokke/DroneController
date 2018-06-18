@@ -104,7 +104,7 @@ void validate_ctrl_msg(void *pvParameter){
 			DEBUG_PRINT("\n\f");
 		}else{
 			// Correct CRC
-			DEBUG_PRINT("CTRL crc correct\n\f");
+			DEBUG_PRINT("CTRL, crc correct\n\f");
 			SetPoint.yaw = ctrl_buffer[1];
 			SetPoint.pitch = ctrl_buffer[2];
 			SetPoint.roll = ctrl_buffer[3];
@@ -144,7 +144,7 @@ void validate_para_msg(void *pvParameter){
 			DEBUG_PRINT("\n\f");
 		}else{
 			// Correct CRC
-			DEBUG_PRINT("param. crc correct\n\f");
+			DEBUG_PRINT("PARA, crc correct\n\f");
 
 			uint8_t index = (uint8_t) para_buffer[1];
 			parameters[index] = para_buffer[2];
@@ -168,8 +168,10 @@ void validate_para_msg(void *pvParameter){
  *------------------------------------------------------------------
  */
 void UartTimeoutCallback( TimerHandle_t xTimer ){
-	DEBUG_PRINT("PANIC ALLES STUK!\n\f");
 	GLOBALSTATE = S_PANIC;
+	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
+	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
+	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
 }
 
 
