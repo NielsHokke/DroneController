@@ -160,7 +160,7 @@ void dmp_control(bool yaw_only){
 		// if we multiply sensor value by 2, we can multiply setpoint by 17 (with an rounding error of 1.09%)
 
 
-		roll_output = 	GET_PARA_16(P_P1) * (	((int32_t) SetPoint.roll * 17) - (phi << 1)) - 	GET_PARA_16(P_P2) * sp;
+		roll_output = 	GET_PARA_16(P_P1) * (	((int32_t) SetPoint.roll * 48) - (phi << 1)) - 	GET_PARA_16(P_P2) * sp;
 
 		
 
@@ -169,7 +169,7 @@ void dmp_control(bool yaw_only){
 		// for phi 140 maps to 1 degree. the setpoints (-128,127) map should map to (-5,5) degrees
 		// (5 degrees / 128) * 140 = 5.46785 so (setpoint.pitch * 5.46785) gets it in the same unit as the sensor
 		// if we multiply sensor value by 2, we can multiply setpoint by 11 (with an rounding error of 0.58%)
-		pitch_output = 	-1 * GET_PARA_16(P_P1) * (	((int32_t) SetPoint.pitch * 17) - (theta << 1)) - GET_PARA_16(P_P2) * sq;
+		pitch_output = 	-1 * GET_PARA_16(P_P1) * (	((int32_t) SetPoint.pitch * 48) - (theta << 1)) - GET_PARA_16(P_P2) * sq;
 	}
 
 	// The following function limits the output to the values set by the yaw min max
@@ -197,10 +197,10 @@ void dmp_control(bool yaw_only){
 	//Pitch and roll are first scaled by 2^10 to increase percision and next divided by a fixed scaler which can be set in drone.h
 
 	//TODO: change 1606 (which scales up to 400) back to 4015 which scales to 1000 (maybe use 4096 which can be done by '<< 12' which scales to 1020)
-	tempMotor[0] =  ((int32_t) SetPoint.lift  << 14) + yaw_output - pitch_output;
-	tempMotor[1] =  ((int32_t) SetPoint.lift  << 14) - yaw_output - roll_output;
-	tempMotor[2] =  ((int32_t) SetPoint.lift  << 14) + yaw_output + pitch_output;
-	tempMotor[3] =  ((int32_t) SetPoint.lift  << 14) - yaw_output + roll_output;
+	tempMotor[0] =  ((int32_t) SetPoint.lift  << 13) + yaw_output - pitch_output;
+	tempMotor[1] =  ((int32_t) SetPoint.lift  << 13) - yaw_output - roll_output;
+	tempMotor[2] =  ((int32_t) SetPoint.lift  << 13) + yaw_output + pitch_output;
+	tempMotor[3] =  ((int32_t) SetPoint.lift  << 13) - yaw_output + roll_output;
 
 
 	// Minimum lift guard:
@@ -233,10 +233,10 @@ void dmp_control(bool yaw_only){
 	if (tempMotor[2] < 200) tempMotor[2] = 200;
 	if (tempMotor[3] < 200) tempMotor[3] = 200;
 
-	if (tempMotor[0] > 1000) tempMotor[0] = 1000;
-	if (tempMotor[1] > 1000) tempMotor[1] = 1000;
-	if (tempMotor[2] > 1000) tempMotor[2] = 1000;
-	if (tempMotor[3] > 1000) tempMotor[3] = 1000;
+	if (tempMotor[0] > 750) tempMotor[0] = 750;
+	if (tempMotor[1] > 750) tempMotor[1] = 750;
+	if (tempMotor[2] > 750) tempMotor[2] = 750;
+	if (tempMotor[3] > 750) tempMotor[3] = 750;
 
 
 	// Set calculated values to setpoints
@@ -264,10 +264,10 @@ void manual_control(void){
 	//TODO: the scalars should be a on the go settable parameter.
 
 	//TODO: chacne 1606 (which sacels up to 400) back to 4015 which scales to 1000
-	tempMotor[0] = (int32_t) (SetPoint.lift << 12) 	+ (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[1] = (int32_t) (SetPoint.lift << 12) 	- (int32_t) SetPoint.roll  * 1606 / MAN_ROLL_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[2] = (int32_t) (SetPoint.lift << 12) 	- (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
-	tempMotor[3] = (int32_t) (SetPoint.lift << 12) 	+ (int32_t)	SetPoint.roll  * 1606 / MAN_ROLL_SCALER  	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[0] = (int32_t) (SetPoint.lift << 11) 	+ (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[1] = (int32_t) (SetPoint.lift << 11) 	- (int32_t) SetPoint.roll  * 1606 / MAN_ROLL_SCALER 	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[2] = (int32_t) (SetPoint.lift << 11) 	- (int32_t) SetPoint.pitch * 1606 / MAN_PITCH_SCALER 	- (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
+	tempMotor[3] = (int32_t) (SetPoint.lift << 11) 	+ (int32_t)	SetPoint.roll  * 1606 / MAN_ROLL_SCALER  	+ (int32_t) SetPoint.yaw * 1606 / MAN_YAW_SCALER;
 
 
 	tempMotor[0] = tempMotor[0] >> 10;

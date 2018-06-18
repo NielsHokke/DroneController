@@ -7,6 +7,7 @@ import time
 import serial
 import pygame
 import crcmod
+import math
 import Registermapping #homebrew registermpping file
 import GUI #homebrew gui file
 import parameterdefaults #homebrew parameter defaults
@@ -624,7 +625,7 @@ class ConsoleThread(threading.Thread):
                     # else:
                     #     print(dataString)
 
-                    # print("found enter\n")
+                    #print("found enter\n")
                     data = bytearray()
             
 
@@ -779,11 +780,13 @@ if __name__ == '__main__':
                     controlvalues.pitch = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_pitch) * 127.5)+trimvalues.pitch))
                     controlvalues.yaw   = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_yaw) * 127.5)+trimvalues.yaw))
                     controlvalues.roll  = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_roll) * 127.5)+trimvalues.roll))
-
-                    # linear = min(255,max(0,(255 - (round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))+trimvalues.lift)))
-
-                    # controlvalues.lift  = 
-
+                    controlvalues.lift  = min(255,max(0,(255 - (round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))+trimvalues.lift)))
+                    if controlvalues.lift < 45:
+                        controlvalues.lift = controlvalues.lift * 4
+                    else:
+                        value = controlvalues.lift
+                        templift = round(180 + 75 * math.sqrt((value-45)/210))
+                        controlvalues.lift = max(0,min(255, templift))
 
                     send_control_message_flag = 0
 
