@@ -116,13 +116,13 @@ class Button(object):
 
 class Multiline(object):
 
-    def __init__(self, top, left, width, height, lines, textsize):
+    def __init__(self, top, left, width, height, lines, chars):
         self.top = top
         self.left = left
         self.width = width
         self.height = height
         self.lines = lines
-        self.textsize = textsize
+        self.chars = chars
         self.data = [" "] * lines
 
         # TODO teken vierkant om top left width en height te checken!
@@ -136,8 +136,8 @@ class Multiline(object):
             screen.blit(text,(self.left,self.top + i*15))
 
     def addLine(self, line):
-        if len(line) > 55:
-            line = line[:55]
+        if len(line) > self.chars:
+            line = line[:self.chars]
 
         self.data.pop(0)
         self.data.append(line)
@@ -165,7 +165,7 @@ f_font_12 = pygame.font.Font('OpenSans.ttf',12)
 
 #texts    
 Text_Title = f_font_60.render('Ground Control Station',True,col_grey3)
-Text_info_header = f_font_20.render('Serial',True,col_grey3)
+Text_serial_header = f_font_20.render('Serial',True,col_grey3)
 Text_trim_header = f_font_20.render('Trim settings',True,col_grey3)
 Text_motor_header = f_font_20.render('Motors',True,col_grey3)
 Text_params_header = f_font_20.render('Parameters',True,col_grey3)
@@ -180,7 +180,7 @@ r_topbar2_shadow1 = pygame.Rect(0,100,740,1)
 r_topbar2_shadow2 = pygame.Rect(0,119,740,1)
 
 #background blocks
-r_b_info = pygame.Rect(40,140,420,220)
+r_b_serial= pygame.Rect(40,140,420,220)
 r_b_trim = pygame.Rect(40,380,220,280)
 r_b_param = pygame.Rect(480,380,220,280)
 r_b_motor = pygame.Rect(280,380,180,280)
@@ -198,7 +198,7 @@ def draw_all(screen):
     pygame.draw.rect(screen,col_grey2,r_topbar2_shadow2)
 
     #background blocks
-    pygame.draw.rect(screen,col_grey1,r_b_info)
+    pygame.draw.rect(screen,col_grey1,r_b_serial)
     pygame.draw.rect(screen,col_grey1,r_b_trim)
     pygame.draw.rect(screen,col_grey1,r_b_gyro)
     pygame.draw.rect(screen,col_grey1,r_b_motor)
@@ -215,7 +215,7 @@ def draw_all(screen):
     #draw title text
     screen.blit(Text_Title,(60,16))
 
-    screen.blit(Text_info_header,(57,145))
+    screen.blit(Text_serial_header,(57,145))
     screen.blit(Text_trim_header,(57,385))
     screen.blit(Text_motor_header,(297,385))
     screen.blit(Text_params_header,(497,385))

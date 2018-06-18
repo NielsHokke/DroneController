@@ -13,6 +13,7 @@ import Registermapping #homebrew registermpping file
 import GUI #homebrew gui file
 import parameterdefaults #homebrew parameter defaults
 from enum import IntEnum
+from time import gmtime, strftime
 
 #enumarate the different modes
 class Mode(IntEnum):
@@ -612,9 +613,6 @@ class ConsoleThread(threading.Thread):
                             yaw = int(data[index+11] * 255 + data[index+12])
                             roll = int(data[index+13] * 255 + data[index+14])
 
-                            print(data[index-1])
-                            print(data[index+2])
-
                             if pitch > 2**15:
                                 pitch -= 2**16
 
@@ -653,7 +651,8 @@ class ConsoleThread(threading.Thread):
                         pass
                         # half a message recieved
                 else:
-                    multiline.addLine("".join(i for i in dataString if ord(i)<128 and ord(i)>31))
+                    tijd = strftime("%H:%M:%S", gmtime())
+                    multiline.addLine(tijd+" "+ "".join(i for i in dataString if ord(i)<128 and ord(i)>31))
                     print (dataString)
 
                 data = bytearray()
@@ -717,7 +716,7 @@ controlvalues = Controlvalues()
 motorvalues = Motorvalues()
 gyrovalues = Gyrovalues()
 
-multiline = GUI.Multiline(175, 60, 385, 180, 12, 8)
+multiline = GUI.Multiline(175, 60, 380, 180, 12, 54)
 
 MODE = Mode.MODE_SAFE
 Running = True
@@ -821,7 +820,7 @@ if __name__ == '__main__':
 
         if send_control_message_flag == 0:
             send_control_message()
-            send_control_message_flag = 100
+            send_control_message_flag = 80
 
         send_control_message_flag += -1
 

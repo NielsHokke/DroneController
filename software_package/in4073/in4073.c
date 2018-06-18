@@ -95,7 +95,7 @@ static void control_loop(void *pvParameter){
 
 			// printf("%6d %6d %6d | ", sp, sq, sr); //  from the gyro
 
-			printing = true;
+			printing = false;
 		}else{
 			printing = false;
 		}
@@ -216,8 +216,7 @@ static void check_battery_voltage(void *pvParameter){
 			}
 		}
 
-		// downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
-		downLink(GLOBALSTATE, i, motor[1], motor[2], motor[3], i, theta, psi);
+		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, phi, psi);
 
 		i++;
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
