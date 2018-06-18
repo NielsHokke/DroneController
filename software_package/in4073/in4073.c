@@ -199,28 +199,27 @@ static void sensor_loop(void *pvParameter){
 
 static void check_battery_voltage(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
+	int i = 0;
 
 	for(;;){
 
-		nrf_gpio_pin_toggle(BLUE);
+		if ((i++ % 100) == 0){
+			nrf_gpio_pin_toggle(BLUE);
+
+			adc_request_sample();
+			vTaskDelay(1);
+
+			if (bat_volt < 1080){ // minimum = 10.8/0.007058824
+				
+				///DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
+				// GLOBALSTATE = S_PANIC;
+			}
+		}
 
 		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], phi, theta, psi);
 
-		//DEBUG_PRINT(".PY: \f");
-		//DEBUG_UPRINTEGER(GET_PARA_8(P_MAX_RPM), 6);
-
-
-		adc_request_sample();
-		vTaskDelay(1);
-
-		if (bat_volt < 1080){ // minimum = 10.8/0.007058824
-			
-			///DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
-			// GLOBALSTATE = S_PANIC;
-		}
-
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
-		vTaskDelay(999);
+		vTaskDelay(99);
 
 	}
 }

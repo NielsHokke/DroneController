@@ -40,6 +40,16 @@ void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_
 
 	// Flush uart
 	uart_put('\n');
+	uart_put('.');
+	uart_put('\n');
+	uart_put('.');
+	uart_put('\n');
+	uart_put('.');
+	uart_put('\n');
+	uart_put('.');
+	uart_put('\n');
+	uart_put('.');
+	uart_put('\n');
 }
 
 void print(char *string){

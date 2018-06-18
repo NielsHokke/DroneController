@@ -151,7 +151,7 @@ def handle_keypress(pressed_key):
     return
 
 #funtion to test the various mode switches
-def Switch_Mode(new_mode):
+def Switch_Mode(new_mode, force=False, local=False):
     global controlvalues
     global MODE #use the global variable
 
@@ -165,14 +165,20 @@ def Switch_Mode(new_mode):
 
     regmap = Registermapping.REGMAP_NEWMODE #destination adress from registermapping.py
 
+    global ready
+    global ready_counter
+
+    ready = False
+    ready_counter = 50
+
     # if the requested mode is the panic mode
     if new_mode == Mode.MODE_PANIC:
         #cant go to panic from normal states
-        if MODE == Mode.MODE_SAFE or MODE == Mode.MODE_CALIBRATION:
+        if (MODE == Mode.MODE_SAFE or MODE == Mode.MODE_CALIBRATION) and not force:
             print("Can't go to panic mode from this state")
         else:
             MODE = Mode.MODE_PANIC
-            send_parameter_message(regmap, Mode.MODE_PANIC)
+            if not local: send_parameter_message(regmap, Mode.MODE_PANIC)
             safe_bt.set_enable(True)
             panic_bt.set_selected()
             man_bt.set_enable(False)
@@ -182,10 +188,10 @@ def Switch_Mode(new_mode):
             raw_bt.set_enable(False)
             print("mode switched to: ",new_mode)
 
-    elif controlvalues.lift == 0 :
+    elif controlvalues.lift == 0 or force:
         if new_mode == Mode.MODE_SAFE:
             MODE = Mode.MODE_SAFE
-            send_parameter_message(regmap, Mode.MODE_SAFE)
+            if not local: send_parameter_message(regmap, Mode.MODE_SAFE)
             safe_bt.set_selected()
             panic_bt.set_enable(False)
             man_bt.set_enable(True)
@@ -195,11 +201,11 @@ def Switch_Mode(new_mode):
             raw_bt.set_enable(True)
             print("mode switched to: ",new_mode)
 
-        elif MODE == Mode.MODE_SAFE:
+        elif MODE == Mode.MODE_SAFE or force:
             #calibration
             if new_mode == Mode.MODE_CALIBRATION:
                 MODE = Mode.MODE_CALIBRATION
-                send_parameter_message(regmap, Mode.MODE_CALIBRATION)
+                if not local: send_parameter_message(regmap, Mode.MODE_CALIBRATION)
                 safe_bt.set_enable(True)
                 panic_bt.set_enable(False)
                 man_bt.set_enable(False)
@@ -210,7 +216,7 @@ def Switch_Mode(new_mode):
             #manual
             elif new_mode == Mode.MODE_MANUAL:
                 MODE = Mode.MODE_MANUAL
-                send_parameter_message(regmap, Mode.MODE_MANUAL)
+                if not local: send_parameter_message(regmap, Mode.MODE_MANUAL)
                 safe_bt.set_enable(True)
                 panic_bt.set_enable(True)
                 man_bt.set_selected()
@@ -221,7 +227,7 @@ def Switch_Mode(new_mode):
             #yaw
             elif new_mode == Mode.MODE_YAW_CONTROL:
                 MODE = Mode.MODE_YAW_CONTROL
-                send_parameter_message(regmap, Mode.MODE_YAW_CONTROL)
+                if not local: send_parameter_message(regmap, Mode.MODE_YAW_CONTROL)
                 safe_bt.set_enable(True)
                 panic_bt.set_enable(True)
                 man_bt.set_enable(False)
@@ -232,7 +238,7 @@ def Switch_Mode(new_mode):
             #full
             elif new_mode == Mode.MODE_FULL:
                 MODE = Mode.MODE_FULL
-                send_parameter_message(regmap, Mode.MODE_FULL)
+                if not local: send_parameter_message(regmap, Mode.MODE_FULL)
                 safe_bt.set_enable(True)
                 panic_bt.set_enable(True)
                 man_bt.set_enable(False)
@@ -243,7 +249,7 @@ def Switch_Mode(new_mode):
             #Raw
             elif new_mode == Mode.MODE_RAW:
                 MODE = Mode.MODE_RAW
-                send_parameter_message(regmap, Mode.MODE_RAW)
+                if not local: send_parameter_message(regmap, Mode.MODE_RAW)
                 safe_bt.set_enable(True)
                 panic_bt.set_enable(True)
                 man_bt.set_enable(False)
@@ -273,7 +279,7 @@ def Switch_Mode(new_mode):
             #     yaw_bt.set_enable(False)
             #     full_bt.set_enable(False)
             #     raw_bt.set_enable(False)
-            print("mode switched to: ", MODE)
+            print("mode switched to:", MODE)
         else:
             print("invalid Mode switch requested, no mode switched")
     else:
@@ -531,6 +537,7 @@ def change_trimvalue(trimidirection,trimvar):
 def setparams():
     global parametervalues
     global newparametervalues
+    global motorvalues
 
     #bounderies
     b1 = newparametervalues.angle_max.to_bytes(1, byteorder='big', signed=False)
@@ -546,34 +553,74 @@ class ConsoleThread(threading.Thread):
     Running = True
 
     def run(self):
+        global MODE
+        global ready
+
         data = bytearray()
         while self.Running:
-            temp_data = bytearray(ser.readline())
-            # print(temp_data)
+            temp_data = bytearray(ser.readline()) # TODO maby read per char
+
+            temp_string = temp_data.decode("utf-8", "backslashreplace")
+            if temp_string.isalnum():
+                pass
+                # print(temp_string, end='', flush=True)
+            print(data)
             for byte in temp_data:
                 # print(byte)
-                data.append(byte)
-                if 10 == byte:
+                if byte != 10:
+                    data.append(byte)
+
+                # if 10 == byte:
+                #     # print(data)
+                dataString = data.decode("utf-8", "backslashreplace")
+                if 'aaa' in dataString and 'zzz' in dataString:
                     # print(data)
-                    dataString = data.decode("utf-8", "backslashreplace")
-                    if 'aaa' in dataString and 'zzz' in dataString:
-                        index = 0
-                        for char in dataString:
-                            if char == 'a':
+                    index = 0
+
+                    found_A = False
+                    for char in dataString:
+                        if not found_A:
+                            if dataString[index] != 'a':
+                                index += 1
+                            else:
+                                found_A = True
+                        else:
+                            if dataString[index] == 'a':
                                 index += 1
                             else:
                                 break
 
-                        print("found information string")
-                        print(data)
-                        print("Mode", data[index])
-                        print("M1", data[index+1] << 8 + data[index+2])
-                        print("M2", data[index+3] << 8 + data[index+4])
-                        print("M3", data[index+5] << 8 + data[index+6])
-                        print("M4", data[index+7] << 8 + data[index+8])
-                        print("Pitch", data[index+9] << 8 + data[index+10])
-                        print("Yaw", data[index+11] << 8 + data[index+12])
-                        print("Roll", data[index+13] << 8 + data[index+14], "\n")
+                    if ready:
+                        mode = data[index]
+                        m1 = data[index+1] << 8 + data[index+2]
+                        m2 = data[index+3] << 8 + data[index+4]
+                        m3 = data[index+5] << 8 + data[index+6]
+                        m4 = data[index+7] << 8 + data[index+8]
+                        pitch = data[index+9] << 8 + data[index+10]
+                        yaw = data[index+11] << 8 + data[index+12]
+                        roll = data[index+13] << 8 + data[index+14]
+
+
+                        if mode != MODE:
+                            print("adjusted by drone", mode)
+                            Switch_Mode(mode, True, True)
+
+                        motorvalues.M1 = m1
+                        motorvalues.M2 = m2
+                        motorvalues.M3 = m3
+                        motorvalues.M4 = m4
+
+                        # print("found information string")
+                        # print(data)
+                        # print("Mode", mode)
+                        # print("M1", m1)
+                        # print("M2", m2)
+                        # print("M3", m3)
+                        # print("M4", m4)
+                        # print("Pitch", pitch)
+                        # print("Yaw", yaw)
+                        # print("Roll", roll, "\n")
+
                     # else:
                     #     print(dataString)
 
@@ -659,6 +706,10 @@ yaw_bt = None
 full_bt = None
 raw_bt = None
 
+ready = False
+
+ready_counter = 10
+
 if __name__ == '__main__':
     send_control_message_flag = 100 #timer and flag for sending controll messages
     # pitch_byte = b'\x00'
@@ -698,6 +749,8 @@ if __name__ == '__main__':
              time.sleep(0.1)
         print("lift is correctly set")
 
+    ready = True
+
     # --- Main loop ---
     while Running:
         #pygame.event.wait() #wait until event happens, doesnt work 
@@ -726,15 +779,28 @@ if __name__ == '__main__':
                     controlvalues.pitch = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_pitch) * 127.5)+trimvalues.pitch))
                     controlvalues.yaw   = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_yaw) * 127.5)+trimvalues.yaw))
                     controlvalues.roll  = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_roll) * 127.5)+trimvalues.roll))
-                    controlvalues.lift  = min(255,max(0,(255 - (round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))+trimvalues.lift)))
+
+                    # linear = min(255,max(0,(255 - (round((GCS_joystick.get_axis(joystic_axis_lift) + 1) * 127.5))+trimvalues.lift)))
+
+                    # controlvalues.lift  = 
+
+
                     send_control_message_flag = 0
 
         if send_control_message_flag == 0:
             send_control_message()
             send_control_message_flag = 100
-      
-        else:
-            if has_joystick: send_control_message_flag = send_control_message_flag - 1
+
+        send_control_message_flag += -1
+
+        if not ready:
+            # print("not ready")
+            ready_counter -= 1
+            if ready_counter == 0:
+                ready = True
+
+
+
         
         #draw the gui and update it
         draw_gui()
