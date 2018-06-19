@@ -301,7 +301,7 @@ void manual_control(void){
  * Date:    	13-5-2018
  *--------------------------------------------------------------------------------------
  */
-void panic(void){
+void panic(bool printing){
 
 	//if a motor is above 0 slowely rev down motors
 	if ( ae[0] || ae[1] || ae[2] || ae[3]){
@@ -329,7 +329,7 @@ void panic(void){
 			flag_gotosafemode = false;
 			GLOBALSTATE = S_SAFE;
 		}
-		else DEBUG_PRINT("Ready to go to safe mode \f\n");
+		else if(printing) DEBUG_PRINT("Ready to go to safe mode \f\n");
 	}
 	//reset flag to prevent stuff
 	else flag_gotosafemode = false; 

@@ -115,9 +115,8 @@ static void control_loop(void *pvParameter){
 				break;
 
 			case S_PANIC :
-				//if(printing) DEBUG_PRINT("S_PANIC\n\f");
-				DEBUG_PRINT("S_PANIC\n\f");
-				panic();
+				if(printing) DEBUG_PRINT("S_PANIC\n\f");
+				panic(printing);
 				break;
 
 			case S_MANUAL:
