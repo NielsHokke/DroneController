@@ -72,6 +72,9 @@ class Guibar(object):
 
             if val < self.range//-2:
                 val = self.range//-2
+        else:
+            if val > self.range:
+                val = self.range
 
         self.v_value = val
 
