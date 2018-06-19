@@ -153,9 +153,12 @@ static void control_loop(void *pvParameter){
 				if(printing) DEBUG_PRINT("S_WIRELESS\n\f");
 				// TODO implement mode
 				break;
+			case S_SYSTEM_RESET :
+				NVIC_SystemReset();
+				break;
 
 			default:
-				if(printing) DEBUG_PRINT("ERROR in Default state!\n\f");
+				GLOBALSTATE = S_PANIC;
 				break;
 		};
 		update_motors();
