@@ -651,9 +651,10 @@ class ConsoleThread(threading.Thread):
                         pass
                         # half a message recieved
                 else:
-                    tijd = strftime("%H:%M:%S", gmtime())
-                    multiline.addLine(tijd+" "+ "".join(i for i in dataString if ord(i)<128 and ord(i)>31))
-                    print (dataString)
+                    if '@' not in dataString:
+                        tijd = strftime("%H:%M:%S", gmtime())
+                        multiline.addLine(tijd+" "+ "".join(i for i in dataString if ord(i)<128 and ord(i)>31))
+                        print (dataString)
 
                 data = bytearray()
                 data.append(fout)
