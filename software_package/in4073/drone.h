@@ -88,6 +88,7 @@ TimerHandle_t UartTimeoutHandle;
 #define P_ANGLE_MAX 12
 #define P_ANGLE_MIN 13
 #define P_YAW_MAX 14
+
 #define P_YAW_MIN 15
 
 #define P_P1 16

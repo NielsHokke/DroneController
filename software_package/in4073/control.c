@@ -307,10 +307,10 @@ void panic(void){
 	//if a motor is above 0 slowely rev down motors
 	if (motor[0] || motor[1] || motor[2] || motor[3]){
 		//underflow protection and revdown
-		if (motor[0]) ae[0] = motor[0]-revdownvalue;
-		if (motor[1]) ae[1] = motor[1]-revdownvalue;
-		if (motor[2]) ae[2] = motor[2]-revdownvalue;
-		if (motor[3]) ae[3] = motor[3]-revdownvalue;
+		if (motor[0] > 0) ae[0] = motor[0]-revdownvalue;
+		if (motor[1] > 0) ae[1] = motor[1]-revdownvalue;
+		if (motor[2] > 0) ae[2] = motor[2]-revdownvalue;
+		if (motor[3] > 0) ae[3] = motor[3]-revdownvalue;
 
 		// DEBUG_PRINT("M0: \f");
 		// DEBUG_PRINTEGER(motor[0], 6);
@@ -326,12 +326,11 @@ void panic(void){
 	//go to safesate if the command is given en no lift is set and no no motors are turning.
 	else if (SetPoint.lift == 0){
 		if (flag_gotosafemode){
-			DEBUG_PRINT("p2s flag switch \n\f");
+			flag_gotosafemode = false;
 			GLOBALSTATE = S_SAFE;
 		}
-		else DEBUG_PRINT("no p2s flag \f\n");
+		else DEBUG_PRINT("Ready to go to safe mode \f\n");
 	}
 	//reset flag to prevent stuff
 	else flag_gotosafemode = false; 
-
 }

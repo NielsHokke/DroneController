@@ -177,6 +177,8 @@ void validate_para_msg(void *pvParameter){
  *------------------------------------------------------------------
  */
 void UartTimeoutCallback( TimerHandle_t xTimer ){
+	//TODO dont go from save to panic
+	DEBUG_PRINT("UART TIMOUT \n\f");
 	GLOBALSTATE = S_PANIC;
 	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
 	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
@@ -197,7 +199,7 @@ void handle_serial_rx(char c){
 	static char ctrl_buffer[CTRL_DATA_LENGTH+2];
 	static char para_buffer[PARA_DATA_LENGTH+2];
 	static uint8_t byte_counter;
-		
+
 	switch(serialstate){
 		case IDLE:
 			if(c == 0xAA){ // control message start byte
