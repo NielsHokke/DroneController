@@ -403,14 +403,14 @@ def init_gui():
     GUI.Guibar("Yaw",560,60,True,False,True)
     GUI.Guibar("Lift",620,60,True,True,True)
 
-    GUI.Guibar("M1",440,300,False,True,False)
-    GUI.Guibar("M2",440,340,False,True,False)
-    GUI.Guibar("M3",440,380,False,True,False)
-    GUI.Guibar("M4",440,420,False,True,False)
+    GUI.Guibar("M1",440,300,False,True,False,1000)
+    GUI.Guibar("M2",440,340,False,True,False,1000)
+    GUI.Guibar("M3",440,380,False,True,False,1000)
+    GUI.Guibar("M4",440,420,False,True,False,1000)
 
-    GUI.Guibar("Pitch",200,500,True,False,False)
-    GUI.Guibar("Yaw",260,500,True,False,False)
-    GUI.Guibar("Roll",320,500,True,False,False)
+    GUI.Guibar("Pitch",200,500,True,False,False, 12000, 133)
+    GUI.Guibar("Yaw",260,500,True,False,False, 2**16, 182)
+    GUI.Guibar("Roll",320,500,True,False,False, 12000, 133)
     
     #name,top,left,width,height,function
     safe_bt = GUI.Button("0: SAFE",720,60,80,40,8,12)
@@ -605,13 +605,13 @@ class ConsoleThread(threading.Thread):
 
                         if ready:
                             mode = data[index]
-                            m1 = int(data[index+1] * 255 + data[index+2])
-                            m2 = int(data[index+3] * 255 + data[index+4])
-                            m3 = int(data[index+5] * 255 + data[index+6])
-                            m4 = int(data[index+7] * 255 + data[index+8])
-                            pitch = int(data[index+9] * 255 + data[index+10])
-                            yaw = int(data[index+11] * 255 + data[index+12])
-                            roll = int(data[index+13] * 255 + data[index+14])
+                            m1 = int(data[index+1] * 256 + data[index+2])
+                            m2 = int(data[index+3] * 256 + data[index+4])
+                            m3 = int(data[index+5] * 256 + data[index+6])
+                            m4 = int(data[index+7] * 256 + data[index+8])
+                            pitch = int(data[index+9] * 256 + data[index+10])
+                            roll = int(data[index+11] * 256 + data[index+12])
+                            yaw = int(data[index+13] * 256 + data[index+14])
 
                             if pitch > 2**15:
                                 pitch -= 2**16
@@ -627,10 +627,10 @@ class ConsoleThread(threading.Thread):
                                 print("adjusted by drone", mode)
                                 Switch_Mode(mode, True, True)
 
-                            motorvalues.M1 = m1//255
-                            motorvalues.M2 = m2//255
-                            motorvalues.M3 = m3//255
-                            motorvalues.M4 = m4//255
+                            motorvalues.M1 = m1
+                            motorvalues.M2 = m2
+                            motorvalues.M3 = m3
+                            motorvalues.M4 = m4
 
                             gyrovalues.pitch = pitch
                             gyrovalues.yaw = yaw
@@ -817,6 +817,18 @@ if __name__ == '__main__':
                         controlvalues.lift = max(0,min(255, templift))
 
                     send_control_message_flag = 0
+            else:
+                controlvalues.pitch = min(127,max(-127,trimvalues.pitch))
+                controlvalues.yaw   = min(127,max(-127,trimvalues.yaw))
+                controlvalues.roll  = min(127,max(-127,trimvalues.roll))
+                controlvalues.lift  = min(255,max(0,trimvalues.lift))
+                if controlvalues.lift < 45:
+                        controlvalues.lift = controlvalues.lift * 4
+                else:
+                    value = controlvalues.lift
+                    templift = round(180 + 75 * math.sqrt((value-45)/210))
+                    controlvalues.lift = max(0,min(255, templift))
+
 
         if send_control_message_flag == 0:
             send_control_message()
