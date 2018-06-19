@@ -75,7 +75,8 @@ class Guibar(object):
         #draw the rects
         pygame.draw.rect(screen,col_grey2,self.r_back)
         pygame.draw.rect(screen,self.color,self.r_bar)
-        if self.b_horizontal == True: pygame.draw.rect(screen,col_green,self.r_trimbar)
+        if self.b_horizontal and self.b_trim:
+            pygame.draw.rect(screen,col_green,self.r_trimbar)
 
     def settrim(self,trim):
     	self.v_trim = trim
