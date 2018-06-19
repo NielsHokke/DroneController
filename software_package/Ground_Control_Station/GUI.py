@@ -2,7 +2,7 @@ import pygame
 
 class Guibar(object):
 
-    def __init__(self,name,top,left,hor,uns,trim,rang=255, numscale=1):
+    def __init__(self,name,top,left,hor,uns,trim,rang=255,numscale=1,size=200,minr=0,maxr=0, bat=False):
         global allguibars
         self.r_bar = pygame.Rect(0,0,1,1)
         self.f_name = name
@@ -11,22 +11,34 @@ class Guibar(object):
         self.b_unsigned = uns
         self.top = top
         self.left = left
-        self.range = rang
+        self.min = minr
+        self.max = maxr
+        self.bat = bat
+        if self.min != 0 and self.max != 0:
+            self.range = self.max - self.min
+        else:
+            self.range = rang
         self.numscale=numscale
         self.v_value = 0
         self.v_trim = 0
+        self.color = col_blue
+        self.size = size
+
         self.f_title = f_font_18.render(name,True,col_grey3)
         self.f_value = f_font_16.render('0',True,col_grey3)
         if self.b_horizontal == True:
         	self.r_back = pygame.Rect(left,top,160,20)
         	self.r_trimbar = pygame.Rect(0,top+17,1,3)
-        else: self.r_back = pygame.Rect(left,top,20,200)
+        else: self.r_back = pygame.Rect(left,top,20,self.size)
 
         #add to all guibars list    
         allguibars.append(self)
 
     def draw(self,screen):
-        self.f_value = f_font_16.render(str(self.v_value//self.numscale),True,col_grey3)
+        if self.bat:
+            self.f_value = f_font_16.render(str(self.v_value/self.numscale),True,col_grey3)
+        else:
+            self.f_value = f_font_16.render(str(self.v_value//self.numscale),True,col_grey3)
 
         #update the rects (only horizontal bars have trims)
         if self.b_horizontal == True:
@@ -50,23 +62,34 @@ class Guibar(object):
             screen.blit(self.f_title,(self.left-2,self.top-24))
             screen.blit(self.f_value,(self.left+164,self.top-4))
         else:     #(vertical bars are always unsigned)
-                self.r_bar.top = self.top + 200
+                self.r_bar.top = self.top + self.size
                 self.r_bar.left = self.left
                 self.r_bar.width = 20
-                self.r_bar.height = round(-((200)/self.range)*self.v_value)
+                if self.min != 0 and self.max != 0:
+                    self.r_bar.height = round(-((self.size)/self.range)*(self.v_value-self.min))
+                else:
+                    self.r_bar.height = round(-((self.size)/self.range)*self.v_value)
                 screen.blit(self.f_title,(self.left-2,self.top - 24))
-                screen.blit(self.f_value,(self.left,self.top + 200))
+                screen.blit(self.f_value,(self.left,self.top + self.size))
 
         #draw the rects
         pygame.draw.rect(screen,col_grey2,self.r_back)
-        pygame.draw.rect(screen,col_blue,self.r_bar)
+        pygame.draw.rect(screen,self.color,self.r_bar)
         if self.b_horizontal == True: pygame.draw.rect(screen,col_green,self.r_trimbar)
 
     def settrim(self,trim):
     	self.v_trim = trim
 
-    def setval(self,val):
-        if not self.b_unsigned:
+    def setval(self,val, color=pygame.Color(30,120,190)):
+
+        if self.min != 0 and self.max != 0:
+            if val < self.min:
+                val = self.min
+
+            if val > self.max:
+                val = self.max
+
+        elif not self.b_unsigned:
             if val > self.range//2:
                 val = self.range//2
 
@@ -75,6 +98,8 @@ class Guibar(object):
         else:
             if val > self.range:
                 val = self.range
+
+        self.color = color
 
         self.v_value = val
 
@@ -165,6 +190,7 @@ f_font_12 = pygame.font.Font('OpenSans.ttf',12)
 #texts    
 Text_Title = f_font_60.render('Ground Control Station',True,col_grey3)
 Text_serial_header = f_font_20.render('Serial',True,col_grey3)
+Text_bat_header = f_font_20.render('Bat',True,col_grey3)
 Text_trim_header = f_font_20.render('Trim settings',True,col_grey3)
 Text_motor_header = f_font_20.render('Motors',True,col_grey3)
 Text_params_header = f_font_20.render('Parameters',True,col_grey3)
@@ -179,7 +205,8 @@ r_topbar2_shadow1 = pygame.Rect(0,100,740,1)
 r_topbar2_shadow2 = pygame.Rect(0,119,740,1)
 
 #background blocks
-r_b_serial= pygame.Rect(40,140,420,220)
+r_b_serial = pygame.Rect(40,140,320,220)
+r_b_bat = pygame.Rect(380,140,80,220)
 r_b_trim = pygame.Rect(40,380,220,280)
 r_b_param = pygame.Rect(480,380,220,280)
 r_b_motor = pygame.Rect(280,380,180,280)
@@ -198,6 +225,7 @@ def draw_all(screen):
 
     #background blocks
     pygame.draw.rect(screen,col_grey1,r_b_serial)
+    pygame.draw.rect(screen,col_grey1,r_b_bat)
     pygame.draw.rect(screen,col_grey1,r_b_trim)
     pygame.draw.rect(screen,col_grey1,r_b_gyro)
     pygame.draw.rect(screen,col_grey1,r_b_motor)
@@ -215,6 +243,7 @@ def draw_all(screen):
     screen.blit(Text_Title,(60,16))
 
     screen.blit(Text_serial_header,(57,145))
+    screen.blit(Text_bat_header,(405,145))
     screen.blit(Text_trim_header,(57,385))
     screen.blit(Text_motor_header,(297,385))
     screen.blit(Text_params_header,(497,385))
