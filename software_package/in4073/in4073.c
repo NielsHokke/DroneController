@@ -95,7 +95,7 @@ static void control_loop(void *pvParameter){
 
 			// printf("%6d %6d %6d | ", sp, sq, sr); //  from the gyro
 
-			printing = false;
+			printing = true;
 		}else{
 			printing = false;
 		}
@@ -211,9 +211,10 @@ static void check_battery_voltage(void *pvParameter){
 
 			if (bat_volt < 1080){ // minimum = 10.8/0.007058824
 				
-				///DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
-				// GLOBALSTATE = S_PANIC;
-			}
+			#ifdef PANIC_ACTIVE 
+			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
+			GLOBALSTATE = S_PANIC;
+			#endif //PANIC_ACTIVE
 		}
 
 		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, phi, psi);
@@ -246,7 +247,6 @@ int main(void)
 
 	uart_init();
 	adc_init();
-
 
 
 	print("Peripherals initialized\n\f");
