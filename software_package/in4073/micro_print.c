@@ -6,10 +6,10 @@
 
 
 void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_t pitch, int16_t roll, int16_t yaw){
-	uart_put('a');
-	uart_put('a');
-	uart_put('a');
-	uart_put('a');
+	uart_put('@');
+	uart_put('@');
+	uart_put('@');
+	uart_put('@');
 	uart_put(mode);
 
 	uart_put(m1 >> 8 & 0xFF);
