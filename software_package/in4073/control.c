@@ -329,7 +329,7 @@ void panic(bool printing){
 			flag_gotosafemode = false;
 			GLOBALSTATE = S_SAFE;
 		}
-		else if(printing) DEBUG_PRINT("Ready to go to safe mode \f\n");
+		else if(printing) DEBUG_PRINT("Ready to go to safe mode\n\f");
 	}
 	//reset flag to prevent stuff
 	else flag_gotosafemode = false; 
