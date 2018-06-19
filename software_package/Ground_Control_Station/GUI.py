@@ -2,7 +2,7 @@ import pygame
 
 class Guibar(object):
 
-    def __init__(self,name,top,left,hor,uns,trim,rang=255):
+    def __init__(self,name,top,left,hor,uns,trim,rang=255, numscale=1):
         global allguibars
         self.r_bar = pygame.Rect(0,0,1,1)
         self.f_name = name
@@ -12,6 +12,7 @@ class Guibar(object):
         self.top = top
         self.left = left
         self.range = rang
+        self.numscale=numscale
         self.v_value = 0
         self.v_trim = 0
         self.f_title = f_font_18.render(name,True,col_grey3)
@@ -25,14 +26,14 @@ class Guibar(object):
         allguibars.append(self)
 
     def draw(self,screen):
-        self.f_value = f_font_16.render(str(self.v_value),True,col_grey3)
+        self.f_value = f_font_16.render(str(self.v_value//self.numscale),True,col_grey3)
 
         #update the rects (only horizontal bars have trims)
         if self.b_horizontal == True:
             if self.b_unsigned == True:
                 self.r_bar.top = self.top
                 self.r_bar.left = self.left
-                self.r_bar.width = round(((160)/255)*self.v_value)
+                self.r_bar.width = round(((160)/self.range)*self.v_value)
                 self.r_bar.height = 20
                 if self.b_trim == True:
                     self.r_trimbar.left = self.left
@@ -40,7 +41,7 @@ class Guibar(object):
             else:
                 self.r_bar.top = self.top
                 self.r_bar.left = self.left + 80
-                self.r_bar.width = round(((80)/127)*self.v_value)
+                self.r_bar.width = round(((160)/self.range)*self.v_value)
                 self.r_bar.height = 20
                 if self.b_trim == True:
                     self.r_trimbar.left = self.left+80
@@ -52,7 +53,7 @@ class Guibar(object):
                 self.r_bar.top = self.top + 200
                 self.r_bar.left = self.left
                 self.r_bar.width = 20
-                self.r_bar.height = round(-((200)/255)*self.v_value)
+                self.r_bar.height = round(-((200)/self.range)*self.v_value)
                 screen.blit(self.f_title,(self.left-2,self.top - 24))
                 screen.blit(self.f_value,(self.left,self.top + 200))
 
@@ -65,7 +66,14 @@ class Guibar(object):
     	self.v_trim = trim
 
     def setval(self,val):
-    	self.v_value = val
+        if not self.b_unsigned:
+            if val > self.range//2:
+                val = self.range//2
+
+            if val < self.range//-2:
+                val = self.range//-2
+
+        self.v_value = val
 
     def __iter__(self):
         return self
