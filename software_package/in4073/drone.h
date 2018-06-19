@@ -9,6 +9,8 @@
 
 #include <inttypes.h> // for the macros
 
+/*if enabled it prints the time needed per control loop*/
+#define TIMETRACE
 
 // Global Variables
 

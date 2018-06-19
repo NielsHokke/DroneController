@@ -45,10 +45,13 @@
 
 static void control_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
-
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = CONTROL_PERIOD; //period of task
 	int i = 0;
+
+	#ifdef TIMETRACE
+		uint32_t start = 0;
+	#endif
 
 	bool printing = false;
 
@@ -64,36 +67,12 @@ static void control_loop(void *pvParameter){
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
 
-
+		#ifdef TIMETRACE	
+			start = get_time_us();
+		#endif
 
 		if ((i++ % 100) == 0){
 			nrf_gpio_pin_toggle(GREEN);
-
-			// DEBUG_PRINT(".TEST\n\f");
-
-			// DEBUG_UPRINTEGER(ae[0], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[1], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[2], 3);
-			// DEBUG_PRINT(", \f");
-			// DEBUG_UPRINTEGER(ae[3], 3);
-
-
-			// DEBUG_PRINT("\n\f");
-
-			// DEBUG_PRINT("\n phi: \f");
-
-			// DEBUG_PRINTEGER((phi - phi_offset) / 220, 6);
-			// DEBUG_PRINT(" theta: \f");
-			// DEBUG_PRINTEGER((theta - theta_offset) / 140, 6);
-			// DEBUG_PRINT(" psi: \f");
-			// DEBUG_PRINTEGER((psi - psi_offset) / 170, 6);
-
-			
-			// DEBUG_PRINT(".\n\f");
-
-			// printf("%6d %6d %6d | ", sp, sq, sr); //  from the gyro
 
 			printing = true;
 		}else{
@@ -164,6 +143,11 @@ static void control_loop(void *pvParameter){
 		};
 		update_motors();
 
+		#ifdef TIMETRACE
+			if(printing) DEBUG_PRINT("\n\f");
+			if(printing) DEBUG_UPRINTEGER(get_time_us()- start, 6);
+			if(printing) DEBUG_PRINT(" us.\n\f");
+		#endif
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}	
 }
