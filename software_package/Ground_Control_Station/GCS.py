@@ -704,7 +704,15 @@ class Gyrovalues:
 #     print(argslist[1],type(argslist[1]))
 #     #ser = serial.Serial(str(sys.argv)[1], 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
+
+if len(sys.argv) < 2:
+    print("No serial port specified, picking '/dev/ttyUSB/")
+    serial_port = '/dev/ttyUSB0'
+else:
+    serial_port = sys.argv[1]
+
+
+ser = serial.Serial(serial_port, 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
 console.start()
