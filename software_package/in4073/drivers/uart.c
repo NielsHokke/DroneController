@@ -99,12 +99,12 @@ void validate_ctrl_msg(void *pvParameter){
 		// Verify crc
 		if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
 			// Incorrect CRC
-			DEBUG_PRINT("Incorrect CRC, Calculated: \f");
+			DEBUG_PRINT("CTRL: incorrect CRC should be= \f");
 			DEBUG_PRINTEGER(crc,3);
 			DEBUG_PRINT("\n\f");
 		}else{
 			// Correct CRC
-			DEBUG_PRINT("CTRL, crc correct\n\f");
+			
 			SetPoint.yaw = ctrl_buffer[1];
 			SetPoint.pitch = ctrl_buffer[2];
 			SetPoint.roll = ctrl_buffer[3];
@@ -139,7 +139,7 @@ void validate_para_msg(void *pvParameter){
 		// Verify crc
 		if(crc != para_buffer[PARA_DATA_LENGTH+1]){
 			// Incorrect CRC
-			DEBUG_PRINT("Incorrect CRC, Calculated: \f");
+			DEBUG_PRINT("PARAM Incorrect CRC, should be\f");
 			DEBUG_PRINTEGER(crc, 3);
 			DEBUG_PRINT("\n\f");
 		}else{
@@ -149,6 +149,7 @@ void validate_para_msg(void *pvParameter){
 			}
 
 			else{
+				DEBUG_PRINT("Param correct.\n\f");
 				uint8_t index = (uint8_t) para_buffer[1];
 				parameters[index] = para_buffer[2];
 				parameters[index+1] = para_buffer[3];
