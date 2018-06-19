@@ -215,10 +215,10 @@ static void check_battery_voltage(void *pvParameter){
 		}
 
 		if (bat_volt < 1080){ // minimum = 10.8/0.007058824				
-			#ifdef PANIC_ACTIVE 
-			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE!\n\f");
+			#ifdef BATTERY_CHECK_ACTIVE 
+			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
 			GLOBALSTATE = S_PANIC;
-			#endif //PANIC_ACTIVE
+			#endif //BATTERY_CHECK_ACTIVE
 		}
 
 		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, psi, phi, bat_volt);

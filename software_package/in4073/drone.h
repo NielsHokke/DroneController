@@ -43,7 +43,7 @@ void motors_off();
 void manual_control();
 void dmp_control(bool yaw_only);
 
-//#define PANIC_ACTIVE //the loop may go to panic mode
+//#define BATTERY_CHECK_ACTIVE //the loop may go to panic mode
 void panic(bool printing);
 
 typedef struct {

@@ -310,10 +310,24 @@ void panic(bool printing){
 
 	//first invoaction set to static dropping value for 2.5 seconds
 	if (new_panic){
+
+		// variation 1: lowest value
+		// for ( uint8_t i = 0; i<4; i++) {
+		// 		if (ae[i] > drop_motorvalue) ae[i] = drop_motorvalue;
+		// 	}
+
+		// variation 2 average
+		uint16_t average = 0;
+
 		for ( uint8_t i = 0; i<4; i++) {
-				if (ae[i] > drop_motorvalue) ae[i] = drop_motorvalue;
-			}
-			
+			average =+ ae[i];
+		}
+
+		average = average >> 2;
+		if (average > drop_motorvalue) average = drop_motorvalue;
+		for ( uint8_t i = 0; i<4; i++) {
+			ae[i] = average;
+		}		
 		new_panic = false;
 	}
 	else if (counter>0){
