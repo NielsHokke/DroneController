@@ -44,6 +44,14 @@ uint8_t  crcTable[256];
 
 #define POLYNOMIAL 0xD8  /* 11011 followed by 0's */
 
+
+/*------------------------------------------------------------------
+ * crcInit -- Creates a table for quick crc lookup
+ * Parameters:			Void pointer to parametres (unused)
+ * Author:	Niels Hokke
+ * Date:	2-5-2018
+ *------------------------------------------------------------------
+ */
 void crcInit(void){
     uint8_t  remainder;
     for (int dividend = 0; dividend < 256; ++dividend)
@@ -60,6 +68,14 @@ void crcInit(void){
     }
 }
 
+/*------------------------------------------------------------------
+ * crcInit -- Calculates crc of a message
+ * Parameters:			char message[], char array containing message
+ *						int nBytes, size of message
+ * Author:	Niels Hokke
+ * Date:	2-5-2018
+ *------------------------------------------------------------------
+ */
 uint8_t crcFast(char message[], int nBytes){
     uint8_t data;
     uint8_t remainder = 0;
@@ -71,7 +87,6 @@ uint8_t crcFast(char message[], int nBytes){
 
     return (remainder);
 }
-
 
 /*------------------------------------------------------------------
  * validate_ctrl_msg -- Validates ctrl messages by checking the CRC
@@ -92,8 +107,6 @@ void validate_ctrl_msg(void *pvParameter){
 		// Yielding till something in queue
 		xQueueReceive(ctrl_msg_queue, ctrl_buffer, portMAX_DELAY);
 
-		// TODO start critical section
-
 		// Calculate crc
 		uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
 		// Verify crc
@@ -104,13 +117,11 @@ void validate_ctrl_msg(void *pvParameter){
 			DEBUG_PRINT("\n\f");
 		}else{
 			// Correct CRC
-			
 			SetPoint.yaw = ctrl_buffer[1];
 			SetPoint.pitch = ctrl_buffer[2];
 			SetPoint.roll = ctrl_buffer[3];
 			SetPoint.lift = ctrl_buffer[4];
 		}
-		// TODO end critical section
 	}
 }
 
@@ -131,8 +142,6 @@ void validate_para_msg(void *pvParameter){
 		// Yielding till something in queue
 		xQueueReceive(para_msg_queue, para_buffer, portMAX_DELAY);
 
-		// TODO start critical section
-
 		// Calculate crc
 		uint8_t crc = crcFast(para_buffer, PARA_DATA_LENGTH+1);
 
@@ -146,9 +155,7 @@ void validate_para_msg(void *pvParameter){
 			//dont accept parameter changes when in panic mode
 			if (GLOBALSTATE == S_PANIC){
 				continue;
-			}
-
-			else{
+			}else{
 				DEBUG_PRINT("Param correct.\n\f");
 				uint8_t index = (uint8_t) para_buffer[1];
 				parameters[index] = para_buffer[2];
@@ -156,7 +163,6 @@ void validate_para_msg(void *pvParameter){
 				parameters[index+2] = para_buffer[4];
 				parameters[index+3] = para_buffer[5];
 			}
-			// TODO end critical section
 		}
 	}
 }
@@ -175,9 +181,6 @@ void UartTimeoutCallback( TimerHandle_t xTimer ){
 	//TODO dont go from save to panic
 	DEBUG_PRINT("UART TIMOUT \n\f");
 	GLOBALSTATE = S_PANIC;
-	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
-	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
-	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
 }
 
 

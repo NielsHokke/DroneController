@@ -110,11 +110,6 @@ void calibrate(bool raw){
 	GLOBALSTATE = S_SAFE;
 }
 
-/*
-P_yaw (uint16_t), yaw_min (uint8), yaw_max (uint8) 
-P1 (uint16_t), P2 (uint16_t), angle_min (uint8), angle_max (uint8)
-*/
-
 /*--------------------------------------------------------------------------------------
  * dmp_control: Takes the values from the setpoint and sensors and implements p controler
  *				for yaw, and cascaded p controler for pitch and roll. motors are not adjusted

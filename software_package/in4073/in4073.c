@@ -38,7 +38,7 @@
  * control_loop: task containing the control loop of the quad-copter
  * Parameters: pointer to function parameters
  * Return:   void
- * Author:   Jetse Brouwer
+ * Author:   Niels Hokke
  * Date:    2-5-2018
  *--------------------------------------------------------------------------------------
  */
