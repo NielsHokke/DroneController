@@ -324,10 +324,10 @@ void panic(bool printing){
 			average = drop_motorvalue;
 			}
 		else {
+			ae[0] = average;
 			ae[1] = average;
 			ae[2] = average;
 			ae[3] = average;
-			ae[4] = average;
 		}	
 		new_panic = false;
 	}
