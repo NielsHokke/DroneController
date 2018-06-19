@@ -591,19 +591,20 @@ class ConsoleThread(threading.Thread):
                     if '@@@' in dataString and 'zzz' in dataString:
                         index = 0
                         found_A = False
-                        for char in dataString:
+                        for byt in data:
                             if not found_A:
-                                if dataString[index] != '@':
+                                if data[index] != ord('@'):
                                     index += 1
                                 else:
                                     found_A = True
                             else:
-                                if dataString[index] == '@':
+                                if data[index] == ord('@'):
                                     index += 1
                                 else:
                                     break
 
-                        if ready:
+                        if ready and len(data) >= index+14:
+
                             mode = data[index]
                             m1 = int(data[index+1] * 256 + data[index+2])
                             m2 = int(data[index+3] * 256 + data[index+4])
