@@ -302,15 +302,15 @@ void manual_control(void){
  *--------------------------------------------------------------------------------------
  */
 void panic(void){
-	uint16_t revdownvalue = 1; //TODO delete this
 
 	//if a motor is above 0 slowely rev down motors
-	if (motor[0] || motor[1] || motor[2] || motor[3]){
+	if ( ae[0] || ae[1] || ae[2] || ae[3]){
+
+		for ( uint8_t i = 0; i<4; i++) {
 		//underflow protection and revdown
-		if (motor[0] > 0) ae[0] = motor[0]-revdownvalue;
-		if (motor[1] > 0) ae[1] = motor[1]-revdownvalue;
-		if (motor[2] > 0) ae[2] = motor[2]-revdownvalue;
-		if (motor[3] > 0) ae[3] = motor[3]-revdownvalue;
+			if (ae[i] < 0) ae[i] = 0;
+			else if (ae[i] > 0) ae[i] = ae[i]-1;
+		}
 
 		// DEBUG_PRINT("M0: \f");
 		// DEBUG_PRINTEGER(motor[0], 6);
