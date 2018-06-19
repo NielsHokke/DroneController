@@ -322,13 +322,11 @@ void panic(bool printing){
 
 		if (average > drop_motorvalue){
 			average = drop_motorvalue;
-			}
-		else {
-			ae[0] = average;
-			ae[1] = average;
-			ae[2] = average;
-			ae[3] = average;
-		}	
+		}
+		ae[0] = average;
+		ae[1] = average;
+		ae[2] = average;
+		ae[3] = average;	
 		new_panic = false;
 	}
 	else if (counter>0){
