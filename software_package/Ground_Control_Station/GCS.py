@@ -587,18 +587,18 @@ class ConsoleThread(threading.Thread):
 
                 dataString = data[:-2].decode("utf-8", errors='ignore')
 
-                if 'aaa' in dataString or 'zzz' in dataString:
-                    if 'aaa' in dataString and 'zzz' in dataString:
+                if '@@@' in dataString or 'zzz' in dataString:
+                    if '@@@' in dataString and 'zzz' in dataString:
                         index = 0
                         found_A = False
                         for char in dataString:
                             if not found_A:
-                                if dataString[index] != 'a':
+                                if dataString[index] != '@':
                                     index += 1
                                 else:
                                     found_A = True
                             else:
-                                if dataString[index] == 'a':
+                                if dataString[index] == '@':
                                     index += 1
                                 else:
                                     break
