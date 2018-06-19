@@ -26,6 +26,7 @@ class Mode(IntEnum):
     MODE_RAW = 6
     MODE_HEIGHT = 7
     MODE_WIRELESS = 8
+    MODE_RESET = 255
 
 class Trimdirection(IntEnum):
     UP = 1
@@ -861,6 +862,7 @@ if __name__ == '__main__':
         time.sleep(0.005)
 
     print("Shutting down")
+    // SEND SYSTEM RESET
     if has_joystick: GCS_joystick.quit()
     console.stop()
     ser.flush()
