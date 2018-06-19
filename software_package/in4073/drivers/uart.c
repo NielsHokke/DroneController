@@ -144,14 +144,23 @@ void validate_para_msg(void *pvParameter){
 			DEBUG_PRINT("\n\f");
 		}else{
 			// Correct CRC
-			DEBUG_PRINT("PARA, crc correct\n\f");
+			//DEBUG_PRINT("PARA, crc correct\n\f");
 
-			uint8_t index = (uint8_t) para_buffer[1];
-			parameters[index] = para_buffer[2];
-			parameters[index+1] = para_buffer[3];
-			parameters[index+2] = para_buffer[4];
-			parameters[index+3] = para_buffer[5];
+			// block all messages except go to safmode when in panic mode
+			if (GLOBALSTATE == S_PANIC){
+				if(para_buffer[1] == 4 && para_buffer[5] == S_SAFE ){
+					flag_gotosafemode = true;
+					DEBUG_PRINT("p2s flag set \n\f");
+				}
+			}
 
+			else{
+				uint8_t index = (uint8_t) para_buffer[1];
+				parameters[index] = para_buffer[2];
+				parameters[index+1] = para_buffer[3];
+				parameters[index+2] = para_buffer[4];
+				parameters[index+3] = para_buffer[5];
+			}
 			// TODO end critical section
 		}
 	}
@@ -169,9 +178,9 @@ void validate_para_msg(void *pvParameter){
  */
 void UartTimeoutCallback( TimerHandle_t xTimer ){
 	GLOBALSTATE = S_PANIC;
-	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
-	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
-	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
+	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
+	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
+	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
 }
 
 

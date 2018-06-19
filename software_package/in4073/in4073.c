@@ -100,6 +100,10 @@ static void control_loop(void *pvParameter){
 			printing = false;
 		}
 
+		// DEBUG_PRINT("state: f\f");
+		// DEBUG_PRINTEGER(GLOBALSTATE,2);
+		// DEBUG_PRINT("\n\f");
+
 		get_dmp_data(); // If we don;t continously read the fifo after initializing it's throwing errors adn exceptions all over the place
 		switch(GLOBALSTATE){
 			case S_SAFE:
@@ -112,11 +116,7 @@ static void control_loop(void *pvParameter){
 
 			case S_PANIC :
 				if(printing) DEBUG_PRINT("S_PANIC\n\f");
-				// TODO implement mode
-				ae[0] = 0;
-				ae[1] = 0;
-				ae[2] = 0;
-				ae[3] = 0;
+				panic();
 				break;
 
 			case S_MANUAL:
@@ -208,9 +208,9 @@ static void check_battery_voltage(void *pvParameter){
 
 			adc_request_sample();
 			vTaskDelay(1);
+		}
 
-			if (bat_volt < 1080){ // minimum = 10.8/0.007058824
-				
+		if (bat_volt < 1080){ // minimum = 10.8/0.007058824				
 			#ifdef PANIC_ACTIVE 
 			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
 			GLOBALSTATE = S_PANIC;
@@ -218,10 +218,9 @@ static void check_battery_voltage(void *pvParameter){
 		}
 
 		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, phi, psi);
-
 		i++;
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
-		vTaskDelay(99);
+		vTaskDelay(99); //TODO should this be 999
 
 	}
 }

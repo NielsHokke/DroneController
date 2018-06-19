@@ -42,10 +42,9 @@ void motors_off();
 void manual_control();
 void dmp_control(bool yaw_only);
 
-#define PANIC_ACTIVE //the loop may go to panic mode
+//#define PANIC_ACTIVE //the loop may go to panic mode
 bool flag_gotosafemode; // a flag to prevent state changes in panic mode
 void panic();
-
 
 typedef struct {
 	int8_t yaw;
@@ -55,7 +54,6 @@ typedef struct {
 } setpoint;
 
 setpoint SetPoint;
-
 
 // UART
 #define CTRL_DATA_LENGTH 4
@@ -73,7 +71,6 @@ void validate_ctrl_msg(void *);
 void validate_para_msg(void *);
 
 TimerHandle_t UartTimeoutHandle;
-
 
 
 // Global parameters
