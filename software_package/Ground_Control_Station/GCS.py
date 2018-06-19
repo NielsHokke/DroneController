@@ -632,9 +632,9 @@ class ConsoleThread(threading.Thread):
                             motorvalues.M3 = m3//255
                             motorvalues.M4 = m4//255
 
-                            gyrovalues.pitch = pitch//255
-                            gyrovalues.yaw = yaw//255
-                            gyrovalues.roll = roll//255
+                            gyrovalues.pitch = pitch
+                            gyrovalues.yaw = yaw
+                            gyrovalues.roll = roll
 
 
                             # print("found information string")
