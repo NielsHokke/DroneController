@@ -264,11 +264,11 @@ upload: default
 	dfu_serial/./serial_dfu.py -p $(PORT) _build/in4073.bin
 
 pc: 
-	cd pc_terminal/; make
+	cd ../Ground_Control_Station; python3 GCS.py
 
 pc-run: 
-	cd pc_terminal/; make run
+	cd ../Ground_Control_Station; python3 GCS.py
 	
 upload-run: default pc
 	dfu_serial/./serial_dfu.py -p $(PORT) _build/in4073.bin
-	cd pc_terminal/; make run
+	cd ../Ground_Control_Station; python3 GCS.py
