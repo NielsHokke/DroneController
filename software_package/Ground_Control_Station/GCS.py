@@ -16,6 +16,7 @@ import GUI #homebrew gui file
 import parameterdefaults #homebrew parameter defaults
 from enum import IntEnum
 from time import gmtime, strftime
+from time import time as milis
 
 #enumarate the different modes
 class Mode(IntEnum):
@@ -81,9 +82,11 @@ def send_parameter_message(register,data):
 
 #only used for finnishing the send operation   
 def send_message(payload):
+    global logfile
     message = payload + bytearray([crc8(payload)])
     ser.write(message + b'\n')
     ser.flush()
+    logfile.write("MESSAGE: {}, {} ,".format(milis(), message) + "\n")
     return
 
 #funtion to handel all the keyboard input
@@ -587,9 +590,9 @@ def setparams():
     send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
 
 class ConsoleThread(threading.Thread):
+    global logfile
     Running = True
     printable = set(string.printable)
-
     def run(self):
         global MODE
         global ready
@@ -644,7 +647,7 @@ class ConsoleThread(threading.Thread):
                             bat = int(data[index+15] * 256 + data[index+16])
 
                             drone_time = int(data[index+17] * 2**24 + data[index+18]* 2**16 +data[index+19] * 2**8 + data[index+20])
-                            print(drone_time)
+                            # print(drone_time)
                             batvalue = bat
 
                             if pitch > 2**15:
@@ -670,6 +673,10 @@ class ConsoleThread(threading.Thread):
                             gyrovalues.yaw = yaw
                             gyrovalues.roll = roll
 
+                            # TODO print downlink to log
+                            logfile.write("DRONE: {},{},{},{},{},{},{},{},{},{},{}\n".format(milis(), mode,m1,m2,m3,m4,pitch,roll,yaw,bat, dronetime))
+
+
 
                             # print("found information string")
                             # print(data)
@@ -689,6 +696,8 @@ class ConsoleThread(threading.Thread):
                         tijd = strftime("%H:%M:%S", gmtime())
                         multiline.addLine(tijd+" "+ "".join(i for i in dataString if ord(i)<128 and ord(i)>31))
                         print (dataString)
+                        logfile.write("DEBUG: {},".format(milis()) + dataString + "\n")
+
 
                 data = bytearray()
                 data.append(fout)
@@ -750,7 +759,7 @@ else:
 # sudo apt-get setserial before it would work
 os.system("setserial " + serial_port + " low_latency")
 ser = serial.Serial(serial_port, 115200, timeout=1, writeTimeout=0, dsrdtr=True)
-
+logfile = open('log.cvs', 'w+')
 console = ConsoleThread(name="Console Thread")
 console.start()
 
