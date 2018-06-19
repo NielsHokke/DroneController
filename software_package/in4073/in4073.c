@@ -221,7 +221,7 @@ static void check_battery_voltage(void *pvParameter){
 			#endif //BATTERY_CHECK_ACTIVE
 		}
 
-		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, psi, phi, bat_volt);
+		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, psi, phi, bat_volt, get_time_us());
 
 		i++;
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));

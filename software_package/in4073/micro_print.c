@@ -5,7 +5,7 @@
 #define MAX_INT_LEN 5
 
 
-void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_t pitch, int16_t roll, int16_t yaw, uint16_t bat_volt){
+void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_t pitch, int16_t roll, int16_t yaw, uint16_t bat_volt, uint32_t time){
 	uart_put('@');
 	uart_put('@');
 	uart_put('@');
@@ -35,6 +35,11 @@ void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_
 
 	uart_put(bat_volt >> 8 & 0xFF);
 	uart_put(bat_volt >> 0 & 0xFF);
+
+	uart_put(time >> 24 & 0xFF);
+	uart_put(time >> 16 & 0xFF);
+	uart_put(time >> 8 & 0xFF);
+	uart_put(time >> 0 & 0xFF);
 
 	uart_put('z');
 	uart_put('z');

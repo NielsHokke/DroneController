@@ -604,11 +604,15 @@ class ConsoleThread(threading.Thread):
             inte = int.from_bytes(byte, byteorder='big')
             data.append(int.from_bytes(byte, byteorder='big'))
             if inte == 10 and len(data) > 1:
+
+                dataString = data[:-2].decode("utf-8", errors='ignore')
+                if '@@@' in dataString and not 'zzz' in dataString:
+                    continue
+
                 print(data[:-2])
                 fout = data[-2]
 
-                dataString = data[:-2].decode("utf-8", errors='ignore')
-
+                
                 if '@@@' in dataString or 'zzz' in dataString:
                     if '@@@' in dataString and 'zzz' in dataString:
                         index = 0
@@ -639,6 +643,8 @@ class ConsoleThread(threading.Thread):
 
                             bat = int(data[index+15] * 256 + data[index+16])
 
+                            drone_time = int(data[index+17] * 2**24 + data[index+18]* 2**16 +data[index+19] * 2**8 + data[index+20])
+                            print(drone_time)
                             batvalue = bat
 
                             if pitch > 2**15:
