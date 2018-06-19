@@ -143,15 +143,9 @@ void validate_para_msg(void *pvParameter){
 			DEBUG_PRINTEGER(crc, 3);
 			DEBUG_PRINT("\n\f");
 		}else{
-			// Correct CRC
-			//DEBUG_PRINT("PARA, crc correct\n\f");
-
-			// block all messages except go to safmode when in panic mode
+			//dont accept parameter changes when in panic mode
 			if (GLOBALSTATE == S_PANIC){
-				if(para_buffer[1] == 4 && para_buffer[5] == S_SAFE ){
-					flag_gotosafemode = true;
-					DEBUG_PRINT("p2s flag set \n\f");
-				}
+				continue;
 			}
 
 			else{

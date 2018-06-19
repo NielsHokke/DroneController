@@ -303,34 +303,35 @@ void manual_control(void){
  */
 void panic(bool printing){
 
-	//if a motor is above 0 slowely rev down motors
-	if ( ae[0] || ae[1] || ae[2] || ae[3]){
+	static bool 	new_panic = true;
+	static uint8_t 	counter = 255;
 
-		for ( uint8_t i = 0; i<4; i++) {
-		//underflow protection and revdown
-			if (ae[i] < 0) ae[i] = 0;
-			else if (ae[i] > 0) ae[i] = ae[i]-1;
-		}
 
-		// DEBUG_PRINT("M0: \f");
-		// DEBUG_PRINTEGER(motor[0], 6);
-		// DEBUG_PRINT(" M1: \f");
-		// DEBUG_PRINTEGER(motor[1], 6);
-		// DEBUG_PRINT(" M2: \f");
-		// DEBUG_PRINTEGER(motor[2], 6);
-		// DEBUG_PRINT(" M3: \f");
-		// DEBUG_PRINTEGER(motor[3], 6);
-		// DEBUG_PRINT("\n\n\f");
+	//first invoaction set to static dropping value for 2.5 seconds
+	if (new_panic){
+		ae[0] = 400;
+		ae[1] = 400;
+		ae[2] = 400; 
+		ae[3] = 400;
+		new_panic = false;
 	}
-
-	//go to safesate if the command is given en no lift is set and no no motors are turning.
-	else if (SetPoint.lift == 0){
-		if (flag_gotosafemode){
-			flag_gotosafemode = false;
+	else if (counter>0){
+		counter--;
+	}
+	else if (counter == 0){
+		//rev down motors
+		if ( ae[0] || ae[1] || ae[2] || ae[3]){
+			for ( uint8_t i = 0; i<4; i++) {
+			//underflow protection and revdown
+				if (ae[i] < 0) ae[i] = 0;
+				else if (ae[i] > 0) ae[i] = ae[i]-1;
+			}
+		}
+		//if motors are off
+		else {
 			GLOBALSTATE = S_SAFE;
+			new_panic = true;
+			counter = 255;
 		}
-		//else if(printing) DEBUG_PRINT("Ready for safe mode\n\f");
 	}
-	//reset flag to prevent stuff
-	else flag_gotosafemode = false; 
 }

@@ -43,7 +43,6 @@ void manual_control();
 void dmp_control(bool yaw_only);
 
 //#define PANIC_ACTIVE //the loop may go to panic mode
-bool flag_gotosafemode; // a flag to prevent state changes in panic mode
 void panic(bool printing);
 
 typedef struct {
