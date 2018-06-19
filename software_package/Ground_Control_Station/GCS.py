@@ -9,6 +9,7 @@ import serial
 import pygame
 import crcmod
 import math
+import os
 import Registermapping #homebrew registermpping file
 import GUI #homebrew gui file
 import parameterdefaults #homebrew parameter defaults
@@ -717,8 +718,8 @@ if len(sys.argv) < 2:
     serial_port = '/dev/ttyUSB0'
 else:
     serial_port = sys.argv[1]
-
-
+# sudo apt-get setserial before it would work
+os.system("setserial " + serial_port + " low_latency")
 ser = serial.Serial(serial_port, 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
