@@ -154,6 +154,7 @@ static void control_loop(void *pvParameter){
 				// TODO implement mode
 				break;
 			case S_SYSTEM_RESET :
+				if(printing) DEBUG_PRINT("IN SYSTEM RESET MODE\n\f");
 				NVIC_SystemReset();
 				break;
 
