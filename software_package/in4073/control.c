@@ -317,17 +317,18 @@ void panic(bool printing){
 		// 	}
 
 		// variation 2 average
-		uint16_t average = 0;
-
-		for ( uint8_t i = 0; i<4; i++) {
-			average =+ ae[i];
-		}
-
+		uint32_t average = ae[0]+ae[1]+ae[2]+ae[3];
 		average = average >> 2;
-		if (average > drop_motorvalue) average = drop_motorvalue;
-		for ( uint8_t i = 0; i<4; i++) {
-			ae[i] = average;
-		}		
+
+		if (average > drop_motorvalue){
+			average = drop_motorvalue;
+			}
+		else {
+			ae[1] = average;
+			ae[2] = average;
+			ae[3] = average;
+			ae[4] = average;
+		}	
 		new_panic = false;
 	}
 	else if (counter>0){
