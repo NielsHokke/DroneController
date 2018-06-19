@@ -43,6 +43,9 @@ void motors_off();
 void manual_control();
 void dmp_control(bool yaw_only);
 
+//#define PANIC_ACTIVE //the loop may go to panic mode
+void panic(bool printing);
+
 typedef struct {
 	int8_t yaw;
 	int8_t pitch;
@@ -51,7 +54,6 @@ typedef struct {
 } setpoint;
 
 setpoint SetPoint;
-
 
 // UART
 #define CTRL_DATA_LENGTH 4
@@ -71,7 +73,6 @@ void validate_para_msg(void *);
 TimerHandle_t UartTimeoutHandle;
 
 
-
 // Global parameters
 #define GET_PARA_8(R) parameters[R]
 #define GET_PARA_16(R) (( (uint16_t) parameters[R] << 8) + (uint16_t) parameters[R + 1])
@@ -87,6 +88,7 @@ TimerHandle_t UartTimeoutHandle;
 #define P_ANGLE_MAX 12
 #define P_ANGLE_MIN 13
 #define P_YAW_MAX 14
+
 #define P_YAW_MIN 15
 
 #define P_P1 16
