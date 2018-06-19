@@ -305,14 +305,15 @@ void panic(bool printing){
 
 	static bool 	new_panic = true;
 	static uint8_t 	counter = 255;
+	const  uint16_t drop_motorvalue = 400;
 
 
 	//first invoaction set to static dropping value for 2.5 seconds
 	if (new_panic){
-		ae[0] = 400;
-		ae[1] = 400;
-		ae[2] = 400; 
-		ae[3] = 400;
+		for ( uint8_t i = 0; i<4; i++) {
+				if (ae[i] > drop_motorvalue) ae[i] = drop_motorvalue;
+			}
+			
 		new_panic = false;
 	}
 	else if (counter>0){
