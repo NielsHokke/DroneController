@@ -217,10 +217,11 @@ static void check_battery_voltage(void *pvParameter){
 			#endif //PANIC_ACTIVE
 		}
 
-		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, phi, psi);
+		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, psi, phi);
+
 		i++;
 		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
-		vTaskDelay(99); //TODO should this be 999
+		vTaskDelay(99);
 
 	}
 }
@@ -246,6 +247,7 @@ int main(void)
 
 	uart_init();
 	adc_init();
+
 
 
 	print("Peripherals initialized\n\f");
