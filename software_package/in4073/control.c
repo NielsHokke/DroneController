@@ -291,3 +291,33 @@ void manual_control(void){
 	ae[2] = (int16_t) tempMotor[2];
 	ae[3] = (int16_t) tempMotor[3];
 }
+
+/*--------------------------------------------------------------------------------------
+ * panic: 		This will put the drone in panic mode, in panic mode the motors slowely rev down
+ *				and if they are below a ceratain threshold shut down entirely.
+ 				incomming messages are blocked in uart.c
+ * Parameters: 	void
+ * Return:   	void
+ * Author:    	David Enthoven
+ * Date:    	13-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+void panic(void){
+	uint16_t revdownvalue = 1; //TODO delete this
+
+	//if a motor is above 0 slowely rev down motors
+	if (motor[0] || motor[1] || motor[2] || motor[3]){
+		if (motor[0]) ae[0] = motor[0]-revdownvalue;
+		if (motor[1]) ae[1] = motor[1]-revdownvalue;
+		if (motor[2]) ae[2] = motor[2]-revdownvalue;
+		if (motor[3]) ae[3] = motor[3]-revdownvalue;
+	}
+
+	else if (SetPoint.lift == 0){
+		if (flag_gotosafemode){
+			GLOBALSTATE = S_SAFE;
+		}
+	}
+	else flag_gotosafemode = false; //reset flag to prevent stuff
+
+}
