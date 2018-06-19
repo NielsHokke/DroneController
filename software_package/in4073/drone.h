@@ -21,6 +21,7 @@
 #define S_RAW_MODE		6
 #define S_HEIGHT_CTRL	7
 #define S_WIRELESS		8
+#define S_SYSTEM_RESET	255
 
 
 // Calibration
