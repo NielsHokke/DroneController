@@ -1,21 +1,8 @@
 import pygame
 
 class Guibar(object):
-    # b_horizontal 
-    # b_unsigned 
-    # b_trim
-    # top
-    # left
-    # width 
-    # height 
-    # f_name 
-    # r_back 
-    # r_bar 
-    # r_trimbar 
-    # v_value
-    # v_trim
 
-    def __init__(self,name,top,left,hor,uns,trim):
+    def __init__(self,name,top,left,hor,uns,trim,rang=255):
         global allguibars
         self.r_bar = pygame.Rect(0,0,1,1)
         self.f_name = name
@@ -24,6 +11,7 @@ class Guibar(object):
         self.b_unsigned = uns
         self.top = top
         self.left = left
+        self.range = rang
         self.v_value = 0
         self.v_trim = 0
         self.f_title = f_font_18.render(name,True,col_grey3)
