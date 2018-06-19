@@ -297,6 +297,8 @@ def draw_gui():
     global controlvalues
     global motorvalues
     global gyrovalues
+    global batvalue
+
     global has_joystick
 
     global multiline
@@ -320,6 +322,15 @@ def draw_gui():
     GUI.allguibars[8].setval(gyrovalues.pitch)
     GUI.allguibars[9].setval(gyrovalues.yaw)
     GUI.allguibars[10].setval(gyrovalues.roll)
+
+    if batvalue < 1080:
+        color = pygame.Color(255,0,0)
+    elif batvalue < 1180:
+        color = pygame.Color(255,128,0)
+    else:
+        color = pygame.Color(0,204,0)
+
+    GUI.allguibars[11].setval(batvalue, color)
 
     #text in middel
     text_pitch = GUI.f_font_16.render("Pitch: " + str(gyrovalues.pitch),True,GUI.col_grey3)
@@ -411,6 +422,8 @@ def init_gui():
     GUI.Guibar("Pitch",200,500,True,False,False, 12000, 133)
     GUI.Guibar("Yaw",260,500,True,False,False, 2**16, 182)
     GUI.Guibar("Roll",320,500,True,False,False, 12000, 133)
+
+    GUI.Guibar("",175,410,False,True,False,numscale=100, bat=True, size=160, minr=1000,maxr=1300)
     
     #name,top,left,width,height,function
     safe_bt = GUI.Button("0: SAFE",720,60,80,40,8,12)
@@ -575,6 +588,7 @@ class ConsoleThread(threading.Thread):
         global motorvalues
         global gyrovalues
         global multiline
+        global batvalue
 
         data = bytearray()
         while self.Running:
@@ -603,16 +617,21 @@ class ConsoleThread(threading.Thread):
                                 else:
                                     break
 
-                        if ready and len(data) >= index+14:
+                        if ready and len(data) >= index+16:
 
                             mode = data[index]
                             m1 = int(data[index+1] * 256 + data[index+2])
                             m2 = int(data[index+3] * 256 + data[index+4])
                             m3 = int(data[index+5] * 256 + data[index+6])
                             m4 = int(data[index+7] * 256 + data[index+8])
+
                             pitch = int(data[index+9] * 256 + data[index+10])
                             roll = int(data[index+11] * 256 + data[index+12])
                             yaw = int(data[index+13] * 256 + data[index+14])
+
+                            bat = int(data[index+15] * 256 + data[index+16])
+
+                            batvalue = bat
 
                             if pitch > 2**15:
                                 pitch -= 2**16
@@ -725,8 +744,9 @@ newparametervalues = Parametervalues()
 controlvalues = Controlvalues()
 motorvalues = Motorvalues()
 gyrovalues = Gyrovalues()
+batvalue = 0
 
-multiline = GUI.Multiline(175, 60, 380, 180, 12, 54)
+multiline = GUI.Multiline(175, 60, 280, 180, 12, 54)
 
 MODE = Mode.MODE_SAFE
 Running = True

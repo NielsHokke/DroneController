@@ -5,7 +5,7 @@
 #define MAX_INT_LEN 5
 
 
-void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_t pitch, int16_t roll, int16_t yaw){
+void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_t pitch, int16_t roll, int16_t yaw, uint16_t bat_volt){
 	uart_put('@');
 	uart_put('@');
 	uart_put('@');
@@ -33,6 +33,9 @@ void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_
 	uart_put(roll >> 8 & 0xFF);
 	uart_put(roll >> 0 & 0xFF);
 
+	uart_put(bat_volt >> 8 & 0xFF);
+	uart_put(bat_volt >> 0 & 0xFF);
+
 	uart_put('z');
 	uart_put('z');
 	uart_put('z');
@@ -40,16 +43,6 @@ void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_
 
 	// Flush uart
 	uart_put('\n');
-	// uart_put('.');
-	// uart_put('\n');
-	// uart_put('.');
-	// uart_put('\n');
-	// uart_put('.');
-	// uart_put('\n');
-	// uart_put('.');
-	// uart_put('\n');
-	// uart_put('.');
-	// uart_put('\n');
 }
 
 void print(char *string){
