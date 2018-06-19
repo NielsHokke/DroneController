@@ -659,7 +659,6 @@ class ConsoleThread(threading.Thread):
                             if roll > 2**15:
                                 roll -= 2**16
 
-
                             if mode != MODE:
                                 print("adjusted by drone", mode)
                                 Switch_Mode(mode, True, True)
@@ -674,7 +673,7 @@ class ConsoleThread(threading.Thread):
                             gyrovalues.roll = roll
 
                             # TODO print downlink to log
-                            logfile.write("DRONE: {},{},{},{},{},{},{},{},{},{},{}\n".format(milis(), mode,m1,m2,m3,m4,pitch,roll,yaw,bat, dronetime))
+                            logfile.write("DRONE: {},{},{},{},{},{},{},{},{},{}, {}\n".format(milis(), mode,m1,m2,m3,m4,pitch,roll,yaw,bat, drone_time))
 
 
 
