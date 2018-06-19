@@ -9,6 +9,7 @@ import serial
 import pygame
 import crcmod
 import math
+import os
 import Registermapping #homebrew registermpping file
 import GUI #homebrew gui file
 import parameterdefaults #homebrew parameter defaults
@@ -26,6 +27,7 @@ class Mode(IntEnum):
     MODE_RAW = 6
     MODE_HEIGHT = 7
     MODE_WIRELESS = 8
+    MODE_SYSTEM_RESET = 255
 
 class Trimdirection(IntEnum):
     UP = 1
@@ -91,7 +93,11 @@ def handle_keypress(pressed_key):
     global newparametervalues
 
     #escape -> close program
-    if pressed_key == pygame.K_ESCAPE: Running = False #TODO: check for safety
+    if pressed_key == pygame.K_ESCAPE: 
+        if MODE == Mode.MODE_SAFE:
+            Running = False #TODO: check for safety
+        else:
+            Switch_Mode(Mode.MODE_PANIC)    
 
     #number -> switch mode
     elif pressed_key == pygame.K_0:Switch_Mode(Mode.MODE_SAFE)
@@ -731,8 +737,8 @@ if len(sys.argv) < 2:
     serial_port = '/dev/ttyUSB0'
 else:
     serial_port = sys.argv[1]
-
-
+# sudo apt-get setserial before it would work
+os.system("setserial " + serial_port + " low_latency")
 ser = serial.Serial(serial_port, 115200, timeout=1, writeTimeout=0, dsrdtr=True)
 
 console = ConsoleThread(name="Console Thread")
@@ -795,7 +801,7 @@ if __name__ == '__main__':
 
     if pygame.joystick.get_count() > 0:
         print("Joystick detected")
-        has_joystick = True
+        has_joystick = False
     else:
         print("No joystick detected. Keyboard only mode")
 
@@ -815,7 +821,11 @@ if __name__ == '__main__':
         #pygame.event.wait() #wait until event happens, doesnt work 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                Running = False
+                print("someone pressed \n")
+                if MODE == Mode.MODE_SAFE:
+                    Running = False #TODO: check for safety
+                else:
+                    Switch_Mode(Mode.MODE_PANIC)    
 
             if event.type == pygame.KEYDOWN:
                 handle_keypress(event.key)
@@ -881,6 +891,9 @@ if __name__ == '__main__':
         time.sleep(0.005)
 
     print("Shutting down")
+    
+    # send_parameter_message(b'\x04', Mode.MODE_SYSTEM_RESET)
+
     if has_joystick: GCS_joystick.quit()
     console.stop()
     ser.flush()

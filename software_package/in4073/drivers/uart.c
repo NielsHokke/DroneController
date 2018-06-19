@@ -143,15 +143,18 @@ void validate_para_msg(void *pvParameter){
 			DEBUG_PRINTEGER(crc, 3);
 			DEBUG_PRINT("\n\f");
 		}else{
-			// Correct CRC
-			DEBUG_PRINT("PARA, crc correct\n\f");
+			//dont accept parameter changes when in panic mode
+			if (GLOBALSTATE == S_PANIC){
+				continue;
+			}
 
-			uint8_t index = (uint8_t) para_buffer[1];
-			parameters[index] = para_buffer[2];
-			parameters[index+1] = para_buffer[3];
-			parameters[index+2] = para_buffer[4];
-			parameters[index+3] = para_buffer[5];
-
+			else{
+				uint8_t index = (uint8_t) para_buffer[1];
+				parameters[index] = para_buffer[2];
+				parameters[index+1] = para_buffer[3];
+				parameters[index+2] = para_buffer[4];
+				parameters[index+3] = para_buffer[5];
+			}
 			// TODO end critical section
 		}
 	}
@@ -168,10 +171,12 @@ void validate_para_msg(void *pvParameter){
  *------------------------------------------------------------------
  */
 void UartTimeoutCallback( TimerHandle_t xTimer ){
+	//TODO dont go from save to panic
+	DEBUG_PRINT("UART TIMOUT \n\f");
 	GLOBALSTATE = S_PANIC;
-	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
-	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
-	DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
+	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
+	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
+	// DEBUG_PRINT("UART TIMOUT TRIGGERT!\n\f");
 }
 
 
@@ -188,7 +193,7 @@ void handle_serial_rx(char c){
 	static char ctrl_buffer[CTRL_DATA_LENGTH+2];
 	static char para_buffer[PARA_DATA_LENGTH+2];
 	static uint8_t byte_counter;
-		
+
 	switch(serialstate){
 		case IDLE:
 			if(c == 0xAA){ // control message start byte

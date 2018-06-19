@@ -27,7 +27,6 @@ void update_motors(void)
 		motor[2] = 0;
 		motor[3] = 0;	
 	}
-
 }
 
 void motors_off(void)
@@ -290,4 +289,50 @@ void manual_control(void){
 	ae[1] = (int16_t) tempMotor[1];
 	ae[2] = (int16_t) tempMotor[2];
 	ae[3] = (int16_t) tempMotor[3];
+}
+
+/*--------------------------------------------------------------------------------------
+ * panic: 		This will put the drone in panic mode, in panic mode the motors slowely rev down
+ *				and if they are below a ceratain threshold shut down entirely.
+ 				incomming messages are blocked in uart.c
+ * Parameters: 	void
+ * Return:   	void
+ * Author:    	David Enthoven
+ * Date:    	13-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+void panic(bool printing){
+
+	static bool 	new_panic = true;
+	static uint8_t 	counter = 255;
+	const  uint16_t drop_motorvalue = 400;
+
+
+	//first invoaction set to static dropping value for 2.5 seconds
+	if (new_panic){
+		for ( uint8_t i = 0; i<4; i++) {
+				if (ae[i] > drop_motorvalue) ae[i] = drop_motorvalue;
+			}
+			
+		new_panic = false;
+	}
+	else if (counter>0){
+		counter--;
+	}
+	else if (counter == 0){
+		//rev down motors
+		if ( ae[0] || ae[1] || ae[2] || ae[3]){
+			for ( uint8_t i = 0; i<4; i++) {
+			//underflow protection and revdown
+				if (ae[i] < 0) ae[i] = 0;
+				else if (ae[i] > 0) ae[i] = ae[i]-1;
+			}
+		}
+		//if motors are off
+		else {
+			GLOBALSTATE = S_SAFE;
+			new_panic = true;
+			counter = 255;
+		}
+	}
 }
