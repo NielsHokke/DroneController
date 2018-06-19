@@ -706,7 +706,7 @@ class Gyrovalues:
 
 
 if len(sys.argv) < 2:
-    print("No serial port specified, picking '/dev/ttyUSB/")
+    print("No serial port specified, picking '/dev/ttyUSB0/")
     serial_port = '/dev/ttyUSB0'
 else:
     serial_port = sys.argv[1]
