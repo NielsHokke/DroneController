@@ -769,7 +769,7 @@ if __name__ == '__main__':
     init_gui() #init all the homebrew gui stuff
     pygame.display.set_caption("Ground Control Station")
     
-    # setparams()
+    setparams()
 
     if pygame.joystick.get_count() > 0:
         print("Joystick detected")
