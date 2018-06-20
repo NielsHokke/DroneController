@@ -794,7 +794,7 @@ if __name__ == '__main__':
 
     if pygame.joystick.get_count() > 0:
         print("Joystick detected")
-        has_joystick = False
+        has_joystick = True
     else:
         print("No joystick detected. Keyboard only mode")
 

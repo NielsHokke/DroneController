@@ -133,8 +133,6 @@ void dmp_control(bool yaw_only){
 		// 48 and shift by 1 are remmiscents from old code (but not changing it on d-day)
 		roll_output = 	GET_PARA_16(P_P1) * (	((int32_t) SetPoint.roll * 48) - (phi << 1)) - 	GET_PARA_16(P_P2) * sp;
 
-		
-
 		// PITCH: P controller for roll
 		// 48 and shift by 1 are remmiscents from old code (but not changing it on d-day)
 		pitch_output = 	-1 * GET_PARA_16(P_P1) * (	((int32_t) SetPoint.pitch * 48) - (theta << 1)) - GET_PARA_16(P_P2) * sq;
