@@ -270,6 +270,7 @@ def Switch_Mode(new_mode, force=False, local=False):
                 yaw_bt.set_enable(False)
                 full_bt.set_enable(False)
                 raw_bt.set_selected()
+
             #height
             # elif new_mode == Mode.MODE_HEIGHT:
             #     MODE = Mode.MODE_HEIGHT
@@ -292,6 +293,7 @@ def Switch_Mode(new_mode, force=False, local=False):
             #     yaw_bt.set_enable(False)
             #     full_bt.set_enable(False)
             #     raw_bt.set_enable(False)
+
             print("mode switched to:", MODE)
         else:
             print("invalid Mode switch requested, no mode switched")
@@ -376,11 +378,6 @@ def draw_gui():
     screen = GUI.draw_all(screen)
 
     multiline.draw(screen)
-
-    # #text in middel
-    # screen.blit(text_pitch,(297,340))
-    # screen.blit(text_yaw,(297,320))
-    # screen.blit(text_roll,(297,300))
 
     #update the parameter text
     P_H = 415
@@ -584,8 +581,8 @@ def setparams():
     b2 = newparametervalues.angle_min.to_bytes(1, byteorder='big', signed=False)
     b3 = newparametervalues.yaw_max.to_bytes(1, byteorder='big', signed=False)
     b4 = newparametervalues.yaw_min.to_bytes(1, byteorder='big', signed=False)
-    send_parameter_message_4(Registermapping.REGMAP_BOUNDARIES,b1,b2,b3,b4)
 
+    send_parameter_message_4(Registermapping.REGMAP_BOUNDARIES,b1,b2,b3,b4)
     send_parameter_message_2(Registermapping.REGMAP_PARAMETER_YAW,0,newparametervalues.PYaw.to_bytes(2, byteorder='big', signed=False))
     send_parameter_message_2(Registermapping.REGMAP_PARAMETER_P1_P2,newparametervalues.P1.to_bytes(2, byteorder='big', signed=False),newparametervalues.P2.to_bytes(2, byteorder='big', signed=False))
 
@@ -675,8 +672,6 @@ class ConsoleThread(threading.Thread):
                             # TODO print downlink to log
                             logfile.write("DRONE: {},{},{},{},{},{},{},{},{},{}, {}\n".format(milis(), mode,m1,m2,m3,m4,pitch,roll,yaw,bat, drone_time))
 
-
-
                             # print("found information string")
                             # print(data)
                             # print("Mode", mode)
@@ -725,8 +720,6 @@ class Parametervalues:
     angle_min = parameterdefaults.P_angle_min
     angle_max = parameterdefaults.P_angle_max
 
-
-
 class Motorvalues:
     M1 = 0
     M2 = 0
@@ -738,23 +731,13 @@ class Gyrovalues:
     yaw = 0
     roll = 0
 
-#TODO commport as argument
-# #if no comport is given as a argument default to ttyUSB0
-# if len(sys.argv) == 1:
-#     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1, writeTimeout=0, dsrdtr=True)
-# else:
-#     print(str(sys.argv))
-#     argslist = str(sys.argv)
-#     print(argslist)
-#     print(argslist[1],type(argslist[1]))
-#     #ser = serial.Serial(str(sys.argv)[1], 115200, timeout=1, writeTimeout=0, dsrdtr=True)
-
-
+#get comport as argument
 if len(sys.argv) < 2:
     print("No serial port specified, picking '/dev/ttyUSB0/")
     serial_port = '/dev/ttyUSB0'
 else:
     serial_port = sys.argv[1]
+
 # sudo apt-get setserial before it would work
 os.system("setserial " + serial_port + " low_latency")
 ser = serial.Serial(serial_port, 115200, timeout=1, writeTimeout=0, dsrdtr=True)
@@ -762,6 +745,7 @@ logfile = open('log.cvs', 'w+')
 console = ConsoleThread(name="Console Thread")
 console.start()
 
+#global values
 trimvalues = Trimvalues()
 parametervalues = Parametervalues()
 newparametervalues = Parametervalues()
@@ -795,15 +779,6 @@ ready_counter = 10
 
 if __name__ == '__main__':
     send_control_message_flag = 100 #timer and flag for sending controll messages
-    # pitch_byte = b'\x00'
-    # yaw_byte = b'\x00'
-    # roll_byte = b'\x00'
-    # lift_byte = b'\x00'
-    #ctrl_message = b'\xaa\x00\x00\x00\x00\x48'
-    # raw_pitch = 0
-    # raw_yaw = 0
-    # raw_roll = 0
-    # raw_lift = 0
     has_joystick = False
 
     # polynomial = 0xD8 this function requires a 1 at the start so sure
@@ -861,6 +836,7 @@ if __name__ == '__main__':
 
                 # if event.type == pygame.JOYBUTTONUP:
                 #     print("Joystick button released.")
+
                 if event.type == pygame.JOYAXISMOTION:
                     #add trim values and bounds
                     controlvalues.pitch = min(127,max(-127,round(GCS_joystick.get_axis(joystic_axis_pitch) * 127.5)+trimvalues.pitch))
@@ -900,9 +876,6 @@ if __name__ == '__main__':
             if ready_counter == 0:
                 ready = True
 
-
-
-        
         #draw the gui and update it
         draw_gui()
         pygame.display.flip()
@@ -910,8 +883,6 @@ if __name__ == '__main__':
 
     print("Shutting down")
     
-    # send_parameter_message(b'\x04', Mode.MODE_SYSTEM_RESET)
-
     if has_joystick: GCS_joystick.quit()
     console.stop()
     ser.flush()
