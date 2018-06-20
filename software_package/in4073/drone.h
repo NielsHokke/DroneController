@@ -11,7 +11,7 @@
 
 /* Debug Switches */
 //#define TIMETRACE // if enabled it prints the time needed per control loop
-#define BATTERY_CHECK_ACTIVE // If commented out, low voltage does not trigger panic mode
+//#define BATTERY_CHECK_ACTIVE // If commented out, low voltage does not trigger panic mode
 
 #define DEBUG 1
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
