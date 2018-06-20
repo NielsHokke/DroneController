@@ -13,10 +13,8 @@
  *------------------------------------------------------------------
  */
 
-
 #include "in4073.h"
 #include "drone.h"
-
 
 #include "FreeRTOS.h"
 #include "rtos_task.h"
@@ -28,10 +26,8 @@
 #include "sdk_errors.h"
 #include "app_error.h"
 
-
 #define CONTROL_PERIOD 9
 #define SENSOR_PERIOD 10
-
 
 
 /*--------------------------------------------------------------------------------------
@@ -63,7 +59,6 @@ static void control_loop(void *pvParameter){
 	spi_flash_init();
 	// ble_init();
 
-
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();
 
@@ -72,20 +67,18 @@ static void control_loop(void *pvParameter){
 		#endif
 
 		if ((i++ % 100) == 0){
-			nrf_gpio_pin_toggle(GREEN);
-
 			printing = true;
 		}else{
 			printing = false;
 		}
 
-		// DEBUG_PRINT("state: f\f");
-		// DEBUG_PRINTEGER(GLOBALSTATE,2);
-		// DEBUG_PRINT("\n\f");
-
 		get_dmp_data(); // If we don;t continously read the fifo after initializing it's throwing errors adn exceptions all over the place
+		
+		nrf_gpio_pin_set(RED);
+		nrf_gpio_pin_set(GREEN);
 		switch(GLOBALSTATE){
 			case S_SAFE:
+				nrf_gpio_pin_clear(GREEN);
 				if(printing) DEBUG_PRINT("S_SAFE\n\f");
 				ae[0] = 0;
 				ae[1] = 0;
@@ -94,8 +87,9 @@ static void control_loop(void *pvParameter){
 				break;
 
 			case S_PANIC :
+				nrf_gpio_pin_clear(RED);
 				if(printing) DEBUG_PRINT("S_PANIC\n\f");
-				panic(printing);
+				panic();
 				break;
 
 			case S_MANUAL:
@@ -114,7 +108,7 @@ static void control_loop(void *pvParameter){
 				break;
 
 			case S_FULL_CONTROLL :
-				dmp_control(false);
+				dmp_control(false); //dmp_control with yaw only set to false
 				if(printing) DEBUG_PRINT("S_FULL_CONTROLL\n\f");
 				break;
 
@@ -131,6 +125,7 @@ static void control_loop(void *pvParameter){
 			case S_WIRELESS :
 				if(printing) DEBUG_PRINT("S_WIRELESS\n\f");
 				// TODO implement mode
+
 				break;
 			case S_SYSTEM_RESET :
 				if(printing) DEBUG_PRINT("IN SYSTEM RESET MODE\n\f");
@@ -152,8 +147,9 @@ static void control_loop(void *pvParameter){
 	}	
 }
 
+
 /*--------------------------------------------------------------------------------------
- * sensor_loop: task to read out and perform filtering on the acllerco +gyro data
+ * sensor_loop: task to read out and perform filtering on raw data
  * Parameters: pointer to function parameters
  * Return:   void
  * Author:    Jetse Brouwer
@@ -173,7 +169,6 @@ static void sensor_loop(void *pvParameter){
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );	
 	}
 }
-
 
 
 /*--------------------------------------------------------------------------------------
@@ -199,20 +194,20 @@ static void check_battery_voltage(void *pvParameter){
 		}
 
 		if (bat_volt < 1080){ // minimum = 10.8/0.007058824				
+			/* ifdef to disable bat. check for working with board only */
 			#ifdef BATTERY_CHECK_ACTIVE 
 			DEBUG_PRINT("VOLTAGE TO LOW GOING TO PANIC MODE\n\f");
 			GLOBALSTATE = S_PANIC;
-			#endif //BATTERY_CHECK_ACTIVE
+			#endif 
 		}
 
 		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, psi, phi, bat_volt, get_time_us());
 
 		i++;
-		//DEBUG_PRINTEGER((int) uxTaskGetStackHighWaterMark(NULL));
 		vTaskDelay(99);
-
 	}
 }
+
 
 /*------------------------------------------------------------------
  * main -- everything you need is here :)
@@ -248,11 +243,7 @@ int main(void)
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");
 
-    /* Activate deep sleep mode */
-    // SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
-
     /* Start FreeRTOS scheduler. */
-    //UNUSED_VARIABLE(xTimerCreateTimerTask);
     vTaskStartScheduler();
 
     while (true)
@@ -263,7 +254,16 @@ int main(void)
 	NVIC_SystemReset();
 }
 
-/* Functions that will be used by freertos if eneabled in FreeRTOSCONFIG.h   */	
+
+/*--------------------------------------------------------------------------------------
+ * vApplicationStackOverflowHook:    Callback function when task caused stack overflow
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
 
 void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName )
 {
@@ -277,6 +277,15 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName 
 	    nrf_gpio_pin_toggle(RED);
     }
 }
+
+/*--------------------------------------------------------------------------------------
+ * vApplicationIdleHook:   callback function for idle task (when enabled in freeRTOSconfig.h)
+ * Parameters: pointer to function parameters
+ * Return:   void
+ * Author:    Jetse Brouwer
+ * Date:    2-5-2018
+ *--------------------------------------------------------------------------------------
+ */
 
 void vApplicationIdleHook( void )
 {

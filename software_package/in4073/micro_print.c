@@ -5,6 +5,14 @@
 #define MAX_INT_LEN 5
 
 
+/*--------------------------------------------------------------------------------------
+ * downLink:		Sends relevant data to the console for logging and real time display
+ * Parameters: 		mode, m1, m2, m3, m4, pitch, roll, yaw, bat_volt, time
+ * Return:   		void
+ * Author:    		Niels Hokke
+ * Date:    		30-5-2018
+ *--------------------------------------------------------------------------------------
+ */
 void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_t pitch, int16_t roll, int16_t yaw, uint16_t bat_volt, uint32_t time){
 	uart_put('@');
 	uart_put('@');
@@ -50,12 +58,32 @@ void downLink(uint8_t mode, int16_t m1, int16_t m2,int16_t m3,int16_t m4, int16_
 	uart_put('\n');
 }
 
+
+
+/*--------------------------------------------------------------------------------------
+ * print:		lightweight function to replace printf
+ * Parameters: 		string terminated by '\f'
+ * Return:   		void
+ * Author:    		Jetse Brouwer
+ * Date:    		30-5-2018
+ *--------------------------------------------------------------------------------------
+ */
+
 void print(char *string){
 	int i=0;
 	while ((*string != '\f') && (i++ <= MAX_STR_LEN)){
 		uart_put(*string++);
 	}
 }
+
+/*--------------------------------------------------------------------------------------
+ * printeger:		lightweight function to replace printf
+ * Parameters: 		int, number of characters to print
+ * Return:   		void
+ * Author:    		Jetse Brouwer
+ * Date:    		30-5-2018
+ *--------------------------------------------------------------------------------------
+ */
 
 void printeger(int x, uint8_t lenght){
 	char string[lenght + 2];
@@ -73,6 +101,14 @@ void printeger(int x, uint8_t lenght){
 	string[lenght+1] = '\f';
 	print(string);
 }
+/*--------------------------------------------------------------------------------------
+ * uprinteger:		lightweight function to replace printf
+ * Parameters: 		Unsigned int, number of characters to print
+ * Return:   		void
+ * Author:    		Jetse Brouwer
+ * Date:    		30-5-2018
+ *--------------------------------------------------------------------------------------
+ */
 
 void uprinteger(uint x, uint8_t lenght){
 	char string[lenght + 1];

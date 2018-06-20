@@ -9,10 +9,19 @@
 
 #include <inttypes.h> // for the macros
 
-/*if enabled it prints the time needed per control loop*/
-//#define TIMETRACE
+/* Debug Switches */
+//#define TIMETRACE // if enabled it prints the time needed per control loop
+#define BATTERY_CHECK_ACTIVE // If commented out, low voltage does not trigger panic mode
 
-// Global Variables
+#define DEBUG 1
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define DEBUG_PRINT(...) do { if (DEBUG) print(__VA_ARGS__);} while (0)
+#define DEBUG_PRINTEGER(...) do { if (DEBUG) printeger(__VA_ARGS__);} while (0)
+#define DEBUG_UPRINTEGER(...) do { if (DEBUG) uprinteger(__VA_ARGS__);} while (0)
+
+
+/* defines for global variables */
+#define PANIC_LIFT		400
 
 #define S_SAFE 			0
 #define S_PANIC 		1
@@ -26,7 +35,7 @@
 #define S_SYSTEM_RESET	255
 
 
-// Calibration
+/* variables used for calibrations */
 #define CALIBRATION_ROUNDS 255
 void calibrate(bool raw);
 int calibration_counter;
@@ -36,7 +45,7 @@ int16_t theta_offset;
 int16_t psi_offset;
 
 
-// Motor Control
+/* variables used for control */
 #define MAN_PITCH_SCALER 1
 #define MAN_ROLL_SCALER 1
 #define MAN_YAW_SCALER 1
@@ -45,8 +54,7 @@ void motors_off();
 void manual_control();
 void dmp_control(bool yaw_only);
 
-//#define BATTERY_CHECK_ACTIVE //the loop may go to panic mode
-void panic(bool printing);
+void panic(void);
 
 typedef struct {
 	int8_t yaw;
@@ -57,7 +65,8 @@ typedef struct {
 
 setpoint SetPoint;
 
-// UART
+
+/* variables used by UART communication */
 #define CTRL_DATA_LENGTH 4
 #define PARA_DATA_LENGTH 5
 #define PARA_MSG_QUEUE_SIZE 10
@@ -75,7 +84,7 @@ void validate_para_msg(void *);
 TimerHandle_t UartTimeoutHandle;
 
 
-// Global parameters
+/* Values used for parameter control */
 #define GET_PARA_8(R) parameters[R]
 #define GET_PARA_16(R) (( (uint16_t) parameters[R] << 8) + (uint16_t) parameters[R + 1])
 #define GET_PARA_32(R) (( (uint32_t) parameters[R] << 24) + (uint32_t) (parameters[R + 1] << 16) + (uint32_t) (parameters[R + 2] << 8) + (uint32_t) parameters[R + 3])
@@ -96,11 +105,8 @@ TimerHandle_t UartTimeoutHandle;
 #define P_P1 16
 #define P_P2 18
 
-
-
 #define PARAMETER_ARRAY_SIZE 36
 uint8_t parameters[PARAMETER_ARRAY_SIZE];
-
 
 
 #endif // DRONE_H__

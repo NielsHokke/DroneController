@@ -11,11 +11,7 @@
 #ifndef IN4073_H__
 #define IN4073_H__
 
-#define DEBUG 1
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#define DEBUG_PRINT(...) do { if (DEBUG) print(__VA_ARGS__);} while (0)
-#define DEBUG_PRINTEGER(...) do { if (DEBUG) printeger(__VA_ARGS__);} while (0)
-#define DEBUG_UPRINTEGER(...) do { if (DEBUG) uprinteger(__VA_ARGS__);} while (0)
+
 
 
 #include <inttypes.h>
@@ -32,10 +28,6 @@
 #include <math.h>
 #include <string.h>
 
-// #include "FreeRTOS.h"
-// #include "rtos_task.h"
-// #include "rtos_queue.h"
-
 #define RED			22
 #define YELLOW		24
 #define GREEN		28
@@ -47,13 +39,8 @@ bool demo_done;
 // Control
 int16_t motor[4],ae[4];
 
-
 void run_filters_and_control();
 void update_motors();
-
-
-
-
 
 // Timers
 #define TIMER_PERIOD	50 //50ms=20Hz (MAX 23bit, 4.6h)
