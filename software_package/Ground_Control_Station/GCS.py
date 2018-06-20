@@ -831,8 +831,9 @@ if __name__ == '__main__':
             if has_joystick:
                 # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
                 if event.type == pygame.JOYBUTTONDOWN:
-                    print("Joystick button pressed. go to panic mode")
-                    Switch_Mode(Mode.MODE_PANIC)
+                    if (GCS_joystick.get_button(0)):
+                        print("Joystick button pressed. go to panic mode")
+                        Switch_Mode(Mode.MODE_PANIC)
 
                 # if event.type == pygame.JOYBUTTONUP:
                 #     print("Joystick button released.")
