@@ -1,20 +1,31 @@
 /*------------------------------------------------------------------
- *  uart.c -- configures uart
+ *  uart.c -- uart, handels incomming messages
  *
- *  I. Protonotarios
+ *  I. Protonotarios & Niels Hokke
  *  Embedded Software Lab
  *
- *  July 2016
+ *  June 2018
  *------------------------------------------------------------------
  */
 
 #include "in4073.h"
 #include "drone.h"
 
+// defines for CRC calcuation
+#define WIDTH  (8 * sizeof(uint8_t))
+#define TOPBIT (1 << (WIDTH - 1))
+#define POLYNOMIAL 0xD8  /* 11011 followed by 0's */
+
+// CRC lookup table
+uint8_t  crcTable[256];
+
 bool txd_available = true;
+// Queue handels for the two type of message queues
 QueueHandle_t ctrl_msg_queue = NULL;
 QueueHandle_t para_msg_queue = NULL;
 
+
+// Puts a byte in the output buffer
 void uart_put(uint8_t byte)
 {
 	NVIC_DisableIRQ(UART0_IRQn);
@@ -25,7 +36,7 @@ void uart_put(uint8_t byte)
 	NVIC_EnableIRQ(UART0_IRQn);
 }
 
-// Reroute printf
+// Writes a char array to the output buffer
 int _write(int file, const char * p_char, int len)
 {
 	int i;
@@ -37,16 +48,8 @@ int _write(int file, const char * p_char, int len)
 }
 
 
-uint8_t  crcTable[256];
-
-#define WIDTH  (8 * sizeof(uint8_t))
-#define TOPBIT (1 << (WIDTH - 1))
-
-#define POLYNOMIAL 0xD8  /* 11011 followed by 0's */
-
-
 /*------------------------------------------------------------------
- * crcInit -- Creates a table for quick crc lookup
+ * crcInit -- Creates a table for quick crc-8 lookup
  * Parameters:			Void pointer to parametres (unused)
  * Author:	Niels Hokke
  * Date:	2-5-2018
@@ -68,6 +71,7 @@ void crcInit(void){
     }
 }
 
+
 /*------------------------------------------------------------------
  * crcInit -- Calculates crc of a message
  * Parameters:			char message[], char array containing message
@@ -84,9 +88,9 @@ uint8_t crcFast(char message[], int nBytes){
         data = message[byte] ^ (remainder >> (WIDTH - 8));
         remainder = crcTable[data] ^ (remainder << 8);
     }
-
     return (remainder);
 }
+
 
 /*------------------------------------------------------------------
  * validate_ctrl_msg -- Validates ctrl messages by checking the CRC
@@ -99,9 +103,8 @@ uint8_t crcFast(char message[], int nBytes){
 void validate_ctrl_msg(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	char ctrl_buffer[CTRL_DATA_LENGTH+2];
-	taskENTER_CRITICAL();
-	DEBUG_PRINT("started\n");
-	taskEXIT_CRITICAL();
+
+	DEBUG_PRINT("Validate_ctrl_msg task started\n\f");
 
 	for(;;){
 		// Yielding till something in queue
@@ -109,6 +112,7 @@ void validate_ctrl_msg(void *pvParameter){
 
 		// Calculate crc
 		uint8_t crc = crcFast(ctrl_buffer, CTRL_DATA_LENGTH+1);
+
 		// Verify crc
 		if(crc != ctrl_buffer[CTRL_DATA_LENGTH+1]){
 			// Incorrect CRC
@@ -116,7 +120,7 @@ void validate_ctrl_msg(void *pvParameter){
 			DEBUG_PRINTEGER(crc,3);
 			DEBUG_PRINT("\n\f");
 		}else{
-			// Correct CRC
+			// Correct CRC, set setpoints
 			SetPoint.yaw = ctrl_buffer[1];
 			SetPoint.pitch = ctrl_buffer[2];
 			SetPoint.roll = ctrl_buffer[3];
@@ -128,7 +132,8 @@ void validate_ctrl_msg(void *pvParameter){
 
 /*------------------------------------------------------------------
  * validate_para_msg -- Validates para messages by checking the CRC
- *						and adjusts the given parameters.
+ *						and write the send data into the  parameters
+ * 						data-structure.
  * Parameters:			Void pointer to parametres (unused)
  * Author:	Niels Hokke
  * Date:	2-5-2018
@@ -137,6 +142,8 @@ void validate_ctrl_msg(void *pvParameter){
 void validate_para_msg(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	char para_buffer[PARA_DATA_LENGTH+2];
+
+	DEBUG_PRINT("Validate_para_msg task started\n\f");
 
 	for(;;){
 		// Yielding till something in queue
@@ -152,11 +159,13 @@ void validate_para_msg(void *pvParameter){
 			DEBUG_PRINTEGER(crc, 3);
 			DEBUG_PRINT("\n\f");
 		}else{
-			//dont accept parameter changes when in panic mode
+			// Correct CRC
+			// Dont accept parameter changes when in panic mode
 			if (GLOBALSTATE == S_PANIC){
 				continue;
 			}else{
-				DEBUG_PRINT("Param correct.\n\f");
+				DEBUG_PRINT("PARAM Correct.\n\f");
+				// Writing send data into parameters data-structure
 				uint8_t index = (uint8_t) para_buffer[1];
 				parameters[index] = para_buffer[2];
 				parameters[index+1] = para_buffer[3];
@@ -170,7 +179,7 @@ void validate_para_msg(void *pvParameter){
 
 /*------------------------------------------------------------------
  * UartTimeoutCallback -- 	Calback function which is reset everytime
- *						  	a byte arives over uart. if for 100ms nothing
+ *						  	a byte arives over uart. If for 1000ms nothing
  *							is recieved, the function is executed once.
  * Parameters:			 	it's own timer handle 
  * Author:	Niels Hokke
@@ -178,7 +187,6 @@ void validate_para_msg(void *pvParameter){
  *------------------------------------------------------------------
  */
 void UartTimeoutCallback( TimerHandle_t xTimer ){
-	//TODO dont go from save to panic
 	DEBUG_PRINT("UART TIMOUT \n\f");
 	GLOBALSTATE = S_PANIC;
 }
@@ -199,27 +207,36 @@ void handle_serial_rx(char c){
 	static uint8_t byte_counter;
 
 	switch(serialstate){
+
+		// IDLE state, wait for ctrl or para start byte
 		case IDLE:
-			if(c == 0xAA){ // control message start byte
+			if(c == 0xAA){ // Control message start byte
+				// Save found start byte in ctrl_buffer
 				byte_counter = 0;
 				ctrl_buffer[byte_counter++] = c;
+				// Next state CTRL
 				serialstate = CTRL;
-			}else if (c == 0x55){ // parameter message start byte
+			}else if (c == 0x55){ // Parameter message start byte
+				// Save found start byte in para_buffer
 				byte_counter = 0; 
 				para_buffer[byte_counter++] = c;
+				// Next state PARA
 				serialstate = PARA;
 			}
-			//TODO reset timetout
 			break;
 
+		// CTRL state, wait for ctrl message to fully arrive
+		// and put the message on the ctrl_msg_queue
 		case CTRL:
+			// Save incomming byte in ctrl_buffer
 			ctrl_buffer[byte_counter++] = c;
-			if(byte_counter == CTRL_DATA_LENGTH + 2){ // data lenght + 1 CRC byte
-				
-				// Putting message on to para queue
+
+			// Check if whole message arived
+			if(byte_counter == CTRL_DATA_LENGTH + 2){ // Data lenght + 1 CRC byte
+				// Putting message on to ctrl queue
 				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 				if(xQueueOverwriteFromISR( ctrl_msg_queue, ctrl_buffer, &xHigherPriorityTaskWoken) != pdPASS){
-					DEBUG_PRINT("Failed to put ctrl msg into ctrl queue\n");
+					DEBUG_PRINT("Failed to put ctrl msg into ctrl queue\n\f");
 				}
 
 		        /* Writing to the queue caused a task to unblock and the unblocked task
@@ -228,19 +245,23 @@ void handle_serial_rx(char c){
 		        context switch so this interrupt returns directly to the unblocked
 		        task. */
 		        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-
+		        // Next state IDLE
 				serialstate = IDLE;
 			}
 			break;
 
+		// PARA state, wait for para message to fully arrive
+		// and put the message on the para_msg_queue
 		case PARA:
+			// Save incomming byte in para_buffer
 			para_buffer[byte_counter++] = c;
-			if(byte_counter == PARA_DATA_LENGTH + 2){ // data lenght + 1 CRC byte
 
+			// Check if whole message arived
+			if(byte_counter == PARA_DATA_LENGTH + 2){ // Data lenght + 1 CRC byte
 				// Putting message on to para queue
 				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 				if(xQueueSendFromISR( para_msg_queue, para_buffer, &xHigherPriorityTaskWoken) != pdPASS){
-					DEBUG_PRINT("Failed to put para msg into para queue\n");
+					DEBUG_PRINT("Failed to put para msg into para queue\n\f");
 				}
 
 		        /* Writing to the queue caused a task to unblock and the unblocked task
@@ -249,16 +270,15 @@ void handle_serial_rx(char c){
 		        context switch so this interrupt returns directly to the unblocked
 		        task. */
 		        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-
+				// Next state IDLE
 				serialstate = IDLE;
 			}
 			break;
 		default:
-			//nrf_gpio_pin_toggle(RED);
-		DEBUG_PRINT("Unexpected State");
+			DEBUG_PRINT("UART: Unexpected State\n\r");
 	}
 
-	// Reset non-connectin inerupt.
+	// Reset UART-Timeout inerupt.
 	xTimerReset(UartTimeoutHandle, 0);
 }
 
@@ -270,7 +290,6 @@ void UART0_IRQHandler(void)
 		NRF_UART0->EVENTS_RXDRDY  = 0;
 
 		handle_serial_rx(NRF_UART0->RXD);
-
 	}
 
 	if (NRF_UART0->EVENTS_TXDRDY != 0)
@@ -283,19 +302,21 @@ void UART0_IRQHandler(void)
 	if (NRF_UART0->EVENTS_ERROR != 0)
 	{
 		NRF_UART0->EVENTS_ERROR = 0;
-		printf("uart error: %lu\n", NRF_UART0->ERRORSRC);
+		printf("UART error: %lu\n", NRF_UART0->ERRORSRC);
 	}
 }
 
 void uart_init(void)
 {
 	crcInit();
-
+	// Initial state IDLE
 	serialstate = IDLE;
 
+	// Init ctrl and para message queue
 	ctrl_msg_queue = xQueueCreate(1, sizeof(uint8_t)*(CTRL_DATA_LENGTH+2));
 	para_msg_queue = xQueueCreate(PARA_MSG_QUEUE_SIZE, sizeof(uint8_t)*(PARA_DATA_LENGTH+2));
 
+	// UART Timeout handle set on 1000ms timeout
 	UartTimeoutHandle = xTimerCreate("Uart timout checker", 1000, pdFALSE, ( void * ) 0, UartTimeoutCallback);
 
 	nrf_gpio_cfg_output(TX_PIN_NUMBER);
