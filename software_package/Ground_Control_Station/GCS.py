@@ -638,8 +638,8 @@ class ConsoleThread(threading.Thread):
                             m4 = int(data[index+7] * 256 + data[index+8])
 
                             pitch = int(data[index+9] * 256 + data[index+10])
-                            roll = int(data[index+11] * 256 + data[index+12])
-                            yaw = int(data[index+13] * 256 + data[index+14])
+                            yaw = int(data[index+11] * 256 + data[index+12])
+                            roll = int(data[index+13] * 256 + data[index+14])
 
                             bat = int(data[index+15] * 256 + data[index+16])
 

@@ -201,7 +201,7 @@ static void check_battery_voltage(void *pvParameter){
 			#endif 
 		}
 
-		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, psi, phi, bat_volt, get_time_us());
+		downLink(GLOBALSTATE, motor[0], motor[1], motor[2], motor[3], theta, phi, psi, bat_volt, get_time_us());
 
 		i++;
 		vTaskDelay(99);
