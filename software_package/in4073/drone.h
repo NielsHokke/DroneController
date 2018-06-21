@@ -85,6 +85,12 @@ TimerHandle_t UartTimeoutHandle;
 
 
 /* RAW mode */
+#define YAW_FILTER    1
+#define PITCH_FILTER  2
+#define ROLL_FILTER   4
+#define ALT_FILTER    8
+
+
 int16_t raw_phi, raw_theta, raw_psi;
 int16_t raw_sp, raw_sq, raw_sr;
 int16_t raw_sax, raw_say, raw_saz; 
