@@ -269,6 +269,18 @@ void panic(void){
 		}
 	}
 }
+
+/*--------------------------------------------------------------------------------------
+ * run_filter: 		This function uses the raw data, and uses kallman filtering and
+ 					butterworth filtering to gain usefull data. It writes to the same
+ 					variables as the dmp, so the same controlloop can be used
+ * Parameters: 	bit wise filter to slect pitch roll yaw or any combination
+ * Return:   	void
+ * Author:    	Nilay Sheth
+ * Date:    	20-6-2018
+ *--------------------------------------------------------------------------------------
+ */
+
 void run_filter(char filter)
 {	
 	/*
