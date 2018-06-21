@@ -75,8 +75,12 @@ void alt_control(bool dmp);
 
 //filter_select_t filter_select;
 
-int16_t theta_f, phi_f, psi_f;
-int16_t sr_f, saz_f;
+// int16_t theta_f, phi_f, psi_f;
+// int16_t sr_f, saz_f;
+
+int16_t raw_phi, raw_theta, raw_psi;
+int16_t raw_sp, raw_sq, raw_sr;
+int16_t raw_sax, raw_say, raw_saz;
 
 
 // UART

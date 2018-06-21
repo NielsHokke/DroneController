@@ -333,20 +333,20 @@ void run_filter(char filter)
 	 *--------------------------------------------------------------------------------------
 	 */
 	if ((filter & ROLL_FILTER)  > 0) {
-		p      = sp     - p_bias;							      	 // remove the bias
-		phi_f  = phi_f  + MUL_SCALED1(p, p2phi, 14);			     // weight of increments
-		phi_f  = phi_f  - ((phi_f - say) >> 3);                      // maybe 2^8
-		p_bias = p_bias + ((phi_f - say) >> 10);                     // maybe 2^14
-		// phi_f  = phi_f  - (phi_f - phi) / parameters[KALMAN_C1];  // sensor fusion
-		// p_bias = p_bias + (phi_f - phi) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
+		p      = raw_sp     - p_bias;							      	 // remove the bias
+		phi  = phi  + MUL_SCALED1(p, p2phi, 14);			     // weight of increments
+		phi  = phi  - ((phi - raw_say) >> 3);                      // maybe 2^8
+		p_bias = p_bias + ((phi - raw_say) >> 10);                     // maybe 2^14
+		// phi_f  = phi_f  - (phi_f - raw_phi) / parameters[KALMAN_C1];  // sensor fusion
+		// p_bias = p_bias + (phi_f - raw_phi) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
 	}
 	if ((filter & PITCH_FILTER)  > 0) {
-		q       = sq       - q_bias;									  // remove the bias
-		theta_f = theta_f  + MUL_SCALED1(q, p2phi, 14);				      // weight of increments
-		theta_f = theta_f  - ((theta_f - sax) >> 3);					  // maybe 2^8
-		q_bias  = q_bias   + ((theta_f - sax) >> 10);					  // maybe 2^14
-		// theta_f = theta_f  - (theta_f - sax) / parameters[KALMAN_C1];  // sensor fusion
-		// q_bias  = q_bias   + (theta_f - sax) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
+		q       = raw_sq       - q_bias;									  // remove the bias
+		theta = theta  + MUL_SCALED1(q, p2phi, 14);				      // weight of increments
+		theta = theta  - ((theta - raw_sax) >> 3);					  // maybe 2^8
+		q_bias  = q_bias   + ((theta - raw_sax) >> 10);					  // maybe 2^14
+		// theta_f = theta_f  - (theta_f - raw_sax) / parameters[KALMAN_C1];  // sensor fusion
+		// q_bias  = q_bias   + (theta_f - raw_sax) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
 	}
 
 
@@ -400,7 +400,7 @@ void run_filter(char filter)
 		static int16_t y1 = 0;
 		static int16_t y2 = 0;
 
-		x0 = sr;
+		x0 = raw_sr;
 		/* 
 		 * 2nd order butterworth implementation
 		 * b0*y0 = (a0*x0 + a1*x1 + a2*x2 - b1*y1 - b2*y2)
@@ -412,7 +412,7 @@ void run_filter(char filter)
 				- MUL_SCALED1(b1, y1, 14) 
 				- MUL_SCALED1(b2, y2, 14) 
 		       );
-		sr_f = y0;
+		sr = y0;
 
 		//updating values in the array.
 		x2 = x1;		
@@ -438,7 +438,7 @@ void run_filter(char filter)
 		static int16_t y1_l = 0;
 		static int16_t y2_l = 0;
 
-		x0_l = saz;
+		x0_l = raw_saz;
 
 		y0_l = (  MUL_SCALED(a0_l, x0_l, 14) 
 				+ MUL_SCALED(a1_l, x1_l, 14)
@@ -446,7 +446,7 @@ void run_filter(char filter)
 				- MUL_SCALED(b1_l, y1_l, 14) 
 				- MUL_SCALED(b2_l, y2_l, 14) 
 		       );
-		saz_f = y0_l;
+		saz = y0_l;
 
 		x2_l = x1_l;
 		y2_l = y1_l;
@@ -456,57 +456,4 @@ void run_filter(char filter)
 	}
 
 
-}
-
-
-/*--------------------------------------------------------------------------------------
- * raw_control: use filters and then close the loop for raw_control	
- * Parameters: 	bool yaw mode only or full control
- * Return:   	populated struct of filtered phi theta psi, sp sq sr
- * Author:    	Nilay
- * Date:    	5-6-2018
- *--------------------------------------------------------------------------------------
- */
-void raw_control(bool yaw_only)
-{	
-	int32_t yaw_output, pitch_output, roll_output;
-
-	run_filter(YAW_FILTER);
-	yaw_output = (((int32_t) SetPoint.yaw << 4) - sr_f) * parameters[P_P_YAW];
-	
-	if (yaw_only) {
-		pitch_output = 0;
-		roll_output  = 0;	
-
-	}
-	else {
-		pitch_output = parameters[P_P1] * (((int32_t) SetPoint.pitch * 11) - (theta_f << 1)) - parameters[P_P2] * sq;
-		roll_output  = parameters[P_P1] * (((int32_t) SetPoint.roll * 17)  - (phi_f << 1))   - parameters[P_P2] * sp;
-	}
-
-	scale_thrust(yaw_output, pitch_output, roll_output);
-}
-
-/*--------------------------------------------------------------------------------------
- * alt_control: use filters and then close the loop for raw_control
- * parameters:	Altitude control with DMP (1)	
- * Return:   	
- * Author:    	Nilay
- * Date:    	5-6-2018
- *--------------------------------------------------------------------------------------
- */
-void alt_control(bool dmp) 
-{
-	/*
-	// read the current motor thrust values 
-	// when alt_control is enabled, set a flag. 
-	if (dmp) {
-		gain_lift*(SetPoint.lift - currentlift) + gain_baro*(SetPoint.baro - currentbaro) + gain_accZ*(change should be zero)
-	}
-	else {
-		raw_control();
-	}
-	*/
-	//get_raw_sensor_data();
-	run_filter(ALT_FILTER);
 }

@@ -67,9 +67,9 @@ static void control_loop(void *pvParameter){
 			DEBUG_PRINT("\nsaz: \f");
 			DEBUG_PRINTEGER(saz, 6);// - phi_offset, 6);
 			DEBUG_PRINT(" sq: \f");
-			DEBUG_PRINTEGER(saz_f, 6);// - phi_offset, 6);
+			DEBUG_PRINTEGER(saz, 6);// - phi_offset, 6);
 			DEBUG_PRINT(" theta_f: \f");
-			DEBUG_PRINTEGER(theta_f, 6);// - theta_offset, 6);
+			DEBUG_PRINTEGER(theta, 6);// - theta_offset, 6);
 			//DEBUG_PRINT(" fphi: \f");
 			//DEBUG_PRINTEGER(theta_f, 6);// - psi_offset, 6);
 
@@ -123,13 +123,11 @@ static void control_loop(void *pvParameter){
 
 			case S_RAW_MODE :
 				if(printing) DEBUG_PRINT("S_RAW_MODE\n\f");
-				raw_control(false);
-				read_baro();
+
 				break;
 
 			case S_HEIGHT_CTRL :
 				if(printing) DEBUG_PRINT("S_HEIGHT_CTRL\n\f");
-				alt_control(true);
 				// TODO implement mode
 				break;
 
@@ -164,7 +162,7 @@ static void sensor_loop(void *pvParameter){
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();	
 		get_raw_sensor_data();
-		run_filter(PITCH_FILTER | ROLL_FILTER | YAW_FILTER | ALT_FILTER);
+		// run_filter(PITCH_FILTER | ROLL_FILTER | YAW_FILTER | ALT_FILTER);
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );	
 	}
 }
