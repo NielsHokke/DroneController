@@ -85,6 +85,7 @@ TimerHandle_t UartTimeoutHandle;
 
 
 /* RAW mode */
+void sensor_loop(void *);
 #define YAW_FILTER    1
 #define PITCH_FILTER  2
 #define ROLL_FILTER   4

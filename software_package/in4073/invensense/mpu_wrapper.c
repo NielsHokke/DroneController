@@ -63,15 +63,15 @@ void get_raw_sensor_data(void)
 	{
 		if (sensors & INV_XYZ_GYRO) //16.4 LSB/deg/s (+-2000 deg/s)  You might need this for Kalman
 		{
-			sp = gyro[0];
-			sq = gyro[1];
-			sr = gyro[2];
+			raw_sp = gyro[0];
+			raw_sq = gyro[1];
+			raw_sr = gyro[2];
 		}
 		if (sensors & INV_XYZ_ACCEL) //	16384 LSB/g (+-2g)  You might need this for Kalman
 		{
-			sax = accel[0];
-			say = accel[1];
-			saz = accel[2];
+			raw_sax = accel[0];
+			raw_say = accel[1];
+			raw_saz = accel[2];
 		}
 	}
 	else printf("Error reading raw sensor fifo: %d\n", read_stat);

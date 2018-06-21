@@ -27,7 +27,7 @@
 #include "app_error.h"
 
 #define CONTROL_PERIOD 9
-#define SENSOR_PERIOD 10
+#define SENSOR_PERIOD 1
 
 
 /*--------------------------------------------------------------------------------------
@@ -54,7 +54,11 @@ static void control_loop(void *pvParameter){
 	gpio_init();
 	timers_init();
 	twi_init();
+
+
 	imu_init(true, 100);	
+	//imu_init(false, 1000);
+
 	baro_init();
 	spi_flash_init();
 	// ble_init();
@@ -157,7 +161,7 @@ static void control_loop(void *pvParameter){
  *--------------------------------------------------------------------------------------
  */
 
-static void sensor_loop(void *pvParameter){
+void sensor_loop(void *pvParameter){
 	UNUSED_PARAMETER(pvParameter);
 	TickType_t xLastWakeTime;
 
@@ -165,7 +169,7 @@ static void sensor_loop(void *pvParameter){
 
 	for(;;){
 		xLastWakeTime = xTaskGetTickCount();	
-
+		get_raw_sensor_data();
 		vTaskDelayUntil( &xLastWakeTime, xFrequency );	
 	}
 }
@@ -239,7 +243,7 @@ int main(void)
 	UNUSED_VARIABLE(xTaskCreate(validate_para_msg, "Validate and execute para message", configMINIMAL_STACK_SIZE, NULL, 2, NULL));
 
     UNUSED_VARIABLE(xTaskCreate(control_loop, "control loop", configMINIMAL_STACK_SIZE + 100, NULL, 3, NULL));
-	UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
+	//UNUSED_VARIABLE(xTaskCreate(sensor_loop, "Sensor loop", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	UNUSED_VARIABLE(xTaskCreate(check_battery_voltage, "Battery check", configMINIMAL_STACK_SIZE, NULL, 1, NULL));
 	print("Tasks registered\n\f");
 

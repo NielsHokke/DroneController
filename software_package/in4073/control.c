@@ -291,16 +291,16 @@ void run_filter(char filter)
 		phi  = phi  + MUL_SCALED1(p, p2phi, 14);			     // weight of increments
 		phi  = phi  - ((phi - raw_say) >> 3);                      // maybe 2^8
 		p_bias = p_bias + ((phi - raw_say) >> 10);                     // maybe 2^14
-		// phi_f  = phi_f  - (phi_f - raw_phi) / parameters[KALMAN_C1];  // sensor fusion
-		// p_bias = p_bias + (phi_f - raw_phi) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
+		// phi  = phi  - (phi - raw_phi) / parameters[KALMAN_C1];  // sensor fusion
+		// p_bias = p_bias + (phi - raw_phi) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
 	}
 	if ((filter & PITCH_FILTER)  > 0) {
 		q       = raw_sq       - q_bias;									  // remove the bias
 		theta = theta  + MUL_SCALED1(q, p2phi, 14);				      // weight of increments
 		theta = theta  - ((theta - raw_sax) >> 3);					  // maybe 2^8
 		q_bias  = q_bias   + ((theta - raw_sax) >> 10);					  // maybe 2^14
-		// theta_f = theta_f  - (theta_f - raw_sax) / parameters[KALMAN_C1];  // sensor fusion
-		// q_bias  = q_bias   + (theta_f - raw_sax) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
+		// theta = theta  - (theta - raw_sax) / parameters[KALMAN_C1];  // sensor fusion
+		// q_bias  = q_bias   + (theta - raw_sax) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
 	}
 
 
