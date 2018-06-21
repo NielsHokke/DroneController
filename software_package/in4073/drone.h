@@ -90,6 +90,11 @@ TimerHandle_t UartTimeoutHandle;
 #define ROLL_FILTER   4
 #define ALT_FILTER    8
 
+// Use macros instead of functions for scaling
+#define ABS(x)           	   (((x) < 0) ? -(x) : (x))
+#define MUL_SCALED(a,b,scale)  ((a >> (scale/2)) * (b >> (scale/2)))
+#define MUL_SCALED1(a,b,scale) ((a*b) >> scale)
+
 
 int16_t raw_phi, raw_theta, raw_psi;
 int16_t raw_sp, raw_sq, raw_sr;
