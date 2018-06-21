@@ -118,7 +118,7 @@ static void control_loop(void *pvParameter){
 
 			case S_RAW_MODE :
 				if(printing) DEBUG_PRINT("S_RAW_MODE\n\f");
-				// TODO implement mode
+				dmp_control(false); //dmp_control with yaw only set to false
 				break;
 
 			case S_HEIGHT_CTRL :
