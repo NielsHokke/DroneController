@@ -84,6 +84,11 @@ void validate_para_msg(void *);
 TimerHandle_t UartTimeoutHandle;
 
 
+/* RAW mode */
+int16_t raw_phi, raw_theta, raw_psi;
+int16_t raw_sp, raw_sq, raw_sr;
+int16_t raw_sax, raw_say, raw_saz; 
+
 /* Values used for parameter control */
 #define GET_PARA_8(R) parameters[R]
 #define GET_PARA_16(R) (( (uint16_t) parameters[R] << 8) + (uint16_t) parameters[R + 1])

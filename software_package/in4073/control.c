@@ -269,3 +269,145 @@ void panic(void){
 		}
 	}
 }
+void run_filter(char filter)
+{	
+	/*
+	 * keep the initializations to static, since the filters use the last saved values
+	 */
+	static int16_t p_bias, q_bias;
+	static int16_t p, q;
+	static int16_t p2phi = 133;
+
+	/*--------------------------------------------------------------------------------------
+	 * filter roll and pitch using a filter resembling kalman filter
+	 * reference: Arjan J.C. van Gemund (IN4073: QR controller theory)
+	 * todo: 1) check if the signs of gyro and accelerometer are changing together
+	 *       2) matlab does it as p_bias(i) = p_bias(i-1) + (phi_error(i)/p2phi) / C2;
+	 * 
+	 *--------------------------------------------------------------------------------------
+	 */
+	if ((filter & ROLL_FILTER)  > 0) {
+		p      = raw_sp     - p_bias;							      	 // remove the bias
+		phi  = phi  + MUL_SCALED1(p, p2phi, 14);			     // weight of increments
+		phi  = phi  - ((phi - raw_say) >> 3);                      // maybe 2^8
+		p_bias = p_bias + ((phi - raw_say) >> 10);                     // maybe 2^14
+		// phi_f  = phi_f  - (phi_f - raw_phi) / parameters[KALMAN_C1];  // sensor fusion
+		// p_bias = p_bias + (phi_f - raw_phi) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
+	}
+	if ((filter & PITCH_FILTER)  > 0) {
+		q       = raw_sq       - q_bias;									  // remove the bias
+		theta = theta  + MUL_SCALED1(q, p2phi, 14);				      // weight of increments
+		theta = theta  - ((theta - raw_sax) >> 3);					  // maybe 2^8
+		q_bias  = q_bias   + ((theta - raw_sax) >> 10);					  // maybe 2^14
+		// theta_f = theta_f  - (theta_f - raw_sax) / parameters[KALMAN_C1];  // sensor fusion
+		// q_bias  = q_bias   + (theta_f - raw_sax) / parameters[KALMAN_C2];  // how noisy is the data? changes rate of update 
+	}
+
+
+	if ((filter & YAW_FILTER)  > 0) {
+
+		/*--------------------------------------------------------------------------------------
+		 * fixed point implementation for 2nd order 
+		 * filter co-efficients when fs = 100 Hz, fc = 10Hz. 
+		 * use [a,b] = butter(2, 10/(100/2), 'low')
+		 *
+		 * reference: CS4140ES Resources page > butterworth filters implementation and octave-online.net
+		 * 100 Hz: 
+		 * use [a,b] = butter(2, 10/(100/2), 'low')
+		 * a = [0.067455273889071881709966760354291  0.13491054777814376341993352070858  0.067455273889071881709966760354291]
+		 * b = [1.0  -1.1429805025399009110742554184981  0.41280159809618865995872738494654]
+		 * 14 bit left shift is then
+		 * a = [1105, 2210, 1105]
+		 * b = [16384, -18727, 6763]
+		 *
+		 * 1000 Hz:
+		 * use [a,b] = butter(2, 10/(1000/2), 'low')
+		 * a = [0.00094469184384015074829737956818576  0.0018893836876803014965947591363715 0.00094469184384015074829737956818576] 
+		 * b = [1.0  -1.911197067426073203932901378721  0.91497583480143385159522040339652]
+		 * 14 bit left shift is then
+		 * a = [15, 31, 15]
+		 * b = [16384, -31313, 14991]
+		 * 
+		 * 500 Hz: 
+		 * use [a,b] = butter(2, 10/(500/2), 'low')
+		 * a = [0.0036216815149286412517382061082571  0.0072433630298572825034764122165143  0.0036216815149286412517382061082571] 
+		 * b = [1.0  -1.8226949251963078246774330182234  0.83718165125602250764558220907929]
+		 * 14 bit left shift is then
+		 * a = [59, 119, 59]
+		 * b = [16384, -29863, 13716]
+		 *
+		 * round(a*(2^14))
+		 * round(b*(2^14))
+         * --------------------------------------------------------------------------------------
+		*/
+		static int16_t a0 = 15;    
+		static int16_t a1 = 31;    
+		static int16_t a2 = 15;   
+		//static int16_t b0_l =  16384;  
+		static int16_t b1 = -31313;
+		static int16_t b2 =  14991;
+
+		static int16_t x0 = 0; 
+		static int16_t x1 = 0;
+		static int16_t x2 = 0;
+		static int16_t y0 = 0;
+		static int16_t y1 = 0;
+		static int16_t y2 = 0;
+
+		x0 = raw_sr;
+		/* 
+		 * 2nd order butterworth implementation
+		 * b0*y0 = (a0*x0 + a1*x1 + a2*x2 - b1*y1 - b2*y2)
+		 * y0 = ( a0*(2^14) * x0 ) >> 14 ...... and so on
+		 */
+		y0 = (    MUL_SCALED1(a0, x0, 14) 
+				+ MUL_SCALED1(a1, x1, 14)
+				+ MUL_SCALED1(a2, x2, 14) 
+				- MUL_SCALED1(b1, y1, 14) 
+				- MUL_SCALED1(b2, y2, 14) 
+		       );
+		sr = y0;
+
+		//updating values in the array.
+		x2 = x1;		
+		y2 = y1;
+		x1 = x0;
+		y1 = y0;
+	}
+
+	if ((filter & ALT_FILTER)  > 0) {
+
+		static int16_t a0_l =  1105;    
+		static int16_t a1_l =  2210;    
+		static int16_t a2_l =  1105;   
+		//static int16_t b0_l =  16384;  
+		static int16_t b1_l =  -18727;
+		static int16_t b2_l =  6763;
+
+		static int16_t x0_l = 0; 
+		static int16_t x1_l = 0;
+		static int16_t x2_l = 0;
+
+		static int16_t y0_l = 0;
+		static int16_t y1_l = 0;
+		static int16_t y2_l = 0;
+
+		x0_l = raw_saz;
+
+		y0_l = (  MUL_SCALED(a0_l, x0_l, 14) 
+				+ MUL_SCALED(a1_l, x1_l, 14)
+				+ MUL_SCALED(a2_l, x2_l, 14) 
+				- MUL_SCALED(b1_l, y1_l, 14) 
+				- MUL_SCALED(b2_l, y2_l, 14) 
+		       );
+		saz = y0_l;
+
+		x2_l = x1_l;
+		y2_l = y1_l;
+
+		x1_l = x0_l;
+		y1_l = y0_l;
+	}
+
+
+}
