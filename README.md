@@ -3,7 +3,7 @@
 For the TU Delft course CS4140ES Embedded Systems Lab writen, FreeRTOS based drone controller.
 
 ## Report
-[Cognitive WI-FI: A small step towards online self-learning data rate control](https://github.com/NielsHokke/DynamicDatarateControler/blob/master/Cognitive%20WI-FI%20A%20small%20step%20towards%20online%20self-learning%20data%20rate%20control.pdf)
+[Report](https://github.com/NielsHokke/DroneController/blob/master/Report.pdf)
 
 ## Getting Started
 
