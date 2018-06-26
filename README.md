@@ -9,6 +9,7 @@ For the TU Delft course CS4140ES Embedded Systems Lab writen, FreeRTOS based dro
 
 ### Prerequisites
 
+* Linux
 * python 3
 
 ### Running
